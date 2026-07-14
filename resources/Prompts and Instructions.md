@@ -11,7 +11,7 @@ Use when the checked Add-on Recommendation Gate keeps the run Core-only or recom
 Prompt sequence:
 
 ```text
-#1  Read PMS.yaml
+#1  Read PMS.yaml and optional case materials
 #2  Apply Pre-Analysis Template
 #3  Check Pre-Analysis YAML
 #4  Apply PMS Core Case Application Template
@@ -49,7 +49,7 @@ Use when the checked Add-on Recommendation Gate selects exactly one supported ad
 Prompt sequence:
 
 ```text
-#1  Read PMS.yaml
+#1  Read PMS.yaml and optional case materials
 #2  Apply Pre-Analysis Template
 #3  Check Pre-Analysis YAML
 #4  Apply PMS Core Case Application Template
@@ -90,7 +90,7 @@ Use when the selected add-on output is checked, MIP Gate recommends MIP source r
 Prompt sequence:
 
 ```text
-#1  Read PMS.yaml
+#1  Read PMS.yaml and optional case materials
 #2  Apply Pre-Analysis Template
 #3  Check Pre-Analysis YAML
 #4  Apply PMS Core Case Application Template
@@ -138,7 +138,7 @@ Use when the selected add-on output is checked, MIP is authorized and checked, A
 Prompt sequence:
 
 ```text
-#1  Read PMS.yaml
+#1  Read PMS.yaml and optional case materials
 #2  Apply Pre-Analysis Template
 #3  Check Pre-Analysis YAML
 #4  Apply PMS Core Case Application Template
@@ -193,26 +193,31 @@ Markdown article generation is optional and occurs only after checked Case Recor
 
 ---
 
-## Prompt #1 — Read PMS.yaml
+## Prompt #1 — Read PMS.yaml and Optional Case Materials
 
 You are beginning a PMS-DISCIPLINE pipeline run.
 
 FILES PROVIDED:
 - PMS.yaml
-
-CASE INPUTS:
-- none
+- optional user-provided case-material files listed in the runner-generated block below
 
 TASK:
-Read PMS.yaml carefully and completely.
+First read PMS.yaml carefully and completely.
+
+After PMS.yaml has been read, read every case-material file listed in the runner-generated block completely. If no case-material files are listed, keep this as a PMS.yaml-only reading step.
 
 PURPOSE:
-Establish PMS.yaml as the PMS Base reference for later PMS-DISCIPLINE use.
+Establish PMS.yaml as the PMS Base reference and, where supplied, establish the user-provided files as bounded case-material context for later PMS-DISCIPLINE use.
 
 TECHNICAL INSTRUCTIONS:
-- Use only PMS.yaml in this step.
-- Keep this as a source-reading step only.
-- Case application, YAML artefact generation, source invention, and unavailable context are outside this step.
+- Read PMS.yaml before reading any case material.
+- Keep this as a source- and material-reading step only.
+- PMS.yaml remains the PMS Base reference.
+- User-provided materials remain bounded case inputs; they are not PMS Base, PMS add-ons, MIP/AHP, templates, validation, proof, or authority.
+- Use descriptions and purposes from the runner block only as user-supplied orientation metadata.
+- Do not perform Pre-Analysis, Core application, routing, scoring, Case Record generation, article drafting, or final decision work in this step.
+- Do not invent inaccessible archive contents, missing documents, statistics, citations, provenance, or unavailable context.
+- If any listed file or archive entry cannot be read, state that limitation instead of claiming complete access.
 
 READING FOCUS:
 Preserve for later context:
@@ -222,11 +227,23 @@ Preserve for later context:
 - PMS is structural, non-diagnostic, non-person-ranking, non-prescriptive, and non-authorizing.
 - PMS application requires distance, reversibility, dignity-in-practice, non-capture, rival openness, and claim restraint.
 - YAML representation is not validation, proof, implementation, or authority.
+- Case materials remain distinguishable by filename, description, purpose, source status, and claim boundary.
+- Claims contained in a material are not automatically claims established by the pipeline.
+
+{RUNNER_CASE_MATERIALS}
 
 OUTPUT:
-Respond only:
+If no additional case-material files are configured, respond only:
 
 PMS.yaml read completely.
+
+If all listed case-material files were accessible and read completely after PMS.yaml, respond only:
+
+PMS.yaml and all listed case materials read completely.
+
+If one or more listed files or archive entries could not be read completely, respond only:
+
+PMS.yaml read completely. Case-material reading incomplete: [list the inaccessible file or archive entry and the limitation].
 
 ---
 
@@ -240,6 +257,7 @@ FILES PROVIDED:
 CONTEXT AVAILABLE:
 - PMS.yaml has been read completely in the previous step.
 - PMS.yaml remains the PMS Base reference.
+- Any runner-listed case materials were read in step #1 where accessible and remain bounded case-material context.
 
 CASE PACKET:
 CASE TITLE:
@@ -261,10 +279,10 @@ PURPOSE:
 Produce a PMS-DISCIPLINE Pre-Analysis YAML that prepares the case for later PMS Core application.
 
 TECHNICAL INSTRUCTIONS:
-- Use only the provided template, the CASE PACKET, and the available PMS.yaml context.
+- Use only the provided template, the CASE PACKET, the available PMS.yaml context, and any bounded case materials already read in step #1.
 - Use the Pre-Analysis template as the only output structure.
 - HIGH-PRIORITY YAML STRUCTURE RULE: preserve every field from the provided template, preserve field order as far as possible, add no new fields or sections, rename no fields, and leave no template field omitted.
-- Fill fields precisely from the CASE PACKET and available PMS.yaml context.
+- Fill fields precisely from the CASE PACKET, available PMS.yaml context, and any case materials already read in step #1.
 - Use unknown, unclear, not_applicable, missing, unresolved, or insufficient where the input does not license a stronger value.
 - Template sections may change only where valid YAML repair requires it.
 - PMS.yaml supplies background reference only; the Pre-Analysis step is not Core application.
@@ -1045,6 +1063,7 @@ AVAILABLE CONTEXT:
 * The selected PMS add-on source was read earlier if an add-on was selected.
 * Checked selected PMS add-on case application YAML is present if an add-on was applied.
 * The CASE PACKET remains the bounded source material for this run.
+* Runner-listed case materials and their step #1 read status are present in the authoritative runner manifest where configured.
 
 CASE PACKET:
 CASE TITLE:
@@ -1960,7 +1979,7 @@ TASK:
 Apply pms_case_record_stage_1_artifact_index_template.yaml to produce a complete artifact index for the current PMS-DISCIPLINE pipeline run.
 
 PURPOSE:
-Produce a Stage 1 Artifact Index YAML that records which source files, templates, checked outputs, optional branches, skipped branches, and missing artifacts exist for this run.
+Produce a Stage 1 Artifact Index YAML that records which source files, case materials, templates, checked outputs, optional branches, skipped branches, and missing artifacts exist for this run.
 
 TECHNICAL INSTRUCTIONS:
 
@@ -1969,12 +1988,14 @@ TECHNICAL INSTRUCTIONS:
 * HIGH-PRIORITY YAML STRUCTURE RULE: preserve every field from the provided template, preserve field order as far as possible, add no new fields or sections, rename no fields, and leave no template field omitted.
 * Fill fields precisely from the available inputs.
 * Use present, absent, not_applicable, skipped, missing, unknown, unclear, unresolved, under_specified, none, or another field-allowed bounded marker where the input does not license a stronger value.
-* Distinguish source files, templates, read confirmations, unchecked outputs, checked outputs, optional branches, skipped branches, and unavailable artifacts.
+* Distinguish PMS/MIP/AHP source files, user-provided case materials, templates, read confirmations, unchecked outputs, checked outputs, optional branches, skipped branches, and unavailable artifacts.
+* Populate the template case_material_index from the runner-generated CASE MATERIAL INVENTORY. Preserve exact case-relative paths, descriptions, purposes, hashes, and file-presence status.
+* Material presence is not evidence, correctness, completeness, relevance, or successful reading. Preserve step #1 reading limitations if the record contains them.
 * Preserve branch status for selected add-on, MIP, and AHP.
 * Mark unselected add-ons as unselected, skipped, or not_applicable rather than silently omitting them.
 * Preserve source status, intended use, claim ceiling, and artifact provenance where visible.
 * Treat the runner-generated manifest above as authoritative for local path, file-presence, route, skipped-branch, and produced-output status.
-* Use only project-relative source/template paths and case-relative output paths from the runner manifest.
+* Use only project-relative source/template paths, case-relative material paths, and case-relative output paths from the runner manifest.
 * Ignore AI-service attachment names, /mnt/data paths, sandbox paths, renamed uploads, duplicate attachments, helper scripts, and other service-local files.
 * Do not invent SHA-256 values. If the runner manifest does not provide a hash, set sha256_if_available to unknown.
 * The Stage 2 and Stage 3 templates are future-step runner resources. Mark them deferred, not missing or expected_but_missing. Their current non-upload status is not a Stage 1 blocker.
@@ -1998,6 +2019,7 @@ STAGE 1 SCOPE:
 This step may produce:
 
 * source file inventory
+* case-material inventory
 * template inventory
 * checked output inventory
 * read-confirmation inventory
@@ -2011,7 +2033,7 @@ This step may produce:
 CLAIM DISCIPLINE:
 
 * Treat Stage 1 as an artifact index only.
-* Artifact presence does not imply correctness.
+* Artifact or case-material presence does not imply correctness, truth, relevance, or successful reading.
 * Checked status records prior output-check status; it does not create new authority.
 * Missing or skipped artifacts remain visible.
 * Optional branches remain optional.
@@ -2039,6 +2061,7 @@ AVAILABLE CONTEXT:
 * Checked PMS-DISCIPLINE AHP Gate YAML is present if AHP routing occurred.
 * Checked AHP Module Output YAML is present if AHP was applied.
 * The Stage 1 Artifact Index YAML from the previous step is present in this conversation/session.
+* Runner-listed case materials and their step #1 read status are present in the authoritative runner manifest where configured.
 * The CASE PACKET remains the bounded source material for this run.
 
 CASE PACKET:
@@ -2079,7 +2102,7 @@ TECHNICAL INSTRUCTIONS:
 * Use only the Stage 1 Artifact Index YAML from the previous step, CASE PACKET, PMS.yaml context, checked prior YAML artifacts, and the previously applied Stage 1 template structure.
 * Re-run Stage 1 from scratch only if the existing output is structurally unusable.
 * Check structural conformity: root structure, required sections, required fields, valid YAML, artifact inventories, branch inventories, dependency map, status fields, and readiness fields.
-* Check substantive conformity: artifact existence, checked-output status, source/read-status distinction, optional branch status, skipped branch status, missing artifact status, source status, intended use, and dependency ordering.
+* Check substantive conformity: artifact existence, case-material inventory fidelity, checked-output status, source/read-status distinction, optional branch status, skipped branch status, missing artifact status, source status, intended use, and dependency ordering.
 * Correct only the smallest necessary part.
 * Preserve conforming content.
 * Keep corrections conservative and bounded.
@@ -2118,6 +2141,7 @@ The check may identify and, where safely possible, correct:
 * source files confused with templates
 * templates confused with applied outputs
 * read confirmations confused with analysis outputs
+* case materials omitted, assigned an invented path/hash, confused with model sources/templates, or treated as evidence merely because present
 * artifact presence treated as correctness
 * source-status laundering
 * claim ceiling overreach
@@ -2130,14 +2154,15 @@ Evaluate every criterion separately and mark it PASS or FAIL. A general statemen
 2. Every completed step output listed by the runner manifest appears with the exact case-relative output path from that manifest.
 3. No completed output is represented only by session.json unless the runner manifest explicitly assigns session.json to that artifact field.
 4. Route, selected add-on, MIP, AHP, skipped-branch, and produced-output states match the runner manifest exactly.
-5. Stage 2 and Stage 3 templates are marked deferred future-step resources, not missing or expected_but_missing.
-6. No /mnt/data path, sandbox path, renamed attachment, duplicate upload name, helper script, or service-local file is treated as a run artifact.
-7. No SHA-256 value is invented; unavailable hashes are marked unknown.
-8. Unselected add-ons remain unselected/not_applicable and have no produced output path.
-9. Skipped MIP or AHP branches remain visible and are not treated as missing-artifact defects.
-10. Source status and intended use match the CASE PACKET exactly.
-11. ready_for_stage_2 and blocker_notes follow the actual current-run artifacts; future-template upload state is not a blocker.
-12. Stage 1 contains no layer digest, Stage 3 integration, new case analysis, or later-pipeline content.
+5. Every configured case material is represented in case_material_index with the exact runner path, description, purpose, file-presence status, and supplied hash; no material is treated as a model source, template, or evidence merely because present.
+6. Stage 2 and Stage 3 templates are marked deferred future-step resources, not missing or expected_but_missing.
+7. No /mnt/data path, sandbox path, renamed attachment, duplicate upload name, helper script, or service-local file is treated as a run artifact.
+8. No SHA-256 value is invented; unavailable hashes are marked unknown.
+9. Unselected add-ons remain unselected/not_applicable and have no produced output path.
+10. Skipped MIP or AHP branches remain visible and are not treated as missing-artifact defects.
+11. Source status and intended use match the CASE PACKET exactly.
+12. ready_for_stage_2 and blocker_notes follow the actual current-run artifacts; future-template upload state is not a blocker.
+13. Stage 1 contains no layer digest, Stage 3 integration, new case analysis, or later-pipeline content.
 
 READINESS RULE:
 The output may be declared ready only if every criterion is PASS after any correction. Any FAIL must be corrected inside Stage 1 or reported as blocking.
@@ -2153,7 +2178,7 @@ If correction is needed:
 * The corrected output remains a PMS-DISCIPLINE Stage 1 Artifact Index YAML only.
 
 OUTPUT:
-Always return the completed criteria ledger first, with all 12 numbered criteria marked PASS or FAIL and one concise reason per criterion.
+Always return the completed criteria ledger first, with all 13 numbered criteria marked PASS or FAIL and one concise reason per criterion.
 
 If all criteria are PASS without correction, then return:
 
@@ -2164,7 +2189,7 @@ If concrete defects can be conservatively corrected inside this step, then retur
 
 * CHECK STATUS: corrected
 * CORRECTIONS MADE: concise bullet list
-* CRITERIA AFTER CORRECTION: repeat all 12 criteria as PASS or FAIL
+* CRITERIA AFTER CORRECTION: repeat all 13 criteria as PASS or FAIL
 * COMPLETE CORRECTED PMS-DISCIPLINE STAGE 1 ARTIFACT INDEX YAML
 
 If the output is not safely correctable inside this step, then return:

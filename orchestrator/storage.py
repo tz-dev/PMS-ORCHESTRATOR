@@ -211,6 +211,13 @@ class CaseSession:
         self.save()
         return path
 
+    def invalidate_prompt(self, step_id: int) -> None:
+        path = self.prompt_path(step_id)
+        if path.exists():
+            path.unlink()
+        self.step_state(step_id)["prompt_file"] = None
+        self.save()
+
     def write_output(self, step_id: int, text: str, complete: bool = False) -> Path:
         path = self.output_path(step_id)
         path.parent.mkdir(parents=True, exist_ok=True)

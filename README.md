@@ -1,635 +1,400 @@
-# PMS-ORCHESTRATOR
+# PMS-DISCIPLINE
 
-## A Human-Guided Runner for PMS-DISCIPLINE Case Work
+PMS-DISCIPLINE is a methodological use-discipline for applying PMS-based analysis to bounded cases.
 
-**PMS-ORCHESTRATOR** is a service-independent desktop application for running structured PMS-DISCIPLINE case sessions step by step.
+It is not PMS Base, not a validator, not governance, not an authority layer, and not a substitute for human judgment. Its role is to make PMS use more explicit, bounded, inspectable, correctable, and resistant to over-application.
 
-The application does not connect to an AI service, does not make autonomous route decisions, and does not treat generated output as evidence. It prepares the current prompt, shows the files required for that step, stores the raw response, applies deterministic local YAML checks where configured, and keeps the human user in control of every consequential branch.
-
-Its operating principle is:
-
-> Structure the workflow, preserve the record, expose drift, and keep decisions human-confirmed.
+PMS-DISCIPLINE defines how a case should be prepared, routed, checked, limited, and recorded when PMS Core, selected add-ons, downstream MIP review, downstream AHP review, and final case-record artifacts may become relevant.
 
 ---
 
-## What the Application Does
+## Status
 
-PMS-ORCHESTRATOR guides a case through a bounded analytical and article-generation pipeline:
+Version: `v1.0`
 
-```text
-PMS Base
-→ Pre-Analysis
-→ PMS Core
-→ optional PMS add-on
-→ optional MIP
-→ optional AHP
-→ Case Record Stages 1–3
-→ optional Markdown article
-```
+This repository contains:
 
-The runner supports:
+* the PMS-DISCIPLINE paper,
+* prompt and instruction material,
+* YAML templates for disciplined PMS case use,
+* add-on application templates,
+* MIP and AHP gate templates,
+* staged case-record templates.
 
-- one active step at a time;
-- exact prompt rendering from the internal prompt resource;
-- file lists for the current step;
-- manual copy to an external AI service;
-- manual paste or import of the response;
-- raw output preservation;
-- resumable cases;
-- human-confirmed Add-on, MIP, AHP, and article routes;
-- optional semantic AI review steps;
-- deterministic local YAML validation;
-- persisted validation reports and finding handoffs;
-- reset and route-revision archives;
-- Markdown preview;
-- a maximized output reader;
-- source and template availability checks;
-- source and template downloads from one editable manifest.
+The repository is designed for manual, AI-assisted, or tool-assisted use, but no file in this repository is itself a validator or authority source.
 
 ---
 
-![PMS-ORCHESTRATOR](img/screenshot.png)
+## What PMS-DISCIPLINE Is
+
+PMS-DISCIPLINE is an application discipline.
+
+It helps answer questions such as:
+
+* What is the bounded case?
+* What is the source status?
+* What is the intended use?
+* What is the claim ceiling?
+* Has PMS Core been applied before any add-on?
+* Is an add-on really warranted, or is this only a topical cue?
+* Does the case remain Core-only?
+* Does the case create downstream MIP pressure?
+* Can AHP even become relevant?
+* What was checked, corrected, skipped, downgraded, suspended, refused, or redirected?
+* What may be carried forward as a checked artifact?
+
+PMS-DISCIPLINE is mainly concerned with **use**, not theory creation.
 
 ---
 
-## Design Principles
+## What PMS-DISCIPLINE Is Not
 
-### Human control
+PMS-DISCIPLINE is not:
 
-The application never selects a consequential route by itself.
+* PMS Base,
+* a replacement for `PMS.yaml`,
+* a validator,
+* a truth engine,
+* governance,
+* a scoring system,
+* a maturity model,
+* a publication license,
+* an action authorization layer,
+* a person-ranking tool,
+* a substitute for human confirmation,
+* a substitute for source checking,
+* a substitute for correction.
 
-Gate outputs may preselect a route, but the user confirms or overrides:
+A completed template is not a verdict.
 
-- the selected PMS add-on;
-- MIP use or non-use;
-- AHP use or non-use;
-- optional article generation.
+A case-pass record is not closure.
 
-### Service independence
+A YAML file is not evidence.
 
-The runner has no built-in AI provider connection.
-
-The user:
-
-1. copies the rendered prompt;
-2. uploads the listed files to an AI service;
-3. pastes or imports the response;
-4. reviews and completes the step.
-
-No API key is required.
-
-### Raw-output preservation
-
-Responses are stored as received. The application does not silently rewrite model output.
-
-Corrections remain visible through:
-
-- review-step outputs;
-- local validation reports;
-- route records;
-- reset archives;
-- case history.
-
-### Structural validation without semantic authority
-
-Local YAML validation checks structure, not meaning.
-
-It can detect:
-
-- invalid YAML;
-- duplicate keys;
-- missing keys;
-- unexpected keys;
-- mapping/list shape mismatches;
-- basic type mismatches;
-- explicitly allowed values.
-
-It does not determine whether an interpretation, claim, route, score, boundary, or conclusion is correct.
-
-### Visible and correctable drift
-
-The runner does not assume that model drift can be eliminated.
-
-Instead, it keeps drift:
-
-- visible;
-- bounded;
-- persisted;
-- transferable to the next relevant prompt;
-- correctable without erasing provenance.
-
-A green check indicates completion without unresolved local YAML findings. A yellow check indicates completion with findings retained in the record.
+An AI output is not evidence.
 
 ---
 
-## Implemented Pipeline
+## Relationship to PMS Core
 
-The guided workflow contains 30 steps.
+PMS Core remains primary.
 
-### PMS Base and Core
+Every disciplined PMS case must begin from PMS Base grammar. In operational use, `PMS.yaml` is read first. Any supplied case materials are then inspected and read as bounded case input before Pre-Analysis, add-on routing, downstream review, or article rendering.
 
-```text
-#1  Read PMS.yaml
-#2  Apply Pre-Analysis Template
-#3  Check Pre-Analysis YAML
-#4  Apply PMS Core Case Application Template
-#5  Check PMS Core Case Application YAML
-```
+For ZIP packages, the archive inventory should be inspected before accessible contained files are read. Case materials do not become PMS Base, templates, validation, checked artifacts, or evidence merely because they were supplied to the workflow.
 
-### PMS add-on routing and application
-
-```text
-#6  Apply Add-on Recommendation Gate Template
-#7  Check Add-on Recommendation Gate YAML
-#8  Read Selected PMS Add-on YAML
-#9  Apply Selected PMS Add-on Case Application Template
-#10 Check Selected PMS Add-on Case Application YAML
-```
-
-Supported add-on families:
-
-```text
-ANTICIPATION
-CRITIQUE
-CONFLICT
-LOGIC
-EDEN
-SEX
-```
-
-Exactly zero or one add-on is applied in a run.
-
-### MIP and AHP
-
-```text
-#11 Apply MIP Gate Template
-#12 Check MIP Gate YAML
-#13 Read MIP YAML
-#14 Apply MIP Case Application
-#15 Check MIP Case Application YAML
-#16 Apply AHP Gate Template
-#17 Check AHP Gate YAML
-#18 Apply AHP Module
-#19 Check AHP Module Output YAML
-```
-
-AHP is available only after an actual MIP branch.
-
-### Case Record
-
-```text
-#20 Apply Case Record Stage 1 Artifact Index
-#21 Check Stage 1 Artifact Index
-#22 Apply Stage 2 Layer Digest Extraction
-#23 Check Stage 2
-#24 Apply Stage 3 Full Record Integration
-#25 Check Stage 3
-```
-
-The Case Record pipeline separates:
-
-- artifact inventory;
-- layer-level digest extraction;
-- full-record integration.
-
-Stage 3 integrates checked or explicitly unchecked prior artifacts without creating new substantive analysis.
-
-### Optional Markdown article
-
-```text
-#26 Article Source Setup and Rendering Contract
-#27 Base Markdown Case Article Draft
-#28 Example Decision and Optional Example Generation
-#29 Final Integrated Markdown Case Article
-#30 Final Article Check and Conservative Patch
-```
-
-When step #28 returns an unambiguous no-example decision, the runner copies the base article to the final-article path without an unnecessary rewrite. The final conservative review remains available when semantic review steps are enabled.
+PMS-DISCIPLINE does not revise PMS operators, dependencies, derived structures, or base guardrails. It only constrains how PMS-based case use is staged, checked, limited, and recorded.
 
 ---
 
-## Full Review and Fast Mode
+## Supported Add-on Families
 
-Each case can run with semantic AI review steps enabled or disabled.
+The ordinary PMS-DISCIPLINE add-on path supports the following selected add-on families:
 
-### Full Review
+* `ANTICIPATION`
+* `CRITIQUE`
+* `CONFLICT`
+* `LOGIC`
+* `EDEN`
+* `SEX`
 
-The semantic review steps remain active:
+A case may remain Core-only.
+
+A case may proceed into exactly one selected add-on when the checked Add-on Recommendation Gate supports it and the route is confirmed.
+
+Multiple add-on pressure does not automatically authorize multiple add-on application. It usually indicates decomposition, revision, narrowing, or a stronger case-boundary problem.
+
+---
+
+## MIP and AHP Are Not Add-ons
+
+MIP and AHP are downstream layers, not ordinary add-ons.
+
+MIP is a downstream non-add-on review/application layer. It may become relevant only after earlier checked artifacts create sufficient MIP pressure and the MIP Gate supports review.
+
+AHP is a later second-order analysis-quality overlay. It may become relevant only after checked MIP output exists. AHP does not rescore MIP, does not activate D, does not raise source status, and does not authorize stronger claims.
+
+AHP cannot be reached directly from Core, from the Add-on Gate, or from an add-on output alone.
+
+---
+
+## Basic Route Logic
+
+A disciplined case may follow different routes depending on checked gate results and human route confirmation.
+
+Typical route families include:
 
 ```text
-#3, #5, #7, #10, #12, #15, #17, #19, #21, #23, #25, #30
+Core only
+Core + selected add-on
+Core + MIP
+Core + selected add-on + MIP
+Core + MIP + AHP
+Core + selected add-on + MIP + AHP
 ```
 
-These steps review:
+The exact route is not selected by topic labels. It is selected through checked artifacts, gate outputs, route confirmation, and claim-boundary discipline.
 
-- semantic field use;
-- claim boundaries;
-- route and source consistency;
-- contradictions;
-- over-triggering;
-- safe correction of known structural findings.
+---
+
+## Human Route Confirmation
+
+PMS-DISCIPLINE separates gate recommendation from route confirmation.
+
+A gate may recommend, reject, downgrade, suspend, refuse, redirect, or mark uncertainty. But the route still requires explicit confirmation where the prompt sequence demands it.
+
+Human route confirmation does not turn a non-recommended layer into a gate-recommended layer. It also does not authorize stronger claims by itself.
+
+Overrides must be recorded as overrides.
+
+---
+
+## Checked Artifacts
+
+Only checked artifacts may be carried forward.
+
+The rule is:
+
+```text
+ready
+→ the original YAML becomes the checked artifact.
+
+corrected
+→ the complete corrected YAML becomes the checked artifact.
+   Audit prose is not the artifact.
+
+not ready
+→ stop, correct, or rerun.
+   Do not carry the unchecked YAML forward.
+```
+
+A superseded pre-correction artifact must not be silently reused in later gates, case records, Markdown rendering, or publication-facing outputs.
+
+---
+
+## Review Modes
+
+PMS-DISCIPLINE supports a strict review distinction.
+
+### Full Review Mode
+
+Full Review Mode is the default. It includes semantic review, structural checking, and correction where needed.
 
 ### Fast Mode
 
-Unfinished semantic review steps are skipped.
+Fast Mode may skip some semantic review steps by user choice.
 
-The runner then:
+Skipped review does not become validation.
 
-- forwards the corresponding direct output;
-- marks it as `unchecked_by_user_choice`;
-- never relabels it as checked or certified;
-- keeps route decisions human-confirmed;
-- preserves local YAML findings;
-- passes unresolved findings to the next active prompt.
+Skipped output remains:
 
-Fast Mode reduces model calls and time, but accepts a higher risk of semantic drift.
+```text
+unchecked_by_user_choice
+```
+
+No skipped review may be called correction, acceptance, validation, certification, or approval.
 
 ---
 
-## Local YAML Validation
+## Repository Structure
 
-Local validation is configured per case:
-
-```text
-Validate generated YAML locally
-On structural findings: warn | block
-```
-
-### Warn mode
-
-The application shows findings and asks for confirmation before completion.
-
-### Block mode
-
-Structural findings must be corrected before the step can be completed.
-
-### Corrected YAML in review steps
-
-A semantic review step may return a complete corrected YAML document.
-
-When the entire review output is one parseable YAML mapping or sequence, the runner can validate it against the reviewed source step's profile.
-
-Examples:
+Current repository structure:
 
 ```text
-#3  uses the profile of #2
-#5  uses the profile of #4
-#7  uses the profile of #6
-#10 uses the profile of #9
+PMS-DISCIPLINE/
+├─ PMS-DISCIPLINE.md
+├─ examples/
+│  └─ Prompts and Instructions.md
+├─ img/
+│  └─ logo.png
+└─ templates/
+   ├─ pms_core_case_application_template.yaml
+   ├─ pms_discipline_pre_analysis_template.yaml
+   ├─ pms_discipline_addon_recommendation_gate_template.yaml
+   ├─ pms_discipline_mip_gate_template.yaml
+   ├─ pms_discipline_ahp_gate_template.yaml
+   ├─ pms_addon_anticipation_case_application_template.yaml
+   ├─ pms_addon_conflict_case_application_template.yaml
+   ├─ pms_addon_critique_case_application_template.yaml
+   ├─ pms_addon_eden_case_application_template.yaml
+   ├─ pms_addon_logic_case_application_template.yaml
+   ├─ pms_addon_sex_case_application_template.yaml
+   ├─ pms_case_record_stage_1_artifact_index_template.yaml
+   ├─ pms_case_record_stage_2_layer_digest_extraction_template.yaml
+   └─ pms_case_record_stage_3_full_case_record_integration_template.yaml
 ```
-
-The same inheritance applies through MIP, AHP, and the Case Record stages.
-
-Mixed prose plus YAML is not treated as corrected YAML.
-
-### Persisted findings and handoff
-
-Validation reports are stored under:
-
-```text
-cases/<case-id>/validation/
-```
-
-An unresolved report can be inserted into the next relevant prompt as a runner-generated handoff.
-
-This handoff is:
-
-- authoritative only for deterministic structural findings;
-- not case evidence;
-- not semantic review;
-- not permission to invent missing content.
-
-When corrected YAML validates cleanly, the original report remains in the history but is marked as resolved by the correcting step.
 
 ---
 
-## Route Handling
+## Main Files
 
-Routes are saved independently for:
+### `PMS-DISCIPLINE.md`
 
-- selected add-on;
-- MIP;
-- AHP;
-- article generation.
+The main paper.
 
-Changing a saved route archives and resets only dependent work.
+It defines PMS-DISCIPLINE as a bounded application discipline for responsible PMS use. It explains source status, claim ceilings, add-on discipline, downstream MIP/AHP boundaries, stop capability, correction, templates, case-pass records, and AI-assisted use.
 
-Archived material is stored under:
+### `examples/Prompts and Instructions.md`
 
-```text
-cases/<case-id>/history/route_revisions/
-```
+Operational prompt and instruction sequence.
 
-Upstream work remains preserved unless the changed route makes it dependent.
+This file contains the routed prompt sequence for disciplined case application. It includes Core, Add-on Gate, selected add-on application, MIP Gate, MIP application, AHP Gate, AHP application, Case Record staging, Markdown rendering, and final checks.
 
-Skipped branches remain visible in later Case Record stages as skipped, not applicable, rejected, not recommended, scan-only, unsafe, unresolved, or otherwise bounded by the recorded route.
+### `templates/`
 
----
+YAML templates for disciplined PMS case work.
 
-## Interface
-
-### Main workflow
-
-The main window contains:
-
-- the pipeline navigator;
-- current-step title and status;
-- files required for the selected step;
-- rendered prompt;
-- raw prompt view;
-- AI service output editor;
-- Markdown preview where applicable;
-- YAML validation status;
-- route review controls;
-- a persistent timestamped status line.
-
-### Direct mouse actions
-
-- Right-click in the prompt area copies the raw prompt.
-- Right-click in the output area pastes clipboard text into the raw output editor.
-
-### Markdown Raw / Preview
-
-Prompts open in Preview by default and can be switched to Raw.
-
-Markdown outputs also support:
-
-```text
-Raw | Preview
-```
-
-Saving, completion, copying, and validation always operate on the raw text.
-
-### Output reader
-
-`Open output reader` opens a maximized, read-only view.
-
-It supports:
-
-- YAML syntax colors;
-- Markdown Raw / Preview;
-- plain-text reading;
-- search and result highlighting;
-- line-wrap toggle;
-- Copy;
-- Select All;
-- Close Reader;
-- `F11` full-screen toggle;
-- `Esc` to leave full-screen mode or close the reader.
-
-### Help menu
-
-The application includes:
-
-```text
-Help
-├── PMS-ORCHESTRATOR Guide
-├── Keyboard and mouse controls
-├── Open project folder
-├── Open GitHub repository
-└── About PMS-ORCHESTRATOR
-```
-
-The About view reads application metadata from `app_metadata.json` and displays the configured license file.
+The templates are not validators. They are structured artifacts for making case handling inspectable.
 
 ---
 
-## Sources and Templates
+## Template Groups
 
-The application expects local PMS, MIP/AHP, and PMS-DISCIPLINE YAML resources.
-
-The editable root-level manifest is:
+### Core and Pre-Analysis
 
 ```text
-source_manifest.json
+pms_discipline_pre_analysis_template.yaml
+pms_core_case_application_template.yaml
 ```
 
-It contains:
+These templates prepare the case boundary, source status, claim ceiling, intended use, PMS Core application, non-capture, rival pressure, and correction conditions.
 
-- PMS Base;
-- six PMS add-on sources;
-- MIP;
-- the MIP AHP module;
-- PMS-DISCIPLINE application templates;
-- PMS-DISCIPLINE gate templates;
-- PMS-DISCIPLINE Case Record templates.
-
-`Check sources` reports each configured resource as:
+### Add-on Gate
 
 ```text
-Present
-Missing
+pms_discipline_addon_recommendation_gate_template.yaml
 ```
 
-The same dialog can download all configured resources.
+This template determines whether a supported add-on family is recommended, not recommended, scan-only, unsafe, or unclear.
 
-Before replacing any existing file, the runner asks for confirmation.
+It does not apply the add-on.
 
-Downloads are staged before replacement. A failed batch does not partially overwrite existing resources.
+It does not authorize MIP or AHP.
 
-The manifest is intentionally editable so repository locations can be updated without changing application code.
+### Add-on Application Templates
+
+```text
+pms_addon_anticipation_case_application_template.yaml
+pms_addon_conflict_case_application_template.yaml
+pms_addon_critique_case_application_template.yaml
+pms_addon_eden_case_application_template.yaml
+pms_addon_logic_case_application_template.yaml
+pms_addon_sex_case_application_template.yaml
+```
+
+These templates apply exactly one selected add-on after checked Core and checked Add-on Gate output.
+
+They preserve PMS Core, source status, claim ceiling, non-capture, rival pressure, and stop capability.
+
+They do not apply MIP or AHP.
+
+### MIP and AHP Gates
+
+```text
+pms_discipline_mip_gate_template.yaml
+pms_discipline_ahp_gate_template.yaml
+```
+
+The MIP Gate determines whether downstream MIP review/application pressure is present.
+
+The AHP Gate can only become relevant after checked MIP output exists.
+
+Neither gate is an ordinary add-on.
+
+### Case Record Stages
+
+```text
+pms_case_record_stage_1_artifact_index_template.yaml
+pms_case_record_stage_2_layer_digest_extraction_template.yaml
+pms_case_record_stage_3_full_case_record_integration_template.yaml
+```
+
+Case records are staged for inspectability.
+
+They can preserve which artifacts existed, what each layer contributed, what was skipped, what was corrected, what remained unresolved, and what claim boundary applies.
+
+They are not verdicts.
 
 ---
 
-## Internal Prompt Resource
+## Stop Capability
 
-The app-specific prompt sequence is stored at:
+Stopping is a valid disciplined outcome.
 
-```text
-resources/Prompts and Instructions.md
-```
+A case may stop before add-on use, before MIP review, before MIP application, before AHP review, before AHP application, before Case Record integration, before Markdown rendering, or before publication-facing use.
 
-This file is required by the application.
-
-It is not identical to the manual PMS-DISCIPLINE prompt document. The app-specific resource contains runner-only instructions such as:
-
-- dynamic manifests;
-- exact case-relative output paths;
-- Fast Mode overrides;
-- local validation handoffs;
-- structural/semantic responsibility separation;
-- runner-managed article shortcuts.
-
-The manual PMS-DISCIPLINE prompt set and the application prompt resource serve different execution environments and should remain separate.
+A stopped case is not automatically incomplete. If the stop reason is explicit, stopping may be the correct disciplined result.
 
 ---
 
-## Installation
+## Optional Orchestrator Tooling
 
-### Requirements
+A separate local orchestrator may be used to execute the PMS-DISCIPLINE prompt sequence, preserve route state, pass declared files, store checked artifacts, and prevent skipped or unavailable branches from being silently treated as present: [PMS-ORCHESTRATOR](https://github.com/tz-dev/PMS-ORCHESTRATOR).
 
-- Windows with Python and Tkinter;
-- PyYAML for local YAML validation.
+PMS-ORCHESTRATOR also supports case-specific materials such as ZIP document packages, articles, reports, statistics, tables, notes, data files, and images. Materials can be added while creating or editing a case, and each material can carry a user-supplied description of its contents and purpose in the case.
 
-Extract the project folder and start:
+Configured materials are copied into the local case folder and included in step #1 together with `PMS.yaml`. The reading order remains controlled:
 
-```text
-start_orchestrator.bat
-```
+1. Read `PMS.yaml` first.
+2. Inspect the inventory of each supplied ZIP archive.
+3. Read every accessible and relevant file contained in the archive.
+4. Read the remaining standalone case-material files.
+5. Identify inaccessible, unsupported, corrupted, encrypted, or otherwise unreadable content explicitly.
 
-The launcher checks whether PyYAML is available and can install the dependency from:
+The orchestrator records material paths, descriptions, purposes, sizes, hashes, and local presence status. This metadata preserves provenance and file availability; it does not establish that a file was interpreted correctly or that its contents are true.
 
-```text
-requirements.txt
-```
+Changing the configured materials after step #1 has begun requires the dependent pipeline work to be reset and archived before the case is rerun with the changed material packet.
 
-Manual installation:
+The orchestrator is tooling.
 
-```text
-py -3 -m pip install -r requirements.txt
-```
+It is not PMS Base.
 
-Declining the installation still starts the application, but local YAML validation remains unavailable until PyYAML is installed.
+It is not PMS-DISCIPLINE theory.
 
----
+It is not a validator.
 
-## Basic Use
+It is not governance.
 
-1. Start the application.
-2. Create a new case.
-3. Enter:
-   - case title;
-   - case material;
-   - source status;
-   - intended use.
-4. Choose Full Review or Fast Mode.
-5. Choose YAML validation behavior.
-6. Open the current step.
-7. Upload the listed files to the AI service.
-8. Copy the rendered prompt.
-9. Paste or import the AI response.
-10. Review validation findings.
-11. Save or complete the step.
-12. Confirm routes when prompted.
-13. Resume later by reopening the case folder.
+It is not a source of authority.
+
+It is not a substitute for checked artifacts or human route confirmation.
+
+Case materials are bounded input.
+
+They are not PMS Base.
+
+They are not templates.
+
+They are not validation.
+
+They are not checked artifacts merely because they were uploaded.
+
+They are not evidence merely because they are locally present.
+
+Repository cases generated through an orchestrator should be documented in the orchestrator repository and may reference this PMS-DISCIPLINE repository as the methodological discipline.
 
 ---
 
-## Case Storage
+## Examples
 
-Each case is stored in its own folder.
-
-A typical case contains:
+Examples will be added after case generation.
 
 ```text
-cases/<case-id>/
-├── case.json
-├── session.json
-├── route.json
-├── mip_route.json
-├── ahp_route.json
-├── article_route.json
-├── prompts/
-├── outputs/
-├── exchanges/
-├── validation/
-└── history/
-    └── route_revisions/
+<!-- EXAMPLES_START -->
+
+Placeholder for PMS-DISCIPLINE examples.
+
+Suggested future entries:
+- Core-only case
+- Core + ANTICIPATION case
+- Core + selected add-on + MIP case
+- Core + MIP + AHP case
+- Full routed case with Case Record stages
+
+<!-- EXAMPLES_END -->
 ```
 
-The case record preserves:
-
-- user-entered case metadata;
-- step state;
-- route state;
-- rendered prompts;
-- raw outputs;
-- validation reports;
-- archived revisions.
-
 ---
-
-## Project Structure
-
-```text
-PMS-ORCHESTRATOR/
-├── README.md
-├── LICENSE
-├── app_metadata.json
-├── requirements.txt
-├── source_manifest.json
-├── yaml_validation_manifest.json
-├── start_orchestrator.bat
-│
-├── orchestrator/
-│   ├── app.py
-│   ├── app_metadata.py
-│   ├── dialogs.py
-│   ├── gate_reader.py
-│   ├── platform_utils.py
-│   ├── prompt_source.py
-│   ├── registry.py
-│   ├── source_manager.py
-│   ├── storage.py
-│   ├── ui_views.py
-│   └── yaml_validator.py
-│
-├── resources/
-│   └── Prompts and Instructions.md
-│
-├── pms/
-│   ├── PMS.yaml
-│   └── PMS-*.yaml
-│
-├── mip/
-│   ├── MIP - Maturity in Practice.yaml
-│   └── MIP - Maturity in Practice - AHP Module.yaml
-│
-├── templates/
-│   └── *.yaml
-│
-├── tests/
-│   └── test_core.py
-│
-└── cases/
-```
-
-The `cases/` directory contains user-generated work and should not be included in a clean release archive.
-
----
-
-## Claim and Authority Boundaries
-
-PMS-ORCHESTRATOR is workflow software.
-
-It does not:
-
-```text
-prove PMS
-validate PMS Base
-validate a PMS add-on
-validate MIP or AHP
-turn YAML into evidence
-turn AI output into source evidence
-diagnose or rank persons
-make legal or forensic conclusions
-authorize publication
-authorize implementation
-make final case decisions
-```
-
-A completed pipeline is a structured and reviewable record, not a truth certificate.
-
-The controlling rule is:
-
-> Workflow completion is not epistemic authority.
-
----
-
-## Known Boundaries
-
-- AI-service behavior remains outside the application's control.
-- Local YAML validation is structural rather than semantic.
-- Template changes can cause older outputs to show findings under newer profiles.
-- Fast Mode intentionally accepts greater semantic risk.
-- Markdown Preview is a bounded desktop renderer, not a full browser engine.
-- Resource availability does not prove that a source was selected, read, or applied.
-- MIP and AHP remain separate analytical layers with their own limits.
-- AHP does not rescore or authorize MIP output.
-- Human review remains necessary for consequential use.
-
----
-
 
 ## Links and Resources
 
@@ -682,20 +447,64 @@ The controlling rule is:
 
 ---
 
-## Citation
+## Use Notes
 
-Suggested software citation:
+A disciplined PMS-DISCIPLINE run should preserve the following rules:
 
-> T. Zöller (2026): *PMS-ORCHESTRATOR — A Human-Guided Runner for PMS-DISCIPLINE Case Work.*
-
-Replace this entry with the final repository or archival citation when available.
+```text
+Read PMS.yaml first.
+For ZIP case materials, inspect the archive inventory before reading accessible contained files.
+Treat supplied case materials as bounded input, not as PMS Base, validation, checked artifacts, or evidence by presence alone.
+Do not treat topic cues as add-on authorization.
+Do not treat template completion as validation.
+Do not treat YAML as evidence.
+Do not treat AI output as evidence.
+Do not treat Core output as permission to publish.
+Do not treat add-on output as MIP/AHP authorization.
+Do not treat MIP/AHP as ordinary add-ons.
+Do not carry unchecked artifacts forward.
+Do not erase skipped branches.
+Do not upgrade source status through fluency.
+Do not convert structural readability into person verdicts.
+```
 
 ---
 
 ## License
 
-See the repository `LICENSE` file.
+PMS-ORCHESTRATOR uses separate licenses for software and methodological content.
 
-The software license applies to the application code. PMS, PMS add-ons, PMS-DISCIPLINE templates, MIP, AHP, documentation, and downloaded source resources may carry their own licenses and attribution requirements.
+### Software
 
-© 2026 T. Zöller
+Unless otherwise stated, the application source code, tests, launchers, and application-specific configuration files are licensed under the Apache License, Version 2.0.
+
+### Methodological Content
+
+Original prompts, PMS-DISCIPLINE templates, methodological documentation, and repository examples are licensed under the Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International license unless a file states otherwise.
+
+### External Resources
+
+PMS Base, PMS add-ons, MIP, AHP, downloaded templates, and other resources originating from separate repositories retain their own copyright and license terms. Their presence in a local installation or in `source_manifest.json` does not relicense them under PMS-ORCHESTRATOR.
+
+User-created cases, imported documents, uploaded case materials, and generated case outputs remain subject to the rights and responsibilities of their respective users and source owners. They are not automatically licensed under the repository licenses.
+
+The complete license scope and both full license texts are contained in the repository `LICENSE` file. The application displays this file verbatim under **Help → About PMS-ORCHESTRATOR**.
+
+---
+
+## Final Boundary
+
+PMS-DISCIPLINE makes PMS use more inspectable.
+
+It does not make PMS use automatically correct.
+
+It disciplines application, records limits, preserves correction, and keeps stop capability available.
+
+Its central practical rule is simple:
+
+```text
+Correction before coherence.
+Boundary before claim strength.
+Checked artifact before continuation.
+Stop capability before closure.
+```

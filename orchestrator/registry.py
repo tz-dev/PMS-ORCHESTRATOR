@@ -18,7 +18,7 @@ class StepDefinition:
 
 
 STEPS: tuple[StepDefinition, ...] = (
-    StepDefinition(1, "Read PMS.yaml", 1, ("pms/PMS.yaml",), (), "step_01_pms_read.txt", "PMS read confirmation"),
+    StepDefinition(1, "Read PMS.yaml and Optional Case Materials", 1, ("pms/PMS.yaml",), (), "step_01_pms_read.txt", "PMS and case-material read confirmation"),
     StepDefinition(2, "Apply Pre-Analysis Template", 2, ("templates/pms_discipline_pre_analysis_template.yaml",), (1,), "step_02_pre_analysis_output.yaml", "Pre-Analysis output"),
     StepDefinition(3, "Check Pre-Analysis YAML", 3, (), (1, 2), "step_03_pre_analysis_check.txt", "Pre-Analysis check response"),
     StepDefinition(4, "Apply PMS Core Case Application Template", 4, ("templates/pms_core_case_application_template.yaml",), (1, 2, 3), "step_04_core_output.yaml", "PMS Core output"),

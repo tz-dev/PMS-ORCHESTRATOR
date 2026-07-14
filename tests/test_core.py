@@ -5,6 +5,12 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from orchestrator.case_materials import (
+    CaseMaterialError,
+    CaseMaterialStore,
+    render_case_material_manifest_block,
+    render_case_material_prompt_block,
+)
 from orchestrator.gate_reader import (
     read_addon_gate_status,
     read_addon_recommendation,
@@ -35,9 +41,24 @@ class PromptSourceTests(unittest.TestCase):
             self.assertFalse(raw.endswith("---"))
             self.assertEqual(raw, raw.rstrip())
 
+        material_block = (
+            "CASE MATERIAL PACKAGE — RUNNER-GENERATED\n"
+            "material_count: 1\n"
+            "material_1: sample.zip"
+        )
+        step_one = source.render(
+            1,
+            CASE_VALUES,
+            runtime_values={"RUNNER_CASE_MATERIALS": material_block},
+        )
+        self.assertIn(material_block, step_one)
+        self.assertIn("Read PMS.yaml before reading any case material", step_one)
+        self.assertNotIn("{RUNNER_CASE_MATERIALS}", step_one)
+
         rendered = source.render(2, CASE_VALUES)
         self.assertIn("A Case", rendered)
         self.assertIn("Description", rendered)
+        self.assertIn("case materials were read in step #1", rendered)
         self.assertNotIn("{CASE_TITLE}", rendered)
 
         addon_rendered = source.render(9, CASE_VALUES, selected_addon="EDEN")
@@ -180,6 +201,147 @@ class SourceManifestTests(unittest.TestCase):
 
             self.assertEqual(first.read_text(encoding="utf-8"), "old one")
             self.assertEqual(second.read_text(encoding="utf-8"), "old two")
+
+
+class CaseMaterialStoreTests(unittest.TestCase):
+    def test_adds_materials_and_renders_runner_blocks(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            case_dir = root / "case"
+            case_dir.mkdir()
+            source_zip = root / "packet.zip"
+            source_zip.write_bytes(b"PK synthetic archive")
+            source_csv = root / "statistics.csv"
+            source_csv.write_text("name,value\nA,1\n", encoding="utf-8")
+
+            store = CaseMaterialStore(case_dir, "case-001")
+            entries = store.replace([
+                {
+                    "source_path": str(source_zip),
+                    "description": "Archive containing the article and supporting notes.",
+                    "purpose": "Primary material package for the case.",
+                },
+                {
+                    "source_path": str(source_csv),
+                    "description": "Small synthetic statistics table.",
+                    "purpose": "Support bounded numerical references.",
+                },
+            ])
+
+            self.assertEqual(len(entries), 2)
+            self.assertTrue((case_dir / "materials.json").is_file())
+            self.assertTrue(all(store.path_for(entry).is_file() for entry in entries))
+            self.assertTrue(all(len(str(entry.get("sha256"))) == 64 for entry in entries))
+
+            prompt_block = render_case_material_prompt_block(entries)
+            self.assertIn("Read PMS.yaml first", prompt_block)
+            self.assertIn("packet.zip", prompt_block)
+            self.assertIn("Primary material package for the case", prompt_block)
+            self.assertIn("ZIP HANDLING", prompt_block)
+
+            manifest_entries = []
+            for entry in entries:
+                item = dict(entry)
+                item["_present"] = store.path_for(entry).is_file()
+                manifest_entries.append(item)
+            manifest_block = render_case_material_manifest_block(
+                manifest_entries,
+                step_1_status="completed",
+            )
+            self.assertIn("CASE MATERIAL INVENTORY", manifest_block)
+            self.assertIn("read_instruction_step: 1", manifest_block)
+            self.assertIn("role: bounded_case_material", manifest_block)
+
+    def test_removal_archives_previous_manifest_and_file(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            case_dir = root / "case"
+            case_dir.mkdir()
+            first = root / "first.txt"
+            second = root / "second.txt"
+            first.write_text("first", encoding="utf-8")
+            second.write_text("second", encoding="utf-8")
+            store = CaseMaterialStore(case_dir, "case-002")
+            entries = store.replace([
+                {"source_path": str(first), "description": "First", "purpose": "One"},
+                {"source_path": str(second), "description": "Second", "purpose": "Two"},
+            ])
+            removed_path = store.path_for(entries[1])
+
+            retained = dict(entries[0])
+            retained["description"] = "Updated first description"
+            updated = store.replace([retained])
+
+            self.assertEqual(len(updated), 1)
+            self.assertFalse(removed_path.exists())
+            archives = list((case_dir / "history" / "material_revisions").glob("*-materials"))
+            self.assertEqual(len(archives), 1)
+            self.assertTrue((archives[0] / "materials.json").is_file())
+            self.assertTrue((archives[0] / "materials" / removed_path.name).is_file())
+            self.assertEqual(store.entries()[0]["description"], "Updated first description")
+
+    def test_pipeline_reset_preserves_case_material_files(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            session = CaseStore(root).create_case(CASE_VALUES)
+            source = root / "packet.zip"
+            source.write_bytes(b"PK reset test")
+            store = CaseMaterialStore(session.case_dir, session.case_id)
+            entries = store.replace([{
+                "source_path": str(source),
+                "description": "Reset-safe packet",
+                "purpose": "Remain attached to the case after a workflow reset.",
+            }])
+            session.write_output(1, "PMS and materials read", complete=True)
+            session.write_output(2, "pre-analysis", complete=True)
+
+            archive = session.reset_from_step(1)
+
+            self.assertIsNotNone(archive)
+            self.assertEqual(session.current_step_id(), 1)
+            self.assertTrue(store.path_for(entries[0]).is_file())
+            self.assertEqual(len(store.entries()), 1)
+
+    def test_manifest_rejects_paths_outside_case_materials_folder(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            case_dir = root / "case"
+            case_dir.mkdir()
+            (case_dir / "materials.json").write_text(
+                json.dumps({
+                    "schema_version": "PMS_ORCHESTRATOR_MATERIALS_1.0",
+                    "case_id": "case-unsafe",
+                    "materials": [{
+                        "id": "material_001",
+                        "stored_path": "../outside.txt",
+                    }],
+                }),
+                encoding="utf-8",
+            )
+            store = CaseMaterialStore(case_dir, "case-unsafe")
+            with self.assertRaises(CaseMaterialError):
+                store.entries()
+
+    def test_duplicate_filenames_are_stored_without_overwrite(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            case_dir = root / "case"
+            case_dir.mkdir()
+            left = root / "left"
+            right = root / "right"
+            left.mkdir()
+            right.mkdir()
+            (left / "article.pdf").write_bytes(b"left")
+            (right / "article.pdf").write_bytes(b"right")
+            store = CaseMaterialStore(case_dir, "case-003")
+            entries = store.replace([
+                {"source_path": str(left / "article.pdf")},
+                {"source_path": str(right / "article.pdf")},
+            ])
+            names = [store.path_for(entry).name for entry in entries]
+            self.assertEqual(names, ["article.pdf", "article-2.pdf"])
+            self.assertEqual(store.path_for(entries[0]).read_bytes(), b"left")
+            self.assertEqual(store.path_for(entries[1]).read_bytes(), b"right")
 
 
 class GateReaderTests(unittest.TestCase):

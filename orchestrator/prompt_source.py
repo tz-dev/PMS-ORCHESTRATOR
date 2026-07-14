@@ -74,7 +74,15 @@ class PromptSource:
         }
         for marker, value in replacements.items():
             text = text.replace(marker, value)
-        for marker, value in (runtime_values or {}).items():
+        runtime = dict(runtime_values or {})
+        if prompt_number == 1 and "RUNNER_CASE_MATERIALS" not in runtime and "{RUNNER_CASE_MATERIALS}" not in runtime:
+            runtime["RUNNER_CASE_MATERIALS"] = (
+                "CASE MATERIAL PACKAGE — RUNNER-GENERATED\n"
+                "material_count: 0\n"
+                "No additional case-material files are configured. Read PMS.yaml only.\n"
+                "END CASE MATERIAL PACKAGE"
+            )
+        for marker, value in runtime.items():
             token = marker if marker.startswith("{") else "{" + marker + "}"
             text = text.replace(token, value)
         if selected_addon:

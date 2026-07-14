@@ -8,7 +8,23 @@ from tkinter import filedialog, messagebox, ttk
 from tkinter.scrolledtext import ScrolledText
 
 from .app_metadata import AppMetadata
-from .dialogs import AhpRouteDialog, ArticleRouteDialog, CaseDialog, MipRouteDialog, RouteDialog, SourceCheckDialog, YamlValidationDialog, ask_centered_yes_no
+from .case_materials import (
+    CaseMaterialError,
+    CaseMaterialStore,
+    render_case_material_manifest_block,
+    render_case_material_prompt_block,
+)
+from .dialogs import (
+    AhpRouteDialog,
+    ArticleRouteDialog,
+    CaseDialog,
+    MaterialManagerDialog,
+    MipRouteDialog,
+    RouteDialog,
+    SourceCheckDialog,
+    YamlValidationDialog,
+    ask_centered_yes_no,
+)
 from .gate_reader import GateValue, read_addon_gate_status, read_addon_recommendation, read_ahp_recommendation, read_mip_recommendation
 from .platform_utils import OpenPathError, open_parent, open_path, open_url
 from .prompt_source import PromptSource, PromptSourceError, normalize_prompt_text
@@ -62,6 +78,9 @@ class OrchestratorApp(tk.Tk):
         self._button_flash_jobs: dict[str, str] = {}
         self._yaml_highlight_after_id: str | None = None
         self._yaml_validation_after_id: str | None = None
+        self._pending_new_case_materials: list[
+            dict[str, object]
+        ] = []
 
         self._build_menu()
         self._build_ui()
@@ -129,7 +148,9 @@ class OrchestratorApp(tk.Tk):
             pady=2,
         )
 
-        ttk.Button(toolbar, text="Check sources", command=self.check_sources).pack(side="left")
+        self.materials_button = ttk.Button(toolbar, text="Add materials", command=self.manage_materials)
+        self.materials_button.pack(side="left")
+        ttk.Button(toolbar, text="Check sources", command=self.check_sources).pack(side="left", padx=(6, 0))
 
         ttk.Separator(toolbar, orient="vertical").pack(
             side="left",
@@ -470,6 +491,10 @@ Add-on, MIP, AHP, and article routes are always confirmed by the user. Saved rou
 ## Reset and resume
 
 Use **Reset this and following steps** to reopen a completed or current step. Existing dependent prompts, outputs, and validation reports are archived under the case history before reset. Cases can be reopened later from their case folder.
+
+## Case materials
+
+Use **Add materials** to copy case-specific files into the active case. ZIP is recommended for related document packages. Each material can carry a description of its contents and its purpose in the case. Configured materials are uploaded and read with PMS.yaml in step #1. Changing materials after step #1 has begun requires a reset from step #1 so later outputs cannot silently rely on a different source packet.
 
 ## Sources
 
@@ -892,19 +917,204 @@ The runner does not validate truth, authorize claims, make route decisions autom
         self.mip_review_button.configure(state="disabled")
         self.ahp_review_button.configure(state="disabled")
         self.article_review_button.configure(state="disabled")
+        self.materials_button.configure(state="disabled", text="Add materials")
+
+    def _material_store(self) -> CaseMaterialStore:
+        if self.session is None:
+            raise CaseMaterialError("No case is loaded.")
+        return CaseMaterialStore(self.session.case_dir, self.session.case_id)
+
+    def _material_manifest_entries(self) -> list[dict[str, object]]:
+        store = self._material_store()
+        entries: list[dict[str, object]] = []
+        for raw in store.entries():
+            entry: dict[str, object] = dict(raw)
+            entry["_present"] = store.path_for(raw).is_file()
+            entries.append(entry)
+        return entries
+
+    def _material_change_requires_reset(self) -> bool:
+        assert self.session is not None
+        if self._has_unsaved_output():
+            return True
+        step_1_state = self.session.step_state(1)
+        if is_completed_step_status(step_1_state.get("status")):
+            return True
+        if step_1_state.get("status") == "draft" or self.session.output_path(1).exists():
+            return True
+        current = self.session.current_step_id()
+        if current is None or current != 1:
+            return True
+        for step_id in range(2, 31):
+            state = self.session.step_state(step_id)
+            if is_completed_step_status(state.get("status")) or state.get("status") in {"current", "draft"}:
+                return True
+            if self.session.prompt_path(step_id).exists() or self.session.output_path(step_id).exists():
+                return True
+        return False
+
+    def manage_materials(self, parent: tk.Misc | None = None) -> int | None:
+        host = parent or self
+        if self.session is None:
+            messagebox.showinfo("No case", "Create or open a case first.", parent=host)
+            return None
+        try:
+            store = self._material_store()
+            entries = store.entries()
+        except CaseMaterialError as exc:
+            messagebox.showerror("Could not open case materials", str(exc), parent=host)
+            return None
+
+        dialog = MaterialManagerDialog(host, entries, self.session.case_dir)
+        host.wait_window(dialog)
+        if isinstance(host, tk.Toplevel) and host.winfo_exists():
+            try:
+                host.grab_set()
+            except tk.TclError:
+                pass
+        if dialog.result is None:
+            self._set_status("Case-material edit cancelled.")
+            return len(entries)
+        if not dialog.result.get("changed"):
+            self._set_status("Case materials unchanged.")
+            return len(entries)
+
+        requires_reset = self._material_change_requires_reset()
+        if requires_reset:
+            message = (
+                "Case materials are read in step #1. Saving these changes will reset step #1 and every "
+                "following step, archive saved prompts, outputs, validation reports, and route records, "
+                "and restart the pipeline from step #1. Continue?"
+            )
+            if self._has_unsaved_output():
+                message += " The currently displayed output also contains unsaved text that cannot be archived."
+            if not ask_centered_yes_no(host, "Reset pipeline for changed materials", message):
+                self._set_status("Case-material changes cancelled before pipeline reset.")
+                return len(entries)
+
+        try:
+            updated = store.replace(list(dialog.result.get("items") or []))
+            archive_dir = None
+            if requires_reset:
+                archive_dir = self.session.reset_from_step(1)
+            else:
+                self.session.invalidate_prompt(1)
+            self.selected_step_id = 1
+        except (CaseMaterialError, StorageError, OSError) as exc:
+            messagebox.showerror("Could not save case materials", str(exc), parent=host)
+            self._set_status("Case-material save failed.")
+            return len(entries)
+
+        self._refresh_all()
+        archive_note = f" Pipeline work archived in {archive_dir.name}." if archive_dir is not None else ""
+        self._set_status(
+            f"Case materials saved: {len(updated)} file(s). Step #1 will read PMS.yaml first.{archive_note}"
+        )
+        return len(updated)
+
+    def _manage_pending_new_case_materials(
+        self,
+        parent: tk.Misc,
+    ) -> int | None:
+        dialog = MaterialManagerDialog(
+            parent,
+            self._pending_new_case_materials,
+            self.project_root,
+        )
+        parent.wait_window(dialog)
+
+        if (
+            isinstance(parent, tk.Toplevel)
+            and parent.winfo_exists()
+        ):
+            try:
+                parent.grab_set()
+            except tk.TclError:
+                pass
+
+        if dialog.result is None:
+            return len(self._pending_new_case_materials)
+
+        self._pending_new_case_materials = [
+            dict(item)
+            for item in list(
+                dialog.result.get("items") or []
+            )
+            if isinstance(item, dict)
+        ]
+        return len(self._pending_new_case_materials)
 
     def new_case(self) -> None:
-        dialog = CaseDialog(self, "New PMS-DISCIPLINE case")
+        self._pending_new_case_materials = []
+
+        dialog = CaseDialog(
+            self,
+            "New PMS-DISCIPLINE case",
+            materials_count=0,
+            materials_command=(
+                self._manage_pending_new_case_materials
+            ),
+        )
         self.wait_window(dialog)
+
         if dialog.result is None:
+            self._pending_new_case_materials = []
+            self._set_status("New case cancelled.")
             return
+
+        pending_materials = [
+            dict(item)
+            for item in self._pending_new_case_materials
+        ]
+        self._pending_new_case_materials = []
+
         try:
-            self.session = self.store.create_case(dialog.result)
-            self.selected_step_id = 1
-            self._refresh_all()
-            self._set_status(f"Case created: {self.session.case_id}")
+            self.session = self.store.create_case(
+                dialog.result
+            )
         except StorageError as exc:
-            messagebox.showerror("Could not create case", str(exc), parent=self)
+            messagebox.showerror(
+                "Could not create case",
+                str(exc),
+                parent=self,
+            )
+            return
+
+        material_count = 0
+
+        if pending_materials:
+            try:
+                store = CaseMaterialStore(
+                    self.session.case_dir,
+                    self.session.case_id,
+                )
+                material_count = len(
+                    store.replace(pending_materials)
+                )
+            except (CaseMaterialError, OSError) as exc:
+                messagebox.showerror(
+                    "Case created, but materials were not saved",
+                    (
+                        "The case was created successfully, "
+                        "but its materials could not be "
+                        f"copied.\n\n{exc}\n\n"
+                        "Use Add materials to add them again."
+                    ),
+                    parent=self,
+                )
+
+        self.selected_step_id = 1
+        self._refresh_all()
+
+        if material_count:
+            self._set_status(
+                f"Case created: {self.session.case_id} · "
+                f"{material_count} material file(s) added."
+            )
+        else:
+            self._set_status(
+                f"Case created: {self.session.case_id}"
+            )
 
     def open_case(self) -> None:
         path = filedialog.askdirectory(title="Select case folder", initialdir=self.store.cases_dir)
@@ -940,7 +1150,17 @@ The runner does not validate truth, authorize claims, make route decisions autom
             "local_yaml_validation_enabled": self.session.local_yaml_validation_enabled,
             "yaml_validation_behavior": self.session.yaml_validation_behavior,
         }
-        dialog = CaseDialog(self, "Edit case", initial)
+        try:
+            materials_count = len(self._material_store().entries())
+        except CaseMaterialError:
+            materials_count = 0
+        dialog = CaseDialog(
+            self,
+            "Edit case",
+            initial,
+            materials_count=materials_count,
+            materials_command=self.manage_materials,
+        )
         self.wait_window(dialog)
         if dialog.result is None:
             return
@@ -973,6 +1193,14 @@ The runner does not validate truth, authorize claims, make route decisions autom
         self.mip_review_button.configure(state="normal" if self.session.route_ready("mip") else "disabled")
         self.ahp_review_button.configure(state="normal" if self.session.route_ready("ahp") else "disabled")
         self.article_review_button.configure(state="normal" if self.session.route_ready("article") else "disabled")
+        try:
+            material_count = len(self._material_store().entries())
+            self.materials_button.configure(
+                state="normal",
+                text=f"Add materials ({material_count})" if material_count else "Add materials",
+            )
+        except CaseMaterialError:
+            self.materials_button.configure(state="normal", text="Add materials (!)")
 
     def _refresh_case_summary(self) -> None:
         assert self.session is not None
@@ -1117,7 +1345,13 @@ The runner does not validate truth, authorize claims, make route decisions autom
         for relative in source_paths + template_paths:
             lines.append(f"{relative}: present={'yes' if (self.project_root / relative).is_file() else 'no'}")
 
+        material_entries = self._material_manifest_entries()
         lines.extend([
+            "",
+            render_case_material_manifest_block(
+                material_entries,
+                step_1_status=str(self.session.step_state(1).get("status") or "unknown"),
+            ),
             "",
             "FUTURE-STEP RUNNER RESOURCES",
             "templates/pms_case_record_stage_2_layer_digest_extraction_template.yaml: deferred_future_step",
@@ -1126,7 +1360,7 @@ The runner does not validate truth, authorize claims, make route decisions autom
             "Their non-upload during Stage 1 is not a missing-artifact condition and must not block ready_for_stage_2.",
             "",
             "NORMALIZATION RULES",
-            "- Use only the project-relative source/template paths and case-relative output paths listed above.",
+            "- Use only the project-relative source/template paths, case-relative material paths, and case-relative output paths listed above.",
             "- Ignore /mnt/data paths, AI-service sandbox paths, renamed uploads, duplicate attachment names, and helper scripts.",
             "- Do not invent SHA-256 values. Set sha256_if_available to unknown unless a hash is explicitly supplied by this manifest.",
             "- Unselected add-on source/template files may be locally present but remain not selected, not read, and not applied.",
@@ -1193,6 +1427,10 @@ The runner does not validate truth, authorize claims, make route decisions autom
         for relative in inventory:
             lines.append(f"  {relative!r}: {'present' if (self.project_root / relative).is_file() else 'missing'}")
         lines.extend([
+            render_case_material_manifest_block(
+                self._material_manifest_entries(),
+                step_1_status=str(self.session.step_state(1).get("status") or "unknown"),
+            ),
             "deferred_resources:",
             "  stage_2_template:",
             "    path: templates/pms_case_record_stage_2_layer_digest_extraction_template.yaml",
@@ -1410,6 +1648,10 @@ The runner does not validate truth, authorize claims, make route decisions autom
 
     def _render_prompt(self, step: StepDefinition) -> str:
         runtime_values: dict[str, str] = {}
+        if step.prompt_number == 1:
+            runtime_values["RUNNER_CASE_MATERIALS"] = render_case_material_prompt_block(
+                self._material_manifest_entries()
+            )
         if step.prompt_number == 20:
             runtime_values["RUNNER_STAGE_1_MANIFEST"] = self._stage_1_runner_manifest(through_step=19)
         elif step.prompt_number == 21:
@@ -1457,7 +1699,7 @@ The runner does not validate truth, authorize claims, make route decisions autom
             and step_id in AI_REVIEW_STEP_IDS
             and state.get("status") == "skipped"
         )
-        prompt_is_dynamic = step.prompt_number in set(range(20, 31)) and not is_completed_step_status(state.get("status"))
+        prompt_is_dynamic = (step.prompt_number == 1 or step.prompt_number in set(range(20, 31))) and not is_completed_step_status(state.get("status"))
         prompt = "" if prompt_is_dynamic else self.session.load_prompt(step_id)
         if review_disabled_here:
             source_step = REVIEW_SOURCE_STEP[step_id]
@@ -1471,7 +1713,7 @@ The runner does not validate truth, authorize claims, make route decisions autom
             try:
                 prompt = self._render_prompt(step)
                 self.session.write_prompt(step_id, prompt, overwrite=prompt_is_dynamic)
-            except (PromptSourceError, StorageError) as exc:
+            except (CaseMaterialError, PromptSourceError, StorageError) as exc:
                 prompt = f"PROMPT ERROR: {exc}"
         self.prompt_text.delete("1.0", "end")
         self.prompt_text.insert("1.0", prompt)
@@ -1501,19 +1743,41 @@ The runner does not validate truth, authorize claims, make route decisions autom
         assert self.session is not None
         self.file_tree.delete(*self.file_tree.get_children())
         self.file_rows = []
-        self.current_upload_paths = resolve_upload_files(step, self.project_root, self.session.selected_addon)
 
+        base_upload_paths = resolve_upload_files(step, self.project_root, self.session.selected_addon)
+        material_entries: list[dict[str, object]] = []
+        material_paths: list[Path] = []
+        material_error: str | None = None
+        if step.step_id == 1:
+            try:
+                store = self._material_store()
+                material_entries = store.entries()
+                material_paths = [store.path_for(entry) for entry in material_entries]
+            except CaseMaterialError as exc:
+                material_error = str(exc)
+
+        self.current_upload_paths = base_upload_paths + material_paths
         if self.current_upload_paths:
             names = ", ".join(path.name for path in self.current_upload_paths)
             self.upload_summary.configure(text=f"Upload now: {names}")
-            for path in self.current_upload_paths:
+            for path in base_upload_paths:
                 self._insert_file_row("Upload now", path)
+            for entry, path in zip(material_entries, material_paths):
+                role = "Case material"
+                material_id = str(entry.get("id") or "")
+                if material_id:
+                    role += f" · {material_id}"
+                self._insert_file_row(role, path)
             first_upload_row = self.file_tree.get_children()[0]
             self.file_tree.selection_set(first_upload_row)
             self.file_tree.focus(first_upload_row)
             self.file_tree.see(first_upload_row)
         else:
             self.upload_summary.configure(text="Upload now: none — continue in the same AI service session.")
+
+        if material_error:
+            self.upload_summary.configure(text=f"Case-material manifest error: {material_error}")
+            self._insert_file_row("Case materials", None, state_override="manifest error")
 
         for source_step in step.context_steps:
             source_state = self.session.step_state(source_step).get("status")

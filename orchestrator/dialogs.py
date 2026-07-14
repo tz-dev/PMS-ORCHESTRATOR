@@ -1,8 +1,9 @@
 from __future__ import annotations
 
 import tkinter as tk
-from tkinter import messagebox, ttk
-from typing import Any
+from pathlib import Path
+from tkinter import filedialog, messagebox, ttk
+from typing import Any, Callable
 
 from .gate_reader import GateValue
 from .registry import SUPPORTED_ADDONS
@@ -20,9 +21,13 @@ def center_on_screen(window: tk.Toplevel) -> None:
 
 
 def finalize_dialog(window: tk.Toplevel, parent: tk.Misc) -> None:
-    apply_theme = getattr(parent, "apply_theme_to_window", None)
-    if callable(apply_theme):
-        apply_theme(window)
+    theme_owner: tk.Misc | None = parent
+    while theme_owner is not None:
+        apply_theme = getattr(theme_owner, "apply_theme_to_window", None)
+        if callable(apply_theme):
+            apply_theme(window)
+            break
+        theme_owner = getattr(theme_owner, "master", None)
     center_on_screen(window)
 
 
@@ -56,16 +61,28 @@ def ask_centered_yes_no(parent: tk.Misc, title: str, message: str) -> bool:
 
 
 class CaseDialog(tk.Toplevel):
-    def __init__(self, parent: tk.Misc, title: str, initial: dict[str, Any] | None = None) -> None:
+    def __init__(
+        self,
+        parent: tk.Misc,
+        title: str,
+        initial: dict[str, Any] | None = None,
+        *,
+        materials_count: int = 0,
+        materials_command: Callable[[tk.Misc], int | None] | None = None,
+    ) -> None:
         super().__init__(parent)
         self.title(title)
         self.transient(parent)
         self.grab_set()
         self.result: dict[str, Any] | None = None
+        self.materials_command = materials_command
         initial = initial or {}
 
         self.columnconfigure(1, weight=1)
-        self.rowconfigure(1, weight=1)
+
+        # Give the three multiline case fields responsive vertical space.
+        self.rowconfigure(1, weight=2)
+        self.rowconfigure(2, weight=1)
         self.rowconfigure(3, weight=1)
 
         ttk.Label(self, text="Case title").grid(row=0, column=0, sticky="nw", padx=10, pady=(10, 4))
@@ -77,17 +94,74 @@ class CaseDialog(tk.Toplevel):
         self.description.grid(row=1, column=1, sticky="nsew", padx=10, pady=4)
         self.description.insert("1.0", initial.get("description", ""))
 
-        ttk.Label(self, text="Source status").grid(row=2, column=0, sticky="nw", padx=10, pady=4)
-        self.source_var = tk.StringVar(value=initial.get("source_status", ""))
-        ttk.Entry(self, textvariable=self.source_var).grid(row=2, column=1, sticky="ew", padx=10, pady=4)
+        ttk.Label(
+            self,
+            text="Source status",
+        ).grid(
+            row=2,
+            column=0,
+            sticky="nw",
+            padx=10,
+            pady=4,
+        )
+
+        self.source_status = tk.Text(
+            self,
+            width=70,
+            height=5,
+            wrap="word",
+        )
+        self.source_status.grid(
+            row=2,
+            column=1,
+            sticky="nsew",
+            padx=10,
+            pady=4,
+        )
+        self.source_status.insert(
+            "1.0",
+            initial.get("source_status", ""),
+        )
 
         ttk.Label(self, text="Intended use").grid(row=3, column=0, sticky="nw", padx=10, pady=4)
         self.intended_use = tk.Text(self, width=70, height=5, wrap="word")
         self.intended_use.grid(row=3, column=1, sticky="nsew", padx=10, pady=4)
         self.intended_use.insert("1.0", initial.get("intended_use", ""))
 
+        next_row = 4
+        if materials_command is not None:
+            materials = ttk.LabelFrame(self, text="Case materials", padding=10)
+            materials.grid(row=next_row, column=0, columnspan=2, sticky="ew", padx=10, pady=(8, 4))
+            materials.columnconfigure(0, weight=1)
+            self.materials_count_var = tk.StringVar()
+            self._set_materials_count(materials_count)
+            ttk.Label(
+                materials,
+                textvariable=self.materials_count_var,
+                wraplength=560,
+            ).grid(row=0, column=0, sticky="w")
+            self.materials_button = ttk.Button(
+                materials,
+                text="Add materials…",
+                command=self._open_materials,
+            )
+            self.materials_button.grid(
+                row=0,
+                column=1,
+                sticky="e",
+                padx=(12, 0),
+            )
+            ttk.Label(
+                materials,
+                text=(
+                    "ZIP is recommended for a related document package. Materials are read with PMS.yaml in step #1."
+                ),
+                wraplength=690,
+            ).grid(row=1, column=0, columnspan=2, sticky="w", pady=(4, 0))
+            next_row += 1
+
         settings = ttk.LabelFrame(self, text="Review and validation", padding=10)
-        settings.grid(row=4, column=0, columnspan=2, sticky="ew", padx=10, pady=(8, 4))
+        settings.grid(row=next_row, column=0, columnspan=2, sticky="ew", padx=10, pady=(8, 4))
         settings.columnconfigure(0, weight=1)
 
         self.ai_review_var = tk.BooleanVar(value=bool(initial.get("ai_review_steps_enabled", True)))
@@ -131,14 +205,29 @@ class CaseDialog(tk.Toplevel):
         self._sync_validation_controls()
 
         buttons = ttk.Frame(self)
-        buttons.grid(row=5, column=0, columnspan=2, sticky="e", padx=10, pady=10)
+        buttons.grid(row=next_row + 1, column=0, columnspan=2, sticky="e", padx=10, pady=10)
         ttk.Button(buttons, text="Cancel", command=self.destroy).pack(side="right", padx=(6, 0))
         ttk.Button(buttons, text="Save", command=self._save).pack(side="right")
 
         self.protocol("WM_DELETE_WINDOW", self.destroy)
-        self.minsize(780, 680)
+        self.bind("<Escape>", lambda _event: self.destroy())
+        self.minsize(780, 720 if materials_command is not None else 680)
         self.wait_visibility()
         finalize_dialog(self, parent)
+
+    def _set_materials_count(self, count: int) -> None:
+        if not hasattr(self, "materials_count_var"):
+            return
+        suffix = "file" if count == 1 else "files"
+        self.materials_count_var.set(f"Configured case materials: {count} {suffix}.")
+
+    def _open_materials(self) -> None:
+        if self.materials_command is None:
+            return
+
+        count = self.materials_command(self)
+        if count is not None:
+            self._set_materials_count(count)
 
     def _sync_validation_controls(self) -> None:
         if hasattr(self, "yaml_behavior_box"):
@@ -148,7 +237,10 @@ class CaseDialog(tk.Toplevel):
         values: dict[str, Any] = {
             "title": self.title_var.get().strip(),
             "description": self.description.get("1.0", "end-1c").strip(),
-            "source_status": self.source_var.get().strip(),
+            "source_status": self.source_status.get(
+                "1.0",
+                "end-1c",
+            ).strip(),
             "intended_use": self.intended_use.get("1.0", "end-1c").strip(),
             "ai_review_steps_enabled": self.ai_review_var.get(),
             "local_yaml_validation_enabled": self.yaml_validation_var.get(),
@@ -159,6 +251,253 @@ class CaseDialog(tk.Toplevel):
             messagebox.showerror("Missing information", "All four case fields are required.", parent=self)
             return
         self.result = values
+        self.destroy()
+
+
+class MaterialManagerDialog(tk.Toplevel):
+    def __init__(self, parent: tk.Misc, entries: list[dict[str, Any]], case_dir: Path) -> None:
+        super().__init__(parent)
+        self.title("Case materials")
+        self.transient(parent)
+        self.grab_set()
+        self.case_dir = case_dir
+        self.result: dict[str, Any] | None = None
+        self.items = [dict(entry) for entry in entries]
+        self._initial_snapshot = self._snapshot(self.items)
+        self._selected_index: int | None = None
+        self._selection_guard = False
+
+        ttk.Label(
+            self,
+            text=(
+                "Add case materials such as document packages, articles, statistics, tables, or notes. "
+                "ZIP is recommended when several related files belong together."
+            ),
+            wraplength=850,
+        ).pack(fill="x", padx=14, pady=(14, 6))
+        ttk.Label(
+            self,
+            text=(
+                "The files will be copied into the case folder and uploaded manually with PMS.yaml in step #1. "
+                "Description and purpose are inserted into the step #1 reading instruction."
+            ),
+            wraplength=850,
+        ).pack(fill="x", padx=14, pady=(0, 10))
+
+        table_frame = ttk.Frame(self)
+        table_frame.pack(fill="both", expand=True, padx=14)
+        self.tree = ttk.Treeview(
+            table_frame,
+            columns=("file", "type", "size", "description"),
+            show="headings",
+            selectmode="browse",
+            height=10,
+        )
+        self.tree.heading("file", text="File")
+        self.tree.heading("type", text="Type")
+        self.tree.heading("size", text="Size")
+        self.tree.heading("description", text="Description")
+        self.tree.column("file", width=280)
+        self.tree.column("type", width=80, stretch=False)
+        self.tree.column("size", width=90, stretch=False, anchor="e")
+        self.tree.column("description", width=380)
+        scrollbar = ttk.Scrollbar(table_frame, orient="vertical", command=self.tree.yview)
+        self.tree.configure(yscrollcommand=scrollbar.set)
+        self.tree.pack(side="left", fill="both", expand=True)
+        scrollbar.pack(side="right", fill="y")
+        self.tree.bind("<<TreeviewSelect>>", self._on_select)
+
+        table_buttons = ttk.Frame(self)
+        table_buttons.pack(fill="x", padx=14, pady=(8, 10))
+        ttk.Button(table_buttons, text="Add file(s)…", command=self._add_files).pack(side="left")
+        ttk.Button(table_buttons, text="Remove selected", command=self._remove_selected).pack(side="left", padx=(6, 0))
+
+        details = ttk.LabelFrame(self, text="Selected material metadata", padding=10)
+        details.pack(fill="x", padx=14, pady=(0, 10))
+        details.columnconfigure(1, weight=1)
+        ttk.Label(details, text="Description of contents").grid(row=0, column=0, sticky="nw", padx=(0, 10))
+        self.description = tk.Text(details, width=72, height=4, wrap="word")
+        self.description.grid(row=0, column=1, sticky="ew")
+        ttk.Label(details, text="Purpose in this case").grid(row=1, column=0, sticky="nw", padx=(0, 10), pady=(8, 0))
+        self.purpose = tk.Text(details, width=72, height=4, wrap="word")
+        self.purpose.grid(row=1, column=1, sticky="ew", pady=(8, 0))
+        ttk.Label(
+            details,
+            text=(
+                "Metadata is user-supplied context, not evidence or validation. Empty fields are retained as not supplied."
+            ),
+            wraplength=730,
+        ).grid(row=2, column=0, columnspan=2, sticky="w", pady=(8, 0))
+
+        buttons = ttk.Frame(self)
+        buttons.pack(fill="x", padx=14, pady=(0, 14))
+        ttk.Button(buttons, text="Cancel", command=self.destroy).pack(side="right", padx=(6, 0))
+        ttk.Button(buttons, text="Save materials", command=self._save).pack(side="right")
+
+        self.protocol("WM_DELETE_WINDOW", self.destroy)
+        self.bind("<Escape>", lambda _event: self.destroy())
+        self.minsize(900, 690)
+        self._rebuild_tree(select_index=0 if self.items else None)
+        self.after_idle(lambda: finalize_dialog(self, parent))
+
+    @staticmethod
+    def _snapshot(items: list[dict[str, Any]]) -> tuple[tuple[str, ...], ...]:
+        rows = []
+        for item in items:
+            rows.append((
+                str(item.get("id") or ""),
+                str(item.get("stored_path") or ""),
+                str(item.get("source_path") or ""),
+                str(item.get("original_filename") or ""),
+                str(item.get("description") or "").strip(),
+                str(item.get("purpose") or "").strip(),
+            ))
+        return tuple(rows)
+
+    @staticmethod
+    def _size_label(size: int) -> str:
+        if size < 1024:
+            return f"{size} B"
+        if size < 1024 * 1024:
+            return f"{size / 1024:.1f} KB"
+        return f"{size / (1024 * 1024):.1f} MB"
+
+    def _item_path(self, item: dict[str, Any]) -> Path:
+        source = str(item.get("source_path") or "")
+        if source:
+            return Path(source)
+        return self.case_dir / str(item.get("stored_path") or "")
+
+    def _store_details(self) -> None:
+        if self._selected_index is None or self._selected_index >= len(self.items):
+            return
+        item = self.items[self._selected_index]
+        item["description"] = self.description.get("1.0", "end-1c").strip()
+        item["purpose"] = self.purpose.get("1.0", "end-1c").strip()
+
+    def _load_details(self, index: int | None) -> None:
+        self.description.configure(state="normal")
+        self.purpose.configure(state="normal")
+        self.description.delete("1.0", "end")
+        self.purpose.delete("1.0", "end")
+        self._selected_index = index
+        state = "normal" if index is not None and 0 <= index < len(self.items) else "disabled"
+        self.description.configure(state=state)
+        self.purpose.configure(state=state)
+        if state == "normal":
+            item = self.items[index]
+            self.description.insert("1.0", str(item.get("description") or ""))
+            self.purpose.insert("1.0", str(item.get("purpose") or ""))
+
+    def _rebuild_tree(self, select_index: int | None = None) -> None:
+        self._selection_guard = True
+        self.tree.delete(*self.tree.get_children())
+        for index, item in enumerate(self.items):
+            path = self._item_path(item)
+            try:
+                size = path.stat().st_size
+            except OSError:
+                size = int(item.get("size_bytes") or 0)
+            filename = str(item.get("original_filename") or path.name)
+            suffix = Path(filename).suffix.lower().lstrip(".") or "file"
+            description = " ".join(str(item.get("description") or "").split())
+            if len(description) > 80:
+                description = description[:79].rstrip() + "…"
+            self.tree.insert(
+                "",
+                "end",
+                iid=str(index),
+                values=(filename, suffix.upper(), self._size_label(size), description or "—"),
+            )
+        self._selection_guard = False
+        if select_index is not None and 0 <= select_index < len(self.items):
+            iid = str(select_index)
+            self.tree.selection_set(iid)
+            self.tree.focus(iid)
+            self.tree.see(iid)
+            self._load_details(select_index)
+        else:
+            self._load_details(None)
+
+    def _on_select(self, _event: object) -> None:
+        if self._selection_guard:
+            return
+        self._store_details()
+        selection = self.tree.selection()
+        if not selection:
+            self._load_details(None)
+            return
+        try:
+            index = int(selection[0])
+        except ValueError:
+            self._load_details(None)
+            return
+        self._load_details(index)
+
+    def _add_files(self) -> None:
+        self._store_details()
+        paths = filedialog.askopenfilenames(
+            parent=self,
+            title="Add case material files",
+            filetypes=[
+                ("Recommended ZIP package", "*.zip"),
+                ("Documents and data", "*.pdf *.docx *.txt *.md *.csv *.xlsx *.xls *.json *.yaml *.yml"),
+                ("Images", "*.png *.jpg *.jpeg *.webp *.gif *.tif *.tiff"),
+                ("All files", "*.*"),
+            ],
+        )
+        if not paths:
+            return
+        known_sources = {str(Path(str(item.get("source_path"))).resolve()) for item in self.items if item.get("source_path")}
+        first_new: int | None = None
+        for raw in paths:
+            path = Path(raw).resolve()
+            if not path.is_file() or str(path) in known_sources:
+                continue
+            if first_new is None:
+                first_new = len(self.items)
+            self.items.append({
+                "id": None,
+                "source_path": str(path),
+                "original_filename": path.name,
+                "stored_path": None,
+                "description": "",
+                "purpose": "",
+                "size_bytes": path.stat().st_size,
+            })
+            known_sources.add(str(path))
+        self._rebuild_tree(select_index=first_new if first_new is not None else self._selected_index)
+
+    def _remove_selected(self) -> None:
+        selection = self.tree.selection()
+        if not selection:
+            messagebox.showinfo("No material selected", "Select a material first.", parent=self)
+            return
+        self._store_details()
+        index = int(selection[0])
+        filename = str(self.items[index].get("original_filename") or "selected material")
+        confirmed = ask_centered_yes_no(
+            self,
+            "Remove case material",
+            f"Remove {filename} from this case-material set? The saved revision is archived when the material list is committed.",
+        )
+        try:
+            self.grab_set()
+        except tk.TclError:
+            pass
+        if not confirmed:
+            return
+        self.items.pop(index)
+        next_index = min(index, len(self.items) - 1) if self.items else None
+        self._rebuild_tree(select_index=next_index)
+
+    def _save(self) -> None:
+        self._store_details()
+        current = self._snapshot(self.items)
+        self.result = {
+            "changed": current != self._initial_snapshot,
+            "items": [dict(item) for item in self.items],
+        }
         self.destroy()
 
 
