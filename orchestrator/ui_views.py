@@ -127,7 +127,9 @@ def configure_markdown_tags(widget: tk.Text, palette: Mapping[str, str]) -> None
     widget.tag_configure("md_rule", foreground=palette.get("muted", palette.get("fg", "#555555")), justify="center")
 
 
-_INLINE_PATTERN = re.compile(r"(`[^`]+`|\*\*[^*]+\*\*|__[^_]+__|(?<!\*)\*[^*]+\*(?!\*)|(?<!_)_[^_]+_(?!_))")
+_INLINE_PATTERN = re.compile(
+    r"(`[^`]+`|\*\*[^*]+\*\*|(?<!\w)__[^_]+__(?!\w)|(?<!\*)\*[^*]+\*(?!\*)|(?<!\w)_[^_]+_(?!\w))"
+)
 
 
 def _insert_inline(widget: tk.Text, text: str, base_tags: tuple[str, ...] = ()) -> None:
