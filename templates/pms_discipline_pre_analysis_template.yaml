@@ -1,0 +1,709 @@
+# =============================================================================
+#  PMS-DISCIPLINE — CASE PRE-ANALYSIS TEMPLATE
+#
+#  Template version:
+#    PMS-DISCIPLINE_PRE_ANALYSIS_0.3_CLEAN
+#
+#  Role:
+#    Pre-Core PMS-DISCIPLINE template for declaring case boundary, input status,
+#    intended use, claim ceiling, risk conditions, preliminary operator pressure,
+#    add-on scan pressure, rival pressure, falsifier conditions, correctability,
+#    and handoff keys for later PMS-DISCIPLINE pipeline layers.
+#
+#  Available before this step:
+#    - PMS.yaml has been read as PMS Base reference.
+#    - CASE PACKET has been supplied.
+#    - This template is being applied.
+#
+#  Not available inside this step:
+#    - No add-on source YAML.
+#    - No add-on case-application template.
+#    - No Core case output.
+#    - No later layer output.
+#    - No article output.
+#
+#  Boundary:
+#    This template prepares disciplined Core application. It does not perform
+#    Core analysis, apply add-ons, authorize later layers, validate truth,
+#    create evidence, produce verdicts, or execute final decision states.
+# =============================================================================
+
+schema_version: "PMS-DISCIPLINE_PRE_ANALYSIS_0.3_CLEAN"
+schema_role: "pms_discipline_case_pre_analysis_template"
+analysis_mode: "pre_core_application_discipline"
+template_status: "clean_pipeline_ready_draft"
+
+template_purpose: >
+  Produce a PMS-DISCIPLINE pre-analysis record before a PMS Core case template
+  is filled. The record declares the case boundary, input status, intended use,
+  claim ceiling, person-nearness, publicness, irreversibility, preliminary
+  operator pressure, derived-structure pressure, non-capture zones, rival
+  readings, falsifier conditions, operationalization risk, add-on scan pressure,
+  correctability, preliminary closure status, preliminary decision pressure,
+  and neutral handoff keys for later pipeline layers. This template does not
+  apply PMS Core, does not apply add-ons, and does not execute final decisions.
+
+repository_reference:
+  pms_base_reference_file: "PMS.yaml"
+  pms_base_reference_status: "only_pms_base_reference"
+  pre_analysis_template_role: "pre_core_application_discipline_template"
+  base_operator_inventory:
+    - "Δ"
+    - "∇"
+    - "□"
+    - "Λ"
+    - "Α"
+    - "Ω"
+    - "Θ"
+    - "Φ"
+    - "Χ"
+    - "Σ"
+    - "Ψ"
+  base_operator_order: "Δ → ∇ → □ → Λ → Α → Ω → Θ → Φ → Χ → Σ → Ψ"
+  reference_note: >
+    PMS.yaml supplies the PMS Base grammar for this step. The pre-analysis
+    record may prepare later Core application, but it must not revise PMS Base,
+    add operators, certify truth, authorize add-ons, or execute later outputs.
+
+source_priority:
+  pms_yaml:
+    priority: 1
+    role: "PMS Base reference already read before this step"
+    may_define:
+      - "PMS_operator_inventory"
+      - "PMS_operator_order"
+      - "PMS_dependency_path"
+      - "PMS_derived_structures"
+      - "PMS_application_guardrails"
+    must_not_be_overridden_by:
+      - "pre_analysis_output"
+      - "case_packet"
+      - "case_templates"
+      - "add_on_profiles"
+      - "model_output"
+      - "article_renderings"
+  case_packet:
+    priority: 2
+    role: "Case material supplied by the user or local workflow"
+    expected_fields:
+      - "case_title"
+      - "case_material"
+      - "source_status"
+      - "intended_use"
+    may_supply:
+      - "scene_boundary"
+      - "source_status"
+      - "intended_use"
+      - "claim_context"
+      - "known_limits"
+      - "explicit_non_scope"
+  this_pre_analysis_template:
+    priority: 3
+    role: "Pre-Core application-discipline output structure"
+    may_supply:
+      - "case_boundary"
+      - "input_status"
+      - "intended_use_status"
+      - "claim_ceiling"
+      - "person_nearness_publicness_irreversibility"
+      - "preliminary_operator_pressure"
+      - "derived_structure_pressure"
+      - "non_capture_zones"
+      - "rival_readings"
+      - "falsifier_conditions"
+      - "operationalization_risk"
+      - "addon_scan_pressure"
+      - "correctability_status"
+      - "preliminary_decision_pressure"
+      - "handoff_exports"
+
+workflow_position:
+  phase: "pre_core_case_application"
+  step_id: "discipline_pre_analysis"
+  step_role: >
+    This step occurs after PMS.yaml has been read and before the PMS Core case
+    template is filled. It prepares Core application by declaring burden,
+    scope, input status, use status, risk boundaries, and preliminary scan
+    pressure.
+  preceded_by_required_steps:
+    - "read_pms_yaml"
+    - "collect_case_packet"
+  next_required_step: "core_case_application"
+  later_layers_that_may_use_this_record:
+    - "core_output_check"
+    - "addon_recommendation_gate"
+    - "case_record_pipeline"
+    - "markdown_rendering"
+  not_permitted_before_this_step:
+    - "core_case_application"
+    - "addon_yaml_read"
+    - "addon_template_application"
+    - "article_generation"
+  not_permitted_inside_this_step:
+    - "final_operator_assignment"
+    - "completed_core_yaml_generation"
+    - "addon_recommendation"
+    - "addon_overlay_application"
+    - "empirical_validation_claim"
+    - "diagnostic_or_legal_conclusion"
+    - "institutional_or_policy_authorization"
+    - "final_decision_execution"
+
+pre_analysis_io_contract:
+  required_inputs:
+    - "PMS.yaml_read_completely"
+    - "case_packet"
+  case_packet_required_fields:
+    case_title: "<required>"
+    case_material: "<required>"
+    source_status: "<required>"
+    intended_use: "<required>"
+  optional_inputs_allowed_only_if_marked:
+    - "additional_source_material"
+    - "prior_analysis"
+    - "user_constraints"
+    - "known_rival_accounts"
+    - "desired_output_context"
+  produced_outputs:
+    - "discipline_pre_analysis_record"
+    - "core_handoff"
+    - "addon_gate_handoff"
+    - "case_record_seed"
+    - "source_material_inventory_record"
+  output_must_not_include:
+    - "completed_core_case_yaml"
+    - "selected_addon_output"
+    - "article_markdown"
+    - "final_verdict"
+    - "file_requirements_not_supplied_to_this_step"
+
+non_authority_boundary:
+  this_template_is:
+    - "pre_core_application_discipline_record"
+    - "case_boundary_and_claim_ceiling_aid"
+    - "input_status_and_risk_marker"
+    - "preliminary_scan_pressure_record"
+    - "handoff_support_for_later_pipeline_layers"
+  this_template_is_not:
+    - "PMS_Base"
+    - "PMS_Base_revision"
+    - "Core_case_analysis"
+    - "evidence"
+    - "case_verdict"
+    - "add_on_authorization"
+    - "later_layer_authorization"
+    - "article_authorization"
+    - "final_decision_state"
+    - "decision_or_execution_layer"
+  applies_globally: true
+
+case_identification:
+  case_title: "<from CASE PACKET>"
+  case_id: "<optional local id or null>"
+  case_material_summary: "<short neutral summary of case material>"
+  source_status_summary: "<from CASE PACKET, normalized>"
+  intended_use_summary: "<from CASE PACKET, normalized>"
+  synthetic_or_real_status: "<synthetic_case | fictional_case | real_case | mixed | unclear>"
+  pre_analysis_scope_note: >
+    Identify the scene and burden for later Core application. Do not analyze the
+    case as a completed PMS Core output.
+
+source_material_inventory:
+  inventory_status: "<case_packet_only | provided_marked | mixed_marked | underdescribed | insufficient>"
+  source_materials:
+    - source_id: "S1"
+      source_type: "<case_packet | source_document | report_or_memory | prior_analysis | model_output | mixed_material | other | unclear>"
+      provided_as: "<case_packet | full_text | excerpt | summary | attachment | generated_text | unclear>"
+      input_role: "<case_material | context | evidence_candidate | illustration | not_used | unclear>"
+      source_status_claimed_by_user: "<quote or summary>"
+      source_limitations:
+        - "<limitation or none_marked>"
+      use_allowed_for_pre_analysis: "<yes | yes_with_limits | no | unclear>"
+  source_summary_for_core: "<bounded source-status summary for later Core application>"
+  source_status_warnings:
+    - "<warning or none>"
+
+source_use_discipline:
+  input_status_rule: >
+    PMS may organize input, but it may not upgrade input status by organizing it.
+  required_distinctions:
+    - "fact_not_report"
+    - "report_not_interpretation"
+    - "interpretation_not_model_output"
+    - "model_output_not_evidence"
+    - "coherence_not_truth"
+    - "template_completion_not_validation"
+  weak_input_handling:
+    allowed:
+      - "orientation"
+      - "structural_sketch"
+      - "hypothesis"
+      - "bounded_reconstruction_with_limits"
+    not_allowed_without_extra_support:
+      - "evaluation"
+      - "recommendation"
+      - "intervention"
+      - "institutional_uptake"
+      - "technical_implementation"
+      - "public_synthesis"
+  source_status_effect_on_claim_ceiling: "<explain how source status limits the claim ceiling>"
+
+case_boundary:
+  boundary_status: "<declared | underdescribed | missing | contested | mixed>"
+  primary_scene: "<what scene is being read>"
+  included_material:
+    - "<included element>"
+  excluded_material:
+    - "<excluded element>"
+  temporal_boundary: "<single moment | short sequence | ongoing pattern | historical reconstruction | unclear>"
+  actor_or_role_boundary: "<roles/positions involved, without person-ranking>"
+  use_boundary: "<what the reading is being prepared for>"
+  non_scope: "<what must not be claimed or inferred>"
+  boundary_risk: "<low | medium | high | severe | unclear>"
+  boundary_note: >
+    The case boundary is a precondition for later Core application. It is not a
+    finding about the whole person, whole institution, whole system, or wider
+    reality beyond the supplied case packet.
+
+input_status_discipline:
+  input_status: "<marked | mixed_but_marked | underdescribed | insufficient | unclear>"
+  input_types:
+    case_packet: "<present | absent>"
+    synthetic_case: "<present | absent | unclear>"
+    fictional_case: "<present | absent | unclear>"
+    real_case_material: "<present | absent | unclear>"
+    source_document: "<present | absent | unclear>"
+    report_or_memory: "<present | absent | unclear>"
+    prior_analysis: "<present | absent | unclear>"
+    model_output: "<present | absent | unclear>"
+    mixed_material: "<present | absent | unclear>"
+  input_strength: "<minimal | low | medium | high | mixed | unclear>"
+  contestability: "<highly_contestable | contestable | limited_contestability | not_contestable_from_material | unclear>"
+  verification_status: "<not_needed_for_synthetic | unverified | partially_verified | verified_for_limited_purpose | unclear>"
+  interpretation_burden: "<low | medium | high | severe | unclear>"
+  input_status_limits:
+    - "<limit or none_marked>"
+  input_status_overclaim_risks:
+    - "<risk or none_marked>"
+
+intended_use_discipline:
+  intended_use_status: "<explicit | inferred | unclear | missing>"
+  intended_use: "<from CASE PACKET, normalized>"
+  requested_output_context: "<private_orientation | repository_example | internal_record | public_article | institutional_use | technical_use | other | unclear>"
+  use_context_risk: "<low | medium | high | severe | unclear>"
+  user_requested_strength: "<orientation | sketch | hypothesis | reconstruction | evaluation | recommendation | intervention | unclear>"
+  permitted_use_at_pre_analysis_stage:
+    - "prepare_core_application"
+    - "mark_input_status"
+    - "mark_claim_ceiling"
+    - "mark_risk_conditions"
+    - "seed_addon_gate_without_authorization"
+  not_permitted_use_at_pre_analysis_stage:
+    - "perform_core_analysis"
+    - "apply_addon"
+    - "publish_article"
+    - "issue_verdict"
+    - "make_person_level_claim"
+    - "authorize_workflow_completion"
+  intended_use_note: "<how intended use affects claim ceiling and risk burden>"
+
+claim_type_discipline:
+  requested_claim_type: "<orientation | structural_sketch | hypothesis | bounded_reconstruction | evaluation | recommendation | intervention | technical_implementation | institutional_uptake | public_synthesis | unclear>"
+  maximum_pre_analysis_claim_ceiling: "<orientation | structural_sketch | hypothesis | bounded_reconstruction | evaluation | recommendation | intervention | technical_implementation | institutional_uptake | public_synthesis | unclear>"
+  lowest_adequate_claim_type: "<orientation | structural_sketch | hypothesis | bounded_reconstruction | evaluation | recommendation | intervention | technical_implementation | institutional_uptake | public_synthesis | unclear>"
+  claim_ceiling_reason: "<why this ceiling follows from source status, use, and risk>"
+  claims_currently_licensed:
+    - "<licensed claim type or none>"
+  claims_not_licensed:
+    - "<unlicensed claim type>"
+  claim_escalation_risks:
+    - "<risk or none_marked>"
+
+scope_boundary_matrix:
+  local_scene_reading: "<allowed | allowed_with_limits | not_allowed | unclear>"
+  whole_person_claim: "not_allowed"
+  motive_claim: "<not_allowed | only_if_explicitly_supported_later | unclear>"
+  diagnosis_or_clinical_claim: "not_allowed"
+  legal_or_forensic_claim: "not_allowed"
+  institutional_decision_claim: "<not_allowed | later_domain_review_required | unclear>"
+  public_reputation_claim: "<not_allowed | later_burden_review_required | unclear>"
+  implementation_or_system_claim: "<not_allowed | later_technical_review_required | unclear>"
+  PMS_Base_validation_claim: "not_allowed"
+  add_on_use_claim: "not_allowed_inside_pre_analysis"
+  article_readiness_claim: "not_allowed_inside_pre_analysis"
+  final_decision_claim: "not_allowed_inside_pre_analysis"
+  scope_boundary_note: "<short note>"
+
+pms_entry_condition_precheck:
+  distance_status: "<preserved | weak | missing | unclear>"
+  reversibility_status: "<preserved | weak | missing | unclear>"
+  dignity_in_practice_status: "<preserved | weak | missing | unclear>"
+  entry_condition_status: "<satisfied_for_pre_analysis | satisfied_with_limits | not_satisfied | unclear>"
+  entry_condition_risks:
+    - "<risk or none_marked>"
+
+person_nearness_publicness_irreversibility:
+  person_nearness_level: "<none | low | medium | high | severe | unclear>"
+  person_nearness_markers:
+    - "<marker or none>"
+  publicness_level: "<private | limited_internal | public | institutional | technical | automated | article_level | unclear>"
+  publicness_markers:
+    - "<marker or none>"
+  irreversibility_level: "<low | medium | high | severe | unclear>"
+  irreversibility_markers:
+    - "<marker or none>"
+  affected_persons_or_groups_status: "<none | indirect | direct | unclear>"
+  contestation_access: "<available | limited | unavailable | not_applicable | unclear>"
+  burden_effect: "<no_change | weaken_claim | require_revision | require_downgrade | require_suspension | require_refusal | require_redirect | unclear>"
+  caution_note: "<how these factors constrain later Core use>"
+
+preliminary_operator_pressure:
+  status: "preliminary_only_not_final_operator_assignment"
+  operator_pressure_records:
+    - operator: "Δ"
+      pressure_level: "<none | weak | moderate | strong | unclear>"
+      structural_reason: "<why difference may matter>"
+      overuse_risk: "<risk or none>"
+    - operator: "∇"
+      pressure_level: "<none | weak | moderate | strong | unclear>"
+      structural_reason: "<why impulse or pressure may matter>"
+      overuse_risk: "<risk or none>"
+    - operator: "□"
+      pressure_level: "<none | weak | moderate | strong | unclear>"
+      structural_reason: "<why frame may matter>"
+      overuse_risk: "<risk or none>"
+    - operator: "Λ"
+      pressure_level: "<none | weak | moderate | strong | unclear>"
+      structural_reason: "<why non-event or absence may matter>"
+      overuse_risk: "<risk or none>"
+    - operator: "Α"
+      pressure_level: "<none | weak | moderate | strong | unclear>"
+      structural_reason: "<why attractor or recurrence may matter>"
+      overuse_risk: "<risk or none>"
+    - operator: "Ω"
+      pressure_level: "<none | weak | moderate | strong | unclear>"
+      structural_reason: "<why asymmetry may matter>"
+      overuse_risk: "<risk or none>"
+    - operator: "Θ"
+      pressure_level: "<none | weak | moderate | strong | unclear>"
+      structural_reason: "<why temporality may matter>"
+      overuse_risk: "<risk or none>"
+    - operator: "Φ"
+      pressure_level: "<none | weak | moderate | strong | unclear>"
+      structural_reason: "<why recontextualization may matter>"
+      overuse_risk: "<risk or none>"
+    - operator: "Χ"
+      pressure_level: "<none | weak | moderate | strong | unclear>"
+      structural_reason: "<why distance may matter>"
+      overuse_risk: "<risk or none>"
+    - operator: "Σ"
+      pressure_level: "<none | weak | moderate | strong | unclear>"
+      structural_reason: "<why integration or non-integration may matter>"
+      overuse_risk: "<risk or none>"
+    - operator: "Ψ"
+      pressure_level: "<none | weak | moderate | strong | unclear>"
+      structural_reason: "<why self-binding or commitment may matter>"
+      overuse_risk: "<risk or none>"
+  possible_operator_omissions_to_watch:
+    - "<operator or none>"
+  operator_assignment_warning: >
+    Operator pressure in pre-analysis is only a warning for later Core
+    application. It is not final assignment, not proof, and not claim authority.
+
+derived_structure_precheck:
+  status: "preliminary_projection_pressure_only"
+  awareness_A_pressure: "<none | weak | moderate | strong | unclear>"
+  coherence_C_pressure: "<none | weak | moderate | strong | unclear>"
+  responsibility_R_pressure: "<none | weak | moderate | strong | unclear>"
+  enactment_E_pressure: "<none | weak | moderate | strong | unclear>"
+  dignity_in_practice_D_pressure: "<none | weak | moderate | strong | unclear>"
+  derived_structure_warning: >
+    Derived structures are PMS-internal projections, not person scores, not
+    status labels, not proof of adequacy, and not independent primitives.
+  projection_risks:
+    - "<risk or none_marked>"
+
+non_capture_zones:
+  non_capture_status: "<preserved | weak | missing | contested | unclear>"
+  zones:
+    - zone_id: "NC1"
+      description: "<what the reading must not capture or settle>"
+      reason: "<why this zone remains protected or unresolved>"
+      later_effect: "<limits Core/add-on/article use>"
+  claims_explicitly_not_captured:
+    - "<claim or none_marked>"
+  non_capture_note: "<short note>"
+
+rival_readings:
+  rival_pressure_status: "<none_identified | present | required_but_missing | unresolved | rival_currently_stronger | unclear>"
+  rival_records:
+    - rival_id: "R1"
+      rival_frame: "<alternative explanation or none_identified>"
+      support_status: "<not_tested | weak | moderate | strong | stronger_than_PMS_for_current_use | unclear>"
+      discrimination_question: "<what this rival may see better>"
+      effect_on_pre_analysis: "<none | weaken_claim | require_revision | require_downgrade | require_suspension | require_redirect | unclear>"
+  rival_pressure_note: >
+    Rival pressure is part of disciplined PMS use. If a rival account currently
+    discriminates better, later PMS use should be downgraded, suspended, or
+    redirected rather than forced into PMS vocabulary.
+
+falsifier_and_weakening_conditions:
+  falsifier_conditions_status: "<present | partial | missing | not_applicable | unclear>"
+  falsifier_conditions:
+    - condition_id: "F1"
+      condition: "<what would weaken or overturn the proposed reading path>"
+      affected_claim: "<which claim or path would change>"
+      required_response: "<revise | downgrade | suspend | refuse | redirect | reopen | unclear>"
+  weakening_conditions:
+    - condition_id: "W1"
+      condition: "<what would require weaker claim language>"
+      required_weakened_claim: "<lower claim type or wording direction>"
+  reopening_conditions:
+    - condition_id: "RO1"
+      condition: "<new evidence | scope change | demonstrated error | stronger rival | other>"
+      reopening_effect: "<what must be reopened>"
+  false_stability_risk: "<none | low | medium | high | severe | unclear>"
+  note: >
+    Weakening is handled through revision or downgrade. It is not a separate
+    final decision state.
+
+operationalization_requirements_precheck:
+  operationalization_risk_status: "<none | low | medium | high | severe | unclear>"
+  publication_pressure: "<none | low | medium | high | severe | unclear>"
+  institutional_uptake_pressure: "<none | low | medium | high | severe | unclear>"
+  technical_embedding_pressure: "<none | low | medium | high | severe | unclear>"
+  automation_pressure: "<none | low | medium | high | severe | unclear>"
+  article_level_pressure: "<none | low | medium | high | severe | unclear>"
+  required_human_confirmation_later: "<yes | no | conditional | unclear>"
+  operationalization_limits:
+    - "<limit or none_marked>"
+  operationalization_note: >
+    These fields mark use-context burden only. They do not authorize public,
+    institutional, technical, automated, article-level, or execution use.
+
+addon_scan_precheck:
+  scan_status: "<not_needed | scan_pressure_only | pressure_present_for_later_gate | unclear>"
+  scan_rule: >
+    Add-on scan pressure is not add-on recommendation and not add-on
+    authorization. Surface vocabulary may justify a scan, but add-on selection
+    requires later review after Core output.
+  supported_addon_candidates:
+    - "ANTICIPATION"
+    - "CRITIQUE"
+    - "CONFLICT"
+    - "LOGIC"
+    - "EDEN"
+    - "SEX"
+  candidate_scan_records:
+    - candidate: "ANTICIPATION"
+      preliminary_pressure: "<none | weak | moderate | strong | unclear>"
+      possible_structural_reason: "<future-facing uncertainty, non-closure, decision pressure under time, or none>"
+      non_trigger_warning: "Future reference alone is not enough."
+      scan_result: "<no_scan | pressure_present_for_later_gate | reject_as_false_trigger | unclear>"
+    - candidate: "CRITIQUE"
+      preliminary_pressure: "<none | weak | moderate | strong | unclear>"
+      possible_structural_reason: "<interruption, correction, critique reach, scale transition, or none>"
+      non_trigger_warning: "Complaint or negativity alone is not enough."
+      scan_result: "<no_scan | pressure_present_for_later_gate | reject_as_false_trigger | unclear>"
+    - candidate: "CONFLICT"
+      preliminary_pressure: "<none | weak | moderate | strong | unclear>"
+      possible_structural_reason: "<stabilized incompatibility, costly exit, asymmetry lock-in, or none>"
+      non_trigger_warning: "Disagreement alone is not enough."
+      scan_result: "<no_scan | pressure_present_for_later_gate | reject_as_false_trigger | unclear>"
+    - candidate: "LOGIC"
+      preliminary_pressure: "<none | weak | moderate | strong | unclear>"
+      possible_structural_reason: "<justification limits, warrant drift, non-closure, or none>"
+      non_trigger_warning: "Reasoning vocabulary alone is not enough."
+      scan_result: "<no_scan | pressure_present_for_later_gate | reject_as_false_trigger | unclear>"
+    - candidate: "EDEN"
+      preliminary_pressure: "<none | weak | moderate | strong | unclear>"
+      possible_structural_reason: "<comparison drift, pseudo-symmetry, reciprocity loss, or none>"
+      non_trigger_warning: "Error, loss, or origin-language alone is not enough."
+      scan_result: "<no_scan | pressure_present_for_later_gate | reject_as_false_trigger | unclear>"
+    - candidate: "SEX"
+      preliminary_pressure: "<none | weak | moderate | strong | unclear>"
+      possible_structural_reason: "<sexuality/intimacy frame, consent-adjacent boundary, exit realism, or none>"
+      non_trigger_warning: "Sexual metaphor, gender vocabulary, or relationship language alone is not enough."
+      scan_result: "<no_scan | pressure_present_for_later_gate | reject_as_false_trigger | unclear>"
+  multiple_candidate_pressure: "<none | weak | moderate | strong | unclear>"
+  addon_scan_summary: "<bounded summary for later Add-on Recommendation Gate>"
+
+correctability_and_reopening_precheck:
+  correctability_status: "<preserved | weak | missing | symbolic_only | unclear>"
+  access_to_reasons_status: "<available | partial | missing | not_applicable | unclear>"
+  response_space_status: "<available | limited | unavailable | not_applicable | unclear>"
+  correction_can_affect_output: "<yes | yes_with_limits | no | unclear>"
+  reopening_conditions_status: "<present | partial | missing | not_applicable | unclear>"
+  correction_risks:
+    - "<risk or none_marked>"
+  required_correction_before_core:
+    - "<required correction or none>"
+  correctability_note: >
+    A later reading is disciplined only if correction can affect claim strength,
+    operator assignment, add-on routing, rival status, closure status, or
+    permitted next steps.
+
+preliminary_closure_status:
+  closure_space: "<untested | underdescribed | genuinely_unresolved | supported_but_limited | tested_and_rejected | unclear>"
+  closure_risk: "<none | low | medium | high | severe | unclear>"
+  closure_note: >
+    Pre-analysis may mark closure pressure, but it must not close the Core case
+    or execute a final decision state.
+
+preliminary_decision_pressure:
+  pressure_status: "<none | proceed_pressure | revise_pressure | downgrade_pressure | suspend_pressure | refuse_pressure | redirect_pressure | mixed | unclear>"
+  proceed_pressure_reason: "<reason or none>"
+  revise_pressure_reason: "<reason or none>"
+  downgrade_pressure_reason: "<reason or none>"
+  suspend_pressure_reason: "<reason or none>"
+  refuse_pressure_reason: "<reason or none>"
+  redirect_pressure_reason: "<reason or none>"
+  final_decision_warning: >
+    This is only preliminary pressure. The final decision state is not executed
+    inside Pre-Analysis.
+
+core_handoff_guidance:
+  instruction_status: "handoff_guidance_only"
+  core_may_use:
+    - "case_packet"
+    - "PMS.yaml_base_reference_already_read"
+    - "checked_pre_analysis_yaml"
+    - "core_case_application_template_when_later_provided"
+  core_must_respect:
+    - "case_boundary"
+    - "input_status"
+    - "intended_use"
+    - "claim_ceiling"
+    - "person_nearness_publicness_irreversibility"
+    - "non_capture_zones"
+    - "rival_pressure"
+    - "falsifier_conditions"
+    - "correctability_status"
+  core_must_not:
+    - "treat_pre_analysis_as_core_output"
+    - "revise_PMS_Base"
+    - "authorize_addon_use"
+    - "treat_addon_scan_as_recommendation"
+    - "strengthen_claims_beyond_claim_ceiling"
+    - "convert_scene_reading_into_person_verdict"
+    - "treat_template_completion_as_validation"
+  core_handoff_note: >
+    Pre-analysis prepares Core application. The Core template must perform its
+    own PMS Core case analysis later.
+
+handoff_exports:
+  core_handoff:
+    export_status: "<ready | ready_with_limits | incomplete | suspended | refused | redirected | unclear>"
+    case_boundary_status: "<declared | underdescribed | missing | contested | mixed>"
+    input_status: "<marked | mixed_but_marked | underdescribed | insufficient | unclear>"
+    intended_use_status: "<explicit | inferred | unclear | missing>"
+    claim_ceiling: "<orientation | structural_sketch | hypothesis | bounded_reconstruction | evaluation | recommendation | intervention | technical_implementation | institutional_uptake | public_synthesis | unclear>"
+    person_nearness_level: "<none | low | medium | high | severe | unclear>"
+    publicness_level: "<private | limited_internal | public | institutional | technical | automated | article_level | unclear>"
+    irreversibility_level: "<low | medium | high | severe | unclear>"
+    non_capture_status: "<preserved | weak | missing | contested | unclear>"
+    rival_pressure_status: "<none_identified | present | required_but_missing | unresolved | rival_currently_stronger | unclear>"
+    falsifier_conditions_status: "<present | partial | missing | not_applicable | unclear>"
+    correctability_status: "<preserved | weak | missing | symbolic_only | unclear>"
+    preliminary_decision_pressure: "<none | proceed_pressure | revise_pressure | downgrade_pressure | suspend_pressure | refuse_pressure | redirect_pressure | mixed | unclear>"
+    pre_analysis_quality: "<usable | usable_with_limits | insufficient | requires_revision | blocked>"
+    export_summary: "<one-paragraph bounded summary for PMS Core application>"
+  addon_gate_handoff:
+    export_status: "<ready | ready_with_limits | not_applicable | incomplete | unclear>"
+    addon_scan_status: "<not_needed | scan_pressure_only | pressure_present_for_later_gate | unclear>"
+    supported_addon_candidates_considered:
+      - "ANTICIPATION"
+      - "CRITIQUE"
+      - "CONFLICT"
+      - "LOGIC"
+      - "EDEN"
+      - "SEX"
+    pressure_flags_from_pre_analysis:
+      - "<candidate pressure flag or none>"
+    false_trigger_warnings:
+      - "<warning or none>"
+    multiple_candidate_pressure: "<none | weak | moderate | strong | unclear>"
+    scan_only_no_authorization: true
+    handoff_summary: "<bounded summary for later Add-on Recommendation Gate>"
+  case_record_seed:
+    seed_status: "<ready | ready_with_limits | incomplete | not_applicable | unclear>"
+    seeded_for_later_record:
+      - "case_boundary"
+      - "input_status"
+      - "intended_use"
+      - "claim_ceiling"
+      - "person_nearness_publicness_irreversibility"
+      - "non_capture_status"
+      - "rival_pressure_status"
+      - "falsifier_conditions"
+      - "correctability_status"
+      - "preliminary_decision_pressure"
+    non_use_to_preserve:
+      - "no_core_output_inside_pre_analysis"
+      - "no_addon_output_inside_pre_analysis"
+      - "no_article_output_inside_pre_analysis"
+    seed_summary: "<short summary for later case-record pipeline>"
+
+quality_checks:
+  pre_analysis_valid_yaml: "<true | false>"
+  required_inputs_marked: "<true | false>"
+  pms_yaml_not_redefined: "<true | false>"
+  no_new_pms_operators: "<true | false>"
+  false_file_references_absent: "<true | false>"
+  unsupported_layer_references_absent: "<true | false>"
+  operator_status_marked_as_preliminary_only: "<true | false>"
+  input_status_marked: "<true | false>"
+  intended_use_marked: "<true | false>"
+  claim_ceiling_marked: "<true | false>"
+  person_nearness_publicness_irreversibility_marked: "<true | false>"
+  non_capture_preserved_or_gap_marked: "<true | false>"
+  rival_readings_preserved_or_absence_marked: "<true | false>"
+  falsifier_conditions_included_or_gap_marked: "<true | false>"
+  addon_scan_not_treated_as_recommendation: "<true | false>"
+  addon_candidates_not_authorized: "<true | false>"
+  no_empirical_metaphysical_diagnostic_legal_implementation_or_base_validation_overclaim: "<true | false>"
+  core_handoff_present: "<true | false>"
+  addon_gate_handoff_present: "<true | false>"
+  case_record_seed_present: "<true | false>"
+  final_decision_not_executed: "<true | false>"
+
+conservative_patch_policy_for_pre_analysis:
+  patch_policy_status: "active_for_pre_analysis_check_only"
+  patch_when:
+    - "missing_required_field"
+    - "invalid_yaml"
+    - "placeholder_left_where_case_specific_value_required"
+    - "claim_type_too_strong"
+    - "input_status_laundering"
+    - "operator_assignment_treated_as_final"
+    - "add_on_candidate_treated_as_authorized"
+    - "non_capture_or_rival_pressure_missing"
+    - "falsifier_conditions_missing"
+    - "correctability_or_reopening_missing"
+    - "overclaim_detected"
+    - "false_file_reference_detected"
+    - "unsupported_layer_reference_detected"
+    - "later_output_generated_inside_pre_analysis"
+  do_not_patch_by:
+    - "adding_unavailable_source_files"
+    - "inventing_missing_evidence"
+    - "raising_claim_ceiling"
+    - "applying_Core_inside_pre_analysis"
+    - "applying_addons_inside_pre_analysis"
+    - "creating_article_output"
+    - "executing_final_decision_state"
+  preferred_patch_style:
+    - "conservative"
+    - "bounded"
+    - "claim_weakening_where_needed"
+    - "explicit_missing_or_unclear_markers"
+    - "no_new_layer_creation"
+
+final_pre_analysis_status:
+  status: "<usable_for_core | usable_for_core_with_limits | requires_revision_before_core | suspend_before_core | refuse_before_core | redirect_before_core | unclear>"
+  reason: "<short reason>"
+  next_allowed_step: "<core_case_application | revise_pre_analysis | suspend | refuse | redirect | unclear>"
+  final_note: >
+    This status governs whether the material is ready to move into PMS Core
+    application. It is not a final case decision, not a verdict, and not a
+    claim that later layers are authorized.

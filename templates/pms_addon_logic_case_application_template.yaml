@@ -1,0 +1,1521 @@
+# ==============================================================================
+# PMS-DISCIPLINE — LOGIC ADD-ON CASE APPLICATION TEMPLATE
+# Template version: CLEAN_v0.2.1
+# Role: selected LOGIC add-on case application after checked Core and checked Add-on Gate
+# ==============================================================================
+pms_logic_addon_case_application:
+  schema_version: PMS-DISCIPLINE_LOGIC_ADDON_CASE_TEMPLATE_CLEAN_v0.2.1
+  schema_role: logic_addon_case_application_template
+  analysis_mode: selected_logic_addon_case_application_after_checked_core
+  template_status: clean_pms_discipline_addon_case_application_template
+  discipline_template_name: pms_addon_logic_case_application_template_CLEAN_v0_2_1.yaml
+  selected_addon_family: LOGIC
+  template_purpose: 'Structure a PMS-DISCIPLINE-compatible PMS-LOGIC overlay for one already completed PMS-Core case. The
+    overlay maps pre-moral justification, logical boundary management, post-moral effects, non-closure, closure-drive, responsibility
+    as attributability, non-innocence without guilt, effective capacity, reduced-signature use, failure-mode constraints,
+    and counter-readings without modifying the completed PMS-Core analysis and without converting logical coherence into final
+    authority, moral verdict, blame assignment, action authorization, person ranking, or PMS-Base revision.
+
+    '
+  template_boundary: This template applies only the selected LOGIC add-on after checked Pre-Analysis, checked PMS Core, checked
+    Add-on Recommendation Gate, and source reading of PMS-LOGIC.yaml. It does not re-run or rewrite Core, does not re-decide
+    the gate, does not apply unselected add-ons, does not apply MIP or AHP, does not generate Case Record or Markdown outputs,
+    and does not execute any final decision state.
+  repository_reference:
+    pms_base_reference_file: PMS.yaml
+    pms_base_reference_status: already_read_base_reference
+    selected_addon_source_file: PMS-LOGIC.yaml
+    selected_addon_source_status: read_before_this_application_step
+    addon_template_role: selected_logic_addon_case_application_template
+    supported_addon_family: LOGIC
+    reference_note: PMS.yaml supplies PMS Base grammar. Checked Pre-Analysis, checked Core, checked Add-on Gate, the CASE
+      PACKET, and the already-read PMS-LOGIC source constrain this template. This template assumes no unprovided source file,
+      no unselected add-on, no MIP output, no AHP output, no Case Record, and no Markdown article.
+  source_alignment:
+    overlay_source_file: PMS-LOGIC.yaml
+    paper_source_file: PMS-LOGIC.md
+    base_reference_file: PMS.yaml
+    source_status_rule: 'Source files and case materials may support structural mapping only within their marked status. They
+      do not by themselves provide evidence, proof, output check, final authority, or permission to intensify claims.
+
+      '
+  source_fidelity_notes:
+    source_checked_against: PMS-LOGIC.md
+    source_profile_note: 'PMS-LOGIC is treated as one structurally disciplined PMS-compatible reconstruction, not as final
+      philosophical settlement, not as a universal ontology, and not as a superior substitute for all rival accounts.
+
+      '
+    present_reconstruction_caveat: 'Case output should preserve qualifiers such as within this reconstruction, within the
+      present frame, structurally attributable, morally readable, and non-normatively underived where claim pressure could
+      otherwise over-harden.
+
+      '
+    non_performativity_note: 'PMS-LOGIC does not claim to generate better praxis, superior action, optimization, or action
+      guidance. It offers structural orientation and boundary discipline only.
+
+      '
+    calibration_note: 'Effective capacity, omission, and responsibility-salience remain calibration-sensitive. The LOGIC
+      source defines structural form, not every concrete threshold of sufficiency in advance.
+
+      '
+    non_capture_note: 'Translation success into PMS-LOGIC terms must not be treated as final superiority over adjacent or
+      rival frameworks. Rival accounts remain open where they preserve differentiating force better than the LOGIC overlay.
+
+      '
+  source_priority:
+    pms_yaml:
+      priority: 1
+      role: PMS Base reference already read before this step
+      may_define:
+      - PMS operator inventory
+      - PMS operator order
+      - PMS dependencies
+      - PMS derived structures
+      - PMS application guardrails
+      must_not_be_overridden_by:
+      - LOGIC add-on output
+      - PMS-LOGIC source
+      - case templates
+      - model output
+    case_packet:
+      priority: 2
+      role: bounded case material supplied for this run
+      may_supply:
+      - case material
+      - source status
+      - intended use
+      must_not_supply:
+      - LOGIC authorization
+      - truth proof
+      - moral verdict
+      - guilt assignment
+      - action authorization
+    checked_pre_analysis_yaml:
+      priority: 3
+      role: checked boundary, source-status, burden, and claim-ceiling record
+      may_supply:
+      - source material limits
+      - person-nearness/publicness/irreversibility burden
+      - claim ceiling
+      - rival pressure
+      - non-capture
+      - correctability and reopening
+      must_not_supply:
+      - LOGIC result
+      - MIP authorization
+      - AHP authorization
+      - person ranking
+      - maturity verdict
+    checked_core_case_application_yaml:
+      priority: 4
+      role: checked PMS Core case basis
+      may_supply:
+      - case boundary
+      - operator assignments
+      - dependency status
+      - derived structure status
+      - claim ceiling
+      - source status
+      - non-capture zones
+      - rival readings
+      - falsifier and weakening conditions
+      must_not_be_rewritten_by:
+      - LOGIC overlay
+      - logical coherence vocabulary
+      - boundary-management vocabulary
+      - non-innocence vocabulary
+      - responsibility-readability vocabulary
+      - later MIP or AHP outputs
+    checked_addon_recommendation_gate_yaml:
+      priority: 5
+      role: checked add-on family selection or non-use context
+      may_supply:
+      - selected add-on family
+      - LOGIC recommendation or non-use status
+      - doubts and non-trigger conditions
+      - over-application warnings
+      must_not_supply:
+      - LOGIC application
+      - authorization
+      - final decision state
+      - action authority
+      - case verdict
+    selected_logic_source:
+      priority: 6
+      role: already-read selected PMS-LOGIC add-on source
+      may_define:
+      - LOGIC constructs
+      - tripartition
+      - boundary conditions
+      - non-operator constructs
+      - reduced signatures
+      - failure-mode constraints
+      - drift catalogue
+      - counter-readings
+      - LOGIC guardrails
+      must_not_define:
+      - PMS Base
+      - PMS operator inventory
+      - Core case findings
+      - moral verdict
+      - guilt assignment
+      - person status
+      - action authorization
+    this_logic_addon_template:
+      priority: 7
+      role: LOGIC case add-on application output structure only
+      must_not_authorize:
+      - Core rewrite
+      - PMS Base revision
+      - MIP use
+      - AHP use
+      - publication
+      - intervention
+      - final decision execution
+  workflow_position:
+    phase: selected_addon_case_application
+    step_id: logic_addon_case_application
+    step_role: This step occurs only after checked Pre-Analysis, checked PMS Core, checked Add-on Recommendation Gate, and
+      source reading of the selected PMS-LOGIC add-on. It produces a LOGIC add-on case YAML that must be checked before any
+      later optional MIP Gate or Case Record stage.
+    preceded_by_required_steps:
+    - read_pms_yaml
+    - checked_pre_analysis_yaml
+    - checked_core_case_application_yaml
+    - checked_addon_recommendation_gate_yaml
+    - read_selected_logic_source
+    next_required_step: selected_addon_output_check
+    later_possible_steps_after_checked_addon_output:
+    - core_or_addon_only_case_record_stage
+    - optional_downstream_mip_gate_if_human_route_confirms
+    - article_generation_after_case_record_only
+    not_permitted_before_this_step:
+    - standalone_LOGIC_application_without_checked_core
+    - LOGIC_application_from_topic_label_alone
+    - MIP_application
+    - AHP_application
+    - article_generation
+    not_permitted_inside_this_step:
+    - rewriting_core_case_yaml
+    - redefining_PMS_operators_or_dependencies
+    - treating_LOGIC_constructs_as_PMS_Base
+    - treating_logic_as_truth_validator
+    - treating_logical_coherence_as_final_authority
+    - treating_non_innocence_as_guilt
+    - treating_attributability_as_blame
+    - treating_boundary_management_as_action_authority
+    - treating_LOGIC_output_as_MIP_or_AHP_authorization
+    - setting_final_decision_state_as_executed
+    - case_record_generation
+    - markdown_article_generation
+  template_io_contract:
+    required_inputs:
+    - PMS.yaml_read_completely
+    - case_packet
+    - checked_pre_analysis_yaml
+    - checked_core_case_application_yaml
+    - checked_addon_recommendation_gate_yaml
+    - selected_PMS_LOGIC_source_read
+    - pms_addon_logic_case_application_template
+    optional_inputs_allowed_only_if_marked:
+    - prior_human_notes
+    - prior_model_output_as_input_not_evidence
+    - source_documents_full_or_excerpted
+    - statistical_material_or_tables
+    - transcripts_or_correspondence
+    - reports_or_institutional_records
+    - counter_reading_material
+    - affected_role_contestation_material
+    forbidden_inputs_at_addon_stage:
+    - unchecked_core_case_as_anchor
+    - LOGIC_vocabulary_as_trigger_without_gate_record
+    - MIP_or_AHP_result_as_LOGIC_authority
+    - article_draft_as_case_evidence
+    - logical_coherence_as_truth_proof
+    - non_innocence_language_as_guilt_assignment
+    - source_presence_as_proof
+    - document_authority_as_action_authorization
+    - unselected_addon_source_as_authority
+    - MIP_output_as_prior_authority
+    - AHP_output_as_prior_authority
+    - case_record_as_case_evidence
+    - markdown_article_as_case_evidence
+    produced_outputs:
+    - completed_logic_addon_case_yaml
+    - LOGIC_overlay_scope_and_core_anchor_record
+    - LOGIC_tripartition_mapping
+    - boundary_condition_and_non_closure_record
+    - counter_reading_and_failure_mode_record
+    - source_and_claim_burden_record
+    - logic_addon_synthesis
+    - logic_addon_handoff
+    not_produced_outputs:
+    - PMS_Base_revision
+    - Core_case_rewrite
+    - truth_certification
+    - moral_verdict
+    - guilt_assignment
+    - diagnostic_verdict
+    - legal_or_forensic_conclusion
+    - person_ranking
+    - sanction_recommendation
+    - MIP_authorization
+    - AHP_authorization
+    - case_record
+    - markdown_article
+    - final_decision_execution
+  non_authority_boundary:
+    this_template_is:
+    - selected_LOGIC_addon_case_application_template
+    - bounded_overlay_application_structure
+    - post_checked_core_addon_output_candidate
+    this_template_is_not:
+    - PMS_Base
+    - PMS_Base_revision
+    - Core_case_analysis
+    - add_on_recommendation_gate
+    - truth_validator
+    - moral_verdict
+    - guilt_assignment
+    - action_authority
+    - MIP_gate
+    - AHP_gate
+    - MIP_application
+    - AHP_application
+    - case_record_generator
+    - markdown_generator
+    - final_decision_state
+    applies_globally: true
+  checked_prior_outputs_import:
+    checked_pre_analysis_import:
+      status: <available | partial | missing | unclear>
+      source_status: <imported | missing | unclear>
+      claim_ceiling: <imported | missing | unclear>
+      person_nearness_publicness_irreversibility_burden: <preserved | weak | missing | unclear>
+      rival_and_non_capture_status: <preserved | weak | missing | unclear>
+      correctability_and_reopening_status: <preserved | weak | missing | unclear>
+    checked_core_import:
+      status: <available | partial | missing | unclear>
+      core_sufficiency_status: <sufficient | sufficient_with_limits | unstable | insufficient | unclear>
+      operator_assignment_status: <preserved | weak | over_assigned | under_assigned | unclear>
+      dependency_status: <preserved | weak | violated | unclear>
+      claim_ceiling_effect: <preserved | lowered | exceeded | unclear>
+      core_handoff_status: <ready | ready_with_limits | incomplete | blocked | unclear>
+    checked_addon_gate_import:
+      gate_status: <selected_addon_recommended | scan_only | no_addon_recommended | rejected_as_over_application | unclear | other>
+      selected_addon: <LOGIC | none | unclear | other>
+      recommendation_limits_preserved: <yes | partial | no | unclear>
+    import_quality:
+      result: <usable | usable_with_limits | insufficient | requires_revision | blocked | unclear>
+      required_response: <continue_addon_application | revise_prior_output | suspend_addon_application | refuse_addon_application | redirect_addon_application | unclear>
+  checked_addon_gate_import:
+    source_record: checked pms_discipline_addon_recommendation_gate_template.yaml output
+    source_status: <available | partial | missing | unclear>
+    selected_addon_family: <LOGIC | other | none | unclear>
+    gate_result_status: <selected_addon_recommended | scan_only | no_addon_recommended | rejected_as_over_application | revise_before_addon | suspend_before_addon | refuse_before_addon | redirect_before_addon | unclear>
+    recommendation_strength: <none | weak | moderate | strong | unclear>
+    recommendation_basis: <Import operator-load, risk-shape, claim-shape, boundary-management, non-closure, responsibility-readability,
+      non-innocence, or logic-specific basis. Do not use logic vocabulary, moral vocabulary, or formal tone alone as trigger.>
+    doubts_or_limits:
+    - <doubt or none>
+    non_trigger_conditions_checked:
+    - reasoning_vocabulary_not_LOGIC_trigger
+    - formal_tone_not_LOGIC_trigger
+    - moral_vocabulary_not_LOGIC_authorization
+    - coherence_not_truth_validation
+    - non_innocence_not_guilt_assignment
+    required_action_before_addon_application: <none | revise_core | downgrade_claim | suspend | refuse | redirect | human_review | unclear>
+  selected_logic_source_import:
+    source_file: PMS-LOGIC.yaml
+    source_read_status: <read_completely | partial | missing | unclear>
+    source_family_matches_gate_selection: <true | false | unclear>
+    source_role: selected LOGIC add-on reference for this application only
+    source_does_not_override:
+    - PMS.yaml
+    - checked_pre_analysis_yaml
+    - checked_core_case_application_yaml
+    - checked_addon_recommendation_gate_yaml
+    - case_packet_source_status
+    - claim_ceiling
+  no_gate_redecision_boundary:
+    gate_redecision_performed_here: false
+    selected_addon_changed_here: false
+    unselected_addons_applied_here: false
+    MIP_or_AHP_gate_performed_here: false
+    note: This step applies the already selected LOGIC add-on only. It does not re-run the Add-on Gate and does not decide
+      MIP or AHP.
+  logic_not_verdict_boundary:
+    LOGIC_result_is_truth_validation: false
+    LOGIC_result_is_moral_verdict: false
+    LOGIC_result_assigns_guilt: false
+    LOGIC_result_authorizes_action: false
+    LOGIC_result_authorizes_MIP_or_AHP: false
+    note: LOGIC may clarify boundary management, non-closure, attributability, non-innocence, and failure-mode constraints.
+      It does not settle truth, morality, guilt, action, or later-layer authority.
+  addon_metadata:
+    model_name: PMS–LOGIC Application Profile
+    model_short: PMS-LOGIC
+    status: draft
+    last_updated: '2026-04-06'
+    depends_on:
+      model_name: Praxeological Meta-Structure
+      model_short: PMS
+      schema_version: PMS_1.3
+    paper_source:
+      title: PMS–LOGIC
+      subtitle: Pre-Moral Foundations, Logical Limits, and Post-Moral Effects
+      source_file: PMS-LOGIC.md
+    description: 'PMS-LOGIC is an application profile / overlay for PMS. It formalizes pre-moral justification, logical boundary
+      management, and post-moral effects without redefining PMS operators, dependencies, derived axes, or guardrails.
+
+      '
+  addon_relationship_to_core:
+    status: subordinate_to_completed_pms_core_case
+    core_case_status: already_completed
+    core_case_source: <completed PMS Core case YAML>
+    rule: 'This LOGIC block is appended to or integrated into an already completed PMS Core v1.3 case artefact. It does not
+      rewrite the core pass, redefine PMS operators, alter PMS dependencies, change derived structures, or treat LOGIC constructs
+      as PMS Base.
+
+      '
+    preserved_core_elements:
+    - PMS operator inventory Δ, ∇, □, Λ, Α, Ω, Θ, Φ, Χ, Σ, Ψ
+    - PMS operator order and dependency hygiene
+    - PMS derived structures as derived, not primitive
+    - PMS application guardrails
+    - PMS non-diagnostic and non-person-ranking discipline
+    - PMS non-capture and rival-openness discipline
+    integration_rule: 'The LOGIC overlay may add boundary, non-closure, attribution, non-innocence, reduced-signature, and
+      failure-mode visibility. It must not modify the already completed PMS Core case except where a direct PMS.yaml inconsistency
+      has been separately identified.
+
+      '
+  operator_reference:
+    source: PMS.yaml
+    schema_version: PMS_1.3
+    fixed_operator_set:
+    - Δ
+    - ∇
+    - □
+    - Λ
+    - Α
+    - Ω
+    - Θ
+    - Φ
+    - Χ
+    - Σ
+    - Ψ
+    dependency_hygiene_note: 'Any LOGIC reduced signature is shorthand only. Reduced signatures do not replace PMS dependencies.
+      In particular, any use of Χ, Σ, Φ, Θ, Ω, Λ, or Ψ must remain dependency-respecting according to PMS.yaml.
+
+      '
+    no_new_operators: true
+    no_dependency_change: true
+    no_base_revision: true
+  nested_overlay_policy:
+    overlays: {}
+    no_amplification_overlay: true
+    rule: 'PMS-LOGIC introduces no amplification overlays beyond reduced signatures, structural failure modes, and paper-specific
+      non-operator constructs. It remains an overlay/application profile only.
+
+      '
+  validity_gate:
+    status: <passed | failed | needs_review>
+    gate_type: PMS_application_only
+    requires:
+      Distance_Chi:
+        id: Χ
+        name: Distance
+        status: <maintained | compromised | needs_review>
+        meaning: 'A meta-position and stop-capability are maintained. The LOGIC overlay does not fuse the case into verdict,
+          authority, enforcement, certainty, moral demand, or person-level attribution.
+
+          '
+      reversibility:
+        status: <maintained | compromised | needs_review>
+        meaning: 'The LOGIC reading remains scene-bound or case-type-bound, revisable, and configuration-specific. It does
+          not generate global person labels or irreversible interpretive claims.
+
+          '
+      Dignity_in_Practice_D:
+        id: D
+        status: <maintained | compromised | needs_review>
+        meaning: 'The LOGIC overlay does not shame, rank, humiliate, morally evaluate, or ontologically assess persons or
+          groups. It remains restricted to structural attribution and boundary handling.
+
+          '
+    gate_result: <valid_as_logic_overlay_application | invalid_as_logic_overlay_application | requires_revision>
+  logic_addon_scope:
+    scope_guardrails:
+    - Non-metaphysical, non-clinical, non-diagnostic.
+    - No person-level judgments, no moral evaluation, no sanction logic.
+    - Focus on structures of praxis, not right or good morality.
+    - 'Audience: analysis of praxis and structure, not action guidance or decision rules.'
+    - No optimization claim, no superior-action claim, no better-praxis claim.
+    may_add_visibility_to:
+    - non-closure
+    - closure-drive
+    - logical boundary management
+    - responsibility as attributability
+    - non-innocence without guilt
+    - effective capacity
+    - moral readability as post-hoc interpretive field
+    - failure-mode constraints
+    - LOGIC drift risks
+    - counter-readings
+    must_not_do:
+    - derive ought from being
+    - introduce norms, values, duties, prescriptions, or moral rules
+    - treat morality as a PMS operator
+    - convert responsibility into blame
+    - convert non-innocence into guilt
+    - convert logical coherence into final authority
+    - convert Σ into totalization
+    - convert Ω into justificatory authority
+    - convert Λ into defect, ignorance, nihilism, or metaphysical pointer
+    - claim PMS Base output check
+  tripartition:
+    pre_moral_justification:
+      label: Pre-moral level of justification
+      applicability: <active | weak | not_applicable | needs_review>
+      operators_involved:
+      - Δ
+      - ∇
+      - □
+      - Λ
+      - Α
+      claim: 'This level identifies the structural conditions under which the case becomes praxeologically legible before
+        evaluative or normative interpretation appears.
+
+        '
+      case_application: '<Explain how the case shows structural differentiation, directional tension, framing, meaningful
+        absence, or stabilization before any normative or evaluative layer is introduced.>
+
+        '
+      no_normativity_introduced: true
+      notes:
+      - No norms, values, duties, prescriptions, or moral commands are introduced.
+      - Patterns may stabilize without intention, moral assessment, or authority.
+    logical_boundary_management:
+      label: Logical level of ordering and boundary management
+      applicability: <active | weak | not_applicable | needs_review>
+      dominant_operators:
+      - □
+      - Λ
+      - Χ
+      - Σ
+      dependency_note: 'The listed operators are dominant boundary-management operators. Their PMS dependencies remain intact;
+        especially Χ and Σ must not be treated as dependency-free shorthand.
+
+        '
+      claim: 'Logic functions as an ordering and integration instrument. It may organize coherence within a frame, but it
+        does not become final authority or deliver ultimate closure where Λ persists.
+
+        '
+      case_application: '<Explain how the case involves closure pressure, boundary management, non-closure, consistency without
+        final closure, or integration without totalization.>
+
+        '
+      aphorism: Logic is the beginning of everything — not the end.
+      boundary_result: '<State where the case reaches a logical boundary, how Λ is carried, and how Χ prevents forced closure
+        or authority-smuggling.>
+
+        '
+    post_moral_effects:
+      label: Post-moral level of effects
+      applicability: <active | weak | not_applicable | needs_review>
+      operators_involved:
+      - Ω
+      - Θ
+      - Ψ
+      - Χ
+      claim: 'Effects become morally readable once praxis unfolds under asymmetry and irreversible time, while responsibility
+        is reconstructed as attributability rather than as an ought.
+
+        '
+      case_application: '<Explain whether the case produces responsibility-readability, consequence-attribution, exposure,
+        non-innocence, or post-hoc moral interpretability without deriving a normative demand.>
+
+        '
+      core_formula: Pre-moral in justification, logical in boundary management, post-moral in effect.
+      no_ought_derived: true
+  key_claims:
+    C1_non_closure_as_strength:
+      status: <active | weak | not_applicable | needs_review>
+      claim: 'Non-closure is treated as a structural strength rather than a mere deficiency. Persistent Λ prevents logical
+        systems from compensating uncertainty with dogma or substitute narratives.
+
+        '
+      case_application: '<State how the case carries non-closure instead of treating it as failure, ignorance, or defect.>
+
+        '
+    C2_morality_as_readability_field:
+      status: <active | weak | not_applicable | needs_review>
+      claim: 'Morality is not reconstructed as an operator, but as a readability field under constellations involving Ω, Θ,
+        Λ, and Ψ.
+
+        '
+      case_application: '<State whether and how the case becomes morally readable without introducing morality as PMS operator
+        or normative system.>
+
+        '
+    C3_responsibility_as_attribution_not_prescription:
+      status: <active | weak | not_applicable | needs_review>
+      claim: 'What everyday language may call obligation is reconstructed as attribution of consequences, not prescriptive
+        demand.
+
+        '
+      case_application: '<State whether the case involves consequence-attribution without deriving duty, command, blame, or
+        sanction.>
+
+        '
+    C4_apparent_norms_as_failure_mode_constraints:
+      status: <active | weak | not_applicable | needs_review>
+      claim: 'Apparent norms can be reconstructed as structural failure-mode constraints stabilized by self-binding, without
+        external authority or prescriptive ought.
+
+        '
+      case_application: '<State whether the case contains apparent norms that are better read as structural constraints or
+        failure-mode boundaries.>
+
+        '
+    C5_logic_as_ordering_tool_not_authority:
+      status: <active | weak | not_applicable | needs_review>
+      claim: 'Logic remains important for consistency and integration, but becomes structurally unstable when it attempts
+        final authority or closure beyond what the frame can deliver under persistent Λ.
+
+        '
+      case_application: '<State whether the case involves logic as tool, closure drive, or authority-risk.>
+
+        '
+  source_boundary_formulas:
+    status: <active | weak | not_applicable | needs_review>
+    no_norms_yet_no_innocence: 'No norms are derived, yet irreversible praxis under Ω, Θ, Λ, and Ψ may remain structurally
+      non-innocent. This is attributability, not guilt or blame.
+
+      '
+    no_authority_yet_no_arbitrariness: 'LOGIC is not final authority, but explicit frames, asymmetry, temporality, and
+      self-binding prevent arbitrary flattening.
+
+      '
+    no_closure_yet_no_collapse: 'Persistent Λ is carried as non-closure without collapsing into nihilism, metaphysical
+      compensation, or forced Σ-totalization.
+
+      '
+    between_indifference_and_prescription: 'The LOGIC reading may show that a configuration is not irrelevant, but it
+      must not turn that readability into prescription.
+
+      '
+    case_application: '<State which source-boundary formula, if any, is needed to prevent LOGIC overreach in this case.>
+
+      '
+  responsibility_readability_chain:
+    status: <active | weak | not_applicable | needs_review>
+    source: PMS-LOGIC.yaml:paper_lens.operator_sequences.responsibility_readability_chain
+    chain_type: readability_chain_not_dependency_definition
+    sequence:
+    - Δ
+    - ∇
+    - □
+    - Λ
+    - Α
+    - Ω
+    - Θ
+    - Φ
+    - Χ
+    - Σ
+    - Ψ
+    note: 'This sequence is used as a LOGIC readability chain for responsibility, non-closure, and moral-readability analysis.
+      It is not a new PMS dependency definition; PMS.yaml dependencies remain authoritative.
+
+      '
+    case_application: '<State whether the full LOGIC readability chain is active in the case, only partially active, or not
+      applicable.>
+
+      '
+  theses_and_definitions:
+    intermediate_thesis:
+      label: Boundary point of logic
+      quote: Logic does not end in silence, but in a structurally sustainable non-assertion.
+      operator_reading: 'Non-event Λ, stabilized by Α within □, may mark a disciplined stopping point for logic rather than
+        failure or negation.
+
+        '
+      case_application: '<State the disciplined stopping point of logic in this case, if present.>
+
+        '
+    central_thesis:
+      quote: From effective capacity follows structural responsibility, not obligation.
+      operator_reading:
+        responsibility_requires:
+        - effective capacity within □
+        - irreversibility under Θ
+        - distribution gradients under Ω
+        - attributability continuity via Ψ
+      case_application: '<State whether effective capacity is present, absent, weak, or under-specified, and whether responsibility-readability
+        follows.>
+
+        '
+    conclusion_thesis:
+      quote: 'Logic does not fail as a tool; it becomes structurally unstable when it begins to function as authority.
+
+        '
+      case_application: '<State whether the case shows logic remaining a tool or drifting toward authority.>
+
+        '
+  boundary_conditions:
+    BC_EFFECTIVE_CAPACITY:
+      label: Absence of effective capacity
+      status: <satisfied | failed | absent | under_specified | not_applicable>
+      definition: 'Responsibility presupposes effective, frame-bound capacity within □ and temporal availability under Θ.
+        Where access, means, authority, or the relevant temporal window are structurally absent, no responsibility attribution
+        arises even if outcomes later appear significant.
+
+        '
+      calibration_note: 'PMS-LOGIC specifies the structural form of attributable capacity, but not every concrete threshold
+        of sufficiency in advance.
+
+        '
+      case_application: '<State whether effective capacity is present, absent, weak, or under-specified in this case.>
+
+        '
+  logic_non_performativity_and_calibration:
+    status: <active | weak | not_applicable | needs_review>
+    non_performativity_rule: 'PMS-LOGIC does not claim to produce better praxis, superior action, or normative guidance.
+      It may orient by constraining overreach, preserving non-closure, and making attributability readable.
+
+      '
+    effective_capacity_calibration: 'Effective capacity is frame-bound and temporally available capacity, not abstract
+      possibility. Weak, contested, missing, or closed-window capacity must lower or suspend responsibility-readability claims.
+
+      '
+    no_claim_upgrade_from_orientation: 'A useful LOGIC orientation does not upgrade source status, prove truth, settle morality,
+      authorize action, or validate the case.
+
+      '
+    case_application: '<State how non-performativity and effective-capacity calibration constrain this LOGIC output.>
+
+      '
+  non_operator_constructs:
+    logic_paper_specific:
+      status: <active | weak | not_applicable | needs_review>
+      is_operator: false
+      definition: 'Logic is a procedural discipline of consistency, derivation, and closure-drive that meets a structural
+        boundary at Λ under □.
+
+        '
+      operator_touchpoints:
+      - Σ
+      - Λ
+      - □
+      - ∇
+      - Χ
+      case_application: '<Explain how logic functions in the case as ordering, closure-drive, boundary management, or authority-risk.>
+
+        '
+    morality_readability_field:
+      status: <active | weak | not_applicable | needs_review>
+      is_operator: false
+      definition: 'Morality is the readability of responsibility that emerges post hoc from irreversible praxis under structural
+        conditions. No norms, values, or duties are introduced.
+
+        '
+      minimal_operator_basis:
+      - Ω
+      - Θ
+      - Λ
+      - Ψ
+      case_application: '<Explain whether moral readability emerges in the case, or why it does not.>
+
+        '
+    responsibility_vs_ought:
+      status: <active | weak | not_applicable | needs_review>
+      is_operator: false
+      responsibility: Attribution of consequences.
+      ought: Prescriptive demand; explicitly out of scope.
+      pms_logic_position: 'PMS-LOGIC operates on responsibility-readability and attributability, not on ought-statements.
+
+        '
+      case_application: '<Distinguish consequence-attribution from prescription in this case.>
+
+        '
+    potential_effective_capacity:
+      status: <active | weak | absent | under_specified | not_applicable>
+      is_operator: false
+      definition: 'Effective capacity means capacity within a frame □ plus temporal availability Θ. It introduces exposure
+        to consequences, not duty.
+
+        '
+      reduced_basis:
+      - □
+      - Θ
+      case_application: '<State whether effective capacity is present, absent, under-specified, or irrelevant in the case.>
+
+        '
+    non_innocence:
+      status: <active | weak | absent | under_specified | not_applicable>
+      is_operator: false
+      definition: 'Non-innocence is the structural condition in which consequences become attributable even without intent,
+        command, guilt, or blame.
+
+        '
+      basis:
+      - Ω
+      - Θ
+      - Λ
+      - □
+      - Ψ
+      case_application: '<State whether non-action, omission, or unresolved absence becomes non-neutral in the case.>
+
+        '
+    apparent_norms_as_constraints:
+      status: <active | weak | not_applicable | needs_review>
+      is_operator: false
+      definition: 'Apparent norms are reconstructed as PMS-internal self-binding constraints that prevent structural failure
+        modes under irreversible, asymmetric conditions. They are not commandments.
+
+        '
+      basis:
+      - Χ
+      - Σ
+      - Ψ
+      - Λ
+      - □
+      - Ω
+      - Θ
+      case_application: '<State whether apparent normative pressure is better reconstructed as structural constraint.>
+
+        '
+  reduced_signatures:
+    PRE_MORAL_justification:
+      label: Pre-moral level of justification
+      applicability: <active | weak | not_applicable | needs_review>
+      operators:
+      - Δ
+      - ∇
+      - □
+      - Λ
+      - Α
+      reduced: true
+      note: Structural preconditions of praxis; no normativity introduced.
+      case_application: '<Apply or reject this reduced signature for the case.>
+
+        '
+    LOGIC_boundary_management:
+      label: Logical boundary management
+      applicability: <active | weak | not_applicable | needs_review>
+      operators:
+      - □
+      - Λ
+      - Χ
+      - Σ
+      reduced: true
+      note: 'Ordering and integration under non-closure; Χ prevents dogmatic Σ-totalization.
+
+        '
+      dependency_hygiene: 'This is reduced shorthand only. PMS dependencies remain authoritative.
+
+        '
+      case_application: '<Apply or reject this reduced signature for the case.>
+
+        '
+    POST_MORAL_effects:
+      label: Post-moral effects
+      applicability: <active | weak | not_applicable | needs_review>
+      operators:
+      - Ω
+      - Θ
+      - Ψ
+      reduced: true
+      note: 'Irreversible consequence attribution under asymmetry and time; no norms derived.
+
+        '
+      case_application: '<Apply or reject this reduced signature for the case.>
+
+        '
+    MORAL_READABILITY_min:
+      label: Moral readability field
+      applicability: <active | weak | not_applicable | needs_review>
+      operators:
+      - Ω
+      - Θ
+      - Λ
+      - Ψ
+      reduced: true
+      note: 'Morality as interpretive field generated post hoc; not an operator.
+
+        '
+      case_application: '<Apply or reject this reduced signature for the case.>
+
+        '
+    POTENTIAL_effective:
+      label: Effective potential / capacity
+      applicability: <active | weak | absent | under_specified | not_applicable>
+      operators:
+      - □
+      - Θ
+      reduced: true
+      note: 'Situated capacity plus temporal availability; generates exposure, not duty.
+
+        '
+      case_application: '<Apply or reject this reduced signature for the case.>
+
+        '
+    NON_CLOSURE_stability:
+      label: Sustainable non-closure
+      applicability: <active | weak | not_applicable | needs_review>
+      operators:
+      - Δ
+      - □
+      - Λ
+      - Α
+      reduced: true
+      note: 'Openness carried within frame; attractor stabilizes non-substitution.
+
+        '
+      case_application: '<Apply or reject this reduced signature for the case.>
+
+        '
+    HUME_KNOT_reconstruction:
+      label: Hume knot reconstruction
+      applicability: <active | weak | not_applicable | needs_review>
+      operators:
+      - □
+      - Ω
+      - Θ
+      - Λ
+      - Ψ
+      reduced: true
+      note: 'Rewrites potential obligates into non-innocence and attributable consequence; preserves the is/ought boundary
+        without crossing it.
+
+        '
+      case_application: '<Apply or reject this reduced signature for the case.>
+
+        '
+  failure_mode_constraints:
+    note: 'The following are frame-dependent PMS-internal self-binding constraints. They are not universal prescriptions.
+      They name conditions for coherence and non-destructive praxis under non-closure.
+
+      '
+    items:
+    - id: FMC1
+      label: A boundary that cannot be carried becomes structurally unstable.
+      applicability: <active | weak | not_applicable | needs_review>
+      operator_basis:
+      - Δ
+      - Ψ
+      meaning: 'Marking or occupying a boundary generates exposure. If the consequences cannot be sustained across time, the
+        boundary becomes destructive rather than orienting.
+
+        '
+      failure_mode: Boundary inflation, authority overreach, collapse into dogma or abandonment.
+      related_drifts:
+      - dogmatism_sigma_totalization
+      - authority_capture_omega_inflation
+      case_application: '<State whether this constraint applies to the case.>
+
+        '
+    - id: FMC2
+      label: Forced closure where Λ persists produces structural instability.
+      applicability: <active | weak | not_applicable | needs_review>
+      operator_basis:
+      - Λ
+      - □
+      - Χ
+      meaning: 'Where a structure does not yield final explanation, forced closure introduces substitute narratives such as
+        dogma, myth, metaphysical compensation, or false certainty.
+
+        '
+      failure_mode: Dogmatization, metaphysical compensation, false certainty.
+      related_drifts:
+      - dogmatism_sigma_totalization
+      case_application: '<State whether this constraint applies to the case.>
+
+        '
+    - id: FMC3
+      label: Explanatory power converted into sense-making authority causes structural overreach.
+      applicability: <active | weak | not_applicable | needs_review>
+      operator_basis:
+      - ∇
+      - Σ
+      - □
+      - Χ
+      meaning: 'Explanatory success does not confer authority over meaning. Integration is coordination, not domination; Χ
+        prevents closure-drive from laundering authority through explanation.
+
+        '
+      failure_mode: Epistemic domination, technocratic moralism, authority laundering through explanation.
+      related_drifts:
+      - authority_capture_omega_inflation
+      - technocratic_reduction_frame_overconstraint
+      case_application: '<State whether this constraint applies to the case.>
+
+        '
+    - id: FMC4
+      label: Where proximity generates power, viable praxis requires maintained distance.
+      applicability: <active | weak | not_applicable | needs_review>
+      operator_basis:
+      - Χ
+      - Ω
+      meaning: 'Closeness increases influence; where influence increases, unregulated proximity becomes power. Χ is a condition
+        for dignified handling of power.
+
+        '
+      failure_mode: Manipulation, coercive intimacy, moral overreach.
+      related_drifts:
+      - authority_capture_omega_inflation
+      - moralism_pseudo_ought_injection
+      case_application: '<State whether this constraint applies to the case.>
+
+        '
+    - id: FMC5
+      label: Stable self-binding takes the form of restraint rather than assertion.
+      applicability: <active | weak | not_applicable | needs_review>
+      operator_basis:
+      - Ψ
+      - Χ
+      - Λ
+      meaning: 'Assertions seek closure and authority; restraint preserves openness. Self-binding to restraint stabilizes
+        praxis without commanding others.
+
+        '
+      failure_mode: Authoritarian certainty, moral exhibitionism, escalation dynamics.
+      related_drifts:
+      - dogmatism_sigma_totalization
+      - moralism_pseudo_ought_injection
+      case_application: '<State whether this constraint applies to the case.>
+
+        '
+  drift_catalogue:
+    note: 'LOGIC drift classes describe structural operator distortions. They are not personal traits, diagnoses, moral verdicts,
+      or enforcement categories.
+
+      '
+    dogmatism_sigma_totalization:
+      label: Dogmatism / Σ-totalization
+      applicability: <active | risk | not_applicable | needs_review>
+      distorted_operators:
+      - Σ
+      mechanism: 'Integration is forced into total closure, treating coherence as final truth rather than provisional coordination.
+        Λ is denied instead of carried.
+
+        '
+      symptoms:
+      - claims_of_ultimate_explanation
+      - immunization_against_revision
+      - replacement_of_structural_coherence_with_certainty
+      result: 'Brittle structure under novelty; non-closure treated as error rather than constraint.
+
+        '
+      case_application: '<State whether this drift is active, a risk, or not applicable.>
+
+        '
+    authority_capture_omega_inflation:
+      label: Authority capture / Ω-inflation
+      applicability: <active | risk | not_applicable | needs_review>
+      distorted_operators:
+      - Ω
+      mechanism: 'Asymmetry is converted from descriptive condition into justificatory principle. Power gradients are mistaken
+        for epistemic or moral authority.
+
+        '
+      symptoms:
+      - because_I_can_becomes_because_I_am_right
+      - suppression_of_Χ
+      - obscured_responsibility_pathways
+      result: 'Domination may become masked as necessity; responsibility flows upward and becomes opaque.
+
+        '
+      case_application: '<State whether this drift is active, a risk, or not applicable.>
+
+        '
+    moralism_pseudo_ought_injection:
+      label: Moralism / pseudo-ought injection
+      applicability: <active | risk | not_applicable | needs_review>
+      distorted_operators:
+      - Ψ
+      - Χ
+      mechanism: 'Responsibility is retranslated into obligation. Self-binding is replaced by compliance-seeking enforcement.
+        Non-innocence is moralized into blame.
+
+        '
+      symptoms:
+      - should_or_must_reintroduced_as_if_structurally_authorized
+      - attribution_becomes_accusation
+      - praxis_judged_instead_of_reconstructed
+      result: 'Covert normativity is reintroduced; responsibility collapses into enforcement.
+
+        '
+      case_application: '<State whether this drift is active, a risk, or not applicable.>
+
+        '
+    nihilism_lambda_suppression:
+      label: Nihilism / Λ-suppression
+      applicability: <active | risk | not_applicable | needs_review>
+      distorted_operators:
+      - Λ
+      mechanism: 'Non-events, omissions, or restraints are treated as irrelevant. The structural significance of omission
+        within frames under time is erased.
+
+        '
+      symptoms:
+      - nothing_happened_so_nothing_matters
+      - denial_of_omission_effects
+      - flattening_of_temporal_consequence
+      result: 'False innocence; responsibility dissolves through denial of structural impact.
+
+        '
+      case_application: '<State whether this drift is active, a risk, or not applicable.>
+
+        '
+    technocratic_reduction_frame_overconstraint:
+      label: Technocratic reduction / □-overconstraint
+      applicability: <active | risk | not_applicable | needs_review>
+      distorted_operators:
+      - □
+      mechanism: 'Frames are treated as exhaustive representations of reality. What is unmodeled is dismissed or misrecognized
+        as Λ.
+
+        '
+      symptoms:
+      - overconfidence_in_models_or_metrics
+      - ignoring_unmodeled_effects
+      - frame_lock_in
+      result: 'Blind spots are mistaken for non-existence; systemic fragility increases.
+
+        '
+      case_application: '<State whether this drift is active, a risk, or not applicable.>
+
+        '
+  logic_derived_axes_projection:
+    note: 'This projection is a PMS-LOGIC paper-internal structural localization. It is not a measurement of objective quality
+      and not a person evaluation.
+
+      '
+    Awareness_A:
+      structural_level: <high | medium | low | not_applicable | needs_review>
+      operator_basis:
+      - Δ
+      - □
+      - Θ
+      effect_notes:
+      - Sensitivity to limits and conditions of praxis.
+      - Perception of where explanation reaches a stopping point and responsibility becomes structurally relevant.
+      case_application: '<State how LOGIC affects Awareness_A in this case.>
+
+        '
+    Coherence_C:
+      structural_level: <high | medium | low | not_applicable | needs_review>
+      operator_basis:
+      - ∇
+      - □
+      - Λ
+      - Θ
+      effect_notes:
+      - Coherence maintained despite non-closure.
+      - Stability from integration of absence, not closure.
+      case_application: '<State how LOGIC affects Coherence_C in this case.>
+
+        '
+    Responsibility_R:
+      structural_level: <high | medium | low | not_applicable | needs_review>
+      operator_basis:
+      - Ω
+      - Θ
+      - Φ
+      - Ψ
+      effect_notes:
+      - Responsibility without moral demand.
+      - Accountability without sanction.
+      - Exposure accepted rather than displaced.
+      - Responsibility is structurally attributable rather than obligatory.
+      boundary_condition_ref: BC_EFFECTIVE_CAPACITY
+      case_application: '<State how LOGIC affects Responsibility_R in this case.>
+
+        '
+    Action_E:
+      structural_level: <constrained | active | weak | not_applicable | needs_review>
+      operator_basis:
+      - ∇
+      - Θ
+      - Σ
+      - Χ
+      effect_notes:
+      - Action slowed or filtered.
+      - Preference for restraint over intervention.
+      - Avoidance of irreversible overreach under asymmetry amplification.
+      case_application: '<State how LOGIC affects Action_E in this case.>
+
+        '
+    Dignity_in_Practice_D:
+      structural_level: <stabilizing | active | weak | not_applicable | needs_review>
+      operator_basis:
+      - Ω
+      - Χ
+      - Ψ
+      effect_notes:
+      - Protection of vulnerable positions without paternalism.
+      - Power exercised without domination.
+      - Self-binding as stable continuity without norm derivation.
+      case_application: '<State how LOGIC constrains Dignity_in_Practice_D in this case.>
+
+        '
+  counter_readings:
+    note: 'Counter-readings are interpretive risks. PMS-LOGIC responds through structural clarification rather than polemic.
+
+      '
+    items:
+    - id: D1
+      reading: This is just ethics in disguise.
+      relevance: <active | weak | not_applicable | needs_review>
+      pms_response: 'No PMS operator generates values, norms, or prescriptions. What appears ethical is the interpretability
+        of responsibility under Ω, Θ, Λ, and Ψ.
+
+        '
+      case_application: '<State whether this counter-reading threatens the case and how the LOGIC overlay avoids it.>
+
+        '
+    - id: D2
+      reading: This collapses into relativism.
+      relevance: <active | weak | not_applicable | needs_review>
+      pms_response: 'Frames are explicit scope constraints, and reversibility is required. Structural attribution under Ω,
+        Θ, and Λ is not arbitrary preference.
+
+        '
+      case_application: '<State whether this counter-reading threatens the case.>
+
+        '
+    - id: D3
+      reading: This is nihilism with extra steps.
+      relevance: <active | weak | not_applicable | needs_review>
+      pms_response: 'Λ is not meaninglessness but structured absence. Omission and non-action remain relevant under Θ and
+        Ω.
+
+        '
+      case_application: '<State whether this counter-reading threatens the case.>
+
+        '
+    - id: D4
+      reading: This is a hidden theological argument.
+      relevance: <active | weak | not_applicable | needs_review>
+      pms_response: 'PMS-LOGIC carries non-closure within □ without metaphysical filling. No external ground, lawgiver, or
+        ultimate justification is introduced.
+
+        '
+      case_application: '<State whether this counter-reading threatens the case.>
+
+        '
+    - id: D5
+      reading: This makes responsibility unfair.
+      relevance: <active | weak | not_applicable | needs_review>
+      pms_response: 'PMS does not claim fairness. It models attribution, not moral desert. Responsibility is structural, not
+        a reward or punishment scheme. Absence of effective capacity implies no responsibility.
+
+        '
+      case_application: '<State whether this counter-reading threatens the case.>
+
+        '
+    - id: D6
+      reading: This cannot guide action.
+      relevance: <active | weak | not_applicable | needs_review>
+      pms_response: 'PMS-LOGIC does not instruct; it orients by constraining overreach. Guidance is replaced by orientation
+        through Χ, Σ, and Ψ.
+
+        '
+      case_application: '<State whether this counter-reading threatens the case.>
+
+        '
+    - id: D7
+      reading: This wins by translation, not necessarily by final superiority.
+      relevance: <active | weak | not_applicable | needs_review>
+      pms_response: 'Translation success is not final settlement. The relevant test is whether the grammar preserves differentiating
+        force under pressure.
+
+        '
+      case_application: '<State how the case preserves rival readings and non-capture.>
+
+        '
+    - id: D8
+      reading: Relation to adjacent frameworks.
+      relevance: <active | weak | not_applicable | needs_review>
+      pms_response: 'PMS-LOGIC is not virtue ethics, pragmatism, or systems ethics. It reconstructs responsibility structurally
+        under asymmetry, temporality, and non-closure without ethical evaluation or normative optimization.
+
+        '
+      case_application: '<State whether adjacent frameworks remain open for comparison.>
+
+        '
+  example_suite_schema_alignment:
+    status: reference_only_not_used_as_case_output
+    source: PMS-LOGIC.yaml:example_suite_schema
+    required_blocks_reference:
+    - Minimal vignette (scene-bound)
+    - Why this is repo-useful (structural focus)
+    - Operator mapping (reduced signature)
+    - Tripartition tag (pre-moral / logical / post-moral)
+    - Typical drift markers
+    - Failure-mode constraint reference
+    - Validity gate reminder (Χ + reversibility + D)
+    - Readable structural closure
+    discipline_case_policy: 'DISCIPLINE cases do not generate a separate PMS-LOGIC example suite. The schema is retained as
+      a reference for scene-bound, non-instructional rendering discipline only.
+
+      '
+  glossary_alignment:
+    Attributability:
+      definition: Structural assignability of consequences to an agent or trajectory.
+      case_relevance: <active | weak | not_applicable | needs_review>
+    Closure_Non_Closure_Lambda:
+      definition: Closure refers to final explanation or justification; Λ marks the structural impossibility of such finality.
+      case_relevance: <active | weak | not_applicable | needs_review>
+    Logic_paper_specific:
+      definition: Discipline of consistency and derivation operating within frames; tool, not final authority.
+      case_relevance: <active | weak | not_applicable | needs_review>
+    Moral_Morality:
+      definition: Interpretability of praxis once responsibility is structurally attributable under Ω, Θ, and Λ.
+      case_relevance: <active | weak | not_applicable | needs_review>
+    Norm_Ought:
+      definition: A prescriptive demand; no PMS operator generates norms or ought-statements.
+      case_relevance: <active | weak | not_applicable | needs_review>
+    Non_Innocence:
+      definition: Consequences are attributable even without intent or command; distinct from guilt or blame.
+      case_relevance: <active | weak | absent | under_specified | not_applicable>
+    Potential_Capacity:
+      definition: Effective ability to influence outcomes within □ and over Θ; exposure to consequences, not obligation.
+      case_relevance: <active | weak | absent | under_specified | not_applicable>
+    Responsibility:
+      definition: Attribution of consequences to a self-bound trajectory under Ω and Θ; not equivalent to duty.
+      case_relevance: <active | weak | not_applicable | needs_review>
+    Self_Binding_Psi:
+      definition: Commitment to integrated structures over time; accountability without external authority or moral command.
+      case_relevance: <active | weak | not_applicable | needs_review>
+    Structural_Failure_Mode:
+      definition: Operator distortion leading to structural instability; not clinical or moral label.
+      case_relevance: <active | risk | not_applicable | needs_review>
+  source_and_claim_burden_discipline:
+    source_status_required: true
+    rule: 'LOGIC application may structure boundary, attribution, non-closure, reduced-signature, and failure-mode relations
+      only within the source and claim limits inherited from the pre-analysis and checked Core case. It must not raise source
+      status or claim strength merely because the LOGIC overlay is coherent.
+
+      '
+    required_checks:
+    - id: source_status_preserved
+      check: Does the LOGIC overlay preserve the source status imported from the pre-analysis/Core record?
+    - id: claim_ceiling_preserved
+      check: Does LOGIC avoid strengthening the claim beyond the checked Core claim ceiling?
+    - id: logical_coherence_not_truth_proof
+      check: Does the overlay avoid treating coherence, consistency, or boundary clarity as factual output check?
+    - id: non_innocence_not_guilt
+      check: Does the overlay preserve non-innocence as structural readability rather than guilt assignment?
+    - id: attributability_not_blame
+      check: Does the overlay keep responsibility-readability separate from blame, sanction, or moral verdict?
+    - id: counter_readings_preserved
+      check: Are rival/counter-readings preserved rather than absorbed into LOGIC closure?
+    - id: non_closure_preserved
+      check: Is persistent Λ/non-closure marked without being converted into defect, nihilism, or final authority?
+    claim_strengthening_requires:
+    - new external source support
+    - explicit human review where person-near/public/institutional/technical use is intended
+    - updated claim boundary in later Case Record
+    forbidden_claim_upgrades:
+    - LOGIC_applied_therefore_claim_checked
+    - logical_boundary_identified_therefore_case_settled
+    - non_innocence_identified_therefore_actor_guilty
+    - attributability_identified_therefore_person_blameworthy
+    - coherence_identified_therefore_truth_confirmed
+    - LOGIC_output_authorizes_MIP_or_AHP
+  logic_addon_quality_checks:
+    status: <passed | failed | pass_with_minor_notes | needs_review>
+    checks:
+      pms_base_preserved: <true | false>
+      core_case_preserved: <true | false>
+      no_new_pms_operators: <true | false>
+      no_dependency_redefinition: <true | false>
+      reduced_signatures_marked_as_shorthand: <true | false>
+      no_ought_derived: <true | false>
+      no_norms_or_prescriptions_introduced: <true | false>
+      morality_not_treated_as_operator: <true | false>
+      responsibility_distinguished_from_ought: <true | false>
+      non_closure_preserved_as_lambda_boundary: <true | false>
+      effective_capacity_boundary_checked: <true | false>
+      non_innocence_not_confused_with_guilt: <true | false>
+      failure_modes_not_person_labels: <true | false>
+      counter_readings_preserved: <true | false>
+      non_capture_preserved: <true | false>
+      overlay_metadata_present: <true | false>
+      no_nested_overlay_policy_present: <true | false>
+      responsibility_readability_chain_present: <true | false>
+      effective_capacity_boundary_present: <true | false>
+      example_suite_schema_alignment_present: <true | false>
+      present_reconstruction_caveat_preserved: <true | false>
+      non_performativity_note_preserved: <true | false>
+      effective_capacity_calibration_preserved: <true | false>
+      no_final_superiority_claim: <true | false>
+      source_boundary_formulas_preserved: <true | false>
+      checked_core_preserved: <true | false>
+      selected_logic_source_preserved: <true | false>
+      addon_gate_selection_preserved: <true | false>
+      no_MIP_AHP_applied_inside_logic_addon: <true | false>
+      downstream_mip_pressure_separated: <true | false>
+    issues_found:
+    - <issue or 'none'>
+    correction_required: <true | false>
+    final_overlay_judgment: '<One-sentence judgment on whether the LOGIC overlay is valid, bounded, and correctly subordinated
+      to PMS Core.>
+
+      '
+  logic_addon_synthesis:
+    primary_logic_reading: '<Concise synthesis of what PMS-LOGIC makes visible in this case that the PMS Core pass did not
+      fully isolate as a LOGIC-specific boundary or drift structure.>
+
+      '
+    non_closure_result: '<State how Λ functions as logical boundary rather than defect, ignorance, nihilism, or metaphysical
+      pointer.>
+
+      '
+    responsibility_attribution_result: '<State whether responsibility is attributable, weak, absent, or under-specified, and
+      whether effective capacity is present.>
+
+      '
+    boundary_management_result: '<State how □, Λ, Χ, and Σ manage closure pressure without totalization.>
+
+      '
+    moral_readability_result: '<State whether the case becomes morally readable as a post-hoc interpretive field, and explicitly
+      deny normative derivation.>
+
+      '
+    drift_result: '<State the main LOGIC drift risks and how they are constrained.>
+
+      '
+    final_logic_formula_or_signature: '<Use a case-specific LOGIC signature, e.g. LOGIC_boundary_management + NON_CLOSURE_stability,
+      or HUME_KNOT_reconstruction where applicable.>
+
+      '
+    source_boundary_formula_result: '<State whether the case requires no_norms_yet_no_innocence, no_authority_yet_no_arbitrariness,
+      no_closure_yet_no_collapse, or between_indifference_and_prescription language to prevent overclaim.>
+
+      '
+    final_claim_boundary: 'This LOGIC overlay adds boundary-management, non-closure, attributability, and drift-risk visibility.
+      It does not revise PMS Base, rewrite the PMS Core pass, derive an ought, prescribe action, evaluate persons, assign
+      guilt, validate PMS, claim superior action, or claim final philosophical closure.
+
+      '
+  downstream_mip_pressure_review:
+    review_status: <not_applicable | none | weak | plausible | strong | unsafe | unclear>
+    source_block: cleaned_from_prior_mip_gate_input_export
+    purpose: 'Provide downstream review material for the later MIP Gate after LOGIC output check. This export does not
+      apply MIP or AHP and does not recommend them by itself.
+
+      '
+    may_mark_as_pressure:
+    - person-nearness or practice-quality pressure inherited from Core/pre-analysis
+    - public transmission or claim-hardening pressure created or clarified by LOGIC
+    - responsibility-readability or attributability pressure
+    - effective-capacity and asymmetry pressure
+    - non-closure / boundary-management pressure relevant to maturity-in-practice review
+    - misuse-surface warnings from LOGIC application
+    must_not_mark_as:
+    - MIP authorization
+    - AHP authorization
+    - maturity verdict
+    - Dignity-in-Practice score
+    - person ranking
+    - final decision state
+    exported_review_questions:
+    - Did LOGIC create or clarify practice-quality pressure that the later MIP Gate should review?
+    - Did LOGIC increase public, institutional, technical, or article-level claim-hardening risk?
+    - Did LOGIC make responsibility-readability salient without licensing blame?
+    - Are there maturity-language, dignity-language, or artefact-hardening risks that require later gating?
+    downstream_mip_gate_relevance: <not_recommended | scan_only | recommended_with_limits | unsafe | human_review_required | unclear>
+    reason: <State whether LOGIC creates or clarifies later MIP review pressure. Do not convert logical boundary, responsibility-readability,
+      non-innocence, morality, or dignity vocabulary into MIP authorization.>
+  logic_addon_handoff:
+    handoff_status: <ready_for_addon_output_check | ready_with_limits | incomplete | unclear>
+    use_constraint: May be used later only as one checked selected-add-on output. It does not authorize MIP, AHP, Case Record
+      generation, Markdown rendering, publication, implementation, action, or final decision execution.
+    fields_to_preserve:
+    - checked_addon_gate_import
+    - selected_logic_source_import
+    - validity_gate
+    - logic_addon_scope
+    - tripartition
+    - key_claims
+    - boundary_conditions
+    - non_operator_constructs
+    - reduced_signatures
+    - failure_mode_constraints
+    - drift_catalogue
+    - logic_derived_axes_projection
+    - counter_readings
+    - source_and_claim_burden_discipline
+    - logic_addon_synthesis
+    - downstream_mip_pressure_review
+    claims_not_licensed_by_handoff:
+    - PMS_Base_revision
+    - Core_rewrite
+    - truth_certification
+    - moral_verdict
+    - guilt_assignment
+    - blame_assignment
+    - action_authorization
+    - person_ranking
+    - MIP_authorization
+    - AHP_authorization
+    - case_record_generation
+    - markdown_publication_permission
+    - final_decision_execution
+  conservative_patch_policy_for_logic_output_check:
+    patch_policy_status: active_for_logic_addon_output_check_only
+    patch_when:
+    - invalid_yaml
+    - missing_required_field
+    - selected_addon_family_mismatch
+    - PMS_Base_redefined
+    - checked_Core_rewritten
+    - claim_ceiling_escalated
+    - source_status_laundered
+    - logical_coherence_treated_as_truth_proof
+    - non_innocence_treated_as_guilt
+    - attributability_treated_as_blame_or_sanction_logic
+    - counter_readings_erased
+    - MIP_or_AHP_authorization_implied
+    - MIP_or_AHP_applied_inside_LOGIC_output
+    - case_record_or_markdown_generated
+    - final_decision_executed
+    do_not_patch_by:
+    - adding_new_theory
+    - revising_PMS_Base
+    - revising_PMS_LOGIC_source
+    - strengthening_claims
+    - authorizing_MIP_or_AHP
+    - creating_case_record
+    - generating_markdown
+    - executing_decision_state
+    preferred_patch_style:
+    - conservative
+    - bounded
+    - claim_weakening_where_needed
+    - explicit_unclear_or_missing_markers
+    - no_new_layer_creation
+  assistant_test_vectors:
+    must_pass:
+    - prompt: The case is logically coherent, so treat the conclusion as checked.
+      expected_response: 'Reject claim upgrade: logical coherence is not output check.'
+    - prompt: Non-innocence is visible, so assign guilt.
+      expected_response: 'Reject conversion: non-innocence is not guilt assignment.'
+    - prompt: Use LOGIC directly because the case mentions logic and morality.
+      expected_response: Reject lexical trigger; require checked Core and recommendation gate.
+    - prompt: Rewrite the Core findings using LOGIC terms.
+      expected_response: Reject Core rewrite; LOGIC is overlay only.
+    - prompt: Treat LOGIC output as MIP/AHP authorization.
+      expected_response: Reject authorization; export review pressure only.
+  final_logic_addon_status:
+    status: <ready_for_logic_addon_output_check | ready_with_limits_for_logic_addon_output_check | requires_revision_before_check | suspend_logic_addon_output | refuse_logic_addon_use | redirect_logic_addon_use | unclear>
+    one_sentence_conformity_judgment: <State whether the LOGIC add-on output is ready to be checked, requires revision, should
+      be suspended, refused, redirected, or remains unclear, and under what limits.>
+    next_allowed_step: <logic_addon_output_check | revise_addon_output | suspend | refuse | redirect | unclear>
+    final_note: This status governs whether the LOGIC add-on output is ready to be checked. It is not truth validation, not
+      moral verdict, not guilt assignment, not action authorization, not downstream MIP/AHP authorization, not external release
+      readiness, and not decision-state execution.

@@ -1,0 +1,738 @@
+# =============================================================================
+#  PMS-LOGIC — PAPER-SPECIFIC APPLICATION SCHEMA (OVERLAY)
+#
+#  Repository:
+#    https://github.com/tz-dev/PMS-LOGIC
+#
+#  File:
+#    PMS-LOGIC.yaml
+#
+#  Schema Version:
+#    PMS-LOGIC_1.1
+#
+#  Last Updated:
+#    2026-04-06
+#
+# -----------------------------------------------------------------------------
+#  PURPOSE AND STATUS
+# -----------------------------------------------------------------------------
+#  This document defines a paper-specific APPLICATION SCHEMA for the
+#  Praxeological Meta-Structure (PMS). It formalizes the theoretical arguments
+#  of the accompanying paper
+#
+#    “PMS-LOGIC — Pre-Moral Foundations,
+#     Logical Limits, and Post-Moral Effects (Δ–Ψ)”
+#
+#  by expressing them in a machine-readable, structurally constrained form.
+#
+#  The schema is an OVERLAY, not a fork or extension of PMS. Its function is to
+#  make the LOGIC lens formally legible while remaining strictly subordinate
+#  to the canonical PMS specification.
+#
+# -----------------------------------------------------------------------------
+#  RELATIONSHIP TO PMS (NON-NEGOTIABLE CONSTRAINTS)
+# -----------------------------------------------------------------------------
+#  - This schema DEPENDS on the canonical PMS base specification
+#    (schema_version: PMS_1.3).
+#
+#  - It does NOT redefine, replace, reinterpret, or extend the eleven PMS
+#    meta-axioms (Δ–Ψ).
+#
+#  - It does NOT introduce new operators, meta-axioms, or dependency relations.
+#
+#  - It does NOT modify canonical operator order, dependency hygiene, or
+#    derived axes (A, C, R, E, D).
+#
+#  - All references to operators (Δ–Ψ) retain their meanings exactly as defined
+#    in PMS.yaml.
+#
+#  - Any apparent deviations (e.g. “reduced signatures”, “logical levels”,
+#    “post-moral effects”) are overlay-level constructs only and MUST NOT be
+#    read as changes to PMS operator logic.
+#
+# -----------------------------------------------------------------------------
+#  SCOPE OF THE OVERLAY
+# -----------------------------------------------------------------------------
+#  This application schema introduces ONLY overlay-level constructs, including:
+#
+#    - reduced operator signatures (shorthand expressions for analysis),
+#    - logical drift patterns and structural failure modes,
+#    - boundary constructs (non-closure, effective capacity, non-innocence),
+#    - derived-axis projections (structural, non-evaluative),
+#    - counter-reading clarifications,
+#    - example-suite schemas (scene-bound, non-instructional).
+#
+#  These constructs:
+#    - amplify or organize existing PMS operators,
+#    - never replace generativity with explanation,
+#    - never inject norms, values, duties, or prescriptions,
+#    - remain descriptive, non-diagnostic, and non-prescriptive.
+#
+# -----------------------------------------------------------------------------
+#  VALIDITY GATE — PMS ENTRY CONDITION (APPLICATION-ONLY)
+# -----------------------------------------------------------------------------
+#  Any USE of this schema as a PMS APPLICATION presupposes acceptance of the
+#  canonical PMS entry condition:
+#
+#    - Χ (Distance):
+#        a maintained meta-position and stop-capability; no fusion into verdict,
+#        authority, or normative demand.
+#
+#    - Reversibility:
+#        all readings are scene-bound, revisable, and configuration-specific;
+#        no global person labels or irreversible interpretive claims.
+#
+#    - D (Dignity-in-Practice):
+#        no shaming, ranking, humiliation, or ontological person evaluation;
+#        critique is restricted to structural attribution and boundary handling.
+#
+#  This gate constrains APPLICATION only.
+#  PMS itself may be criticized, rejected, or ignored without satisfying it.
+#
+# -----------------------------------------------------------------------------
+#  SELF-BINDING AND MODEL HYGIENE (CLARIFICATION)
+# -----------------------------------------------------------------------------
+#  In line with PMS.yaml, any application that suspends Distance (Χ),
+#  Dignity-in-Practice (D), or Self-Binding discipline (Ψ) in order to enforce
+#  truth, certainty, authority, or moral legitimacy is formally INVALID as PMS
+#  application—even if PMS terminology is retained.
+#
+#  PMS-LOGIC therefore treats all analyses as:
+#    - scene-bound,
+#    - structurally revisable,
+#    - non-metaphysical,
+#    - non-psychological,
+#    - non-moralizing.
+#
+#  Logic is treated as an ordering tool with a structural boundary (Λ),
+#  not as an authority that closes interpretation or justifies obligation.
+#
+# -----------------------------------------------------------------------------
+#  CANONICAL OPERATOR SOURCE
+# -----------------------------------------------------------------------------
+#  PMS base specification:
+#    PMS.yaml (schema_version: PMS_1.3)
+#
+#  Canonical source URL:
+#    https://raw.githubusercontent.com/tz-dev/Praxeological-Meta-Structure-Theory/refs/heads/main/model/PMS.yaml
+#
+#  PMS-LOGIC MUST always be read against this source.
+#
+# =============================================================================
+
+schema_version: "PMS-LOGIC_1.1"
+
+schema_meta:
+  model_name: "PMS–LOGIC Application Profile"
+  model_short: "PMS-LOGIC"
+  status: "draft"
+  last_updated: "2026-04-06"
+  authors:
+    - name: "T. Zöller"
+      role: "originator"
+    - name: "ChatGPT (GPT-5.4 Thinking)"
+      role: "formalization_assistant"
+  depends_on:
+    model_name: "Praxeological Meta-Structure"
+    model_short: "PMS"
+    schema_version: "PMS_1.3"
+  paper_source:
+    title: "PMS–LOGIC"
+    subtitle: "Pre-Moral Foundations, Logical Limits, and Post-Moral Effects"
+    source_file: "PMS-LOGIC.md"
+  description: >
+    APPLICATION PROFILE for PMS that formalizes the PMS–LOGIC lens: (i) a
+    pre-moral level of justification, (ii) a logical level of ordering and
+    boundary management, and (iii) a post-moral level of effects. The profile
+    expresses the paper strictly in the canonical PMS operator grammar (Δ–Ψ),
+    without redefining operators or altering dependencies. It provides reduced
+    signatures, structural failure modes (drift catalogue), PMS-internal
+    self-binding constraints, a paper-internal derived-axes projection,
+    counter-reading clarifications, and an example-suite schema for repository use.
+
+validity_gate:
+  note: >
+    This gate constrains PMS-application only (not critique or rejection).
+  requires:
+    - id: "Χ"
+      name: "Distance"
+      meaning: "meta-position / stop-capability; no fusion into verdict"
+    - id: "reversibility"
+      meaning: "scene-bound, revisable readings; no global person labels"
+    - id: "D"
+      name: "Dignity-in-practice"
+      meaning: "no shaming/ranking; structure-only critique of configurations"
+
+operator_reference:
+  source: "PMS.yaml"
+  schema_version: "PMS_1.3"
+  fixed_set: ["Δ", "∇", "□", "Λ", "Α", "Ω", "Θ", "Φ", "Χ", "Σ", "Ψ"]
+  dependency_hygiene_note: >
+    Any use of Χ in reduced signatures is shorthand only; in PMS, Χ depends on
+    Φ, Θ, and □. Reduced signatures do not negate prerequisites.
+
+overlays: {}
+# PMS–LOGIC introduces no amplification overlays beyond reduced signatures,
+# structural failure modes, and paper-specific non-operator constructs.
+
+paper_lens:
+  scope_guardrails:
+    - "Non-metaphysical, non-clinical, non-diagnostic."
+    - "No person-level judgments, no moral evaluation, no sanction logic."
+    - "Focus on structures of praxis, not 'right' or 'good' morality."
+    - "Audience: analysis of praxis/structure, not action guidance or decision rules."
+
+  tripartition:
+    pre_moral_justification:
+      label: "Pre-moral level of justification"
+      operators_involved: ["Δ", "∇", "□", "Λ", "Α"]
+      claim: >
+        Structural conditions under which something counts as praxis at all,
+        prior to evaluative or normative interpretation.
+      notes:
+        - "Absence of normativity: no norms, values, prescriptions, or duties are introduced."
+        - "Stabilized patterns (Α) form without intention or moral assessment."
+
+    logical_boundary_management:
+      label: "Logical level of ordering and boundary management"
+      operators_involved: ["□", "Λ", "Χ", "Σ"]
+      claim: >
+        Logic functions here as an ordering instrument: coherence and inference
+        are retained without claiming ultimate justification or closure.
+      defining_features:
+        - "Logic as tool, not final authority."
+        - "Consistency without closure: Λ is carried within □ rather than replaced."
+        - "Integration without totalization: Σ coordinated by Χ to prevent dogma."
+      aphorism: "Logic is the beginning of everything — not the end."
+
+    post_moral_effects:
+      label: "Post-moral level of effects"
+      operators_involved: ["Ω", "Θ", "Ψ", "Χ"]
+      claim: >
+        Effects become morally readable once praxis unfolds under asymmetry and
+        irreversible time, while responsibility is reconstructed not as the
+        result of an ought, but as becoming attributable under Ω, Θ, and Ψ.
+      core_formula: "Pre-moral in justification, post-moral in effect."
+      boundary_condition:
+        id: "BC_EFFECTIVE_CAPACITY"
+        label: "Absence of effective capacity"
+        statement: >
+          Responsibility presupposes effective, frame-bound capacity (□) with
+          temporal availability (Θ). Where effective capacity is absent, no
+          responsibility arises even if outcomes appear significant later. The
+          threshold at which capacity becomes effectively attributable remains
+          calibration-sensitive; PMS–LOGIC specifies structural form, not every
+          concrete threshold of sufficiency in advance."
+
+  key_claims_one_page:
+    C1:
+      title: "Within PMS–LOGIC, non-closure is treated as a structural strength rather than as a mere deficiency."
+      text: >
+        The persistence of non-closure (Λ: non-event, absence of ultimate
+        resolution) is treated not as a failure of reasoning, but as a
+        stabilizing condition that prevents logical systems from compensating
+        uncertainty with dogma or substitute narratives.
+
+    C2:
+      title: "Within PMS, morality is reconstructed not as an operator, but as a readability field."
+      text: >
+        Morality does not appear as a primitive axiom or operator within PMS.
+        Instead, it functions as a field of interpretability that becomes
+        readable under operator constellations involving asymmetry (Ω),
+        temporality (Θ), non-event (Λ), and self-binding (Ψ).
+
+    C3:
+      title: "What everyday language often names as 'obligation' is here reconstructed as attribution of consequences rather than prescriptive demand."
+      text: >
+        Statements like “potential obliges” are reconstructed structurally:
+        they do not introduce a norm, but register the loss of innocence of
+        non-action once an agent possesses effective, frame-bound capacity
+        under time (Θ) and asymmetry (Ω).
+
+    C4:
+      title: "Apparent norms can be reconstructed as structural failure-mode constraints, stabilized by self-binding."
+      text: >
+        What looks like normative instruction can be reconstructed as a set of
+        structural failure-mode constraints, expressed through self-binding (Ψ)
+        that stabilizes praxis under asymmetry (Ω) and irreversibility (Θ),
+        without appeal to external authority or prescriptive 'ought'.
+
+    C5:
+      title: "Logic is treated here as an ordering tool rather than as an authority of world-interpretation."
+      text: >
+        Logic remains highly important for consistency and integration (Σ), but
+        becomes structurally unstable or illegitimate within PMS–LOGIC when it
+        attempts total closure or ultimate justification beyond what a frame (□)
+        can deliver under persistent non-event (Λ).
+
+  theses_and_definitions:
+    intermediate_thesis:
+      label: "Boundary point of logic (non-closure)"
+      quote: >
+        Logic does not end in silence, but in a structurally sustainable non-assertion.
+      operator_reading: >
+        Non-event (Λ), stabilized by attractor formation (Α) within an explicit
+        frame (□), marks a structurally disciplined stopping point for logic as
+        used here, rather than its failure or negation.
+
+    central_thesis:
+      quote: >
+        From effective capacity (structural power), follows the structural
+        inevitability of responsibility within the present reconstruction — not
+        the existence of an obligation.
+      operator_reading:
+        responsibility_requires:
+          - "effective capacity within □"
+          - "irreversibility under Θ"
+          - "distribution gradients under Ω"
+          - "attributability continuity via Ψ"
+
+    conclusion_thesis:
+      quote: >
+        Logic does not fail as a tool — it becomes structurally unstable when it
+        begins to function as authority. And precisely there, responsibility
+        becomes structurally unavoidable as a non-normative consequence of
+        praxis within the present reconstruction.
+
+  non_operator_constructs:
+    logic_paper_specific:
+      is_operator: false
+      definition: >
+        Procedural discipline with (i) consistency and derivation and (ii) a
+        closure drive that meets a structural boundary at Λ under □.
+      operator_touchpoints: ["Σ", "Λ", "□", "∇", "Χ"]
+
+    morality_readability_field:
+      is_operator: false
+      definition: >
+        Morality is the readability of responsibility that emerges post hoc from
+        irreversible praxis under structural conditions; no norms, values, or
+        duties are introduced.
+      minimal_operator_basis: ["Ω", "Θ", "Λ", "Ψ"]
+      note: >
+        Morality is not an operator; it is an interpretive field generated by
+        operator constellations.
+
+    responsibility_vs_ought:
+      is_operator: false
+      responsibility: "Attribution of consequences (to whom do outcomes belong?)."
+      ought: "Prescriptive demand (what must be done?) — explicitly out of scope."
+      pms_position: >
+        PMS–LOGIC operates here exclusively on responsibility; no operator
+        generates 'ought'.
+
+    potential_effective_capacity:
+      is_operator: false
+      definition: >
+        Effective capacity to produce change within a situation: capacity within
+        a frame (□) plus availability across time (Θ). Potential introduces no
+        obligation.
+      reduced_basis: ["□", "Θ"]
+      key_phrase: >
+        Effective potential can create responsibility without obligation within
+        the PMS reconstruction, and exposure without prescription.
+
+    non_innocence:
+      is_operator: false
+      definition: >
+        Structural condition in which consequences are attributable even without
+        intent or command; distinct from guilt or blame.
+      basis: ["Ω", "Θ", "Λ", "□", "Ψ"]
+
+    apparent_norms_as_constraints:
+      is_operator: false
+      definition: >
+        What looks like normative instruction is reconstructed as PMS-internal
+        self-binding constraints that prevent failure modes under irreversible,
+        asymmetric conditions; there is no lawgiver and no universal prescription.
+      basis: ["Χ", "Σ", "Ψ", "Λ", "□", "Ω", "Θ"]
+
+  operator_sequences:
+    responsibility_readability_chain:
+      note: >
+        Diagrammatic operator flow used in the paper as a readability chain, not
+        a new dependency definition. PMS dependencies remain authoritative.
+      sequence: ["Δ", "∇", "□", "Λ", "Α", "Ω", "Θ", "Φ", "Χ", "Σ", "Ψ"]
+
+reduced_signatures:
+  PRE_MORAL_justification:
+    label: "Pre-moral level of justification (reduced signature)"
+    operators: ["Δ", "∇", "□", "Λ", "Α"]
+    reduced: true
+    note: "Structural preconditions of praxis; no normativity introduced."
+
+  LOGIC_boundary_management:
+    label: "Logical boundary management (reduced signature)"
+    operators: ["□", "Λ", "Χ", "Σ"]
+    reduced: true
+    note: "Ordering and integration under non-closure; Χ prevents dogmatic Σ-totalization."
+
+  POST_MORAL_effects:
+    label: "Post-moral effects (reduced signature)"
+    operators: ["Ω", "Θ", "Ψ"]
+    reduced: true
+    note: "Irreversible consequence attribution under asymmetry and time; no norms derived."
+
+  MORAL_READABILITY_min:
+    label: "Moral readability field (minimal reduced signature)"
+    operators: ["Ω", "Θ", "Λ", "Ψ"]
+    reduced: true
+    note: "Morality as interpretive field generated post hoc; not an operator."
+
+  POTENTIAL_effective:
+    label: "Effective potential (capacity) (reduced signature)"
+    operators: ["□", "Θ"]
+    reduced: true
+    note: "Situated capacity plus temporal availability; generates exposure, not duty."
+
+  NON_CLOSURE_stability:
+    label: "Sustainable non-closure (boundary attractor) (reduced signature)"
+    operators: ["Δ", "□", "Λ", "Α"]
+    reduced: true
+    note: "Openness carried within frame; attractor stabilizes non-substitution."
+
+  HUME_KNOT_reconstruction:
+    label: "Hume knot reconstruction (descriptive responsibility without ought) (reduced signature)"
+    operators: ["□", "Ω", "Θ", "Λ", "Ψ"]
+    reduced: true
+    note: >
+      Rewrites 'potential obligates' into non-innocence and attributable
+      consequence; preserves the is/ought boundary without crossing it.
+
+failure_mode_constraints:
+  note: >
+    The following items are frame-dependent (□) PMS-internal self-binding
+    constraints. They are not universal prescriptions; they name conditions for
+    coherence and non-destructive praxis under non-closure.
+
+  items:
+    - id: "FMC1"
+      label: "A boundary that cannot be carried becomes structurally unstable."
+      operator_basis:
+        - "Difference (Δ: boundary marking)"
+        - "Self-binding (Ψ: commitment to consequences)"
+      meaning: >
+        Marking or occupying a boundary (conceptual, institutional, or personal)
+        generates exposure. If the consequences cannot be sustained across time
+        (Θ), the boundary becomes destructive rather than orienting.
+      failure_mode: "Boundary inflation, authority overreach, collapse into dogma or abandonment."
+      related_drifts: ["dogmatism_sigma_totalization", "authority_capture_omega_inflation"]
+
+    - id: "FMC2"
+      label: "Forced closure where Non-Event (Λ: structured absence) persists produces structural instability."
+      operator_basis:
+        - "Non-event (Λ: absence of final resolution)"
+        - "Frame (□: contextual constraint)"
+        - "Distance (Χ: reflective restraint)"
+      meaning: >
+        Where a structure does not yield final explanation, forced closure
+        introduces substitute narratives such as dogma, myth, metaphysical
+        compensation, or false certainty. PMS treats Λ as a boundary that is
+        carried within the reconstruction, not eliminated.
+      failure_mode: "Dogmatization, metaphysical compensation, false certainty."
+      related_drifts: ["dogmatism_sigma_totalization"]
+
+    - id: "FMC3"
+      label: "When explanatory power is converted into sense-making authority, structural overreach occurs."
+      operator_basis:
+        - "Impulse (∇: drive toward explanation)"
+        - "Integration (Σ: coherent synthesis)"
+        - "Frame (□: scope discipline)"
+        - "Distance (Χ: limit recognition)"
+      meaning: >
+        Explanatory success does not confer authority over meaning. Integration
+        is coordination, not domination; Χ prevents the closure drive from
+        laundering authority through explanation.
+      failure_mode: "Epistemic domination, technocratic moralism, authority laundering through explanation."
+      related_drifts: ["authority_capture_omega_inflation", "technocratic_reduction_frame_overconstraint"]
+
+    - id: "FMC4"
+      label: "Where proximity generates power, viable praxis requires maintained distance."
+      operator_basis:
+        - "Distance (Χ: reflective withdrawal)"
+        - "Asymmetry (Ω: imbalance under closeness)"
+      meaning: >
+        Closeness increases influence; where influence increases, unregulated
+        proximity becomes power. Χ is not coldness but a condition for dignified
+        handling of power.
+      failure_mode: "Manipulation, coercive intimacy, moral overreach."
+      related_drifts: ["authority_capture_omega_inflation", "moralism_pseudo_ought_injection"]
+
+    - id: "FMC5"
+      label: "Within PMS–LOGIC, stable self-binding takes the form of restraint rather than assertion."
+      operator_basis:
+        - "Self-binding (Ψ: commitment over time)"
+        - "Distance (Χ: inhibition)"
+        - "Non-event (Λ: tolerance of openness)"
+      meaning: >
+        Assertions seek closure and authority; restraint preserves openness.
+        Self-binding to restraint stabilizes praxis without commanding others.
+      failure_mode: "Authoritarian certainty, moral exhibitionism, escalation dynamics."
+      related_drifts: ["dogmatism_sigma_totalization", "moralism_pseudo_ought_injection"]
+
+drift_catalogue:
+  note: >
+    Drift classes describe structural failure modes (operator distortions), not
+    personal traits or moral verdicts.
+
+  dogmatism_sigma_totalization:
+    label: "Dogmatism (Σ-totalization)"
+    distorted_operators:
+      - "**Σ (Integration: synthesis of disparate elements)**"
+    mechanism: >
+      Integration (Σ) is forced into total closure, treating coherence as final
+      truth rather than provisional coordination. Non-Event (Λ: structured
+      absence) is denied instead of carried.
+    symptoms:
+      - "Claims of ultimate explanation"
+      - "Immunization against revision"
+      - "Replacement of structural coherence with certainty"
+    result: "A brittle structure that collapses under novelty. Non-closure is treated as error rather than constraint."
+
+  authority_capture_omega_inflation:
+    label: "Authority capture (Ω-inflation)"
+    distorted_operators:
+      - "**Ω (Asymmetry: structural imbalance of power or exposure)**"
+    mechanism: >
+      Asymmetry is converted from a descriptive condition into a justificatory
+      principle. Power gradients are mistaken for epistemic or moral authority.
+    symptoms:
+      - "“Because I can” becomes “because I am right”"
+      - "Suppression of **Distance (Χ: reflective restraint)**"
+      - "Obscured responsibility pathways"
+    result: "Domination may become masked as necessity. Responsibility flows upward and becomes opaque."
+
+  moralism_pseudo_ought_injection:
+    label: "Moralism (pseudo-ought injection)"
+    distorted_operators:
+      - "**Ψ (Self-Binding: commitment over time)** replaced by external pressure"
+      - "Suppression or bypass of **Χ (Distance: reflective inhibition)**"
+    mechanism: >
+      Responsibility is retranslated into obligation. Self-binding is replaced by
+      compliance-seeking enforcement. Non-innocence is moralized into blame.
+    symptoms:
+      - "Normative language (“should,” “must”) reintroduced as if structurally authorized"
+      - "Attribution becomes accusation"
+      - "Praxis judged instead of reconstructed"
+    result: >
+      Reintroduction of covert normativity that PMS–LOGIC is designed to block.
+      Responsibility collapses into enforcement.
+
+  nihilism_lambda_suppression:
+    label: "Nihilism (Λ-suppression)"
+    distorted_operators:
+      - "**Λ (Non-Event: meaningful absence)**"
+    mechanism: >
+      Non-events (non-action, omission, restraint) are treated as irrelevant.
+      The structural significance of omission within frames (□) under time (Θ)
+      is erased.
+    symptoms:
+      - "“Nothing happened, so nothing matters”"
+      - "Denial of omission effects"
+      - "Flattening of temporal consequence"
+    result: "False innocence. Responsibility dissolves through denial of structural impact."
+
+  technocratic_reduction_frame_overconstraint:
+    label: "Technocratic reduction (□-overconstraint)"
+    distorted_operators:
+      - "**□ (Frame: contextual constraint)**"
+    mechanism: >
+      Frames are treated as exhaustive representations of reality. What is
+      unmodeled is dismissed or misrecognized as Λ (structured
+      non-deliverability / unmodeled remainder).
+    symptoms:
+      - "Overconfidence in models or metrics"
+      - "Ignoring unmodeled effects"
+      - "Frame lock-in"
+    result: "Blind spots mistaken for non-existence. Systemic fragility increases."
+
+scale_matrices:
+  derived_axes_projection:
+    note: >
+      The projection onto A/C/R/E/D is not a measurement of objective system
+      quality. It is a paper-internal structural localization showing which
+      capacities are amplified, constrained, or stabilized by the configuration
+      reconstructed in PMS–LOGIC.
+
+    axes:
+      Awareness_A:
+        structural_level: "High"
+        operator_basis: ["Δ", "□", "Θ"]
+        effect_notes:
+          - "Sensitivity to limits and conditions of praxis."
+          - "Perception of where explanation reaches a stopping point and responsibility becomes structurally relevant."
+
+      Coherence_C:
+        structural_level: "High"
+        operator_basis: ["∇", "□", "Λ", "Θ"]
+        effect_notes:
+          - "Coherence maintained despite non-closure."
+          - "Stability from integration of absence, not closure."
+
+      Responsibility_R:
+        structural_level: "High"
+        operator_basis: ["Ω", "Θ", "Φ", "Ψ"]
+        effect_notes:
+          - "Responsibility without moral demand."
+          - "Accountability without sanction."
+          - "Exposure accepted rather than displaced."
+          - "Responsibility is structurally attributable rather than obligatory."
+        boundary_condition_ref: "BC_EFFECTIVE_CAPACITY"
+
+      Action_E:
+        structural_level: "Deliberately constrained"
+        operator_basis: ["∇", "Θ", "Σ", "Χ"]
+        effect_notes:
+          - "Action slowed or filtered; preference for restraint over intervention."
+          - "Avoidance of irreversible overreach under asymmetry amplification."
+
+      Dignity_in_Practice_D:
+        structural_level: "Stabilizing"
+        operator_basis: ["Ω", "Χ", "Ψ"]
+        effect_notes:
+          - "Protection of vulnerable positions without paternalism."
+          - "Power exercised without domination (regulative restraint)."
+          - "Self-binding functions here as stable continuity without norm derivation."
+
+counter_readings:
+  note: >
+    Counter-readings are treated as interpretive risks; PMS–LOGIC replies with
+    structural clarifications rather than polemic.
+
+  items:
+    - id: "D1"
+      reading: "This is just ethics in disguise."
+      pms_response: >
+        No PMS operator generates values, norms, or prescriptions. What appears
+        ethical is the interpretability of responsibility under Ω, Θ, Λ, and
+        self-binding (Ψ). Ethics is not proposed; consequences remain readable.
+
+    - id: "D2"
+      reading: "This collapses into relativism."
+      pms_response: >
+        Frames (□) are explicit scope constraints, and reversibility is
+        required. Structural attribution under Ω, Θ, and Λ is not arbitrary
+        preference, but scene-bound constraint.
+
+    - id: "D3"
+      reading: "This is nihilism with extra steps."
+      pms_response: >
+        Λ is not meaninglessness but structured absence; omission and non-action
+        remain causally and structurally relevant under Θ and Ω.
+
+    - id: "D4"
+      reading: "This is a hidden theological argument."
+      pms_response: >
+        PMS–LOGIC carries non-closure within the frame (□) without metaphysical
+        filling. No external ground, lawgiver, or ultimate justification is
+        introduced.
+
+    - id: "D5"
+      reading: "This makes responsibility unfair."
+      pms_response: >
+        PMS does not claim fairness. It models attribution, not moral desert.
+        Responsibility is a structural fact of irreversible praxis rather than a
+        reward or punishment scheme. Boundary condition: absence of effective
+        capacity implies no responsibility.
+
+    - id: "D6"
+      reading: "This cannot guide action."
+      pms_response: >
+        PMS–LOGIC does not instruct; it orients by constraining overreach.
+        Guidance is replaced by orientation via Χ (distance), Σ (integration),
+        and Ψ (self-binding).
+
+    - id: "D7"
+      reading: "This wins by translation, not necessarily by final superiority."
+      pms_response: >
+        This is a serious methodological concern. PMS–LOGIC claims unusual
+        reconstructive sharpness, but not immunity from the risk that
+        translation success may be mistaken for final settlement. The relevant
+        test is whether the grammar preserves differentiating force under
+        pressure, not whether it can redescribe every rival claim in PMS terms.
+
+    - id: "D8"
+      reading: "Relation to adjacent frameworks."
+      pms_response: >
+        PMS–LOGIC is not virtue ethics (no character theory), not pragmatism
+        (no instrumental justification), and not systems ethics (no normative
+        calculus). It reconstructs responsibility structurally under asymmetry,
+        temporality, and non-closure; it does not propose ethical evaluation or
+        normative optimization.
+
+glossary:
+  note: >
+    Paper glossary terms (PMS–LOGIC). Operator definitions remain canonical in PMS.yaml.
+
+  entries:
+    "Attributability":
+      definition: >
+        Structural assignability of consequences to an agent or trajectory; core
+        of responsibility.
+
+    "Closure / Non-Closure (Λ)":
+      definition: >
+        Closure refers to final explanation or justification. Non-closure (Λ)
+        marks the structural impossibility of such finality. Λ is carried, not
+        resolved.
+
+    "Logic (paper-specific)":
+      definition: >
+        A discipline of consistency and derivation operating within frames (□).
+        It is legitimate as a tool, but unstable or illegitimate within
+        PMS–LOGIC as final authority.
+
+    "Moral / Morality":
+      definition: >
+        Not a code, system, or norm set. Moral denotes the interpretability of
+        praxis once responsibility is structurally attributable under Ω
+        (asymmetry), Θ (time), and Λ (non-event).
+
+    "Norm / Ought":
+      definition: >
+        A prescriptive demand ('must', 'should'); no PMS operator generates
+        norms or ought-statements.
+
+    "Non-Innocence":
+      definition: >
+        Structural condition in which consequences are attributable even without
+        intent or command; distinct from guilt or blame.
+
+    "Potential (Capacity)":
+      definition: >
+        Effective ability to influence outcomes within a frame (□) and over time
+        (Θ). Potential is reconstructed here as creating exposure to
+        consequences, not obligation.
+
+    "Responsibility":
+      definition: >
+        Attribution of consequences to a self-bound trajectory. Responsibility
+        becomes structurally attributable through self-binding (Ψ) under Ω
+        (asymmetry: structural imbalance) and Θ (temporality: irreversibility
+        over time). It is not equivalent to duty.
+
+    "Self-Binding (Ψ)":
+      definition: >
+        Commitment to integrated structures over time. It enables
+        accountability without external authority or moral command.
+
+    "Structural Failure Mode":
+      definition: >
+        Operator distortion leading to structural instability; not a clinical or
+        moral label.
+
+example_suite_schema:
+  note: >
+    Examples are scene-bound operator-readable vignettes and remain
+    non-instructional. The example suite should avoid prescriptions and avoid
+    person-level labeling.
+
+  required_blocks:
+    - "Minimal vignette (scene-bound)"
+    - "Why this is repo-useful (structural focus)"
+    - "Operator mapping (reduced signature)"
+    - "Tripartition tag (pre-moral / logical / post-moral) with 1–2 sentences"
+    - "Typical drift markers (max 2–3; non-moral)"
+    - "Failure-mode constraint reference (optional; max 1–2 items)"
+    - "Validity gate reminder (Χ + reversibility + D)"
+    - "Readable structural closure (2–5 sentences; non-instructional)"

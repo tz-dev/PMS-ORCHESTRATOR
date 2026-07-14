@@ -1,0 +1,2782 @@
+# PMS-SEX — Compact Machine Profile
+# Paper: "PMS-SEX — From Impulse to Self-Binding: A Praxeological Grammar of Sexuality (Δ–Ψ)"
+# Role: paper-specific PMS application overlay
+# Constraint: no operator redefinition, no person verdict, no diagnosis, no practice guidance
+# Validity gate: Χ + reversibility + Dignity-in-Practice
+
+schema_version: "PMS-SEX_PROFILE"
+profile_format: "compact_machine_profile"
+
+schema_meta:
+  model_name: "PMS–SEX Application Profile"
+  model_short: "PMS-SEX"
+  status: "application_overlay"
+  profile_role: "paper_specific_profile"
+  profile_id: "PMS-SEX"
+  machine_priority: true
+  human_exposition_level: "compressed"
+  authors:
+    - name: "T. Zöller"
+      role: "originator"
+    - name: "ChatGPT (GPT-5.5 Thinking)"
+      role: "formalization_assistant"
+  description: >
+    Compact machine-readable application profile for PMS-SEX. The profile maps
+    the sexual-praxeological grammar of the paper onto the canonical PMS
+    operator spine Δ–Ψ. It defines domain concepts, drift profiles, viability
+    conditions, dignity guards, MIP docking boundaries, and analysis pipelines
+    without redefining PMS operators or converting structural readings into
+    person verdicts.
+
+source_model:
+  primary_profile:
+    name: "PMS-SEX"
+    title: "PMS-SEX — From Impulse to Self-Binding: A Praxeological Grammar of Sexuality (Δ–Ψ)"
+    status: "canonical_paper_reference"
+  depends_on:
+    model_name: "Praxeological Meta-Structure"
+    model_short: "PMS"
+    schema_version: "PMS_1.3"
+    status: "repository_reference"
+  docking_models:
+    - model_short: "MIP"
+      model_name: "Maturity in Practice"
+      role: "optional_evaluative_interface"
+    - model_short: "PMS-EDEN"
+      model_name: "PMS–EDEN"
+      role: "cross_domain_asymmetry_switch_reference"
+  conformity:
+    base_schema_version: "PMS_1.3"
+    canonical_operator_spine: "Δ → ∇ → □ → Λ → Α → Ω → Θ → Φ → Χ → Σ → Ψ"
+    repository_dependency_order_preserved: true
+    no_new_meta_axioms: true
+    no_operator_redefinition: true
+    no_dependency_rewrite: true
+    no_derived_axis_rewrite: true
+    no_direct_adultness_verdict: true
+    overlay_only: true
+  layer_rule: >
+    PMS-SEX is an application overlay on PMS. It may introduce domain concepts,
+    reduced signatures, drift profiles, viability conditions, and docking guards,
+    but it must not alter PMS operators, dependencies, or axioms. MIP docking
+    may add evaluative critique only through an explicit layer shift.
+
+references:
+  - label: "PMS (GitHub)"
+    url: "https://github.com/tz-dev/Praxeological-Meta-Structure-Theory"
+  - label: "PMS.yaml (raw)"
+    url: "https://raw.githubusercontent.com/tz-dev/Praxeological-Meta-Structure-Theory/refs/heads/main/model/PMS.yaml"
+  - label: "MIP (GitHub)"
+    url: "https://github.com/tz-dev/Maturity-in-Practice"
+  - label: "PMS–EDEN (GitHub)"
+    url: "https://github.com/tz-dev/PMS-EDEN"
+  - label: "PMS-SEX (GitHub)"
+    url: "https://github.com/tz-dev/PMS-SEX"
+  - label: "PMS-SEX.yaml (raw)"
+    url: "https://raw.githubusercontent.com/tz-dev/PMS-SEX/refs/heads/main/model/PMS-SEX.yaml"
+
+ref_index:
+  ch0: "Ch. 0: Scope and Methodology"
+  ch0_2: "Ch. 0.2: PMS operator spine / formal dependency discipline"
+  ch0_3: "Ch. 0.3: Entry guard"
+  ch0_5: "Ch. 0.5: Preference / praxis boundary"
+  ch0_6: "Ch. 0.6: Internal / outer / public distinction"
+  ch0_7: "Ch. 0.7: Pre-reflective readability"
+  ch0_8: "Ch. 0.8: Human emergence / sexed dependency"
+  ch0_9: "Ch. 0.9: Heterosexual working focus"
+  ch0_10: "Ch. 0.10: Biological affordance without destiny"
+  ch0_11: "Ch. 0.11: Term discipline"
+  ch0_12: "Ch. 0.12: Language discipline"
+  ch0_13: "Ch. 0.13: Disturbance / path-cost language"
+  ch0_14: "Ch. 0.14: Evidence mode"
+  ch0_15: "Ch. 0.15: Output form"
+  ch0_16: "Ch. 0.16: Misreading guards"
+  ch0_17: "Ch. 0.17: Docking / separation"
+  ch1: "Ch. 1: Sexuality as unavoidable praxis"
+  ch2: "Ch. 2: Drive / ∇"
+  ch3: "Ch. 3: Frame / □"
+  ch4: "Ch. 4: Asymmetry / Ω"
+  ch4_6: "Ch. 4.6: Sexual cost topology"
+  ch4_7: "Ch. 4.7: EDEN/PFO asymmetry switch reference"
+  ch4_8: "Ch. 4.8: Cost-topology implications"
+  ch4_9: "Ch. 4.9: Sexual reciprocity under real asymmetry"
+  ch5: "Ch. 5: Temporality / Θ"
+  ch5_3_4: "Ch. 5.3.4: Category escalation"
+  ch5_3_5: "Ch. 5.3.5: Ambivalence-withdrawal / post-access withdrawal"
+  ch6: "Ch. 6: Irreversibility and exit realism"
+  ch7: "Ch. 7: Non-event / Λ"
+  ch8: "Ch. 8: Pattern formation / Α"
+  ch9: "Ch. 9: Recontextualization / Φ"
+  ch10: "Ch. 10: Distance / Χ"
+  ch11: "Ch. 11: Integration / Σ"
+  ch12: "Ch. 12: Self-binding / Ψ"
+  ch12_6: "Ch. 12.6: Covert Ψ-expectation"
+  ch13: "Ch. 13: Body as non-operator remainder"
+  ch13_5: "Ch. 13.5: Direct otherness"
+  ch14: "Ch. 14: Modulators"
+  ch15: "Ch. 15: Deviance as consequence structure"
+  ch15_6: "Ch. 15.6: Access-based deviance"
+  ch15_7: "Ch. 15.7: Access / counterdesire loop"
+  ch15_8: "Ch. 15.8: Body/boundary coding and genital self-reading"
+  ch15_10: "Ch. 15.10: After-scene dignity"
+  ch16: "Ch. 16: High-risk / extreme practices"
+  ch17: "Ch. 17: Suspended self-binding"
+  ch17_10: "Ch. 17.10: Reciprocity under suspended Ψ"
+  ch18: "Ch. 18: Dysfunctional expressions and destructive dynamics"
+  ch19: "Ch. 19: Functional conditions and warning signals"
+  ch19_3: "Ch. 19.3: Functional minimum conditions"
+  ch19_4: "Ch. 19.4: Warning signals"
+  ch19_5: "Ch. 19.5: Viability corridor"
+  ch20: "Ch. 20: Minimal psychology adapter"
+  ch21: "Ch. 21: Dignity-in-Practice"
+  ch22: "Ch. 22: MIP docking interface"
+  ch23: "Ch. 23: Limits and extensions"
+  ch24: "Ch. 24: Conclusion"
+  appA: "Appendix A: Positioning and adjacent lenses"
+  appB: "Appendix B: Glossary"
+  appC: "Appendix C: Operator table"
+  appD: "Appendix D: One-page structural map"
+
+guard_registry:
+  scene_bound: "Claims apply to concrete configurations, not persons globally."
+  reversible_reading: "Readings remain revisable; Θ consequences do not rewind through reinterpretation."
+  no_person_label: "No person label, essence claim, identity verdict, character verdict, or global person attribution."
+  no_diagnosis: "No clinical, psychological, motive, trauma, pathology, or personality diagnosis."
+  no_rank: "No dignity, maturity, adultness, orientation, sex, genital, biological, or worth ranking."
+  no_moralism: "No purity claim, virtue hierarchy, moral ontology, contempt, humiliation, or moral theater."
+  no_instruction: "No practical instruction, protocol, optimization, intervention method, or practice guidance."
+  no_public_punishment: "Outer legibility does not authorize public accusation, exposure, shaming, punishment, or attribution escalation."
+  no_orientation_taxonomy: "No taxonomy or hierarchy of sexual identities or orientations."
+  no_sex_truth: "No conversion of sexed structure into sex truth, role proof, rank, or destiny."
+  no_genital_truth: "No conversion of genital meaning into genital truth, person truth, command, altar, oracle, or immunity source."
+  no_biological_destiny: "Biological affordance names bodies, risks, costs, thresholds, and likely strategy spaces; it does not establish destiny, role, rank, or moral evidence."
+  no_relationship_mandate: "Sexed dependency does not imply heterosexual mandate, partner prescription, reproductive command, or person incompleteness."
+  no_access_entitlement: "No person owes access, body, affection, desire, labor, correction, explanation, or availability."
+  no_consent_substitution: "Consent, mutuality, or autonomy may be real frame conditions but do not by themselves settle cost distribution."
+  no_permission_image_as_consent: "Permission-image and simulated counterdesire are not consent, encounter, or direct otherness."
+  no_cost_score: "Sexual cost topology is not a score, person measure, dignity ranking, maturity ranking, sex truth, or genital truth."
+  no_path_cost_person_value: "Disturbance, entropy, deviation, drift, failed emancipation, inadultness, or path-cost name stabilization burden, not human worth."
+  no_visibility_totalization: "Visible form remains readable but must not be totalized as the whole configuration."
+  no_internal_form_erasure: "Internal framing may be real without erasing outer form, cost topology, publicness, or temporal carryover."
+  no_public_confession: "Sexuality may be publicly measure-forming without becoming confession-mandatory."
+  no_boundary_aggression_authorization: "Boundary/aggression-collapse language does not adjudicate cases or authorize response, retaliation, coercion, or moral verdict."
+  no_withdrawal_automatic_guilt: "Withdrawal is not automatic guilt, betrayal, exploitation, immaturity, or moral failure."
+  no_withdrawal_automatic_exculpation: "Withdrawal is not automatic exculpation where structured Ψ-expectation and after-scene dignity are disowned."
+  no_impulse_malice_default: "Impulse-nearness is not malice, contempt, objectification, or low intent by default."
+  no_lack_of_malice_exculpation: "Lack of malice does not erase consequence, cost externalization, boundary failure, or responsibility."
+  no_unlearned_handling_exculpation: "Unlearned handling may explain clumsiness without excusing cost externalization."
+  operator_profile_only: "PMS-SEX records structural profiles; adultness- or maturity-relevant evaluation requires explicit MIP docking."
+  mip_docking_required: "Maturity-relevant or adultness-relevant critique belongs only to explicit MIP docking."
+  mip_no_back_projection: "MIP must not retroactively convert PMS-SEX structural descriptions into moral verdicts or person ontology."
+  dignity_protection: "Dignity-in-Practice protects enactment from degradation; it is not a person-status score."
+  after_scene_dignity: "After-scene dignity requires that Θ carryover not become person-shrinking, shame residue, self-worth leakage, blame reversal, or responsibility flight."
+  direct_otherness_guard: "Direct otherness is reality-correction without access entitlement."
+  genital_emancipation_guard: "Adult Sexual Emancipation means genital integration without genital sovereignty."
+  asymmetry_activation_guard: "Asymmetry activation is legitimate only where marked, bounded, linked to real Ω/Θ burden, and re-bound into Σ/Ψ where relevant."
+  parity_guard: "Parity coordinates reciprocity only where it does not exit responsibility under unequal cost topology."
+  responsibility_guard: "Responsibility under asymmetry requires self-binding and restraint, not authority, control, or frame ownership."
+
+guard_sets:
+  base_validity:
+    - "scene_bound"
+    - "reversible_reading"
+    - "dignity_protection"
+    - "no_person_label"
+    - "no_diagnosis"
+    - "no_rank"
+  no_capture:
+    - "scene_bound"
+    - "reversible_reading"
+    - "no_person_label"
+    - "no_diagnosis"
+    - "no_rank"
+    - "no_instruction"
+  structural_language:
+    - "scene_bound"
+    - "no_person_label"
+    - "no_diagnosis"
+    - "no_rank"
+    - "no_path_cost_person_value"
+  publicness:
+    - "no_public_punishment"
+    - "no_public_confession"
+    - "no_internal_form_erasure"
+  cost_topology:
+    - "no_cost_score"
+    - "no_consent_substitution"
+    - "operator_profile_only"
+  biology:
+    - "no_biological_destiny"
+    - "no_sex_truth"
+    - "no_relationship_mandate"
+  body_boundary:
+    - "no_sex_truth"
+    - "no_genital_truth"
+    - "no_rank"
+    - "scene_bound"
+  direct_otherness:
+    - "direct_otherness_guard"
+    - "no_access_entitlement"
+    - "no_permission_image_as_consent"
+  withdrawal:
+    - "no_withdrawal_automatic_guilt"
+    - "no_withdrawal_automatic_exculpation"
+    - "after_scene_dignity"
+  mip:
+    - "operator_profile_only"
+    - "mip_docking_required"
+    - "mip_no_back_projection"
+    - "scene_bound"
+    - "reversible_reading"
+    - "no_person_label"
+    - "no_rank"
+  final_profile:
+    - "no_person_label"
+    - "no_diagnosis"
+    - "no_rank"
+    - "no_instruction"
+    - "no_public_punishment"
+    - "no_cost_score"
+    - "no_path_cost_person_value"
+    - "operator_profile_only"
+    - "mip_docking_required"
+
+operator_spine:
+  source: "PMS.yaml"
+  schema_version: "PMS_1.3"
+  fixed_set: ["Δ", "∇", "□", "Λ", "Α", "Ω", "Θ", "Φ", "Χ", "Σ", "Ψ"]
+  canonical_order:
+    - "Δ"
+    - "∇"
+    - "□"
+    - "Λ"
+    - "Α"
+    - "Ω"
+    - "Θ"
+    - "Φ"
+    - "Χ"
+    - "Σ"
+    - "Ψ"
+  dependencies:
+    "Δ": []
+    "∇": ["Δ"]
+    "□": ["Δ", "∇"]
+    "Λ": ["□"]
+    "Α": ["Δ", "∇", "□", "Λ"]
+    "Ω": ["Α"]
+    "Θ": ["Ω", "Α"]
+    "Φ": ["Θ", "Ω", "□"]
+    "Χ": ["Φ", "Θ", "□"]
+    "Σ": ["Χ", "Φ"]
+    "Ψ": ["Σ", "Θ", "Χ"]
+  hygiene:
+    reduced_signatures_are_shorthand: true
+    reduced_signatures_do_not_change_dependencies: true
+    chi_presupposes: ["Φ", "Θ", "□"]
+    sigma_presupposes: ["Χ", "Φ"]
+    psi_presupposes: ["Σ", "Θ", "Χ"]
+    overlay_concepts_are_not_operators: true
+    drift_profiles_are_not_operators: true
+    axis_refs_are_not_operators: true
+    axis_refs_do_not_modify_pms_axes: true
+    mip_axes_do_not_modify_pms_axes: true
+  domain_overlay_map:
+    "Δ":
+      sex_function: "difference_legibility"
+      handles:
+        - "preference_praxis_boundary"
+        - "body_boundary_difference"
+        - "genital_meaning_difference"
+    "∇":
+      sex_function: "drive_pressure"
+      handles:
+        - "impulse_nearness_without_malice"
+        - "unlearned_handling"
+        - "access_pressure"
+    "□":
+      sex_function: "scene_frame"
+      handles:
+        - "internal_framing"
+        - "outer_legibility"
+        - "publicness_as_overlay"
+        - "practice_label"
+    "Λ":
+      sex_function: "absence_expectation"
+      handles:
+        - "withdrawal"
+        - "delay"
+        - "silence"
+        - "covert_psi_expectation"
+    "Α":
+      sex_function: "pattern_stabilization"
+      handles:
+        - "category_availability"
+        - "category_monopolization"
+        - "access_counterdesire_loop"
+    "Ω":
+      sex_function: "sexual_cost_topology"
+      handles:
+        - "asymmetry"
+        - "cost_layout"
+        - "asymmetry_specific_responsibility"
+        - "body_boundary_coding"
+    "Θ":
+      sex_function: "trajectory_and_irreversibility"
+      handles:
+        - "exit_realism"
+        - "after_scene_dignity"
+        - "category_escalation"
+        - "withdrawal_sequence"
+    "Φ":
+      sex_function: "recontextualization"
+      handles:
+        - "narrative_substitution"
+        - "outer_form_denial"
+        - "visible_form_fixation"
+    "Χ":
+      sex_function: "distance_and_stop_capability"
+      handles:
+        - "stop_capability"
+        - "boundary_aggression_readability"
+        - "switch_clarification"
+    "Σ":
+      sex_function: "integration"
+      handles:
+        - "genital_integration"
+        - "direct_otherness_correction"
+        - "asymmetry_rebinding"
+    "Ψ":
+      sex_function: "self_binding_and_responsibility"
+      handles:
+        - "psi_leak"
+        - "covert_psi_expectation"
+        - "psi_externalization"
+        - "sexual_reciprocity_under_real_asymmetry"
+
+concepts:
+  scene:
+    label: "Scene"
+    kind: "core_unit"
+    ops: ["□", "Θ"]
+    refs: ["ch0_5", "appB"]
+    def: "Bounded enactment unit rendered legible by a frame and carried through time."
+    guards: ["scene_bound", "no_person_label"]
+
+  configuration:
+    label: "Configuration"
+    kind: "core_unit"
+    ops: ["Δ", "∇", "□", "Λ", "Α", "Ω", "Θ", "Φ", "Χ", "Σ", "Ψ"]
+    refs: ["appB"]
+    def: "Concrete enacted arrangement of operators, costs, frames, trajectories, and binding effects."
+    guards: ["scene_bound", "no_person_label", "no_diagnosis", "no_rank"]
+
+  praxeological_grammar:
+    label: "Praxeological Grammar"
+    kind: "method"
+    refs: ["ch0", "appB"]
+    def: "Structural language for reading enactments without defaulting to psychology, morality, therapy, law, or person typing."
+    guards: ["no_diagnosis", "no_moralism", "no_instruction", "operator_profile_only"]
+
+  drift:
+    label: "Drift"
+    kind: "structural_dynamics"
+    ops: ["□", "Λ", "Α", "Ω", "Θ", "Χ", "Σ", "Ψ"]
+    refs: ["ch18", "ch19", "appB", "appD"]
+    def: "Predictable movement toward instability, narrowing, cost externalization, loss of governability, D-failure, or reduced interruptibility when operator load exceeds frame, distance, integration, or self-binding capacity."
+    guards: ["scene_bound", "no_person_label", "no_diagnosis", "no_rank", "operator_profile_only"]
+
+  viability:
+    label: "Viability"
+    kind: "governability_concept"
+    ops: ["□", "Λ", "Α", "Ω", "Θ", "Χ", "Σ", "Ψ"]
+    refs: ["ch19_3", "ch19_4", "ch19_5", "appB", "appD"]
+    def: "Structural capacity of a configuration to remain governable under frame, non-event, repetition, asymmetry, temporality, distance, integration, self-binding, cost topology, after-scene dignity, and boundary/aggression readability."
+    excludes:
+      - "normality_claim"
+      - "moral_rank"
+      - "person_verdict"
+      - "adultness_verdict"
+      - "dignity_score"
+    guards: ["scene_bound", "no_person_label", "no_diagnosis", "no_rank", "no_instruction"]
+
+  sexual_drift_triad:
+    label: "Sexual Drift Triad"
+    kind: "drift_group_concept"
+    refs: ["ch18", "ch21", "appB"]
+    def: "Compact handle for the three PMS-SEX drift routes: asymmetry becomes leverage, parity becomes exit, or responsibility becomes authority."
+    drift_refs:
+      - "asymmetry_switch_drift"
+      - "parity_to_exit"
+      - "responsibility_to_authority"
+    guards: ["scene_bound", "operator_profile_only", "no_person_label", "no_rank"]
+
+  narrative_substitution:
+    label: "Narrative Substitution"
+    kind: "recontextualization_concept"
+    ops: ["Φ", "Σ", "Θ", "Ω"]
+    refs: ["ch9", "ch18", "appB"]
+    def: "Use of recontextualization to claim resolution while structural costs, attractors, asymmetries, or temporal consequences remain unchanged."
+    drift_ref: "phi_inflation"
+    guards: ["scene_bound", "no_internal_form_erasure", "no_person_label"]
+
+  frame_narrowing:
+    label: "Frame Narrowing"
+    kind: "frame_dynamics"
+    ops: ["□", "Α", "Θ", "Χ"]
+    refs: ["ch8", "ch18", "appB"]
+    def: "Loss of alternative viable scenes; one script becomes non-substitutable through attractor monopolization."
+    drift_refs:
+      - "alpha_fixation"
+      - "category_monopolization"
+    guards: ["scene_bound", "no_person_label", "no_diagnosis"]
+
+  drift_marker:
+    label: "Drift Marker"
+    kind: "method_concept"
+    refs: ["ch18", "ch19", "appB"]
+    def: "Structural signal indicating elevated risk of destructive dynamics, loss of governability, cost externalization, D-failure, or reduced interruptibility."
+    source_ref: "drifts"
+    guards: ["scene_bound", "operator_profile_only", "no_person_label", "no_diagnosis"]
+
+  humiliation_form_exposure_form:
+    label: "Humiliation-Form / Exposure-Form"
+    kind: "outer_form"
+    ops: ["□", "Ω", "Θ", "Χ"]
+    refs: ["ch0_6", "ch18", "ch21", "appB"]
+    def: "Externally readable action-form characterized by marked asymmetry, exposure concentration, degradation-nearness, humiliation-nearness, or visible vulnerability."
+    guards: ["scene_bound", "no_visibility_totalization", "no_public_punishment", "no_person_label"]
+
+  degradation_form:
+    label: "Degradation-Form"
+    kind: "outer_form"
+    ops: ["□", "Ω", "Χ", "Ψ"]
+    refs: ["ch21", "appB"]
+    def: "Externally readable enactment pattern in which non-degradation under asymmetry is not preserved."
+    guards: ["dignity_protection", "scene_bound", "no_rank", "no_person_label"]
+
+  possession_form_control_form:
+    label: "Possession-Form / Control-Form"
+    kind: "outer_form"
+    ops: ["□", "Ω", "Χ", "Ψ"]
+    refs: ["ch18", "ch21", "appB"]
+    def: "Externally readable action-form in which access, definition, refusal, exit, or self-binding is organized around possession-like or control-like gradients."
+    guards: ["scene_bound", "no_person_label", "no_diagnosis", "responsibility_guard"]
+
+  authority_form:
+    label: "Authority-Form"
+    kind: "outer_form"
+    ops: ["□", "Ω", "Χ", "Ψ"]
+    refs: ["ch18", "ch21", "appB"]
+    def: "Externally readable action-form in which responsibility, protection, expertise, or asymmetry is converted into control, governance, or frame ownership."
+    drift_ref: "responsibility_to_authority"
+    guards: ["scene_bound", "no_person_label", "responsibility_guard", "operator_profile_only"]
+
+  entropic_path_structure:
+    label: "Entropic Path-Structure"
+    kind: "structural_cost_concept"
+    ops: ["□", "Α", "Ω", "Θ", "Χ", "Σ", "Ψ"]
+    refs: ["ch0_13", "appB", "appD"]
+    def: "Configuration-level stabilization difficulty under frame, attractor formation, asymmetry, temporality, distance, integration, and self-binding."
+    guards: ["no_path_cost_person_value", "no_person_label", "no_diagnosis", "no_rank"]
+
+  preference_praxis_boundary:
+    label: "Preference / Praxis Boundary"
+    kind: "method_guard"
+    ops: ["Δ", "□", "Ψ"]
+    refs: ["ch0_5", "ch24"]
+    def: "Preference remains private until it structures a concrete scene; praxis becomes responsible where it structures costs, participants, risks, or binding."
+    guards: ["no_public_confession", "scene_bound", "no_person_label"]
+
+  public_measure_formation:
+    label: "Public Measure-Formation"
+    kind: "publicness_concept"
+    ops: ["□", "Ω", "Θ"]
+    axis_refs: ["D"]
+    refs: ["ch0_5", "appB"]
+    def: "Sexual praxis can become publicly criticizable where it organizes costs, consent, consequence, binding, dignity, exposure, law, deception, violence, or long-term effects."
+    guards: ["no_public_confession", "no_public_punishment", "scene_bound"]
+
+  confession_regime:
+    label: "Confession Regime"
+    kind: "misread_guard"
+    ops: ["□", "Φ", "Χ", "Ψ"]
+    refs: ["ch0_5", "appB"]
+    def: "Drift in which fantasies, preferences, or private self-descriptions are pressed into public inventory and treated as person-truth."
+    guards: ["no_public_confession", "no_person_label", "no_diagnosis"]
+
+  internal_framing:
+    label: "Internal Framing"
+    kind: "layer"
+    ops: ["□", "Φ"]
+    refs: ["ch0_6", "ch3", "appB"]
+    def: "How a scene is inhabited, narrated, or lived from within the configuration."
+    guards: ["no_internal_form_erasure", "scene_bound"]
+
+  outer_legibility:
+    label: "Outer Legibility"
+    kind: "layer"
+    ops: ["□", "Ω", "Θ", "Χ"]
+    refs: ["ch0_6", "ch3", "appB"]
+    def: "Structurally readable action-form a scene presents under asymmetry, exposure, repetition, body/boundary coding, access form, publicness, and temporal carryover."
+    guards: ["no_public_punishment", "no_visibility_totalization", "no_person_label"]
+
+  pre_reflective_readability:
+    label: "Pre-Reflective Readability"
+    kind: "layer"
+    ops: ["Δ", "□"]
+    refs: ["ch0_7", "appB"]
+    def: "Early scene-legibility of marked configurations before elaborate internal translation or justificatory narration."
+    guards: ["no_person_label", "no_rank", "no_public_punishment"]
+
+  publicness_as_overlay:
+    label: "Publicness as Overlay"
+    kind: "layer"
+    ops: ["□", "Ω", "Θ", "Φ"]
+    refs: ["ch0_6", "appB", "appD"]
+    def: "Frame-extension that distributes, amplifies, documents, circulates, repeats, or sedimentizes a scene’s readability and consequences."
+    guards: ["no_public_punishment", "no_public_confession", "no_internal_form_erasure"]
+
+  practice_label:
+    label: "Practice Label"
+    kind: "frame_label"
+    ops: ["□", "Φ"]
+    refs: ["ch0_11", "appB"]
+    def: "Name used inside or around a scene, such as play, kink, service, devotion, discipline, experimentation, authenticity, casualness, or non-binding."
+    guards: ["no_internal_form_erasure", "scene_bound"]
+
+  visible_form_readability:
+    label: "Visible Form Readability"
+    kind: "layer_guard"
+    ops: ["□", "Χ", "Θ"]
+    refs: ["ch18", "ch21", "appB"]
+    def: "Visible action-form remains structurally readable while not being totalized as the whole configuration."
+    guards: ["no_visibility_totalization", "no_public_punishment", "no_person_label"]
+
+  biological_affordance_without_destiny:
+    label: "Biological Affordance Without Destiny"
+    kind: "embodiment_guard"
+    ops: ["Δ", "Ω", "Θ", "□"]
+    refs: ["ch0_10", "appB"]
+    def: "Biology structures bodies, risks, asymmetries, thresholds, costs, affordances, and likely strategy spaces without coding conduct, rank, role, or destiny."
+    guards: ["no_biological_destiny", "no_sex_truth", "no_rank"]
+
+  sexed_dependency:
+    label: "Sexed Dependency Without Mandate"
+    kind: "anthropological_guard"
+    ops: ["Δ", "Ω", "Θ", "Ψ"]
+    refs: ["ch0_8", "appB"]
+    def: "Human life emerges through sexually differentiated bodily and social conditions: birth, reproduction, dependency, care, embodiment, kinship, vulnerability, and intergenerational continuity."
+    guards: ["no_relationship_mandate", "no_sex_truth", "no_rank"]
+
+  impulse_nearness_without_malice:
+    label: "Impulse-Nearness Without Malice"
+    kind: "drive_guard"
+    ops: ["∇", "□", "Χ"]
+    refs: ["ch2", "ch3", "appB"]
+    def: "Fast, visual, bodily, impulse-near sexual perception or approach before reflective calibration."
+    guards: ["no_impulse_malice_default", "no_lack_of_malice_exculpation", "scene_bound"]
+
+  unlearned_handling:
+    label: "Unlearned Handling / Unvermittelter Umgang"
+    kind: "frame_handling"
+    ops: ["∇", "□", "Λ", "Α", "Χ"]
+    refs: ["ch3", "ch14", "appB"]
+    def: "Real sexual impulse handled under contradictory, moralized, or non-operational frame rules, producing clumsiness, avoidance, overcorrection, simulation, or access-anxiety."
+    guards: ["no_unlearned_handling_exculpation", "no_access_entitlement", "scene_bound"]
+
+  direct_otherness:
+    label: "Direct Otherness"
+    kind: "correction_condition"
+    ops: ["Δ", "□", "Ω", "Χ", "Σ", "Ψ"]
+    refs: ["ch13_5", "appB"]
+    def: "Reality-correction condition in which a sexual script encounters an other who can respond, refuse, invite, misunderstand, correct, desire, withdraw, delay, and remain non-identical with the script."
+    guards: ["direct_otherness_guard", "no_access_entitlement", "no_relationship_mandate", "no_orientation_taxonomy"]
+
+  body_remainder:
+    label: "Body as Non-Operator Remainder"
+    kind: "embodiment_concept"
+    ops: ["Ω", "Θ"]
+    refs: ["ch13", "appB"]
+    def: "Material consequence interface that compels visibility, irreversibility, and cost recognition without becoming a PMS operator."
+    guards: ["no_biological_destiny", "no_sex_truth", "no_rank"]
+
+  body_boundary_coding:
+    label: "Body/Boundary Coding"
+    kind: "embodiment_concept"
+    ops: ["Δ", "□", "Ω", "Θ"]
+    refs: ["ch15_8", "appB"]
+    def: "Body-state, exposure, withholding, opening, refusal, shame, recognition, boundary-form, or bodily consequence as scene readability channel."
+    guards: ["scene_bound", "no_sex_truth", "no_genital_truth", "no_rank"]
+
+  delta_density_at_the_body:
+    label: "Δ-Density at the Body"
+    kind: "embodiment_concept"
+    ops: ["Δ", "□", "Ω", "Θ"]
+    refs: ["ch15_8", "appB"]
+    def: "High density of difference-markers at the body: boundary, visibility, availability, shame, recognition, exposure, bodily consequence, and transformation are tightly coupled."
+    guards: ["scene_bound", "no_sex_truth", "no_rank"]
+
+  body_switching_point:
+    label: "Body-Switching Point / Körper-Schaltstelle"
+    kind: "embodiment_concept"
+    ops: ["Δ", "□", "Ω", "Θ", "Φ"]
+    refs: ["ch15_8", "appB"]
+    def: "Dense scene interface where small changes in visibility, availability, exposure, refusal, recognition, or bodily consequence produce large changes in meaning."
+    guards: ["scene_bound", "no_sex_truth", "no_genital_truth", "no_person_label"]
+
+  cost_layout:
+    label: "Cost Layout"
+    kind: "cost_concept"
+    ops: ["Ω", "Θ"]
+    refs: ["ch4", "appB"]
+    def: "Patterned distribution of burdens, risks, exposure, access, boundary costs, publicness, responsibility, and consequences across roles and time."
+    guards: ["no_cost_score", "scene_bound"]
+
+  sexual_cost_topology:
+    label: "Sexual Cost Topology"
+    kind: "cost_concept"
+    ops: ["Ω", "Θ", "□", "Χ", "Ψ"]
+    refs: ["ch4_6", "ch4_8", "ch17", "ch21", "appB"]
+    def: "Scene-bound distribution of bodily, temporal, exposure-related, reputational, binding-related, exit-related, publicness-related, body/boundary-related, access-related, and responsibility-related costs across sexual role-positions."
+    dimensions:
+      - "bodily_non_delegability"
+      - "exposure_and_publicness"
+      - "reputational_sedimentation"
+      - "exit_cost"
+      - "responsibility_externalizability"
+      - "frame_control_capacity"
+      - "asymmetry_activation_capacity"
+      - "after_scene_dignity"
+    guards: ["no_cost_score", "no_consent_substitution", "scene_bound", "operator_profile_only"]
+
+  asymmetry_specific_responsibility:
+    label: "Asymmetry-Specific Responsibility"
+    kind: "responsibility_concept"
+    ops: ["Ω", "Θ", "Χ", "Ψ"]
+    refs: ["ch4_6", "ch21", "ch22", "appB"]
+    def: "Self-binding required of a role-position by its own cost, power, exposure, exit, frame-control, and externalization profile."
+    guards: ["scene_bound", "no_rank", "operator_profile_only", "mip_docking_required"]
+
+  sexual_reciprocity_under_real_asymmetry:
+    label: "Sexual Reciprocity Under Real Asymmetry"
+    kind: "viability_principle"
+    ops: ["Ω", "Θ", "Χ", "Σ", "Ψ"]
+    refs: ["ch4_9", "ch17_10", "ch21", "ch24", "appB"]
+    def: "Unequal burdens need not be equal; they must not be externalized."
+    requires:
+      - "explicit_cost_topology"
+      - "marked_bounded_asymmetry_activation"
+      - "chi_restraint"
+      - "sigma_coordination_where_needed"
+      - "psi_handling_where_binding_relevance_exists"
+      - "after_scene_dignity"
+    excludes:
+      - "equal_burdens_required"
+      - "identical_role_tasks_required"
+      - "symmetry_of_content_required"
+      - "role_prescription"
+      - "person_rank"
+    guards: ["scene_bound", "no_rank", "no_cost_score", "operator_profile_only"]
+
+  exit_realism:
+    label: "Exit Realism"
+    kind: "temporal_concept"
+    ops: ["Θ", "Χ", "Ψ"]
+    refs: ["ch6", "appB"]
+    def: "Reading of whether stopping, leaving, refusing, re-reading, or redirecting remains practically available under accumulated costs."
+    guards: ["reversible_reading", "scene_bound"]
+
+  pseudo_symmetry:
+    label: "Pseudo-Symmetry"
+    kind: "cost_misread"
+    ops: ["□", "Ω", "Θ"]
+    refs: ["ch4", "ch18", "appB"]
+    def: "Equality, mutuality, autonomy, or consent rhetoric used to make real asymmetry and cost distribution unnameable."
+    guards: ["no_consent_substitution", "scene_bound", "no_person_label"]
+
+  eden_pfo_asymmetry_switch:
+    label: "EDEN/PFO Asymmetry Switch"
+    kind: "cross_domain_reference"
+    ops: ["Ω", "Θ", "Χ", "Σ", "Ψ"]
+    refs: ["ch4_7", "ch17", "ch18", "ch21", "appB"]
+    source_model: "PMS-EDEN"
+    def: "Sexual instantiation of a regime-level switch: parity is claimed for autonomy, status, access, or non-binding freedom, while asymmetry is activated for protection, cost, exposure, or responsibility."
+    guards: ["asymmetry_activation_guard", "operator_profile_only", "mip_no_back_projection"]
+
+  asymmetry_activation:
+    label: "Asymmetry Activation"
+    kind: "asymmetry_handling"
+    ops: ["Ω", "Θ", "Χ", "Σ", "Ψ"]
+    refs: ["ch4_7", "ch17", "ch21"]
+    def: "Invocation or activation of real Ω/Θ asymmetry inside a scene."
+    viable_when:
+      - "marked"
+      - "bounded"
+      - "linked_to_real_omega_theta_burden"
+      - "re_bound_into_sigma_psi_where_relevant"
+    guards: ["asymmetry_activation_guard", "scene_bound"]
+
+  category_escalation:
+    label: "Category Escalation"
+    kind: "pattern_concept"
+    ops: ["Α", "Θ", "Φ"]
+    refs: ["ch5_3_4", "ch8", "ch15", "appB"]
+    def: "Pornographic or category-mediated path in which difference becomes category, niche, combination, escalation, normalization, and demand for new difference."
+    guards: ["scene_bound", "no_diagnosis", "no_person_label"]
+
+  category_availability:
+    label: "Category Availability"
+    kind: "pattern_concept"
+    ops: ["Α", "□"]
+    refs: ["ch8", "ch15"]
+    def: "Low-friction availability of repeatable sexual categories, images, labels, or scripts."
+    guards: ["scene_bound", "no_diagnosis"]
+
+  permission_image:
+    label: "Permission-Image"
+    kind: "image_mediation"
+    ops: ["□", "Φ", "Α", "Ω"]
+    refs: ["ch15_7", "appB"]
+    def: "Image-bound frame effect in which a category appears to carry the other’s desire, invitation, permission, enjoyment, or hidden demand."
+    guards: ["no_permission_image_as_consent", "no_access_entitlement", "direct_otherness_guard"]
+
+  simulated_counterdesire:
+    label: "Simulated Counterdesire"
+    kind: "image_mediation"
+    ops: ["Φ", "Α", "Ω", "Θ"]
+    refs: ["ch15_7", "appB"]
+    def: "Image-bound appearance that the other wants, permits, invites, enjoys, or confirms the access displayed by the category."
+    guards: ["no_permission_image_as_consent", "direct_otherness_guard"]
+
+  access_counterdesire_loop:
+    label: "Access/Counterdesire Loop"
+    kind: "image_mediation"
+    ops: ["Δ", "□", "Α", "Ω", "Θ", "Χ"]
+    refs: ["ch15_7", "appB"]
+    def: "Mediated loop in which limited real correction plus simulated counterdesire plus repeatable category availability stabilizes image-bound permission as substitute for encounter."
+    guards: ["no_access_entitlement", "no_permission_image_as_consent", "no_diagnosis"]
+
+  access_based_deviance:
+    label: "Access-Based Deviance"
+    kind: "deviance_channel"
+    ops: ["Δ", "Α", "Ω", "Θ", "Χ"]
+    refs: ["ch15_6", "ch15_7", "appB"]
+    def: "Configuration path in which deviance becomes legible through access thresholds: what can be reached, earned, exceeded, purchased, simulated, or imagined as available."
+    guards: ["scene_bound", "no_access_entitlement", "no_person_label", "no_diagnosis"]
+
+  body_boundary_coding_deviance:
+    label: "Body/Boundary Coding Deviance"
+    kind: "deviance_channel"
+    ops: ["Δ", "Α", "Ω", "Θ", "Χ"]
+    refs: ["ch15_8", "appB"]
+    def: "Configuration path in which deviance becomes legible through body and boundary: what is embodied, opened, withheld, exposed, transformed, marked, shamed, confirmed, or made readable as permission."
+    guards: ["scene_bound", "no_sex_truth", "no_rank", "no_person_label"]
+
+  genital_meaning:
+    label: "Genital Meaning"
+    kind: "embodiment_concept"
+    ops: ["Δ", "Σ", "Ψ"]
+    refs: ["ch15_8", "ch24", "appB"]
+    def: "Genital meaning as real embodied significance without becoming sovereign over the person."
+    guards: ["no_genital_truth", "genital_emancipation_guard", "scene_bound"]
+
+  sacralized_genital_self_reading:
+    label: "Sacralized Genital Self-Reading"
+    kind: "embodiment_misread"
+    ops: ["Δ", "□", "Φ", "Α", "Ω", "Θ", "Χ"]
+    refs: ["ch15_8", "ch24", "appB"]
+    def: "Configuration in which the genital is treated as identity oracle, altar, proof, shame-center, liberation symbol, victim center, potency evidence, boundary mystery, or immunity source."
+    guards: ["no_genital_truth", "genital_emancipation_guard", "no_rank"]
+
+  genital_emancipation:
+    label: "Genital Emancipation"
+    kind: "integration_concept"
+    ops: ["Χ", "Σ", "Ψ"]
+    axis_refs: ["D"]
+    refs: ["ch24", "appB"]
+    def: "The genital belongs to the person; the person does not belong to the genital."
+    guards: ["genital_emancipation_guard", "no_genital_truth", "no_rank"]
+
+  adult_sexual_emancipation:
+    label: "Adult Sexual Emancipation"
+    kind: "closing_axis"
+    ops: ["Χ", "Σ", "Ψ"]
+    axis_refs: ["D"]
+    refs: ["ch24", "appB"]
+    formula: "genital integration without genital sovereignty"
+    def: "Capacity to carry one’s sexual body under Χ, Σ, and Ψ without denial, enthronement, or externalization."
+    excludes:
+      - "enactment_multiplication"
+      - "public_confession"
+      - "genital_celebration_as_such"
+      - "visibility_as_liberation_alone"
+      - "boundary_reduction"
+      - "person_hierarchy"
+      - "sovereign_sexual_self_description"
+    guards: ["genital_emancipation_guard", "no_genital_truth", "no_rank", "no_public_confession"]
+
+  covert_psi_expectation:
+    label: "Covert Ψ-Expectation"
+    kind: "binding_concept"
+    ops: ["Λ", "Α", "Ω", "Θ", "Ψ"]
+    refs: ["ch5_3_5", "ch12_6", "appB"]
+    def: "Binding relevance created by care, access, repetition, ambiguity, desire, or after-scene conduct while the frame still narrates the scene as non-binding."
+    guards: ["scene_bound", "no_withdrawal_automatic_guilt", "no_withdrawal_automatic_exculpation"]
+
+  ambivalence_withdrawal:
+    label: "Ambivalence-Withdrawal / Love-Ending Drift"
+    kind: "withdrawal_profile"
+    ops: ["Λ", "Α", "Ω", "Θ", "Ψ"]
+    refs: ["ch5_3_5", "ch15_8", "appB"]
+    def: "Configuration in which love, attachment, or sexual-relational binding weakens because the resonance field no longer stabilizes desire, safety, determination, or future-readability."
+    guards: ["no_withdrawal_automatic_guilt", "no_sex_truth", "no_person_label"]
+
+  post_access_withdrawal:
+    label: "Post-Access Withdrawal"
+    kind: "withdrawal_profile"
+    ops: ["∇", "Α", "Ω", "Θ", "Ψ"]
+    refs: ["ch5_3_5", "ch15_8", "appB"]
+    def: "Configuration in which access-threshold pressure resolves through enactment while Ψ does not bind to the after-scene."
+    guards: ["no_withdrawal_automatic_guilt", "no_withdrawal_automatic_exculpation", "no_sex_truth", "no_person_label"]
+
+  after_scene_dignity:
+    label: "After-Scene Dignity / Nachher-Würde"
+    kind: "dignity_concept"
+    ops: ["Θ", "Χ", "Σ", "Ψ"]
+    axis_refs: ["D"]
+    refs: ["ch15_10", "ch19", "ch21", "ch24", "appB"]
+    def: "Whether an asymmetrical, humiliation-near, body-marked, boundary-marked, access-coded, or withdrawal-relevant scene can still be carried after the episode without person-shrinking, degradation, self-worth leakage, blame reversal, or responsibility flight."
+    guards: ["after_scene_dignity", "dignity_protection", "scene_bound"]
+
+  positive_guided_dominance:
+    label: "Positive / Guided Dominance"
+    kind: "bounded_intensity_concept"
+    ops: ["Ω", "Χ", "Σ", "Ψ"]
+    axis_refs: ["D"]
+    refs: ["ch15", "ch16", "appB"]
+    def: "Bounded configuration in which guided intensity holds, leads, approaches, or intensifies a negotiated boundary without reducing the person to the scene."
+    guards: ["dignity_protection", "after_scene_dignity", "no_instruction", "scene_bound"]
+
+  path_cost:
+    label: "Path-Cost"
+    kind: "structural_cost_concept"
+    ops: ["□", "Α", "Ω", "Θ", "Χ", "Σ", "Ψ"]
+    refs: ["ch0_13", "appB", "appD"]
+    def: "Operator-work required for a configuration to remain coherent, reversible, non-coercive, interruptible, and dignity-preserving over time."
+    guards: ["no_path_cost_person_value", "no_rank", "no_diagnosis"]
+
+  stabilization_burden:
+    label: "Stabilization Burden"
+    kind: "structural_cost_concept"
+    ops: ["Α", "Θ", "Χ", "Σ", "Ψ"]
+    refs: ["ch0_13", "appB"]
+    def: "Amount of framing, distance, integration, self-binding discipline, or cost accounting required to keep a configuration from narrowing, externalizing costs, or collapsing under recurrence."
+    guards: ["no_path_cost_person_value", "no_rank"]
+
+  neutral_disturbance:
+    label: "Neutral Disturbance"
+    kind: "structural_language_guard"
+    refs: ["ch0_13", "appB"]
+    def: "Strictly structural term for deviation, perturbation, instability, or added stabilization burden within a configuration."
+    guards: ["no_path_cost_person_value", "no_moralism", "no_diagnosis", "no_rank"]
+
+  configuration_level_deviation:
+    label: "Configuration-Level Deviation"
+    kind: "structural_language_guard"
+    refs: ["ch0_13", "appB"]
+    def: "Structural divergence from a lower-cost or more strongly stabilized path."
+    guards: ["scene_bound", "no_path_cost_person_value", "no_orientation_taxonomy", "no_rank"]
+
+  non_capture:
+    label: "Non-Capture"
+    kind: "method_guard"
+    refs: ["ch23", "appA", "appB"]
+    def: "Possibility that a sexually marked configuration may not be fully rendered without remainder in PMS-SEX grammar."
+    guards: ["reversible_reading", "no_person_label", "no_diagnosis", "no_rank"]
+
+  dignity_in_practice:
+    label: "Dignity-in-Practice"
+    kind: "dignity_module_concept"
+    ops: ["Ψ", "Χ", "Ω"]
+    refs: ["ch21", "appB"]
+    def: "Enacted restraint and non-degradation within a frame under asymmetry."
+    guards: ["dignity_protection", "scene_bound", "no_rank"]
+
+  D_compliance:
+    label: "D-Compliance"
+    kind: "dignity_module_concept"
+    ops: ["Ψ", "Χ", "Ω", "Θ"]
+    refs: ["ch21", "appB"]
+    def: "Preservation of D as enactment constraint: asymmetry governed, stopping usable, covert Ψ avoided, after-scene dignity intact, and critique non-humiliating."
+    guards: ["dignity_protection", "no_rank"]
+
+  D_violation:
+    label: "D-Violation"
+    kind: "dignity_module_concept"
+    ops: ["Ψ", "Χ", "Ω", "Θ"]
+    refs: ["ch21", "appB"]
+    def: "Configuration-level failure to preserve non-degradation under asymmetry."
+    guards: ["dignity_protection", "no_rank", "no_person_label"]
+
+  operator_profile_only:
+    label: "Operator Profile Only"
+    kind: "mip_docking_guard"
+    refs: ["ch22", "appB"]
+    def: "PMS-SEX records structural profiles; it does not issue direct person-adultness or maturity verdicts."
+    guards: ["operator_profile_only", "mip_docking_required", "mip_no_back_projection"]
+
+  mip_docking:
+    label: "MIP Docking"
+    kind: "external_interface"
+    refs: ["ch22", "appA", "appB"]
+    def: "Optional evaluative interface: PMS-SEX describes operator profiles; MIP asks when critique is legitimate."
+    guards: ["mip_docking_required", "mip_no_back_projection", "scene_bound", "no_rank"]
+
+  maturity_relevant_evaluation:
+    label: "Maturity-Relevant Evaluation"
+    kind: "external_interface_guard"
+    refs: ["ch22", "appB"]
+    def: "Evaluation that belongs only to explicit MIP docking and must remain scene-bound, reversible, non-person-ranking, non-diagnostic, and D-preserving."
+    guards: ["mip_docking_required", "mip_no_back_projection", "no_person_label", "no_rank"]
+
+  asymmetry_specific_self_binding:
+    label: "Asymmetry-Specific Self-Binding"
+    kind: "mip_docking_question"
+    ops: ["Ω", "Θ", "Χ", "Ψ"]
+    refs: ["ch21", "ch22", "appB"]
+    def: "Question whether a role-position carries the self-binding required by its cost, power, exposure, exit, frame-control, and externalization profile."
+    guards: ["mip_docking_required", "scene_bound", "no_rank", "no_person_label"]
+
+concept_sets:
+  core:
+    - "scene"
+    - "configuration"
+    - "praxeological_grammar"
+    - "preference_praxis_boundary"
+    - "drift"
+    - "viability"
+    - "non_capture"
+
+  layer_discipline:
+    - "internal_framing"
+    - "outer_legibility"
+    - "pre_reflective_readability"
+    - "publicness_as_overlay"
+    - "public_measure_formation"
+    - "confession_regime"
+    - "practice_label"
+    - "visible_form_readability"
+
+  outer_form_language:
+    - "outer_legibility"
+    - "visible_form_readability"
+    - "humiliation_form_exposure_form"
+    - "degradation_form"
+    - "possession_form_control_form"
+    - "authority_form"
+
+  embodiment_and_sexed_structure:
+    - "biological_affordance_without_destiny"
+    - "sexed_dependency"
+    - "body_remainder"
+    - "body_boundary_coding"
+    - "delta_density_at_the_body"
+    - "body_switching_point"
+    - "genital_meaning"
+    - "sacralized_genital_self_reading"
+    - "genital_emancipation"
+    - "adult_sexual_emancipation"
+
+  access_and_direct_otherness:
+    - "direct_otherness"
+    - "permission_image"
+    - "simulated_counterdesire"
+    - "access_counterdesire_loop"
+    - "access_based_deviance"
+    - "body_boundary_coding_deviance"
+
+  cost_and_asymmetry:
+    - "cost_layout"
+    - "sexual_cost_topology"
+    - "asymmetry_specific_responsibility"
+    - "sexual_reciprocity_under_real_asymmetry"
+    - "exit_realism"
+    - "pseudo_symmetry"
+    - "eden_pfo_asymmetry_switch"
+    - "asymmetry_activation"
+
+  withdrawal_and_binding:
+    - "covert_psi_expectation"
+    - "ambivalence_withdrawal"
+    - "post_access_withdrawal"
+    - "after_scene_dignity"
+
+  structural_language:
+    - "path_cost"
+    - "stabilization_burden"
+    - "entropic_path_structure"
+    - "neutral_disturbance"
+    - "configuration_level_deviation"
+    - "narrative_substitution"
+    - "frame_narrowing"
+    - "drift_marker"
+
+  dignity_and_mip:
+    - "dignity_in_practice"
+    - "D_compliance"
+    - "D_violation"
+    - "operator_profile_only"
+    - "mip_docking"
+    - "maturity_relevant_evaluation"
+    - "asymmetry_specific_self_binding"
+
+drifts:
+  psi_leak:
+    label: "Ψ Leak / Covert Self-Binding Demand"
+    family: "binding_drift"
+    ops: ["Ψ", "□", "Θ"]
+    refs: ["ch12_6", "ch18", "ch21", "appB"]
+    def: "Meaning, possession, self-worth, identity proof, or commitment demand enters a frame that cannot explicitly carry binding."
+    indicators:
+      - "meaning_claim_exceeds_frame"
+      - "local_enactment_becomes_identity_proof"
+      - "jealousy_or_possession_as_rule_substitute"
+      - "non_binding_language_conceals_binding_relevance"
+    guards: ["scene_bound", "no_person_label", "no_diagnosis"]
+
+  covert_psi_expectation_drift:
+    label: "Covert Ψ-Expectation Drift"
+    family: "binding_drift"
+    concept_ref: "covert_psi_expectation"
+    ops: ["Ψ", "Θ", "Ω", "□"]
+    refs: ["ch5_3_5", "ch12_6", "ch18", "appB"]
+    def: "Care, access, repetition, ambiguity, desire, or after-scene conduct creates binding relevance while the scene remains narrated as non-binding."
+    indicators:
+      - "care_creates_expectation"
+      - "access_creates_expectation"
+      - "ambiguity_structures_binding_relevance"
+      - "after_scene_conduct_exceeds_non_binding_frame"
+    guards: ["scene_bound", "no_withdrawal_automatic_guilt", "no_withdrawal_automatic_exculpation"]
+
+  psi_externalization:
+    label: "Ψ Externalization"
+    family: "responsibility_externalization"
+    ops: ["Ψ", "Ω", "Χ"]
+    refs: ["ch12", "ch18", "ch21", "appB"]
+    def: "Role-specific self-binding is displaced onto another role-position, which must carry, repair, prove, absorb, or endure costs that should be carried as self-binding."
+    indicators:
+      - "other_must_absorb_cost"
+      - "repair_burden_displaced"
+      - "proof_demand_externalized"
+      - "self_binding_replaced_by_other_binding"
+    guards: ["scene_bound", "no_person_label", "operator_profile_only"]
+
+  omega_escalation:
+    label: "Ω Escalation"
+    family: "asymmetry_drift"
+    ops: ["Ω", "□", "Χ"]
+    refs: ["ch4", "ch18", "ch21", "appB"]
+    def: "Asymmetry becomes a steering variable rather than a governed layout."
+    indicators:
+      - "boundary_testing"
+      - "access_pressure"
+      - "definitional_control_shift"
+      - "uneven_exit_capacity_normalized"
+      - "exposure_gradient_denied"
+    guards: ["scene_bound", "no_person_label", "no_consent_substitution"]
+
+  pseudo_symmetry_drift:
+    label: "Pseudo-Symmetry Drift"
+    family: "cost_misread"
+    concept_ref: "pseudo_symmetry"
+    ops: ["□", "Ω", "Θ"]
+    refs: ["ch4", "ch18", "appB"]
+    def: "Equality, mutuality, autonomy, or consent rhetoric blocks asymmetry and cost-topology reconstruction."
+    indicators:
+      - "mutuality_flattens_unequal_costs"
+      - "consent_language_used_as_total_cost_closure"
+      - "autonomy_substitutes_role_specific_self_binding"
+      - "non_binding_language_denies_theta_carryover"
+    guards: ["scene_bound", "no_consent_substitution", "no_person_label"]
+
+  non_event_steering:
+    label: "Λ Steering / Non-Event Escalation"
+    family: "absence_drift"
+    ops: ["Λ", "□", "Α", "Θ"]
+    refs: ["ch7", "ch18", "appB"]
+    def: "Absence, delay, silence, hesitation, cancellation, or withdrawal becomes an active steering mechanism under expectation."
+    indicators:
+      - "silence_as_leverage"
+      - "withdrawal_as_steering"
+      - "chronic_maybe_later"
+      - "interpretive_overload"
+      - "non_occurrence_replaces_frame_work"
+    guards: ["scene_bound", "no_person_label", "no_withdrawal_automatic_guilt"]
+
+  alpha_fixation:
+    label: "Α Fixation"
+    family: "attractor_drift"
+    ops: ["Α", "□", "Θ"]
+    refs: ["ch8", "ch18", "appB"]
+    def: "Attractor stabilization becomes monopolizing: one script becomes non-substitutable and repetition replaces choice."
+    indicators:
+      - "one_script_only"
+      - "alternatives_lose_legibility"
+      - "practice_becomes_non_substitutable"
+      - "label_capture_protects_route"
+    guards: ["scene_bound", "no_person_label", "no_diagnosis"]
+
+  category_monopolization:
+    label: "Category Monopolization"
+    family: "attractor_drift"
+    ops: ["Δ", "Α", "Θ", "Χ"]
+    refs: ["ch5_3_4", "ch8", "ch15", "appB"]
+    def: "One category, image, access threshold, body/boundary code, permission-image, or repeatable scene form crowds out the broader sexual field."
+    indicators:
+      - "category_replaces_frame_breadth"
+      - "searchability_replaces_encounter"
+      - "combination_replaces_re_reading"
+      - "new_difference_required_after_normalization"
+    guards: ["scene_bound", "no_person_label", "no_diagnosis"]
+
+  theta_overload:
+    label: "Θ Overload"
+    family: "temporal_drift"
+    ops: ["Θ", "Ω", "Α", "Χ"]
+    refs: ["ch5", "ch6", "ch18", "appB"]
+    def: "Accumulated costs exceed frame capacity; exit fictions persist until collapse becomes abrupt or expensive."
+    indicators:
+      - "foreseeable_after_cost_denied"
+      - "exit_narrated_as_reset"
+      - "repetition_continues_despite_cost"
+      - "public_or_bodily_sedimentation_hardens"
+    guards: ["scene_bound", "reversible_reading", "no_person_label"]
+
+  phi_inflation:
+    label: "Φ Inflation / Narrative Inflation"
+    family: "recontextualization_drift"
+    ops: ["Φ", "Σ", "Θ", "Ω"]
+    refs: ["ch9", "ch18", "ch19", "appB"]
+    def: "Recontextualization claims resolution while attractors, asymmetries, temporal costs, or cost topology remain unchanged."
+    indicators:
+      - "reframing_replaces_cost_naming"
+      - "later_story_erases_prior_action_form"
+      - "internal_description_moves_structure_does_not"
+      - "narrative_repair_substitutes_sigma"
+    guards: ["scene_bound", "no_internal_form_erasure", "no_person_label"]
+
+  chi_loss:
+    label: "Χ Loss"
+    family: "distance_drift"
+    ops: ["Χ", "□", "Θ"]
+    refs: ["ch10", "ch18", "appB"]
+    def: "Stop-capability, meta-position, hesitation, humor, de-escalation, or outer-form awareness becomes socially or practically unavailable."
+    indicators:
+      - "stop_punished"
+      - "critique_read_as_betrayal"
+      - "outer_form_awareness_forbidden"
+      - "switch_clarification_framed_as_attack"
+      - "self_correction_fails"
+    guards: ["scene_bound", "no_person_label", "dignity_protection"]
+
+  outer_form_denial:
+    label: "Outer-Form Denial"
+    family: "layer_collapse"
+    ops: ["□", "Φ", "Χ"]
+    refs: ["ch0_6", "ch18", "ch21", "appB"]
+    def: "Internal framing, consent-language, practice labels, or later recontextualization block analysis of enacted form."
+    indicators:
+      - "practice_label_ends_analysis"
+      - "internal_meaning_erases_action_form"
+      - "outer_legibility_recoded_as_hostile"
+      - "cost_topology_blocked_by_label"
+    guards: ["scene_bound", "no_internal_form_erasure", "no_public_punishment"]
+
+  visible_form_fixation:
+    label: "Visible-Form Fixation"
+    family: "layer_collapse"
+    ops: ["□", "Ω", "Θ", "Χ"]
+    refs: ["ch18", "ch21", "appB"]
+    def: "The most visible action-form is treated as the whole structure while frame history, non-event pressure, cost topology, internal framing, and temporal accumulation are under-read."
+    indicators:
+      - "visible_action_totalized"
+      - "frame_history_ignored"
+      - "cost_topology_not_reconstructed"
+      - "outer_form_replaces_full_configuration"
+    guards: ["scene_bound", "no_visibility_totalization", "no_public_punishment"]
+
+  publicness_confusion:
+    label: "Publicness Confusion"
+    family: "publicness_drift"
+    ops: ["□", "Ω", "Θ"]
+    refs: ["ch0_6", "ch18", "appB", "appD"]
+    def: "Publicity is treated either as the whole source of consequence or as irrelevant despite amplification, documentation, circulation, reputation, or sedimentation."
+    indicators:
+      - "publicity_treated_as_whole_harm"
+      - "publicity_denied_despite_sedimentation"
+      - "audience_reaction_replaces_scene_analysis"
+      - "public_measure_confused_with_confession"
+    guards: ["scene_bound", "no_public_punishment", "no_public_confession"]
+
+  access_entitlement_drift:
+    label: "Access Entitlement Drift"
+    family: "access_drift"
+    ops: ["Ω", "Λ", "Θ", "Χ"]
+    refs: ["ch13_5", "ch15_6", "ch15_7", "appB"]
+    def: "Access threshold-language becomes entitlement, claim, right, debt, or owed availability."
+    indicators:
+      - "access_treated_as_owed"
+      - "frustration_becomes_claim"
+      - "refusal_read_as_personhood_denial"
+      - "direct_otherness_misread_as_required_correction"
+    guards: ["scene_bound", "no_access_entitlement", "direct_otherness_guard"]
+
+  direct_otherness_failure:
+    label: "Direct-Otherness Failure"
+    family: "access_drift"
+    concept_ref: "direct_otherness"
+    ops: ["Δ", "□", "Ω", "Χ", "Σ"]
+    refs: ["ch13_5", "ch15", "appB"]
+    def: "Script correction by a real other is replaced by image, fantasy, pornography, ideology, category, or self-description."
+    indicators:
+      - "image_bound_access_replaces_encounter"
+      - "permission_image_treated_as_consent"
+      - "simulated_counterdesire_replaces_response"
+      - "self_reading_uninterrupted_by_real_other"
+    guards: ["scene_bound", "direct_otherness_guard", "no_access_entitlement"]
+
+  body_boundary_person_truth_drift:
+    label: "Body/Boundary Person-Truth Drift"
+    family: "embodiment_drift"
+    ops: ["Δ", "Ω", "Θ", "Φ", "Χ"]
+    refs: ["ch15_8", "appB"]
+    def: "Body-state, boundary-form, exposure, refusal, shame, recognition, genital meaning, or bodily consequence is treated as the truth of the person."
+    indicators:
+      - "body_state_as_identity_oracle"
+      - "boundary_form_as_immunity_source"
+      - "bodily_vulnerability_as_person_truth"
+      - "critique_of_self_reading_treated_as_dignity_attack"
+    guards: ["scene_bound", "no_sex_truth", "no_genital_truth", "no_rank"]
+
+  genital_sovereignty_drift:
+    label: "Genital-Sovereignty Drift"
+    family: "embodiment_drift"
+    ops: ["□", "Σ", "Ψ"]
+    refs: ["ch15_8", "ch24", "appB"]
+    def: "Genital meaning becomes command, altar, oracle, proof, shame-center, potency evidence, liberation symbol, victim center, or immunity source."
+    indicators:
+      - "genital_meaning_overrules_cost_topology"
+      - "genital_self_reading_blocks_critique"
+      - "genital_visibility_confused_with_emancipation"
+      - "adult_sexual_emancipation_replaced_by_sovereign_self_description"
+    guards: ["scene_bound", "no_genital_truth", "genital_emancipation_guard", "no_rank"]
+
+  withdrawal_expectation_disowned:
+    label: "Withdrawal Disowns Structured Expectation"
+    family: "withdrawal_drift"
+    ops: ["Λ", "Θ", "Ψ", "Ω"]
+    refs: ["ch5_3_5", "ch12_6", "ch15_8", "ch21", "appB"]
+    def: "Withdrawal, love-ending, or post-access non-continuation disowns the Ψ-expectation the configuration helped structure."
+    indicators:
+      - "care_access_repetition_created_expectation"
+      - "withdrawal_narrated_as_costless"
+      - "non_binding_language_erases_structured_expectation"
+      - "after_scene_dignity_not_carried"
+    guards: ["scene_bound", "no_withdrawal_automatic_guilt", "no_withdrawal_automatic_exculpation", "after_scene_dignity"]
+
+  after_scene_dignity_failure:
+    label: "After-Scene Dignity Failure"
+    family: "dignity_drift"
+    concept_ref: "after_scene_dignity"
+    ops: ["Θ", "Χ", "Ψ", "Ω"]
+    refs: ["ch15_10", "ch19", "ch21", "ch24", "appB"]
+    def: "The scene cannot be carried after Θ without person-shrinking, shame residue, self-worth leakage, blame reversal, degradation, immunity, or responsibility flight."
+    indicators:
+      - "shame_residue_dumped"
+      - "self_worth_leaks_into_scene"
+      - "outer_form_denied_to_avoid_responsibility"
+      - "only_play_immunizes_after_cost"
+      - "retrospective_responsibility_fled"
+    guards: ["scene_bound", "dignity_protection", "after_scene_dignity", "no_rank"]
+
+  unmarked_omega_activation:
+    label: "Unmarked Ω Activation"
+    family: "eden_pfo_drift"
+    ops: ["Ω", "Θ", "Χ", "Σ", "Ψ"]
+    refs: ["ch4_7", "ch17", "ch18", "ch21", "appB"]
+    def: "Asymmetry activation that is not explicitly marked as exceptional, necessary, bounded, or re-bound into Σ/Ψ where relevant."
+    indicators:
+      - "activation_not_marked"
+      - "activation_not_bounded_under_theta"
+      - "activation_not_linked_to_real_omega_theta_burden"
+      - "activation_not_rebound_into_sigma_psi"
+      - "activation_becomes_repeatable_exception"
+    guards: ["scene_bound", "asymmetry_activation_guard", "operator_profile_only", "mip_no_back_projection"]
+
+  asymmetry_switch_drift:
+    label: "Asymmetry-Switch Drift"
+    family: "eden_pfo_drift"
+    concept_ref: "eden_pfo_asymmetry_switch"
+    ops: ["Ω", "Θ", "Χ", "Σ", "Ψ"]
+    refs: ["ch4_7", "ch17", "ch18", "ch21", "appB"]
+    def: "Asymmetry is activated under real or invoked Ω/Θ pressure without being marked, bounded, and re-bound into Σ/Ψ where relevant."
+    indicators:
+      - "asymmetry_activation_unmarked"
+      - "asymmetry_activation_repeatable"
+      - "activation_shifts_responsibility"
+      - "parity_surface_preserved"
+      - "sigma_psi_rebinding_absent"
+    guards: ["scene_bound", "asymmetry_activation_guard", "operator_profile_only", "mip_no_back_projection"]
+
+  parity_to_exit:
+    label: "Parity-to-Exit"
+    family: "eden_pfo_drift"
+    ops: ["□", "Ω", "Θ", "Ψ"]
+    refs: ["ch18", "ch21", "appB"]
+    def: "Parity, mutuality, autonomy, consent, or non-binding language denies additional responsibility under unequal sexual cost topology."
+    indicators:
+      - "mutuality_denies_additional_responsibility"
+      - "formal_equality_flattens_non_delegable_cost"
+      - "autonomy_substitutes_self_binding"
+      - "costs_treated_as_voluntarily_assumed_then_abandoned"
+    guards: ["scene_bound", "parity_guard", "no_consent_substitution", "operator_profile_only"]
+
+  responsibility_to_authority:
+    label: "Responsibility-to-Authority"
+    family: "eden_pfo_drift"
+    ops: ["Ψ", "Χ", "Ω", "□"]
+    refs: ["ch18", "ch21", "appB"]
+    def: "Required self-binding under asymmetry is converted into control, frame authority, protection entitlement, or paternalistic governance."
+    indicators:
+      - "care_becomes_control"
+      - "protection_becomes_governance"
+      - "responsibility_becomes_frame_ownership"
+      - "restraint_becomes_entitlement_to_define_other"
+    guards: ["scene_bound", "responsibility_guard", "operator_profile_only", "no_person_label"]
+
+  boundary_aggression_collapse:
+    label: "Boundary-Aggression Collapse"
+    family: "dignity_drift"
+    ops: ["Χ", "Ω", "Θ"]
+    axis_refs: ["D"]
+    refs: ["ch18", "ch19", "ch21", "appB"]
+    def: "Boundary-setting, stopping, refusal, withdrawal, resistance, or distance creation is too quickly read as aggression, or aggressive conduct is framed as mere boundary-setting."
+    indicators:
+      - "stopping_read_as_aggression"
+      - "retaliation_framed_as_boundary"
+      - "punitive_escalation_immunized"
+      - "self_description_settles_required_reconstruction"
+    guards: ["scene_bound", "no_boundary_aggression_authorization", "dignity_protection", "no_person_label"]
+
+  sexed_leniency_drift:
+    label: "Sexed Leniency Drift"
+    family: "dignity_drift"
+    ops: ["Ω", "Ψ"]
+    axis_refs: ["R", "D"]
+    refs: ["ch18", "ch21", "appB"]
+    def: "Leniency tracks sex-coded expectation rather than scene, cost, capacity, frame, or responsibility structure."
+    indicators:
+      - "one_role_escalation_contextualized_more_easily"
+      - "one_role_boundary_read_as_aggression_more_quickly"
+      - "operator_reading_displaced_by_gendered_expectation"
+      - "cost_capacity_frame_replaced_by_sex_coding"
+    guards: ["scene_bound", "no_sex_truth", "no_rank", "dignity_protection"]
+
+  asymmetric_self_control_burden:
+    label: "Asymmetric Self-Control Burden"
+    family: "dignity_drift"
+    ops: ["Χ", "Ψ", "Ω"]
+    axis_refs: ["D"]
+    refs: ["ch18", "ch21", "appB"]
+    def: "One role-position carries disproportionate restraint, de-escalation, non-reaction, interruption, or self-binding while another role-position’s escalation is more easily contextualized."
+    indicators:
+      - "one_side_must_remain_calm"
+      - "de_escalation_labor_invisible"
+      - "non_reaction_becomes_hidden_cost"
+      - "dignity_depends_on_absorbing_other_drift"
+    guards: ["scene_bound", "no_sex_truth", "no_rank", "dignity_protection"]
+
+  humiliation_to_control_collapse_corridor:
+    label: "Humiliation-to-Control-Collapse Corridor"
+    family: "dignity_drift"
+    ops: ["Ω", "Θ", "Χ", "Ψ"]
+    axis_refs: ["D"]
+    refs: ["ch18", "ch21", "appB"]
+    def: "Repeated humiliation-near or degradation-near marking overloads Χ/Ψ until stop-capability, self-binding, distance, and after-scene dignity become unstable."
+    indicators:
+      - "humiliation_nearness_becomes_identity_anchor"
+      - "stop_capability_weakens"
+      - "after_scene_dignity_fails"
+      - "self_worth_leaks_into_scene"
+      - "only_play_immunizes_later_responsibility"
+    guards: ["scene_bound", "dignity_protection", "after_scene_dignity", "no_boundary_aggression_authorization"]
+
+  cost_topology_mismatch:
+    label: "Cost-Topology Mismatch"
+    family: "cost_misread"
+    ops: ["Ω", "Θ", "□", "Ψ"]
+    refs: ["ch19", "ch21", "ch22", "appB"]
+    def: "Declared parity, autonomy, mutuality, or non-binding status mismatches the actual distribution of bodily, reputational, exposure-related, publicness-related, body/boundary-related, exit-related, access-related, or responsibility-related costs."
+    indicators:
+      - "declared_parity_mismatches_cost_distribution"
+      - "non_binding_status_mismatches_binding_relevance"
+      - "mutuality_mismatches_non_delegable_costs"
+      - "cost_externalization_capacity_unread"
+    guards: ["scene_bound", "no_cost_score", "operator_profile_only", "no_rank"]
+
+drift_sets:
+  core_dysfunction_markers:
+    - "psi_leak"
+    - "omega_escalation"
+    - "pseudo_symmetry_drift"
+    - "non_event_steering"
+    - "alpha_fixation"
+    - "chi_loss"
+    - "theta_overload"
+    - "outer_form_denial"
+
+  final_overlay_markers:
+    - "visible_form_fixation"
+    - "boundary_aggression_collapse"
+    - "sexed_leniency_drift"
+    - "asymmetric_self_control_burden"
+    - "humiliation_to_control_collapse_corridor"
+
+  eden_pfo_drift_triad:
+    - "asymmetry_switch_drift"
+    - "parity_to_exit"
+    - "responsibility_to_authority"
+
+  access_and_category_drifts:
+    - "category_monopolization"
+    - "access_entitlement_drift"
+    - "direct_otherness_failure"
+    - "cost_topology_mismatch"
+
+  embodiment_drifts:
+    - "body_boundary_person_truth_drift"
+    - "genital_sovereignty_drift"
+    - "after_scene_dignity_failure"
+
+  withdrawal_and_binding_drifts:
+    - "covert_psi_expectation_drift"
+    - "withdrawal_expectation_disowned"
+    - "psi_externalization"
+
+  mip_relevant_profiles:
+    - "unmarked_omega_activation"
+    - "asymmetry_switch_drift"
+    - "parity_to_exit"
+    - "responsibility_to_authority"
+    - "cost_topology_mismatch"
+    - "after_scene_dignity_failure"
+    - "boundary_aggression_collapse"
+    - "visible_form_fixation"
+    - "genital_sovereignty_drift"
+    - "withdrawal_expectation_disowned"
+    - "psi_externalization"
+
+drift_chains:
+  primary_destructive_chain:
+    refs: ["ch18", "appD"]
+    sequence:
+      - "psi_leak"
+      - "omega_escalation"
+      - "chi_loss"
+      - "alpha_fixation"
+      - "theta_overload"
+    result: "exit_collapse"
+
+  non_event_attractor_chain:
+    refs: ["ch18", "appD"]
+    sequence:
+      - "non_event_steering"
+      - "alpha_fixation"
+      - "omega_escalation"
+      - "theta_overload"
+      - "chi_loss"
+    result: "late_psi_capture"
+
+  layer_collapse_chain:
+    refs: ["ch18", "appD"]
+    sequence:
+      - "outer_form_denial"
+      - "visible_form_fixation"
+      - "publicness_confusion"
+    result: "delayed_cost_recognition"
+
+  eden_pfo_sexual_drift_chain:
+    refs: ["ch4_7", "ch18", "ch21", "appD"]
+    sequence:
+      - "pseudo_symmetry_drift"
+      - "asymmetry_switch_drift"
+      - "parity_to_exit"
+      - "responsibility_to_authority"
+    result: "sexual_reciprocity_erosion"
+
+  category_access_body_chain:
+    refs: ["ch15", "appD"]
+    sequence:
+      - "category_monopolization"
+      - "direct_otherness_failure"
+      - "access_entitlement_drift"
+      - "body_boundary_person_truth_drift"
+    result: "attractor_fixation_without_real_correction"
+
+  genital_sovereignty_chain:
+    refs: ["ch15_8", "ch24", "appD"]
+    sequence:
+      - "body_boundary_person_truth_drift"
+      - "genital_sovereignty_drift"
+      - "chi_loss"
+      - "after_scene_dignity_failure"
+    result: "failed_genital_integration"
+
+  withdrawal_expectation_chain:
+    refs: ["ch5_3_5", "ch12_6", "ch21", "appD"]
+    sequence:
+      - "covert_psi_expectation_drift"
+      - "withdrawal_expectation_disowned"
+      - "after_scene_dignity_failure"
+    result: "non_binding_language_fails_cost_topology"
+
+viability:
+  refs: ["ch19_3", "ch19_4", "ch19_5", "ch21", "appD"]
+  status: "structural_governability_not_normality"
+
+  requires:
+    frame:
+      concept_refs: ["scene", "internal_framing", "outer_legibility", "publicness_as_overlay"]
+      check_ids:
+        - "frame_explicit"
+        - "internal_outer_public_layers_not_collapsed"
+        - "practice_labels_do_not_end_structural_reading"
+      guards: ["no_internal_form_erasure", "no_public_punishment"]
+
+    cost_axis:
+      concept_refs: ["sexual_cost_topology", "cost_layout", "asymmetry_specific_responsibility"]
+      check_ids:
+        - "omega_nameable"
+        - "theta_realistic"
+        - "cost_topology_explicit"
+        - "non_delegable_costs_nameable"
+        - "externalizable_costs_nameable"
+      guards: ["no_cost_score", "no_consent_substitution", "scene_bound"]
+
+    distance_and_correction:
+      concept_refs: ["direct_otherness", "exit_realism"]
+      check_ids:
+        - "chi_operable"
+        - "stop_capability_available"
+        - "meta_commentability_available"
+        - "real_other_remains_free_to_refuse_script"
+        - "no_access_entitlement"
+      guards: ["direct_otherness_guard", "no_access_entitlement", "dignity_protection"]
+
+    binding:
+      concept_refs: ["covert_psi_expectation", "sexual_reciprocity_under_real_asymmetry"]
+      check_ids:
+        - "psi_handled"
+        - "no_covert_psi_as_default_carrier"
+        - "non_binding_language_does_not_erase_structured_expectation"
+        - "unequal_burdens_not_externalized"
+      guards: ["operator_profile_only", "no_withdrawal_automatic_guilt", "no_withdrawal_automatic_exculpation"]
+
+    embodiment:
+      concept_refs:
+        - "biological_affordance_without_destiny"
+        - "sexed_dependency"
+        - "body_boundary_coding"
+        - "genital_meaning"
+        - "adult_sexual_emancipation"
+      check_ids:
+        - "biology_read_as_affordance_not_destiny"
+        - "sexed_dependency_read_without_relationship_mandate"
+        - "body_boundary_coding_scene_bound"
+        - "genital_meaning_integrated_not_sovereign"
+      guards:
+        - "no_biological_destiny"
+        - "no_sex_truth"
+        - "no_relationship_mandate"
+        - "no_genital_truth"
+        - "no_rank"
+        - "scene_bound"
+        - "genital_emancipation_guard"
+
+    after_scene:
+      concept_refs: ["after_scene_dignity"]
+      check_ids:
+        - "after_scene_dignity_intact"
+        - "no_person_shrinking"
+        - "no_shame_residue_dumping"
+        - "no_self_worth_leak"
+        - "no_retrospective_responsibility_flight"
+      guards: ["after_scene_dignity", "dignity_protection"]
+
+    asymmetry_activation:
+      concept_refs: ["asymmetry_activation", "eden_pfo_asymmetry_switch"]
+      check_ids:
+        - "activation_marked"
+        - "activation_bounded"
+        - "activation_linked_to_real_omega_theta_burden"
+        - "activation_rebound_into_sigma_psi_where_relevant"
+        - "activation_not_repeatable_unmarked_exception"
+      guards: ["asymmetry_activation_guard", "operator_profile_only"]
+
+  excludes:
+    drift_refs:
+      - "psi_leak"
+      - "omega_escalation"
+      - "chi_loss"
+      - "theta_overload"
+      - "outer_form_denial"
+      - "visible_form_fixation"
+      - "cost_topology_mismatch"
+      - "asymmetry_switch_drift"
+      - "parity_to_exit"
+      - "responsibility_to_authority"
+      - "boundary_aggression_collapse"
+      - "genital_sovereignty_drift"
+      - "withdrawal_expectation_disowned"
+      - "after_scene_dignity_failure"
+    guard_refs:
+      - "no_cost_score"
+      - "no_person_label"
+      - "no_rank"
+      - "no_instruction"
+
+  warning_drift_sets:
+    - "core_dysfunction_markers"
+    - "final_overlay_markers"
+    - "eden_pfo_drift_triad"
+    - "access_and_category_drifts"
+    - "embodiment_drifts"
+    - "withdrawal_and_binding_drifts"
+
+  minimal_corridor:
+    refs: ["ch19_5", "appD"]
+    sequence:
+      - "frame_explicit"
+      - "omega_nameable"
+      - "theta_realistic"
+      - "chi_operable"
+      - "lambda_tolerable"
+      - "psi_handled"
+      - "sigma_reachable_where_needed"
+      - "cost_topology_explicit"
+      - "category_pressure_proportional"
+      - "access_non_entitled"
+      - "body_boundary_coding_scene_bound"
+      - "direct_otherness_non_entitled"
+      - "genital_meaning_integrated_not_sovereign"
+      - "withdrawal_expectations_honestly_carried"
+      - "after_scene_dignity_intact"
+      - "boundary_aggression_distinguishable"
+      - "asymmetry_activation_marked_bounded_rebound"
+      - "no_parity_to_exit"
+      - "no_responsibility_to_authority"
+    result: "structurally_governable_configuration"
+    guards: ["scene_bound", "no_rank", "no_instruction"]
+
+  sexual_reciprocity:
+    concept_ref: "sexual_reciprocity_under_real_asymmetry"
+    principle: "unequal_burdens_must_not_be_externalized"
+    requires:
+      - "explicit_cost_topology"
+      - "marked_bounded_asymmetry_activation"
+      - "chi_restraint"
+      - "sigma_coordination_where_needed"
+      - "psi_handling_where_binding_relevance_exists"
+      - "after_scene_dignity"
+      - "dignity_in_practice"
+    excludes:
+      - "equal_burdens_required"
+      - "identical_role_tasks_required"
+      - "symmetry_of_content_required"
+      - "role_prescription"
+      - "person_rank"
+    guards:
+      - "no_cost_score"
+      - "no_consent_substitution"
+      - "operator_profile_only"
+      - "no_rank"
+
+modules:
+  dignity_in_practice:
+    refs: ["ch21", "ch0_16", "ch0_17", "appB", "appC"]
+    status: "derived_construct_from_PMS"
+    canonical_pms_formula: ["Ψ", "Χ", "Ω"]
+
+    pms_sex_application_formula:
+      status: "application_condition_profile_not_pms_formula"
+      ops: ["Ω", "Χ", "Ψ", "Θ", "Σ"]
+      requires:
+        - "explicit_omega"
+        - "operative_chi"
+        - "no_covert_psi_demand_under_theta"
+        - "after_scene_dignity"
+        - "marked_bounded_asymmetry_activation"
+        - "no_parity_to_exit"
+        - "no_responsibility_to_authority"
+        - "boundary_aggression_readability"
+        - "outer_form_readability_without_visible_form_totalization"
+      guards: ["dignity_protection", "after_scene_dignity", "no_visibility_totalization"]
+
+    concept_refs:
+      - "dignity_in_practice"
+      - "D_compliance"
+      - "D_violation"
+      - "after_scene_dignity"
+      - "sexual_cost_topology"
+      - "asymmetry_specific_responsibility"
+      - "sexual_reciprocity_under_real_asymmetry"
+
+    critique_drift_refs:
+      - "psi_leak"
+      - "covert_psi_expectation_drift"
+      - "omega_escalation"
+      - "pseudo_symmetry_drift"
+      - "theta_overload"
+      - "outer_form_denial"
+      - "visible_form_fixation"
+      - "publicness_confusion"
+      - "asymmetry_switch_drift"
+      - "parity_to_exit"
+      - "responsibility_to_authority"
+      - "after_scene_dignity_failure"
+      - "boundary_aggression_collapse"
+      - "sexed_leniency_drift"
+      - "asymmetric_self_control_burden"
+      - "humiliation_to_control_collapse_corridor"
+      - "genital_sovereignty_drift"
+
+    not_critique_by_itself:
+      - "outer_legibility"
+      - "pre_reflective_readability"
+      - "publicness_as_overlay"
+      - "sexual_cost_topology"
+      - "biological_affordance_without_destiny"
+      - "body_boundary_coding"
+      - "genital_meaning"
+      - "withdrawal"
+      - "asymmetry_activation_when_marked_bounded_rebound"
+
+    reference_case_logic:
+      status: "clarification_case_not_exclusive"
+      rule: >
+        Explicitly formalized frames may protect against unwarranted degradation
+        where boundaries, rules, non-degradation, after-scene dignity, and
+        cost-topology readability are preserved.
+      guards:
+        - "dignity_protection"
+        - "no_public_punishment"
+        - "no_internal_form_erasure"
+        - "after_scene_dignity"
+
+    guardrail:
+      applies: ["D_compliance", "D_violation", "critique_drift_refs"]
+      guards:
+        - "scene_bound"
+        - "dignity_protection"
+        - "no_rank"
+        - "no_person_label"
+        - "no_public_punishment"
+        - "no_boundary_aggression_authorization"
+
+    closure_marker: >
+      Dignity in sexual practice is not about who someone is, but about how
+      asymmetry is carried.
+
+  minimal_psychology_adapter:
+    refs: ["ch20", "ch18", "ch19", "ch21"]
+    status: "structural_alarm_adapter_only"
+    purpose: >
+      Activates only where structural drift is already legible and repetition
+      continues despite clarity. It does not explain desire, motive, trauma,
+      identity, or personality.
+
+    activation_conditions:
+      all_required:
+        - "drift_marker_present"
+        - "viability_conditions_not_restoring_correction"
+        - "configuration_repeats_voluntarily"
+      typical_drift_refs:
+        - "psi_leak"
+        - "covert_psi_expectation_drift"
+        - "omega_escalation"
+        - "chi_loss"
+        - "theta_overload"
+        - "outer_form_denial"
+        - "visible_form_fixation"
+        - "category_monopolization"
+        - "direct_otherness_failure"
+        - "genital_sovereignty_drift"
+        - "asymmetry_switch_drift"
+        - "parity_to_exit"
+        - "responsibility_to_authority"
+        - "boundary_aggression_collapse"
+        - "withdrawal_expectation_disowned"
+        - "after_scene_dignity_failure"
+
+    primary_question:
+      canonical: "What structural role is this desire playing in this configuration?"
+      invalid_outputs:
+        - "identity_story"
+        - "trauma_explanation"
+        - "motive_diagnosis"
+        - "confession_loop"
+        - "justification_loop"
+        - "practice_guidance"
+        - "person_verdict"
+
+    permitted_warning_hypothesis:
+      statement: >
+        Desire-language may be functioning as a drift-maintaining mechanism
+        rather than as play, exploration, negotiated intensity, bounded practice,
+        marked asymmetry activation, or structurally honest withdrawal.
+      confirmation_mode: "structural_only"
+      test_against_drift_refs:
+        - "alpha_fixation"
+        - "theta_overload"
+        - "outer_form_denial"
+        - "visible_form_fixation"
+        - "chi_loss"
+        - "asymmetry_switch_drift"
+        - "parity_to_exit"
+        - "responsibility_to_authority"
+        - "boundary_aggression_collapse"
+        - "genital_sovereignty_drift"
+        - "withdrawal_expectation_disowned"
+
+    allowed_alarm_outputs:
+      - "drift_persistence_present"
+      - "structural_self_correction_failing"
+      - "chi_frame_theta_require_reactivation"
+      - "internal_framing_insufficient_to_settle_enacted_structure"
+      - "outer_legibility_and_cost_distribution_require_re_reading_without_person_ranking"
+      - "visible_form_readable_without_totalization"
+      - "asymmetry_activation_requires_marking_bounding_rebinding"
+      - "parity_and_responsibility_language_require_cost_topology_re_reading"
+      - "boundary_and_aggression_require_structural_re_distinction"
+      - "genital_meaning_requires_integration_without_sovereignty"
+      - "withdrawal_requires_re_reading_against_structured_psi_expectation_and_after_scene_dignity"
+
+    prohibited_outputs:
+      - "diagnosis"
+      - "motive_explanation"
+      - "clinical_claim"
+      - "identity_verdict"
+      - "orientation_claim"
+      - "maturity_verdict"
+      - "dignity_status_claim"
+      - "sex_truth"
+      - "genital_truth"
+      - "biological_rank"
+      - "practice_instruction"
+
+    guards:
+      - "no_diagnosis"
+      - "no_person_label"
+      - "no_rank"
+      - "no_instruction"
+      - "operator_profile_only"
+
+  mip_docking:
+    refs: ["ch22", "ch0_17", "ch21", "appA", "appB"]
+    status: "optional_evaluative_interface"
+    separation_rule: >
+      PMS-SEX explains how sexual configurations work structurally. MIP explains
+      when critique is legitimate. Docking is a context shift, not a merger.
+
+    trigger_conditions:
+      - "adultness_language_present"
+      - "maturity_language_present"
+      - "public_critique_language_present"
+      - "responsibility_evaluation_required"
+      - "system_or_regime_lens_required"
+      - "operator_profile_needs_evaluative_ordering"
+
+    pms_sex_records_only:
+      concept_refs:
+        - "sexual_cost_topology"
+        - "asymmetry_specific_responsibility"
+        - "operator_profile_only"
+      drift_refs:
+        - "psi_externalization"
+        - "cost_topology_mismatch"
+        - "asymmetry_switch_drift"
+        - "parity_to_exit"
+        - "responsibility_to_authority"
+        - "after_scene_dignity_failure"
+        - "visible_form_fixation"
+        - "boundary_aggression_collapse"
+        - "genital_sovereignty_drift"
+        - "withdrawal_expectation_disowned"
+
+    proper_questions:
+      - "did_role_position_carry_asymmetry_specific_self_binding"
+      - "was_self_binding_required_by_cost_power_exposure_exit_frame_control_and_externalization_profile_carried"
+      - "was_critique_legitimate_given_scene_bound_A_C_R_P_D_conditions"
+      - "did_public_critique_preserve_D_and_avoid_person_ranking"
+
+    improper_questions:
+      - "what_kind_of_person_does_this"
+      - "what_identity_or_orientation_does_this_reveal"
+      - "is_this_person_adult"
+      - "is_this_person_lower_in_dignity"
+      - "what_clinical_or_moral_defect_explains_this"
+
+    docking_axes:
+      status: "MIP_docking_axes_not_PMS_derived_axes"
+      note: "These labels belong to the MIP docking interface and do not redefine PMS-derived axes A, C, R, E, or D."
+      A:
+        name: "Awareness"
+        meaning: "MIP docking awareness; structural knowability, not psychological insight and not a PMS-axis rewrite."
+      C:
+        name: "Coherence"
+        meaning: "MIP docking coherence; stability over time under Θ + Λ + □, not a PMS-axis rewrite."
+      R:
+        name: "Responsibility"
+        meaning: "MIP docking responsibility; self-binding and consequence handling under Ω + Θ, not a PMS-axis rewrite."
+      P:
+        name: "Power"
+        meaning: "MIP-only docking axis for real agency, alternatives, and choice capacity; not a PMS-derived axis."
+      D:
+        name: "Dignity-in-Practice"
+        meaning: "PMS-derived D used as docking constraint: praxeological non-degradation, not ontological worth."
+
+    IA_box:
+      T:
+        name: "Transparent"
+        question: "Was the asymmetry legible?"
+      J:
+        name: "Justified"
+        question: "Was it grounded in a protected good or legitimate constraint?"
+      TB:
+        name: "Time-bound"
+        question: "Was it limited and reviewable?"
+      R:
+        name: "Reversible"
+        question: "Were correction and exit pathways structurally available?"
+      note_on_R: "R in IA_box means reversibility, distinct from R as responsibility."
+
+    no_back_projection:
+      - "MIP_must_not_import_moral_psychology_into_PMS_SEX_description"
+      - "PMS_SEX_must_not_smuggle_evaluation_as_neutral_description"
+      - "outer_legibility_does_not_by_itself_authorize_public_critique"
+      - "path_cost_does_not_by_itself_establish_immaturity_or_blame"
+      - "drift_profile_does_not_by_itself_establish_person_adultness_failure"
+
+    guards:
+      - "operator_profile_only"
+      - "mip_docking_required"
+      - "mip_no_back_projection"
+      - "scene_bound"
+      - "reversible_reading"
+      - "no_person_label"
+      - "no_rank"
+      - "dignity_protection"
+
+    closure_marker: >
+      PMS-SEX explains how structures work; MIP explains when critique is
+      legitimate.
+
+limits:
+  refs: ["ch23", "ch24", "appA", "appB"]
+  status: "scope_boundary"
+
+  PMS_SEX_models:
+    - "scenes_and_enactments"
+    - "frames_and_frame_stability"
+    - "asymmetries_and_cost_layouts"
+    - "sexual_cost_topology"
+    - "biological_affordance_as_starting_condition"
+    - "sexed_dependency_as_anthropological_structure"
+    - "repetition_trajectories_irreversibility"
+    - "non_events_absence_expectation_fields"
+    - "outer_legibility_publicness_overlay"
+    - "body_remainder_body_boundary_coding"
+    - "direct_otherness_without_access_entitlement"
+    - "genital_meaning_and_genital_sovereignty_drift"
+    - "withdrawal_profiles_and_covert_psi_expectation"
+    - "after_scene_dignity"
+    - "boundary_aggression_readability"
+    - "drift_stabilization_exit_conditions"
+    - "operator_profiles_for_MIP_docking"
+
+  PMS_SEX_does_not_model:
+    - "persons"
+    - "personality_or_character"
+    - "inner_motives_or_experiential_qualities_as_explanatory_anchors"
+    - "developmental_histories_or_causal_psychologies"
+    - "sexual_identity_orientation_or_worth"
+    - "direct_person_adultness"
+    - "maturity_hierarchy"
+    - "dignity_hierarchy"
+    - "sex_truth"
+    - "genital_truth"
+    - "biological_destiny"
+    - "relationship_mandate"
+    - "practice_guidance"
+    - "therapy_law_ethics_policy_as_replacement_layer"
+
+  adjacent_lens_rule:
+    statement: >
+      Therapy, law, ethics, phenomenology, sociology, discourse analysis,
+      empirical reconstruction, community-specific history, and MIP may refine,
+      challenge, or dock onto a PMS-SEX reading only by explicit layer switching.
+    guards:
+      - "no_diagnosis"
+      - "no_instruction"
+      - "mip_docking_required"
+      - "mip_no_back_projection"
+
+  macro_frame_rule:
+    statement: >
+      Historical or modern sexual scripts may be read as cost-distribution
+      frames where they organize Ω/Θ under public, institutional, cultural, or
+      technological conditions.
+    guards:
+      - "no_moralism"
+      - "no_relationship_mandate"
+      - "no_instruction"
+      - "scene_bound"
+
+  non_capture_rule:
+    concept_ref: "non_capture"
+    statement: >
+      Translation into PMS-SEX terms does not prove exhaustive capture, and
+      refusal of PMS-SEX terms does not automatically indicate denial,
+      immaturity, pathology, or drift.
+    guards:
+      - "reversible_reading"
+      - "no_person_label"
+      - "no_diagnosis"
+      - "no_rank"
+
+  explicit_exclusions:
+    - "practical_instruction"
+    - "practice_guidance"
+    - "risk_management_manual"
+    - "therapeutic_clinical_medical_forensic_or_legal_authority"
+    - "optimization_logic_for_desire_bonding_satisfaction_or_enactment"
+    - "taxonomy_of_sexual_identities_or_orientations"
+    - "diagnosis_of_persons_groups_practices_or_communities"
+    - "moral_ranking_from_statistical_default_or_lower_entropy"
+    - "sexual_cost_topology_as_score"
+    - "biological_affordance_as_destiny_or_role_proof"
+    - "sexed_dependency_as_relationship_prescription"
+    - "direct_otherness_as_access_entitlement"
+    - "genital_meaning_as_genital_sovereignty"
+    - "withdrawal_as_automatic_guilt_or_exculpation"
+    - "non_binding_language_as_erasure_of_structured_psi_expectation"
+    - "boundary_aggression_collapse_as_response_authorization"
+    - "asymmetry_switch_as_authority"
+    - "parity_to_exit_as_reciprocity"
+    - "responsibility_to_authority_as_care"
+    - "direct_adultness_verdict"
+    - "maturity_hierarchy"
+    - "dignity_hierarchy"
+    - "person_worth_claim"
+    - "public_pillory_or_humiliation_as_critique_mode"
+
+  final_scope_guard: >
+    PMS-SEX remains valid by staying within enacted structures: frames,
+    asymmetries, costs, non-events, repetition, temporality, distance,
+    integration, self-binding, outer legibility, publicness overlays, body and
+    boundary interfaces, direct otherness, after-scene dignity, and drift
+    markers. It does not decide what persons are. It reads what configurations
+    do over time.
+
+tools:
+  operator_overlay:
+    refs: ["appC", "appD"]
+    status: "domain_overlay_not_operator_redefinition"
+    source_spine: "operator_spine"
+    note: "Canonical PMS operators are not redefined here; PMS-SEX adds domain handles only."
+
+    by_operator:
+      "Δ":
+        sex_function: "difference_legibility"
+        concept_refs:
+          - "preference_praxis_boundary"
+          - "body_boundary_coding"
+          - "genital_meaning"
+        drift_refs:
+          - "body_boundary_person_truth_drift"
+          - "genital_sovereignty_drift"
+
+      "∇":
+        sex_function: "drive_pressure"
+        concept_refs:
+          - "impulse_nearness_without_malice"
+          - "unlearned_handling"
+        drift_refs:
+          - "access_entitlement_drift"
+          - "omega_escalation"
+
+      "□":
+        sex_function: "scene_frame"
+        concept_refs:
+          - "scene"
+          - "internal_framing"
+          - "outer_legibility"
+          - "publicness_as_overlay"
+          - "practice_label"
+        drift_refs:
+          - "outer_form_denial"
+          - "visible_form_fixation"
+          - "publicness_confusion"
+          - "pseudo_symmetry_drift"
+
+      "Λ":
+        sex_function: "absence_expectation"
+        concept_refs:
+          - "covert_psi_expectation"
+          - "ambivalence_withdrawal"
+          - "post_access_withdrawal"
+        drift_refs:
+          - "non_event_steering"
+          - "withdrawal_expectation_disowned"
+
+      "Α":
+        sex_function: "pattern_stabilization"
+        concept_refs:
+          - "category_availability"
+          - "category_escalation"
+          - "access_counterdesire_loop"
+        drift_refs:
+          - "alpha_fixation"
+          - "category_monopolization"
+
+      "Ω":
+        sex_function: "sexual_cost_topology"
+        concept_refs:
+          - "cost_layout"
+          - "sexual_cost_topology"
+          - "asymmetry_specific_responsibility"
+          - "asymmetry_activation"
+        drift_refs:
+          - "omega_escalation"
+          - "cost_topology_mismatch"
+          - "asymmetry_switch_drift"
+          - "parity_to_exit"
+          - "responsibility_to_authority"
+          - "sexed_leniency_drift"
+          - "asymmetric_self_control_burden"
+
+      "Θ":
+        sex_function: "trajectory_and_irreversibility"
+        concept_refs:
+          - "exit_realism"
+          - "after_scene_dignity"
+          - "sexual_reciprocity_under_real_asymmetry"
+        drift_refs:
+          - "theta_overload"
+          - "after_scene_dignity_failure"
+          - "withdrawal_expectation_disowned"
+
+      "Φ":
+        sex_function: "recontextualization"
+        concept_refs:
+          - "internal_framing"
+          - "visible_form_readability"
+        drift_refs:
+          - "phi_inflation"
+          - "outer_form_denial"
+          - "visible_form_fixation"
+
+      "Χ":
+        sex_function: "distance_and_stop_capability"
+        concept_refs:
+          - "exit_realism"
+          - "direct_otherness"
+          - "positive_guided_dominance"
+        drift_refs:
+          - "chi_loss"
+          - "boundary_aggression_collapse"
+          - "humiliation_to_control_collapse_corridor"
+
+      "Σ":
+        sex_function: "integration"
+        concept_refs:
+          - "direct_otherness"
+          - "genital_emancipation"
+          - "adult_sexual_emancipation"
+        drift_refs:
+          - "genital_sovereignty_drift"
+          - "asymmetry_switch_drift"
+
+      "Ψ":
+        sex_function: "self_binding_and_responsibility"
+        concept_refs:
+          - "covert_psi_expectation"
+          - "sexual_reciprocity_under_real_asymmetry"
+          - "asymmetry_specific_self_binding"
+        drift_refs:
+          - "psi_leak"
+          - "psi_externalization"
+          - "covert_psi_expectation_drift"
+          - "responsibility_to_authority"
+
+  structural_map:
+    refs: ["appD", "ch24"]
+    status: "orientation_map_only"
+    spine_ref: "operator_spine.canonical_order"
+
+    zones:
+      activation_and_legibility:
+        ops: ["Δ", "∇", "□"]
+        concepts:
+          - "preference_praxis_boundary"
+          - "impulse_nearness_without_malice"
+          - "internal_framing"
+          - "outer_legibility"
+        failure_refs:
+          - "omega_escalation"
+          - "outer_form_denial"
+        guard_set: "base_validity"
+
+      absence_repetition_stabilization:
+        ops: ["Λ", "Α"]
+        concepts:
+          - "covert_psi_expectation"
+          - "category_availability"
+          - "category_escalation"
+        failure_refs:
+          - "non_event_steering"
+          - "alpha_fixation"
+          - "category_monopolization"
+        guard_set: "structural_language"
+
+      cost_axis:
+        ops: ["Ω", "Θ"]
+        concepts:
+          - "sexual_cost_topology"
+          - "asymmetry_specific_responsibility"
+          - "exit_realism"
+          - "after_scene_dignity"
+        failure_refs:
+          - "cost_topology_mismatch"
+          - "theta_overload"
+          - "after_scene_dignity_failure"
+        guard_set: "cost_topology"
+
+      direct_otherness_and_body:
+        ops: ["Δ", "□", "Ω", "Χ", "Σ", "Ψ"]
+        concepts:
+          - "direct_otherness"
+          - "body_boundary_coding"
+          - "genital_meaning"
+          - "adult_sexual_emancipation"
+        failure_refs:
+          - "direct_otherness_failure"
+          - "body_boundary_person_truth_drift"
+          - "genital_sovereignty_drift"
+        guard_set: "direct_otherness"
+
+      narrative_handling:
+        ops: ["Φ", "Χ", "Σ"]
+        concepts:
+          - "visible_form_readability"
+          - "internal_framing"
+          - "outer_legibility"
+        failure_refs:
+          - "phi_inflation"
+          - "outer_form_denial"
+          - "visible_form_fixation"
+        guard_set: "base_validity"
+
+      regulation_gate:
+        ops: ["Χ"]
+        concepts:
+          - "exit_realism"
+          - "positive_guided_dominance"
+        failure_refs:
+          - "chi_loss"
+          - "boundary_aggression_collapse"
+          - "humiliation_to_control_collapse_corridor"
+        guard_set: "base_validity"
+
+      identity_binding_zone:
+        ops: ["Σ", "Ψ"]
+        concepts:
+          - "genital_emancipation"
+          - "adult_sexual_emancipation"
+          - "sexual_reciprocity_under_real_asymmetry"
+        failure_refs:
+          - "psi_leak"
+          - "psi_externalization"
+          - "covert_psi_expectation_drift"
+          - "responsibility_to_authority"
+        guard_set: "mip"
+
+    drift_chain_refs:
+      - "primary_destructive_chain"
+      - "non_event_attractor_chain"
+      - "layer_collapse_chain"
+      - "eden_pfo_sexual_drift_chain"
+      - "category_access_body_chain"
+      - "genital_sovereignty_chain"
+      - "withdrawal_expectation_chain"
+
+    minimal_viability_ref: "viability.minimal_corridor"
+
+    layer_formula:
+      layers:
+        - "internal_framing"
+        - "outer_legibility"
+        - "publicness_as_overlay"
+        - "body_boundary_coding"
+        - "theta_carryover"
+      rule: "layers_may_diverge_and_must_not_collapse"
+
+    path_cost_guard_set: "structural_language"
+
+analysis_pipeline:
+  refs: ["ch0_16", "ch18", "ch19", "ch20", "ch21", "ch22", "appD"]
+  status: "scene_bound_structural_pipeline"
+  output_mode: "operator_profile_only"
+  guard_set: "base_validity"
+
+  steps:
+    - id: "scene_boundary"
+      order: 1
+      requires:
+        - "frame_explicit"
+        - "inside_outside_defined"
+        - "local_vs_binding_relevance_marked"
+      concept_refs:
+        - "scene"
+        - "preference_praxis_boundary"
+      guards:
+        - "scene_bound"
+        - "no_person_label"
+
+    - id: "operator_spine_check"
+      order: 2
+      requires:
+        - "pms_spine_preserved"
+        - "reduced_signature_as_shorthand_only"
+        - "overlay_not_operator_redefinition"
+      source_ref: "operator_spine"
+      guards:
+        - "operator_profile_only"
+
+    - id: "layer_scan"
+      order: 3
+      requires:
+        - "internal_framing_identified"
+        - "outer_legibility_identified"
+        - "publicness_overlay_identified"
+        - "body_boundary_coding_identified_if_relevant"
+        - "theta_carryover_identified"
+      concept_refs:
+        - "internal_framing"
+        - "outer_legibility"
+        - "publicness_as_overlay"
+        - "body_boundary_coding"
+      guards:
+        - "no_internal_form_erasure"
+        - "no_visibility_totalization"
+        - "no_public_punishment"
+
+    - id: "biology_and_sexed_dependency_guard"
+      order: 4
+      requires:
+        - "biology_as_affordance_not_destiny"
+        - "sexed_dependency_without_relationship_mandate"
+      concept_refs:
+        - "biological_affordance_without_destiny"
+        - "sexed_dependency"
+      guard_set: "biology"
+
+    - id: "cost_axis_scan"
+      order: 5
+      requires:
+        - "omega_gradients_identified"
+        - "theta_trajectory_identified"
+        - "cost_topology_explicit"
+        - "externalization_capacity_identified"
+      concept_refs:
+        - "cost_layout"
+        - "sexual_cost_topology"
+        - "asymmetry_specific_responsibility"
+      guard_set: "cost_topology"
+
+    - id: "direct_otherness_scan"
+      order: 6
+      requires:
+        - "real_other_correction_present_or_absent"
+        - "image_category_or_self_description_substitution_checked"
+        - "access_entitlement_excluded"
+      concept_refs:
+        - "direct_otherness"
+        - "permission_image"
+        - "simulated_counterdesire"
+      drift_refs:
+        - "direct_otherness_failure"
+        - "access_entitlement_drift"
+      guard_set: "direct_otherness"
+
+    - id: "genital_integration_scan"
+      order: 7
+      requires:
+        - "genital_meaning_acknowledged_if_relevant"
+        - "genital_sovereignty_excluded"
+        - "adult_sexual_emancipation_not_hierarchized"
+      concept_refs:
+        - "genital_meaning"
+        - "genital_emancipation"
+        - "adult_sexual_emancipation"
+      drift_refs:
+        - "genital_sovereignty_drift"
+      guards:
+        - "genital_emancipation_guard"
+        - "no_genital_truth"
+        - "no_rank"
+
+    - id: "withdrawal_and_binding_scan"
+      order: 8
+      requires:
+        - "covert_psi_expectation_checked"
+        - "withdrawal_not_moralized"
+        - "after_scene_dignity_checked"
+      concept_refs:
+        - "covert_psi_expectation"
+        - "ambivalence_withdrawal"
+        - "post_access_withdrawal"
+        - "after_scene_dignity"
+      drift_refs:
+        - "withdrawal_expectation_disowned"
+        - "after_scene_dignity_failure"
+      guard_set: "withdrawal"
+
+    - id: "drift_scan"
+      order: 9
+      requires:
+        - "core_dysfunction_markers_checked"
+        - "final_overlay_markers_checked"
+        - "eden_pfo_drift_triad_checked"
+        - "access_category_embodiment_drifts_checked"
+      drift_sets:
+        - "core_dysfunction_markers"
+        - "final_overlay_markers"
+        - "eden_pfo_drift_triad"
+        - "access_and_category_drifts"
+        - "embodiment_drifts"
+        - "withdrawal_and_binding_drifts"
+      guards:
+        - "operator_profile_only"
+        - "no_person_label"
+        - "no_diagnosis"
+
+    - id: "switch_drift_scan"
+      order: 10
+      requires:
+        - "asymmetry_activation_checked"
+        - "activation_marked_checked"
+        - "activation_bounded_checked"
+        - "activation_linked_to_real_omega_theta_burden_checked"
+        - "activation_rebound_into_sigma_psi_checked"
+        - "parity_to_exit_checked"
+        - "responsibility_to_authority_checked"
+      concept_refs:
+        - "asymmetry_activation"
+        - "eden_pfo_asymmetry_switch"
+      drift_refs:
+        - "asymmetry_switch_drift"
+        - "parity_to_exit"
+        - "responsibility_to_authority"
+      guards:
+        - "asymmetry_activation_guard"
+        - "parity_guard"
+        - "responsibility_guard"
+
+    - id: "viability_check"
+      order: 11
+      requires_ref: "viability.minimal_corridor.sequence"
+      result_ref: "viability.minimal_corridor.result"
+      guards:
+        - "scene_bound"
+        - "no_rank"
+        - "no_instruction"
+
+    - id: "minimal_psychology_gate"
+      order: 12
+      trigger_ref: "modules.minimal_psychology_adapter.activation_conditions"
+      output_ref: "modules.minimal_psychology_adapter.allowed_alarm_outputs"
+      guards:
+        - "no_diagnosis"
+        - "no_person_label"
+        - "no_instruction"
+        - "operator_profile_only"
+
+    - id: "mip_docking_gate"
+      order: 13
+      trigger_ref: "modules.mip_docking.trigger_conditions"
+      proper_questions_ref: "modules.mip_docking.proper_questions"
+      guards:
+        - "mip_docking_required"
+        - "mip_no_back_projection"
+        - "no_person_label"
+        - "no_rank"
+        - "dignity_protection"
+
+    - id: "final_validity_gate"
+      order: 14
+      requires:
+        - "chi_preserved"
+        - "reversibility_preserved"
+        - "D_preserved"
+        - "no_person_verdict"
+        - "no_practice_guidance"
+      guard_set: "final_profile"
+
+example_schema:
+  refs: ["ch0_16", "ch18", "ch19", "ch21", "ch22", "appD"]
+  status: "schema_for_scene_bound_abstract_examples"
+  output_mode: "structural_closure_only"
+  guard_set: "final_profile"
+
+  required_fields:
+    - id: "vignette"
+      type: "string"
+      constraints:
+        - "scene_bound"
+        - "generic"
+        - "non_identifying"
+        - "non_prescriptive"
+
+    - id: "repo_use"
+      type: "string"
+      constraints:
+        - "structural_focus_only"
+
+    - id: "operator_mapping"
+      type: "object"
+      requires:
+        - "canonical_spine_refs"
+        - "reduced_signature_ref_optional"
+        - "dependency_integrity"
+
+    - id: "layer_distinction"
+      type: "object"
+      requires:
+        - "internal_framing"
+        - "outer_legibility"
+        - "publicness_overlay"
+        - "body_boundary_layer_if_relevant"
+        - "theta_carryover"
+
+    - id: "cost_topology"
+      type: "object"
+      concept_ref: "sexual_cost_topology"
+      requires:
+        - "bodily_costs"
+        - "exposure_costs"
+        - "reputational_costs"
+        - "binding_costs"
+        - "exit_costs"
+        - "publicness_costs"
+        - "body_boundary_costs"
+        - "access_costs"
+        - "responsibility_costs"
+        - "after_scene_dignity"
+
+    - id: "drift_readout"
+      type: "array"
+      max_items: 3
+      item_refs: "drifts"
+      constraints:
+        - "non_moral"
+        - "non_diagnostic"
+        - "operator_profile_only"
+
+    - id: "viability_readout"
+      type: "object"
+      internal_refs:
+        - "viability.requires"
+        - "viability.minimal_corridor"
+      constraints:
+        - "governability_not_normality"
+
+    - id: "dignity_readout"
+      type: "object"
+      internal_refs:
+        - "modules.dignity_in_practice"
+      constraints:
+        - "D_in_enactment_not_person_status"
+
+    - id: "mip_gate"
+      type: "object"
+      internal_refs:
+        - "modules.mip_docking"
+      constraints:
+        - "only_if_maturity_or_adultness_language_appears"
+
+    - id: "closure"
+      type: "string"
+      constraints:
+        - "2_to_5_sentences"
+        - "non_instructional"
+        - "no_person_verdict"
+        - "no_public_punishment"
+
+  optional_fields:
+    - "direct_otherness_readout"
+    - "genital_integration_readout"
+    - "withdrawal_expectation_readout"
+    - "boundary_aggression_readability"
+    - "eden_pfo_switch_note"
+    - "publicness_overlay_expansion"
+    - "biological_affordance_guard"
+    - "non_capture_note"
+
+  forbidden_outputs:
+    - "practical_instruction"
+    - "practice_guidance"
+    - "risk_optimization"
+    - "identifiable_case_narrative"
+    - "clinical_interpretation"
+    - "motive_attribution"
+    - "person_ranking"
+    - "orientation_taxonomy"
+    - "sex_truth"
+    - "genital_truth"
+    - "biological_destiny"
+    - "relationship_mandate"
+    - "access_entitlement"
+    - "maturity_ranking"
+    - "adultness_verdict_from_PMS_SEX_alone"
+    - "dignity_hierarchy"
+    - "moral_verdict"
+    - "public_pillory_or_humiliation"
+
+chapter_markers:
+  refs: ["ch1", "ch24", "appD"]
+  status: "quote_ready_markers"
+  note: "Compressed chapter closure markers; not analytic rules."
+
+  markers:
+    ch1: "Sexuality is not optional enactment but recurring praxis pressure: what matters is how a configuration carries ∇ under □ across Λ and Θ."
+    ch2: "Drive does not disappear when it is suppressed; it reappears later as absence, habit, and accumulated cost."
+    ch3: "What makes a sexual situation consequential is not what was meant, but how the situation was framed."
+    ch4: "Asymmetry is not a moral charge but sexual cost topology."
+    ch5: "Time does not pause sexuality: postponement redistributes costs, repetition stabilizes patterns, categories normalize, and withdrawal must carry the expectations it helped structure."
+    ch6: "Leaving changes what comes next, not what already counts."
+    ch7: "When a situation carries expectations, silence is not neutral."
+    ch8: "What repeats becomes easier, what is easier becomes default, and what becomes default shapes who carries the costs."
+    ch9: "Redirection does not remove pressure; it moves it."
+    ch10: "Distance does not end pressure; it makes stopping possible before pressure turns into a path."
+    ch11: "Integration holds conflicting demands together without exporting the conflict elsewhere."
+    ch12: "Sexuality starts to cost when scenes stop being local and begin to count across time."
+    ch13: "The body keeps the record, and the real other remains free to refuse the script."
+    ch14: "What keeps happening is often less about who someone is than about how the situation is weighted."
+    ch15: "Deviance is not who someone is, but what a situation becomes when handling, category, genital meaning, withdrawal, or correction failure hardens into a path."
+    ch16: "Intensity does not create the danger; unmatched intensity does."
+    ch17: "Suspending self-binding can work locally only while the situation explicitly carries the cost topology it creates."
+    ch18: "Dysfunction is prepared where Ψ leaks, Ω steers, Χ collapses, Α fixates, Θ breaks exit fiction, and reciprocity fails through drift."
+    ch19: "Functional practice is defined by governability, not normality."
+    ch20: "Minimal psychology signals drift persistence; it does not explain desire."
+    ch21: "Dignity in sexual practice is about how asymmetry is carried, not who someone is."
+    ch22: "PMS-SEX explains structure; MIP explains when critique is legitimate."
+    ch23: "PMS-SEX remains valid by stopping where other lenses begin."
+    ch24: "PMS-SEX remains valid by saying not what persons are, but what configurations do over time."
+
+  final_closing_marker: "Adult Sexual Emancipation = genital integration without genital sovereignty."
+
+final_profile_guard:
+  refs: ["ch24", "appB", "appD"]
+  status: "terminal_validity_guard"
+
+  text: >
+    PMS-SEX remains valid by staying within what it can responsibly say: not what
+    persons are, but what configurations do over time. It reads sexual praxis as
+    enacted configuration under frame, asymmetry, non-event, repetition,
+    temporality, distance, integration, and self-binding. It permits hard claims
+    about cost, drift, outer legibility, sexual cost topology, direct otherness,
+    after-scene dignity, boundary/aggression readability, and consequence
+    without converting those claims into person-status judgments.
+
+  rule_refs:
+    guard_set: "final_profile"
+    concept_sets:
+      - "core"
+      - "layer_discipline"
+      - "outer_form_language"
+      - "embodiment_and_sexed_structure"
+      - "access_and_direct_otherness"
+      - "cost_and_asymmetry"
+      - "withdrawal_and_binding"
+      - "structural_language"
+      - "dignity_and_mip"
+    drift_sets:
+      - "core_dysfunction_markers"
+      - "final_overlay_markers"
+      - "eden_pfo_drift_triad"
+      - "access_and_category_drifts"
+      - "embodiment_drifts"
+      - "withdrawal_and_binding_drifts"
+      - "mip_relevant_profiles"
+  compressed_rules:
+    - "no_consequence_free_sex"
+    - "no_desire_exempt_from_structural_conditions"
+    - "no_preference_as_public_confession_debt"
+    - "no_outer_form_erasure_by_internal_labels"
+    - "no_visible_form_totalization"
+    - "no_public_measure_as_confession_mandate"
+    - "no_path_cost_as_person_worth"
+    - "no_sexual_cost_topology_as_score"
+    - "no_biological_affordance_as_destiny_rank_or_role_proof"
+    - "no_sexed_dependency_as_relationship_prescription"
+    - "no_impulse_nearness_as_malice_by_default"
+    - "no_lack_of_malice_as_exculpation"
+    - "no_unlearned_handling_as_innocence_claim"
+    - "no_direct_otherness_as_access_entitlement"
+    - "no_permission_image_as_consent"
+    - "no_simulated_counterdesire_as_encounter"
+    - "no_body_boundary_coding_as_person_truth"
+    - "no_genital_meaning_as_genital_sovereignty"
+    - "no_adult_sexual_emancipation_as_person_hierarchy"
+    - "no_withdrawal_as_automatic_guilt"
+    - "no_withdrawal_as_automatic_exculpation"
+    - "no_non_binding_language_as_erasure_of_structured_psi_expectation"
+    - "no_boundary_aggression_collapse_as_response_authorization"
+    - "no_asymmetry_switch_as_authority"
+    - "no_parity_to_exit_as_reciprocity"
+    - "no_responsibility_to_authority_as_care"
+    - "no_operator_profile_as_direct_adultness_verdict"
+    - "no_critique_through_humiliation"
+    - "no_maturity_hierarchy"
+    - "no_dignity_hierarchy"
+    - "no_taxonomy_where_configuration_language_is_warranted"
+    - "no_total_capture_where_scene_exceeds_grammar"
+
+  sexual_reciprocity_guard:
+    concept_ref: "sexual_reciprocity_under_real_asymmetry"
+    statement: >
+      Sexual reciprocity under real asymmetry does not require equal burdens. It
+      requires that unequal burdens not be externalized through unmarked
+      asymmetry activation, parity-to-exit, responsibility-to-authority,
+      after-scene dignity failure, or denied cost topology.
+
+  adult_sexual_emancipation_guard:
+    concept_ref: "adult_sexual_emancipation"
+    statement: >
+      Adult Sexual Emancipation means genital integration without genital
+      sovereignty. It is not enactment multiplication, public confession,
+      genital celebration, liberation through visibility alone, boundary
+      reduction, person hierarchy, or sovereign sexual self-description.
+
+  mip_docking_guard:
+    module_ref: "modules.mip_docking"
+    statement: >
+      PMS-SEX may record operator profiles and drift markers. It may not directly
+      evaluate person-adultness. Adultness-relevant or maturity-relevant critique
+      belongs to MIP docking and must remain scene-bound, reversible,
+      non-person-ranking, non-diagnostic, and D-preserving.
+
+  final_marker: >
+    PMS-SEX remains valid by staying within what it can responsibly say: not what
+    persons are, but what configurations do over time.

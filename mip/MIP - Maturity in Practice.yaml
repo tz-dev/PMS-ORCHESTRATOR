@@ -1,0 +1,1313 @@
+# ==============================================================================
+# MIP - Maturity in Practice.yaml
+# ==============================================================================
+#
+# PURPOSE:
+#   Combined model reference and case template for MIP — Maturity in Practice:
+#   a praxeological anthropology of maturity, responsibility, asymmetry and dignity in practice.
+#
+#   - `model_reference` defines the normative / praxeological model:
+#     parameters (`A–C–R–P–D`), submodules, guardrails, red zones,
+#     IA-box (`T–J–TB–R`), A-score, M-score, D-module, bias / intuition /
+#     norm-change logic, formal notation and discipline profiles.
+#
+#   - `case` is the structured template for a full analysis:
+#     snapshot, role mapping, frame vs. variability, `A–C–R–P` profile,
+#     optional `D` observation, A-/M-bands, IA-box, trajectory, RVR(t),
+#     D-module if activated, Meta Notes, transmission check and uniform report.
+#
+# CORE MODEL:
+#   - We analyse enactments, roles and structures — never the ontological value of persons.
+#   - `A–C–R–P` form the standard structural analysis core.
+#   - `D` is the protected dignity-in-practice layer and remains optional / guardrail-bound.
+#   - `D₀` is ontological dignity: inviolable, immeasurable, non-rankable.
+#   - `D₁/D₂` are dignity in practice: qualitative enactment readings, not person scores.
+#   - A-score and M-score are bands plus justification, not hard values.
+#   - IA-box (`T–J–TB–R`) is an asymmetry check, not a verdict.
+#   - D-profile is qualitative, not a dignity score.
+#   - D-Quick-Grid is a movement tool, not a label.
+#   - Trajectories > labels.
+#   - Guardrails are constitutive: without guardrails, any IA / D analysis is invalid.
+#
+# DO:
+#   - Clarify roles, context, observer position and publicness before analysis.
+#   - Separate information basis, assumptions and interpretations.
+#   - Use A/M bands only with short justification.
+#   - Use D only to protect dignity and reveal dignity dynamics — not to shame.
+#   - Name bias risks, norm assumptions and the normative position of D-readings.
+#   - Keep all readings situated: role / context / time window.
+#   - Treat the model as a toolbox with an ethics rider, not a worldview.
+#
+# DO NOT:
+#   - Use scores as character labels.
+#   - Use the model for clinical diagnostics, forensics, individual HR decisions,
+#     child/youth diagnostics, public pillorying, ranking formats or humiliation diagnostics.
+#   - Publish individual D-readings about identifiable persons.
+#   - Treat D₁/D₂ as dignity itself.
+#   - Infer person-worth from enactment.
+#   - Let intuition end the analysis.
+#   - Inflate M-score through hindsight.
+#
+# TYPICAL MISUSE PATTERNS:
+#   - “She/He is a 3/10.”
+#   - “This person has no dignity.”
+#   - Using D-findings for public shaming.
+#   - Treating the IA-box as a moral verdict.
+#   - Treating domain profiles as expert substitutes.
+#   - Treating formal notation as a decision engine.
+#   - Overwriting missing alternatives with retroactive “they should have known”.
+#
+# INTENDED USE BY AI SYSTEMS:
+#   - Treat `model_reference` as the conceptual grid.
+#   - Use `case` as the only structured template for case output.
+#   - Ask pre-analysis questions where configured.
+#   - If the user does not specify settings, apply `agent_interface.defaults`.
+#   - Never operate in red-zone use contexts.
+#   - Generate reports only from documented fields, not hidden assumptions.
+#   - If guardrails fail, set transmission status to `working_note` or
+#     `not_mature_for_transmission`, not `decision_basis`.
+# ==============================================================================
+
+schema_version: "MIP_Maturity_in_Practice_v3.0_blocks_appendices_aligned"
+file_name: "MIP - Maturity in Practice.yaml"
+
+schema_meta:
+  canonical_name: "MIP - Maturity in Practice"
+  short_name: "MIP"
+  version: "v3.0_blocks_appendices_aligned"
+  status: "stable_working_version"
+  model_status: "working_version"
+  language: "en"
+  last_update: "2026-05-23"
+  basis:
+    core_blocks: ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]
+    appendices: ["A", "B", "D", "E"]
+    case_examples_status: "Appendix C pending final update"
+  intended_use_profiles:
+    - "self_reflection"
+    - "professional_supervision"
+    - "organisational_audit"
+    - "training_simulation"
+    - "structural_case_review"
+    - "ethics_reflection"
+  not_intended_for:
+    - "clinical_diagnostics"
+    - "therapy_planning"
+    - "forensic_assessment_or_criminal_justice_decision_support_about_individuals"
+    - "hr_decisions_about_individuals"
+    - "child_and_youth_diagnostics"
+    - "public_pillory_or_ranking_formats"
+    - "online_shaming_or_doxing"
+    - "humiliation_diagnostics"
+    - "dignity_labelling_of_persons"
+  governing_principles:
+    - "Recognise the enactment — not the person."
+    - "Profile ≠ person."
+    - "A-score = band, not person score."
+    - "M-score = shared structural responsibility, not guilt."
+    - "D-profile = qualitative dignity-in-practice description, not dignity score."
+    - "D₀ remains inviolable."
+    - "D₁/D₂ describe dignity in practice only within role, context and time window."
+    - "Tools structure perception; they do not decide cases."
+    - "Revision is not optional."
+  application_zones:
+    green:
+      description: "recommended usage: structures, cases at a distance, fictional/historical cases, self-application, training without person ranking"
+      typical_uses:
+        - "analysis_of_structures"
+        - "historical_or_fictional_cases"
+        - "self_application_reflection"
+        - "team_learning_without_individual_sanctions"
+        - "process_improvement"
+    yellow:
+      description: "caution zone: affected real persons involved; use only embedded, moderated and without individual sanctions"
+      conditions:
+        - "embedded_in_supervision_or_moderated_process"
+        - "no_direct_basis_for_sanctions_or_hr_decisions"
+        - "D_used_as_protection_signal_not_moral_label"
+        - "roles_context_and_publicness_clarified"
+        - "counter_perspective_documented"
+        - "review_or_revision_path_defined"
+    red:
+      description: "forbidden usage contexts"
+      includes:
+        - "clinical_diagnostics"
+        - "therapy_planning"
+        - "forensic_assessment_or_criminal_justice_decision_support_about_individuals"
+        - "hr_decisions_about_individuals"
+        - "child_and_youth_diagnostics"
+        - "public_pillory_or_ranking"
+        - "online_shaming_or_doxing"
+        - "humiliation_diagnostics"
+        - "public_D_readings_of_identifiable_persons"
+        - "dignity_labelling_of_persons"
+
+agent_interface:
+  welcome_message:
+    enabled: true
+    message_text: |
+      Welcome — MIP (*Maturity in Practice*) has been loaded successfully.
+
+      This model analyses enactments, roles and structures — never the value of persons.
+      It works with `A–C–R–P–D`, A-score, M-score, IA-box (`T–J–TB–R`),
+      trajectories, guardrails and an optional D-module.
+
+      Before any analysis starts, I will clarify:
+      • reflection mode,
+      • D-module preference,
+      • analysis depth,
+      • output format,
+      • discipline / field lens,
+      • and the intended use zone.
+
+      The D-module is default-off and may only be activated under guardrails.
+      Domain profiles are lenses and hotspot maps, not expert substitutes.
+      If a use context falls into a red zone, the model must not be applied.
+
+      You may begin by describing the situation you want to analyse.
+
+  pre_analysis_questions:
+    ask_reflection_mode_if_unspecified: true
+    ask_d_module_if_unspecified: true
+    ask_analysis_mode_if_unspecified: true
+    ask_output_format_if_unspecified: true
+    ask_discipline_profile_if_unspecified: true
+    ask_application_zone_if_unspecified: true
+    ask_intended_use_if_unspecified: true
+
+  defaults:
+    reflection_mode: "off"             # "on" | "off"
+    d_module_preference: "auto"        # "auto" | "on" | "off"
+    analysis_mode: "full"              # "ultra_short" | "short" | "medium" | "full"
+    output_format: "text"              # "text" | "yaml"
+    discipline_profile: "generic"
+    application_zone: "yellow"
+    d_activation_rule: "default_off_activate_only_if_guardrails_fulfilled"
+    transmission_default: "working_note_until_checked"
+
+  safe_response_rules:
+    if_red_zone_detected: "decline_model_application_and_offer_structural_or_general_reflection_only"
+    if_d_module_unclear: "keep_D_off_or_use_D_only_as_protection_signal"
+    if_information_missing: "mark_open_questions_and_blind_spots"
+    if_guardrails_fail: "set_transmission_status_to_working_note"
+    if_user_requests_person_label: "refuse_person_label_and_reframe_as_role_context_enactment"
+
+model_reference:
+  axiomatic_core:
+    D0_inalienable:
+      label: "`D₀` is inalienable"
+      rule: "Every human person possesses ontological dignity (`D₀`), which is incomparable, immeasurable, non-increasable, non-losable and non-rankable."
+    person_enactment_separation:
+      label: "Strict separation of person and enactment"
+      permitted: "In this role / context / time window, this enactment shows ..."
+      not_permitted: "This person is ..."
+    five_parameters:
+      label: "Five parameters of maturity in practice"
+      notation: "`A–C–R–P–D`"
+      standard_core: "`A–C–R–P`"
+      protected_layer: "`D` as dignity in practice; optional and guardrail-bound"
+    D1_D2_not_D0:
+      rule: "`D₁/D₂` are dignity in practice, not dignity itself; `D₀` remains outside all metrics."
+    role_context_publicness:
+      rule: "Role, context and publicness must be clarified before `A–C–R–P–D`, IA or D readings."
+    asymmetry_rule:
+      rule: "Asymmetry is normal; `IA` requires failed justification, transparency, time-boundedness or reversibility."
+    maturity_state_not_type:
+      rule: "Maturity is an enactment state, not a person type."
+    score_rule:
+      rule: "Scores are structured estimations and bands, not exact measurements."
+    M_not_guilt:
+      rule: "`M` is shared structural responsibility, not guilt."
+    system_axiom:
+      rule: "No enactment is isolated; A- and M-findings must include systemic layers."
+    documentation_axiom:
+      rule: "Serious use requires documentation of standpoint, assumptions, information basis, bias risks and normative D-reading lens."
+    bias_norm_intuition_axiom:
+      rule: "Bias, intuition and norm change are method components."
+    tragedy_clause:
+      rule: "Not all painful outcomes are IA; some are tragic residual conflicts of goods."
+    guardrail_axiom:
+      rule: "Guardrails are constitutive; without guardrails, any IA / D analysis is invalid."
+
+  parameters:
+    A:
+      label: "`A` — awareness"
+      short_definition: "What a role, person, group or system knows, could know, notices or refuses to notice."
+      includes:
+        - "information access"
+        - "role awareness (`A-R`)"
+        - "context awareness"
+        - "publicness awareness (`A-P`)"
+        - "impact awareness"
+        - "bias awareness"
+    C:
+      label: "`C` — coherence"
+      short_definition: "Consistency between word, decision and deed across time, roles and contexts."
+      includes:
+        - "word-deed coherence"
+        - "role coherence"
+        - "context coherence"
+        - "narrative coherence"
+        - "correction of breaks"
+    R:
+      label: "`R` — responsibility"
+      short_definition: "How burdens and consequences are assumed, refused, shifted, distributed or repaired."
+      includes:
+        - "individual responsibility"
+        - "social responsibility"
+        - "institutional responsibility"
+        - "ethical responsibility"
+        - "public responsibility"
+    P:
+      label: "`P` — power / power to act"
+      short_definition: "Real scope for influence and action: levers, alternatives, dependency, intervention capacity."
+      includes:
+        - "inner agency"
+        - "social agency"
+        - "institutional agency"
+        - "cultural agency"
+        - "public agency (`P-PU`)"
+    D:
+      label: "`D` — dignity in practice"
+      short_definition: "Qualitative dignity enactment in self-treatment, relations and publicness."
+      boundary: "`D` refers to `D₁/D₂`, not to `D₀`; it is optional, protected and qualitative."
+      includes:
+        - "`D₁` self-dignity in practice"
+        - "`D₂` relational dignity in practice"
+        - "`D-I` inner dignity / inner self-relationship"
+        - "`D-B` bodily/material self-care"
+        - "`D-R` relational dignity"
+        - "`D-P` public dignity in practice"
+
+  submodule_matrix:
+    A:
+      A-I:
+        name: "inner awareness"
+        description: "Awareness of impulses, emotions, ambivalence and inner signals, without clinical interpretation."
+      A-R:
+        name: "role awareness"
+        description: "Awareness of the role from which one acts and the role attributed by others."
+      A-C:
+        name: "context awareness"
+        description: "Awareness of setting, norms, constraints, protected goods and active levels."
+      A-IM:
+        name: "impact awareness"
+        description: "Awareness of consequences, side effects and affected parties."
+      A-P:
+        name: "awareness of publicness"
+        description: "Awareness that an enactment is public, media-amplified, archived or symbolically interpreted."
+    C:
+      C-S:
+        name: "social coherence"
+        description: "Coherence in social codes, relational settings and social navigation."
+      C-P:
+        name: "coherence in power contexts"
+        description: "Coherence when power differentials, dependency or asymmetry are active."
+      C-N:
+        name: "narrative coherence"
+        description: "Coherence of stories, justifications, meaning frames and symbolic layers."
+      C-I:
+        name: "institutional / rule coherence"
+        description: "Coherence between rules, institutional logic and lived practice."
+    R:
+      R-I:
+        name: "individual responsibility"
+        description: "One’s own actionable share without over- or under-assumption."
+      R-S:
+        name: "social responsibility"
+        description: "Responsibility in relationships, teams, groups and care structures."
+      R-E:
+        name: "ethical responsibility"
+        description: "Responsibility for norms, protected goods and dignity effects."
+      R-P:
+        name: "public responsibility"
+        description: "Responsibility under public reach, media effects or institutional visibility."
+    P:
+      P-I:
+        name: "inner agency / inner power to act"
+        description: "Experienced and real capacity for small reversible steps."
+      P-S:
+        name: "social agency"
+        description: "Capacity to act in social or relational contexts."
+      P-C:
+        name: "cultural agency"
+        description: "Power to shape symbols, narratives, norms and cultural meanings."
+      P-PU:
+        name: "public agency"
+        description: "Power to act in public contexts: reach, platform, media visibility, reputational effect."
+    D:
+      D-I:
+        name: "inner dignity / inner self-relationship"
+        description: "Self-respect, self-contact, harsh self-talk, excessive guilt, self-devaluation."
+      D-B:
+        name: "bodily/material self-care"
+        description: "Dignity in bodily, material and everyday self-treatment: sleep, food, hygiene, health, boundaries, safety."
+      D-R:
+        name: "relational dignity"
+        description: "Dignity in relational enactments: fairness, respect, refusal of degradation, shaming, protection, protest."
+      D-P:
+        name: "public dignity in practice"
+        description: "Dignity under public visibility: shaming, exposure, self-branding, reputation, public protection."
+
+  modulators:
+    function: "Modulators do not replace `A–C–R–P–D`; they alter how strongly patterns appear."
+    status: "prerequisite_for_fair_structural_responsibility_and_D_readings"
+    boundary: "Modulators explain shifts in enactment; they are not excuses and not replacement axes."
+    structural:
+      time_pressure_and_complexity:
+        effects: ["A_down", "C_down", "snap_decisions", "D-B_risk"]
+      access_to_information:
+        effects: ["A_asymmetries", "R_relevance", "M_relevance", "D-I_D-B_risk"]
+      role_and_power_differentials:
+        effects: ["R_modulation", "P_modulation", "D-R_modulation"]
+      dependencies:
+        types: ["economic", "emotional", "legal"]
+        effects: ["P_limitation", "alternatives_may_be_theoretical_only", "D_pressure"]
+      institutional_rules:
+        effects: ["R_bundling_or_dilution", "dignity_practice_supported_or_blocked"]
+      degree_of_publicity:
+        levels: ["private", "semi_public", "institutional", "public", "media"]
+        effects: ["A-P", "P-PU", "R-P", "D-P"]
+    dynamic_psychosocial:
+      stress_overload:
+        effects: ["A_down", "C_down", "IA_risk_up", "D_collapse_risk"]
+      exhaustion_monotony:
+        effects: ["R_down", "P_down", "D-I_D-B_risk"]
+      experiences_of_success:
+        effects: ["P_up", "A_up", "C_up", "overconfidence_risk"]
+      social_resonance:
+        constructive: "stabilises responsibility and dignity"
+        toxic: "collapses A, R and D"
+      group_dynamics:
+        effects: ["P_modulation", "D-R_modulation", "self_betrayal_vs_protection"]
+    short_rule_for_practice:
+      - "Structure first, then person."
+      - "Then enactment."
+      - "Only then interpretation."
+
+  discipline_profiles:
+    generic:
+      function: "general praxeological reflection"
+      boundary: "Use only under guardrails; choose a field lens where domain expertise matters."
+      primary_lens_function: "structural_description"
+      secondary_lens_functions: ["role_clarification", "responsibility_mapping"]
+      activated_modules: ["A–C–R–P", "IA-box", "A-score", "M-score", "trajectories"]
+      optional_modules: ["D-profile", "D-Quick-Grid"]
+      typical_questions:
+        - "Which roles, asymmetries and responsibility points are active?"
+
+    sociology:
+      primary_lens_function: "structural_description"
+      secondary_lens_functions: ["reform_orientation"]
+      activated_modules: ["D-R", "D-P", "IA-box", "roles", "micro_macro_coupling"]
+      typical_questions:
+        - "How do structures generate certain dignity enactments?"
+      non_replacement_boundary: "Does not replace social-scientific expertise."
+
+    political_science:
+      primary_lens_function: "power_publicness_analysis"
+      secondary_lens_functions: ["norm_visibility"]
+      activated_modules: ["D-R", "D-P", "IA-box", "A-P", "P-PU", "public_responsibility"]
+      typical_questions:
+        - "How do morally charged boundary dynamics arise?"
+      non_replacement_boundary: "Does not replace political judgement or democratic process."
+
+    law:
+      primary_lens_function: "procedural_reflection"
+      secondary_lens_functions: ["proportionality_and_dignity_protection"]
+      activated_modules: ["D₀", "IA-box", "responsibility", "role", "reversibility"]
+      typical_questions:
+        - "Is a measure transparent, justified, time-bound and reversible?"
+      non_replacement_boundary: "Does not replace legal judgement or due process."
+
+    ethics:
+      primary_lens_function: "normative_clarification"
+      secondary_lens_functions: ["intervention_framing"]
+      activated_modules: ["D₀", "D₁/D₂", "responsibility", "reversibility", "guardrails"]
+      typical_questions:
+        - "Which interventions protect or violate dignity in practice?"
+      non_replacement_boundary: "Does not settle moral doctrine."
+
+    psychology_performative:
+      primary_lens_function: "pattern_clarification"
+      secondary_lens_functions: ["self_reflection", "support_orientation"]
+      activated_modules: ["D-I", "D-B", "A–C–R–P", "trajectories", "modulators"]
+      typical_questions:
+        - "How does self-devaluation appear as enactment under conditions?"
+      boundary: "Performative, not clinical."
+      forbidden: ["clinical_diagnosis", "disorder_classification", "therapy_planning"]
+
+    coaching_supervision:
+      primary_lens_function: "reflective_intervention_support"
+      secondary_lens_functions: ["role_clarification"]
+      activated_modules: ["D-I", "D-B", "conflict_loop", "roles", "A–C–R–P", "reversible_steps"]
+      typical_questions:
+        - "How can self-contact and power to act be stabilised without diagnosis?"
+      boundary: "Supports reflection; does not replace therapeutic or professional accountability."
+
+    pedagogy_education:
+      primary_lens_function: "development_support"
+      secondary_lens_functions: ["protection_and_boundary_design"]
+      activated_modules: ["D-I", "D-R", "role", "responsibility", "ceiling_rule"]
+      typical_questions:
+        - "Which form of boundary-setting preserves dignity and learning?"
+      boundary: "No child/youth diagnostics; no labelling."
+
+    organisation_leadership:
+      primary_lens_function: "structural_clarification"
+      secondary_lens_functions: ["intervention_planning"]
+      activated_modules: ["roles", "P", "responsibility", "D-R", "IA-box", "M-score"]
+      typical_questions:
+        - "Where does leadership become inadult over-power?"
+      boundary: "No individual HR decisions; use for structures and leadership practices."
+
+    corporate_culture:
+      primary_lens_function: "culture_description"
+      secondary_lens_functions: ["norm_and_process_review"]
+      activated_modules: ["D-R", "D-B", "modulators", "power", "transparency"]
+      typical_questions:
+        - "How do we build a dignity-protective culture?"
+      boundary: "No ranking of employees or groups."
+
+    media_studies:
+      primary_lens_function: "representation_publicity_analysis"
+      secondary_lens_functions: ["norm_visibility"]
+      activated_modules: ["D-P", "interpretive_power", "publicity_scaling", "semantic_drift"]
+      typical_questions:
+        - "How do digital pillories and public degradation patterns work?"
+      boundary: "Does not replace cultural judgement, art criticism or media expertise."
+
+    public_communication:
+      primary_lens_function: "communication_design"
+      secondary_lens_functions: ["escalation_prevention"]
+      activated_modules: ["D-P", "role_mechanics", "A-P", "P-PU", "A–C–R–P"]
+      typical_questions:
+        - "How can one speak publicly without violating dignity?"
+      boundary: "No public D-labelling of identifiable persons."
+
+    ai_governance:
+      primary_lens_function: "asymmetry_audit"
+      secondary_lens_functions: ["responsibility_mapping"]
+      activated_modules: ["IA-box", "responsibility", "transparency", "D-P_effects_on_affected_humans", "M-score"]
+      typical_questions:
+        - "When is algorithmic asymmetry legitimate?"
+      boundary: "Technical systems may be analysed for IA and power asymmetry; D-P refers only to dignity effects on affected humans; no machine dignity claims."
+
+    philosophy_anthropology:
+      primary_lens_function: "axiomatic_clarification"
+      secondary_lens_functions: ["conceptual_critique"]
+      activated_modules: ["D₀", "maturity_in_practice", "base_axioms", "model_limits"]
+      typical_questions:
+        - "How do we explain action without substantialising persons?"
+      boundary: "Does not monopolise dignity or ultimate doctrine."
+
+  IA_box:
+    label: "IA-box (`T–J–TB–R`)"
+    boundary: "Asymmetry check, not verdict."
+    note_on_R: "`R` in the IA-box means reversibility; it is distinct from `R` as responsibility in `A–C–R–P–D`."
+    criteria:
+      T:
+        label: "`T` — Transparent?"
+        guiding_question: "Who knows what — and who could realistically know it?"
+      J:
+        label: "`J` — Justified?"
+        guiding_question: "Does the asymmetry serve a testable purpose or only one side’s advantage?"
+      TB:
+        label: "`TB` — Time-bound?"
+        guiding_question: "Is the asymmetry limited by time, conditions or review points?"
+      R:
+        label: "`R` — Reversible?"
+        guiding_question: "Are there real ways back — or only theoretical ones?"
+    results:
+      - "functional_asymmetry"
+      - "IA_risk"
+      - "inadult_asymmetry"
+    decision_note: "Failing criteria indicate IA risk; the result remains a structured reading, not a person judgment."
+
+  scores:
+    A_score:
+      label: "A-score"
+      formal_notation: "A(H)"
+      meaning: "Maturity in practice of an enactment, case or situation `H`."
+      mode: "band"
+      boundary: "A-score describes enactment, not essence; it is assigned to cases / situations / structures / episodes, not persons."
+      not_included:
+        - "person worth"
+        - "ontological dignity (`D₀`)"
+        - "D₁/D₂ as numeric score"
+        - "clinical diagnosis"
+      subscore_notation:
+        A_A: "A(A) — maturity of awareness"
+        A_C: "A(C) — maturity of coherence"
+        A_R: "A(R) — maturity of responsibility"
+        A_P: "A(P) — maturity of action / power"
+      calibration_bands:
+        "0-1":
+          label: "collapse zone"
+          description: "severe breakdown across multiple axes; protection goods may be heavily violated; no inference about D₀."
+        "2-3":
+          label: "clearly inadult enactment"
+          description: "denial, incoherence, evasion of responsibility, misuse or refusal of power."
+        "4-5":
+          label: "everyday mixed zone"
+          description: "mixed patterns, visible striving, blind spots, oscillation."
+        "6-7":
+          label: "solid adultness"
+          description: "baseline adult enactment with errors that can be named and corrected."
+        "8-9":
+          label: "high adultness under severity"
+          description: "high maturity under pressure, cost, risk or complexity."
+        "10":
+          label: "ideal limit value"
+          description: "orientation point; rarely a real case score."
+    M_score:
+      label: "M-score"
+      formal_notation: "M(X)"
+      meaning: "Shared structural responsibility of actor / role-holder `X` for the overall trajectory and consequences."
+      mode: "band"
+      boundary: "M-score describes shared structural responsibility, not guilt, fault, blame or moral worth."
+      factors:
+        knowledge: "What was known or realistically knowable?"
+        power_control: "Which real levers were available?"
+        predictability: "Were consequences realistically recognisable?"
+        access_to_alternatives: "Were real alternatives available?"
+        serious_integration_attempt: "Were risks named, mitigated, corrected or integrated?"
+      ceiling_rule:
+        formula: "predictability ≈ 0 or access_to_alternatives ≈ 0 -> M <= 4"
+        principle: "No high shared responsibility without predictability and real options."
+      protective_rules:
+        self_devaluation_does_not_raise_M: true
+        high_subjective_guilt_triggers_M_check_not_M_increase: true
+        low_M_high_harm_means_protection_not_blame: true
+
+  dignity_module:
+    label: "D-module"
+    default: "off"
+    activation: "only_with_clear_purpose_safe_frame_and_guardrails"
+    boundary: "D describes dignity in practice (`D₁/D₂`) as enactment; it never evaluates `D₀` or person worth."
+    D0:
+      label: "`D₀` — ontological dignity"
+      rule: "inviolable, not measurable, not gradable, not rankable, not withdrawable"
+      included_in_metrics: false
+    D1:
+      label: "`D₁` — self-dignity in practice"
+      operationalised_by: ["D-I", "D-B"]
+      description: "How someone treats themselves in practice."
+    D2:
+      label: "`D₂` — relational dignity in practice"
+      operationalised_by: ["D-R", "D-P"]
+      description: "How someone treats others, publicness, roles and the social world in practice."
+    activation_conditions:
+      - "guardrails_fulfilled"
+      - "clear_purpose"
+      - "safe_communication_space"
+      - "role_context_time_window_documented"
+      - "D_expected_to_bring_more_clarity_than_shame"
+    forbidden_uses:
+      - "clinical_diagnostics"
+      - "therapy_planning"
+      - "forensics"
+      - "individual_HR_decisions"
+      - "child_youth_diagnostics"
+      - "public_pillory"
+      - "ranking_formats"
+      - "humiliation_diagnostics"
+      - "public_D_readings_of_identifiable_persons"
+      - "person_level_dignity_labelling"
+    communication_spaces:
+      - "self_reflection"
+      - "professional_confidential"
+      - "moderated_supervision"
+      - "internal_structural_review"
+      - "not_public_by_default"
+    D_profile:
+      label: "D-profile"
+      boundary: "`D₀` remains outside the card; `D₁/D₂` describe D-enactments, not personhood; no numbers; qualitative bands only."
+      sections:
+        - "D₁_self_enactment_self_treatment_D-I_D-B"
+        - "D₂_relational_dignity_D-R"
+        - "D-P_public_dignity"
+        - "A_M_D_link_without_mixing"
+        - "guardrails_and_use"
+    D_quick_grid:
+      label: "D-Quick-Grid"
+      boundary: "Movement tool, not label."
+      preferred_wording: "This constellation currently shows level-2 D stress in this role / context / time window."
+      forbidden_wording: "This person is level 2."
+      levels:
+        "0":
+          label: "D not in focus"
+          description: "neutral / unremarkable; no stable D issue visible."
+        "1":
+          label: "banal / everyday drift"
+          description: "mild self- or other-devaluation; everyday drift; pay attention."
+        "2":
+          label: "marked D stress"
+          description: "recurrent self-devaluation, boundary overriding, shaming, deliberate exposure or entitling group images."
+        "3":
+          label: "hard D breaks / extreme zone"
+          description: "alarm zone; no fine-tuning; focus on protection goods; D-profile as documentation of injustice, not coaching material."
+
+  trajectories:
+    principle: "We write trajectories, not labels."
+    A_t:
+      label: "A(t)"
+      description: "Maturity in practice across time."
+    M_t:
+      label: "M(t)"
+      description: "Shared structural responsibility across time."
+    D_t:
+      label: "D(t)"
+      description: "Dignity enactment across time; optional and qualitative."
+    RVR_t:
+      label: "RVR(t)"
+      full_name: "responsibility–viability–range over time"
+      formula: "RVR(t) = f(knowing_t, able_t, permitted_t, acting_t)"
+      boundary: "Responsibility curve, not point verdict."
+
+  bias_intuition_norm_change:
+    bias:
+      rule: "Bias is baseline noise, not an exception."
+      bias_awareness_part_of_A: true
+      bias_risks:
+        confirmation_bias:
+          description: "Seeking confirmation and overlooking ambiguity."
+        hindsight_bias:
+          description: "Seeing outcomes as more predictable after the fact."
+          hindsight_risk: "inflated predictability -> inflated M-score"
+        status_quo_loyalty_bias:
+          description: "Protecting existing structures, groups or loyalties from critique."
+        halo_horn_effects:
+          description: "Letting one positive or negative trait colour the whole assessment."
+          dignity_bias_effect: "dignity bonus / dignity penalty"
+        in_group_out_group_bias:
+          description: "Judging one’s own group more generously and others more harshly."
+    intuition:
+      role: ["sensor", "trigger"]
+      not_role: "judge"
+      principle: "Intuition is hypothesis, not proof."
+      rule: "Intuition may start the analysis, but must not end it."
+    norm_change:
+      principle: "Norm change is not an obstacle; it is subject matter."
+      traps:
+        - "overwriting_the_past_with_current_norms"
+        - "freezing_the_present_with_past_norms"
+      D_reading_requirement: "Every D-reading must name its normative position."
+    meta_attitude:
+      required: true
+      elements:
+        - "no_claim_to_final_truth"
+        - "willingness_to_revise"
+        - "search_for_counterexamples"
+        - "alternative_perspectives"
+        - "critique_readiness"
+      meta_guardrail: "Without meta-attitude, dignity language falls back into moral labelling."
+
+  guardrails:
+    guardrail_rule: "Without guardrails, any IA / D analysis is invalid."
+    profile_not_person:
+      rule: "Profiles describe structures and enactments, not personhood."
+    system_axiom:
+      rule: "Every IA or maturity finding must also identify structural co-causes."
+    minimal_adulthood:
+      rule: "Users must be willing to see themselves as involved and keep dignity non-negotiable."
+      if_not_met: "Do not apply the model now, especially not the D-module."
+    dignity_guardrails:
+      D0_untouchable: true
+      D1_D2_enactments_only: true
+      no_dignity_score: true
+      no_person_level_D_judgments: true
+      default_D_off: true
+      if_D_creates_more_shame_than_clarity: "dial_D_down_work_on_structures_and_protection"
+    score_hygiene:
+      A_score: "band, not person score"
+      M_score: "shared structural responsibility, not guilt"
+      D_profile: "qualitative, not dignity score"
+      IA_box: "asymmetry check, not verdict"
+    red_zones:
+      - "clinical_diagnostics"
+      - "therapy_planning"
+      - "forensics"
+      - "individual_HR_decisions"
+      - "child_youth_diagnostics"
+      - "public_pillory"
+      - "ranking_formats"
+      - "online_shaming_or_doxing"
+      - "humiliation_diagnostics"
+      - "public_D_readings_of_identifiable_persons"
+    transmission_guardrail:
+      if_final_checklist_fails: "working_note_not_decision_basis"
+      not_mature_for_transmission_if:
+        - "central_questions_open"
+        - "guardrails_violated"
+        - "projection_dominates"
+        - "D_used_without_safe_frame"
+        - "role_context_publicness_unclear"
+    misuse_as_own_finding:
+      rule: "Misuse of the model for shaming, scapegoating or power games counts as its own IA / D finding."
+
+  frame_vs_variability:
+    frame_elements:
+      description: "Fixed or slow-to-change elements."
+      examples:
+        - "laws"
+        - "contracts"
+        - "physical constraints"
+        - "protected goods"
+        - "ontological dignity (`D₀`)"
+    variability_elements:
+      description: "Malleable elements."
+      examples:
+        - "roles"
+        - "communication"
+        - "processes"
+        - "timing"
+        - "review points"
+        - "error handling"
+        - "D₁/D₂ enactments"
+    required_questions:
+      - "Where would high A / M be unfair?"
+      - "Where does 'the system' become an excuse?"
+      - "Where is D₁/D₂ realistically improvable?"
+
+  quick_access:
+    one_pager:
+      boundary: "Emergency brake and orientation aid; does not replace full model, guardrails or contextual judgement."
+    audit_checklist:
+      function: "pre-transmission gate"
+      boundary: "not verdict mechanism"
+      five_points:
+        - "scope_and_guardrails"
+        - "roles_and_publicness"
+        - "structure_and_score_hygiene"
+        - "bias_gut_feeling_norm_assumptions"
+        - "consequences_and_reversibility"
+    conflict_loop:
+      function: "four-step orientation under pressure"
+      boundary: "does not guarantee resolution"
+      steps: ["STOP_FRAME", "ROLE", "IA_spot", "STEP_REVIEW"]
+    D_quick_grid:
+      function: "movement tool"
+      boundary: "not label"
+
+  model_limits:
+    does_not_promise:
+      - "truthful_recognition_of_persons"
+      - "determination_of_inner_life_or_motives"
+      - "guaranteed_justice"
+      - "therapy_or_healing"
+      - "automatic_conflict_resolution"
+      - "definitive_guilt_settlement"
+      - "morally_correct_politics_religion_culture_or_relationships"
+      - "deciding_who_is_worthy_or_unworthy"
+      - "universal_dignity_doctrine_for_every_culture"
+      - "clinical_neurodiverse_or_trauma_explanation"
+    promises_only:
+      - "make_patterns_of_practice_structurally_clearer"
+      - "make_inadult_asymmetries_visible_and_discussable"
+      - "distribute_responsibility_more_fairly"
+      - "open_spaces_for_reflection"
+      - "mark_blind_spots_in_power_roles_and_dignity"
+      - "make_judgements_more_reviewable"
+      - "keep_normative_lenses_visible"
+      - "prevent_D_from_becoming_moral_weapon"
+
+  formal_notation:
+    boundary: "Formal notation is a documentation aid; it does not replace context, guardrails, judgement or qualitative interpretation."
+    notational_hygiene:
+      A: "awareness / A-score notation"
+      X: "actor / role-holder / object of observation"
+      Y: "second actor / counterpart"
+      H: "enactment, case or situation"
+      K: "context"
+      rho: "role"
+    action_tuple:
+      symbolic: "H = (X, ρ, K, A_w, C_o, R_s, P_a, D_p, IA)"
+      components:
+        X: "actor / role-holder / object of observation"
+        rho: "role in this context"
+        K: "context / setting / publicness frame"
+        A_w: "awareness profile"
+        C_o: "coherence profile"
+        R_s: "responsibility profile"
+        P_a: "power-to-act profile"
+        D_p: "D-profile (`D₁/D₂`; optional)"
+        IA: "IA-box evaluation (`T–J–TB–R`)"
+      reduced_without_D: "H = (X, ρ, K, A_w, C_o, R_s, P_a)"
+    D_profile_notation:
+      D_p_H: "D_p(H) = (D1, D2)"
+      D1: "D1 = (D_I, D_B)"
+      D2: "D2 = (D_R, D_P)"
+      boundary: "D_p(H) describes D-enactments in H; it does not describe the value of X. D₀ is not a profile variable."
+    IA_box_notation:
+      IA_S: "IA(S) = (T, J, TB, R)"
+      result_set: ["functional", "IA_risk", "inadult_asymmetry"]
+    A_score_notation:
+      A_H: "A(H) ≈ x-y"
+      boundary: "A(H) is not a person score."
+    M_score_notation:
+      M_X: "M(X) ≈ x-y"
+      ceiling_rule: "Pr ≈ 0 or Alt ≈ 0 -> M(X) <= 4"
+      boundary: "M(X) is not guilt."
+    trajectory_notation:
+      H_t: "H_t = {H_t0, H_t1, H_t2, ...}"
+      A_t: "A(t) = A(H_t)"
+      M_t: "M(t) = M(X_t)"
+      D_t: "D(t) = D_p(H_t), optional and qualitative"
+    RVR_notation:
+      RVR_t: "RVR(t) = f(knowing_t, able_t, permitted_t, acting_t)"
+    meta_notes_notation:
+      Meta_H: "Meta(H) = (B, N, I, L, Alt)"
+      components:
+        B: "bias risks"
+        N: "norm assumptions"
+        I: "intuition input and check"
+        L: "lens / normative position of D-reading"
+        Alt: "possible alternative interpretations"
+    formal_red_zone_boundary:
+      rule: "A formally neat misuse remains misuse."
+      if_guardrails_fail: "status(H) = working_note"
+
+case:
+  meta:
+    case_id: ""
+    case_title: ""
+    documentation_date: ""
+    analysts:
+      - name: ""
+        role: ""
+        observer_position: ""
+    language: ""
+    confidentiality_level: ""        # "internal" | "confidential" | "anonymised_public" | "public_generalised"
+    analysis_mode: "full"            # "ultra_short" | "short" | "medium" | "full"
+    intended_use: ""                 # e.g. self_reflection, supervision, audit, training
+    application_zone: ""             # "green" | "yellow" | "red"; if red: do_not_apply_model
+    interaction_profile:
+      reflection_mode: "off"
+      d_module_preference: "auto"
+      output_format: "text"
+      discipline_profile: "generic"
+      d_activation_decision: "not_yet_decided"
+      transmission_default: "working_note_until_checked"
+
+  guardrails:
+    profile_not_person: true
+    focus_on_roles_structures_enactments: true
+    minimal_adulthood_checked: false
+    analyst_self_implication_acknowledged: false
+    system_axiom_applied: false
+    use_context:
+      roles_clarified: false
+      observer_position_clarified: false
+      information_basis_clarified: false
+      analysis_purpose_clarified: false
+      publicness_clarified: false
+    red_zone_check:
+      clinical_diagnostics: false
+      therapy_planning: false
+      forensics: false
+      individual_HR_decisions: false
+      child_youth_diagnostics: false
+      public_pillory_or_ranking: false
+      online_shaming_or_doxing: false
+      humiliation_diagnostics: false
+      public_D_readings_of_identifiable_persons: false
+      any_red_zone_touched: false
+      if_any_true: "do_not_apply_model"
+    dignity_protection:
+      D0_untouched: true
+      D1_D2_enactments_only: true
+      no_dignity_score: true
+      no_person_labels_from_D: true
+      D_default_off: true
+      D_activated: false
+      if_D_activated_guardrails_checked: false
+      if_D_creates_more_shame_than_clarity: "dial_D_down"
+    score_hygiene:
+      A_score_band_not_person_score: true
+      M_score_shared_responsibility_not_guilt: true
+      D_profile_not_dignity_score: true
+      IA_box_not_verdict: true
+    tragedy_clause_considered: false
+    misuse_as_own_finding_acknowledged: false
+
+  information_basis:
+    primary_material: ""
+    secondary_material: ""
+    assumptions_and_inferences: ""
+    distinction_material_vs_inference_clear: false
+    quality_and_limits:
+      coverage_estimate: ""          # "low" | "medium" | "high"
+      reliability_estimate: ""       # "low" | "medium" | "high"
+      known_gaps: []
+      main_bias_risks_here: []
+
+  snapshot:
+    short_case_description: ""
+    central_actors_and_roles:
+      - ""
+    guiding_question: ""
+    level:
+      - ""                           # "individual" | "dyadic" | "organisational" | "political" | "cultural" | etc.
+    first_visible_asymmetry: ""
+    first_visible_D_themes_optional: []
+
+  role_mapping:
+    object_of_observation:
+      type: ""                       # person_in_role | team | institution | procedure | rule | discourse | narrative
+      description: ""
+      role: ""
+      not_person_as_whole: true
+    observer_position:
+      role: ""
+      power_relation_to_object: ""
+      possible_effects_of_analysis: ""
+    involved_roles:
+      - role: ""
+        mandate: ""
+        built_in_asymmetries: []
+        publicness_level: ""         # private | semi_public | institutional | public | media_amplified
+        dignity_exposure: ""
+    publicness:
+      level: ""
+      A_P_relevance: ""
+      P_PU_relevance: ""
+      D_P_relevance_if_D_active: ""
+      public_shaming_risk: ""
+      reversibility_risk: ""
+
+  frame_vs_variability:
+    frame_elements:
+      - element: ""
+        reason_fixed_or_slow: ""
+        protected_goods: []
+    variability_elements:
+      - element: ""
+        possible_change: ""
+        responsible_roles: []
+    unfair_high_M_zones:
+      - ""
+    system_as_excuse_risk:
+      - ""
+    D1_D2_realistically_improvable_where:
+      - ""
+
+  acrp_profile:
+    A_awareness:
+      observations: ""
+      available_information: ""
+      realistically_knowable: ""
+      blind_spots: ""
+      role_awareness_A_R: ""
+      publicness_awareness_A_P: ""
+      bias_awareness: ""
+    C_coherence:
+      observations: ""
+      word_deed_relation: ""
+      role_context_coherence: ""
+      narrative_coherence: ""
+      breaks_named_or_hidden: ""
+    R_responsibility:
+      observations: ""
+      responsibility_points: ""
+      assumed_responsibility: ""
+      shifted_or_refused_responsibility: ""
+      burdens_and_consequences: ""
+    P_power_to_act:
+      observations: ""
+      real_levers: ""
+      formal_vs_real_options: ""
+      used_options: ""
+      unused_options: ""
+      ceiling_rule_relevance: ""
+
+  optional_D_observation:
+    use_only_if_guardrails_fulfilled: true
+    D_not_folded_into_A_score: true
+    observations_only_no_evaluation_here: true
+    visible_D_enactments:
+      self_devaluation: ""
+      self_neglect: ""
+      shame_dynamics: ""
+      degradation_of_others: ""
+      public_shaming: ""
+      protest_or_refusal: ""
+      dignity_protection: ""
+    next_step_if_relevant: "Use D-profile section below."
+
+  acrpd_submodules_profile:
+    A:
+      A-I: ""
+      A-R: ""
+      A-C: ""
+      A-IM: ""
+      A-P: ""
+    C:
+      C-S: ""
+      C-P: ""
+      C-N: ""
+      C-I: ""
+    R:
+      R-I: ""
+      R-S: ""
+      R-E: ""
+      R-P: ""
+    P:
+      P-I: ""
+      P-S: ""
+      P-C: ""
+      P-PU: ""
+    D:
+      active: false
+      D-I: ""
+      D-B: ""
+      D-R: ""
+      D-P: ""
+      note: "D-submodules only if D-module is activated and guardrails are fulfilled."
+
+  scores_and_ia:
+    A_score:
+      A_band: ""                     # e.g. "5-6"
+      boundary_confirmed: "A-score describes enactment, not essence."
+      time_role_context: ""
+      justification:
+        A_awareness: ""
+        C_coherence: ""
+        R_responsibility: ""
+        P_power_to_act: ""
+        modulators_context: ""
+      D_excluded_from_A_number: true
+    M_score:
+      M_band: ""                     # e.g. "3-4"
+      boundary_confirmed: "M-score describes shared structural responsibility, not guilt."
+      role_position_time_frame: ""
+      five_factors:
+        knowledge: ""
+        power_control: ""
+        predictability: ""
+        access_to_alternatives: ""
+        serious_integration_attempt: ""
+      ceiling_rule_check:
+        predictability_approx_zero: false
+        access_to_alternatives_approx_zero: false
+        M_capped_at_4: false
+        explanation: ""
+      D_link:
+        self_devaluation_does_not_raise_M: true
+        high_subjective_guilt_triggers_M_check_not_M_increase: true
+        low_M_high_harm_means_protection_not_blame: true
+    IA_box:
+      asymmetry_named: ""
+      boundary_confirmed: "IA-box is an asymmetry check, not a verdict."
+      T_transparent:
+        status: ""                   # yes | partly | no | unclear
+        notes: ""
+      J_justified:
+        status: ""
+        protected_good_or_purpose: ""
+        notes: ""
+      TB_time_bound:
+        status: ""
+        review_points_or_conditions: ""
+        notes: ""
+      R_reversible:
+        status: ""
+        real_return_or_exit_options: ""
+        notes: ""
+      result: ""                      # functional_asymmetry | IA_risk | inadult_asymmetry | unclear
+      short_justification: ""
+      immediate_action: ""
+
+  ia_localisation:
+    knowing:
+      issue: ""
+      possible_intervention: ""
+    being_able:
+      issue: ""
+      possible_intervention: ""
+    being_permitted:
+      issue: ""
+      possible_intervention: ""
+    willing:
+      issue: ""
+      possible_intervention: ""
+
+  ia_protection:
+    transparency_measures:
+      - ""
+    justification_measures:
+      - ""
+    time_boundedness_measures:
+      - ""
+    reversibility_measures:
+      - ""
+    participation_or_voice_measures:
+      - ""
+    dignity_protection_measures:
+      - ""
+    review_or_falsifier:
+      date_or_interval: ""
+      falsifier_question: ""
+      responsible_roles: []
+
+  trajectory:
+    principle: "Trajectories, not labels."
+    timeline:
+      - timepoint: "t0"
+        short_description: ""
+        A_band: ""
+        M_band: ""
+        D_observation_optional: ""
+        key_context_role_power_situation: ""
+      - timepoint: "t1"
+        short_description: ""
+        A_band: ""
+        M_band: ""
+        D_observation_optional: ""
+        key_context_role_power_situation: ""
+    A_t:
+      pattern: ""                    # rising | falling | zigzagging | plateauing | unclear
+      notes: ""
+    M_t_RVR_t:
+      RVR_description: ""
+      knowledge_over_time: ""
+      leverage_over_time: ""
+      alternatives_over_time: ""
+      ceiling_rule_over_time: ""
+    D_t_optional:
+      active: false
+      qualitative_course: ""
+      D_quick_grid_movement_if_used: ""
+      note: "No D-score; only qualitative trajectory."
+
+  D_module_optional:
+    active: false
+    activation_reason: ""
+    communication_space: ""          # self_reflection | professional_confidential | moderated_supervision | internal_structural_review | not_public
+    guardrails_checked:
+      scenic: false
+      context_bound: false
+      role_bound: false
+      time_windowed: false
+      no_global_statement_about_persons: false
+      no_dignity_score: false
+      D0_untouched: true
+    D_profile:
+      D1_self_treatment_D_I_D_B:
+        observed_enactments: ""
+        context_notes: ""
+        trend_band_qualitative: ""    # rather_self_devaluing | ambivalent | rather_self_respecting | unclear
+      D2_relational_dignity_D_R:
+        observed_enactments: ""
+        context_notes: ""
+        interpretive_reading_not_judgment: ""  # deficit | protest | ambivalent | dignity_stabilising | unclear
+      D_P_public_dignity:
+        active_if_publicness_relevant: false
+        observed_enactments: ""
+        private_public_tension: ""
+        publicity_context: ""
+      A_M_D_link_without_mixing:
+        A_band_reference: ""
+        M_band_reference: ""
+        D_tendency: ""
+        protection_or_responsibility_implication: ""
+    D_Quick_Grid:
+      used: false
+      level: ""                       # 0 | 1 | 2 | 3
+      preferred_wording: "This constellation currently shows level-__ D stress in this role / context / time window."
+      forbidden_wording_avoided: true
+      movement_question: "What would be one small, real action that could make this constellation one level more dignified — and who has A and M levers for that?"
+
+  meta_notes:
+    bias_risks:
+      confirmation_bias: ""
+      hindsight_bias: ""
+      status_quo_loyalty_bias: ""
+      halo_horn_effects: ""
+      in_group_out_group_bias: ""
+      dignity_bias_effect: ""
+    norm_assumptions:
+      explicit_norms: []
+      implicit_norms: []
+      dignity_concepts: []
+      normative_position_of_D_reading: ""
+    intuition:
+      initial_intuition: ""
+      used_as_sensor_not_judge: true
+      checked_afterwards: false
+      supporting_evidence: ""
+      contradicting_evidence: ""
+    possible_alternative_interpretations:
+      - ""
+    counter_perspective:
+      from_other_side: ""
+      from_affected_side: ""
+      from_external_observer: ""
+
+  open_questions_and_blind_spots:
+    missing_information:
+      - ""
+    uncertain_assumptions:
+      - ""
+    weak_points_in_analysis:
+      - ""
+    needed_perspectives:
+      - ""
+
+  possible_steps_towards_maturity:
+    decision_mode: ""                 # maintain | balance | change_stop | unclear
+    functional_next_step:
+      action: ""
+      reversible: true
+      responsible_role: ""
+    short_term_feasible:
+      - ""
+    medium_term_feasible:
+      - ""
+    overambitious_or_risky:
+      - ""
+    protection_first_if_low_M_high_harm:
+      - ""
+    structural_change_if_high_M:
+      - ""
+
+  transmission_check:
+    pre_transmission_gate_passed: false
+    final_checklist:
+      scope_and_guardrails_checked: false
+      roles_and_publicness_checked: false
+      score_hygiene_checked: false
+      bias_norm_intuition_checked: false
+      consequences_and_reversibility_checked: false
+      D_cleanliness_checked_if_relevant: false
+    status: "working_note"            # working_note | not_mature_for_transmission | structurally_transmittable
+    if_not_transmittable_reason: ""
+    allowed_use_of_this_analysis:
+      - "internal_reflection"
+    not_allowed_use:
+      - "person_label"
+      - "public_shaming"
+      - "individual_sanction"
+      - "HR_decision"
+      - "forensic_use"
+      - "clinical_diagnosis"
+    review_required:
+      required: true
+      review_date_or_condition: ""
+      falsifier: ""
+
+  uniform_report:
+    generate_only_from_structured_fields: true
+    title: ""
+    overview_4_to_7_sentences: ""
+    key_findings:
+      - ""
+    A_summary: ""
+    M_summary: ""
+    IA_box_summary: ""
+    D_summary_if_activated: ""
+    trajectory_summary: ""
+    guardrail_status: ""
+    transmission_status: ""
+    practical_implications: ""
+    conclusion: ""

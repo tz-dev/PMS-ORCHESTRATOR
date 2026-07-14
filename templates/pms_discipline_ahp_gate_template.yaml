@@ -1,0 +1,465 @@
+pms_discipline_ahp_gate:
+  schema_version: "PMS-DISCIPLINE_AHP_GATE_v0.1"
+  schema_role: "ahp_gate_template"
+  analysis_mode: "post_mip_gate_for_ahp_source_reading_decision"
+  template_status: "clean_gate_template"
+  template_purpose: >
+    Determine whether the current checked PMS-DISCIPLINE case state should
+    proceed to AHP source reading as a second-order analysis-quality overlay
+    after checked MIP output, remain without AHP, require revision, downgrade,
+    suspend, refuse, redirect, or require human review.
+  template_boundary: >
+    This gate recommends or rejects AHP source reading only. It does not read
+    AHP source YAML, apply AHP, produce AHP output, alter MIP results, rescore
+    A/M/IA/D, activate D, change transmission status, generate later pipeline
+    artifacts, or execute any closure state.
+
+  repository_reference:
+    pms_base_reference_file: "PMS.yaml"
+    pms_base_reference_status: "already_read_base_reference"
+    ahp_source_file_expected_if_recommended: "MIP - Maturity in Practice - AHP Module.yaml"
+    ahp_source_status_in_this_gate: "not_read_here"
+    template_role: "ahp_source_reading_gate"
+    reference_note: >
+      PMS.yaml supplies PMS Base grammar. Checked prior artifacts and checked MIP
+      output constrain this gate. The AHP source file is read only after this
+      gate recommends AHP source reading and the checked gate result is accepted.
+
+  source_priority:
+    pms_yaml:
+      priority: 1
+      role: "PMS Base reference already read before this step"
+    case_packet:
+      priority: 2
+      role: "Bounded case material supplied for this run"
+    checked_pre_analysis_yaml:
+      priority: 3
+      role: "Checked boundary, input status, intended use, claim ceiling, person-nearness, rival pressure, non-capture, correctability, and reopening constraints"
+    checked_core_case_application_yaml:
+      priority: 4
+      role: "Checked Core output constraining PMS operator assignment, derived structures, and Core synthesis"
+    checked_addon_recommendation_gate_yaml:
+      priority: 5
+      role: "Checked add-on selection or non-use context"
+    checked_selected_addon_case_application_yaml_if_applicable:
+      priority: 6
+      role: "Checked selected add-on output where an add-on was applied"
+    checked_mip_gate_yaml:
+      priority: 7
+      role: "Checked MIP source-reading gate and MIP-use constraints"
+    checked_mip_case_application_yaml:
+      priority: 8
+      role: "Checked MIP output whose analysis artifact may or may not require AHP hardening and precision review"
+    this_ahp_gate_template:
+      priority: 9
+      role: "AHP gate output structure only"
+
+  workflow_position:
+    phase: "post_mip_ahp_gate"
+    step_id: "pms_discipline_ahp_gate"
+    preceded_by_required_steps:
+      - "read_pms_yaml"
+      - "checked_pre_analysis_yaml"
+      - "checked_core_case_application_yaml"
+      - "checked_addon_recommendation_gate_yaml"
+      - "checked_selected_addon_case_application_yaml_if_applicable"
+      - "checked_mip_gate_yaml"
+      - "read_mip_yaml_if_mip_gate_allowed"
+      - "checked_mip_case_application_yaml"
+    next_required_step:
+      - "ahp_gate_output_check"
+    possible_step_after_checked_gate_if_recommended:
+      - "read_ahp_source_yaml"
+    possible_step_after_checked_gate_if_not_recommended:
+      - "continue_without_ahp_to_next_declared_pipeline_stage"
+
+  template_io_contract:
+    required_inputs:
+      - "PMS.yaml_read_completely"
+      - "case_packet"
+      - "checked_pre_analysis_yaml"
+      - "checked_core_case_application_yaml"
+      - "checked_addon_recommendation_gate_yaml"
+      - "checked_selected_addon_case_application_yaml_if_applicable"
+      - "checked_mip_gate_yaml"
+      - "checked_mip_case_application_yaml"
+      - "pms_discipline_ahp_gate_template"
+    optional_inputs:
+      - "explicit_user_constraint_on_AHP_use"
+      - "known_AHP_source_filename"
+    excluded_inputs_for_this_step:
+      - "AHP_source_yaml_content"
+      - "unprovided_files"
+      - "new_case_evidence"
+      - "unverified_external_material"
+      - "later_pipeline_artifacts"
+    produced_outputs:
+      - "completed_pms_discipline_ahp_gate_yaml"
+      - "ahp_gate_recommendation_output"
+      - "ahp_gate_handoff"
+      - "ahp_gate_quality_checks"
+    not_produced_outputs:
+      - "AHP_source_summary"
+      - "AHP_case_application_yaml"
+      - "AHP_precision_heuristic_summary"
+      - "AHP_attack_points"
+      - "AHP_hardening_backlog"
+      - "MIP_case_application_yaml"
+      - "MIP_rescore_or_revision"
+      - "public_or_institutional_authorization"
+      - "later_pipeline_artifact"
+      - "closure_execution"
+
+  non_authority_boundary:
+    gate_is_authority: false
+    gate_certifies_case: false
+    gate_certifies_mip_output: false
+    gate_authorizes_public_use: false
+    gate_authorizes_institutional_use: false
+    gate_applies_ahp: false
+    gate_reads_ahp_source: false
+    gate_changes_mip_results: false
+    gate_scores_persons: false
+    gate_ranks_persons: false
+    note: >
+      AHP relevance is pressure toward a possible second-order analysis-quality
+      overlay. It is not proof, verdict, scoring permission, public-use
+      permission, or authorization for public, institutional, technical, legal,
+      clinical, forensic, HR, or enforcement use.
+
+  checked_prior_outputs_import:
+    pre_analysis_status: "one_of: usable | usable_with_limits | not_usable | unclear"
+    core_status: "one_of: usable | usable_with_limits | not_usable | unclear"
+    addon_gate_status: "one_of: core_only | selected_addon_recommended | no_addon_recommended | unclear | other"
+    selected_addon_status_if_applicable: "one_of: checked | not_applicable | missing | unclear"
+    mip_gate_status: "one_of: mip_recommended | mip_not_recommended | scan_only | revise_before_mip | downgrade_before_mip | suspend_before_mip | refuse_mip_use | redirect_before_mip | human_review_required | unclear | other"
+    imported_constraints:
+      source_status: "one_of: preserved | weak | missing | unclear"
+      intended_use: "one_of: preserved | weak | missing | unclear"
+      claim_ceiling: "one_of: preserved | lowered | missing | unclear"
+      person_nearness: "one_of: low | medium | high | unclear | missing"
+      publicness: "one_of: low | medium | high | unclear | missing"
+      irreversibility: "one_of: low | medium | high | unclear | missing"
+      rival_pressure: "one_of: none | weak | present | strong | unresolved | unclear"
+      non_capture: "one_of: preserved | weak | missing | unclear"
+      correctability: "one_of: preserved | weak | missing | symbolic_only | unclear"
+    import_quality:
+      status: "one_of: usable | usable_with_limits | not_usable | unclear"
+      required_response: "one_of: proceed_with_gate | revise_prior_output | suspend | unclear"
+
+  checked_mip_output_import:
+    mip_output_present: "one_of: yes | no | unclear"
+    mip_output_checked: "one_of: yes | no | unclear"
+    mip_output_status: "one_of: usable | usable_with_limits | not_usable | unclear"
+    structured_mip_case_fields_present: "one_of: yes | partial | no | unclear"
+    mip_output_claim_ceiling: "one_of: imported | lower_than_prior | exceeded | missing | unclear"
+    mip_output_transmission_status: "one_of: transmittable | limited_transmission | non_transmittable | not_marked | unclear"
+    mip_output_score_language_present:
+      a_score_language: "one_of: yes | no | unclear"
+      m_score_language: "one_of: yes | no | unclear"
+      ia_box_language: "one_of: yes | no | unclear"
+      d_module_or_d_profile_language: "one_of: yes | no | unclear"
+    mip_output_person_near_language_present: "one_of: yes | no | unclear"
+    mip_output_dignity_language_present: "one_of: yes | no | unclear"
+    mip_output_public_or_reuse_context_present: "one_of: yes | no | unclear"
+    mip_output_hardening_pressure:
+      status: "one_of: none | weak | moderate | strong | unsafe | unclear"
+      reason: "bounded reason"
+    import_quality:
+      status: "one_of: usable | usable_with_limits | not_usable | unclear"
+      required_response: "one_of: proceed_with_gate | revise_mip_output_first | suspend | unclear"
+
+  ahp_gate_non_authority:
+    ahp_gate_result_is_ahp_application: false
+    ahp_gate_result_is_precision_heuristic: false
+    ahp_gate_result_is_attack_point_list: false
+    ahp_gate_result_is_hardening_backlog: false
+    ahp_gate_result_changes_mip_scores: false
+    ahp_gate_result_changes_ia_box: false
+    ahp_gate_result_activates_d_module: false
+    ahp_gate_result_changes_transmission_status: false
+    ahp_gate_result_judges_persons: false
+    ahp_gate_result_certifies_analysis: false
+    ahp_gate_result_authorizes_use: false
+
+  existing_mip_analysis_requirement:
+    requirement_status: "one_of: satisfied | partial | failed | unclear"
+    checked_mip_output_required: true
+    structured_mip_fields_required: true
+    if_missing_checked_mip_output:
+      gate_status: "ahp_not_recommended_or_revise_before_ahp"
+      required_response: "revise_mip_stage_before_ahp"
+    note: >
+      AHP is calibrated as an optional companion after base MIP analysis fields
+      exist. Without checked MIP output, AHP source reading is not structurally
+      warranted in this pipeline.
+
+  structured_case_fields_requirement:
+    requirement_status: "one_of: satisfied | partial | failed | unclear"
+    required_field_families:
+      - "mip_profile_or_case_analysis_fields"
+      - "source_status_and_claim_ceiling_fields"
+      - "score_or_band_language_if_present"
+      - "ia_box_or_d_module_fields_if_present"
+      - "uniform_report_or_synthesis_fields_if_present"
+      - "correctability_and_reopening_fields"
+    missing_or_weak_fields:
+      - "field or none"
+    effect_on_ahp_gate: "one_of: no_change | weaken | scan_only | revise_before_ahp | suspend | unclear"
+
+  ahp_trigger_review:
+    trigger_review_status: "one_of: no_trigger | weak_trigger | moderate_trigger | strong_trigger | unsafe_trigger | unclear"
+    activation_default: "off"
+    activation_rule: >
+      AHP source reading may be recommended only where checked MIP output creates
+      a second-order analysis-quality need: precision weakness, attack-surface
+      visibility, hardening need, language-risk, scope leakage, evidence-linkage
+      risk, reversibility risk, publicness or transmission risk, D-language
+      misreadability, or score-hygiene pressure.
+    trigger_signals:
+      contested_or_politically_loaded_terms: "one_of: absent | weak | present | strong | unclear"
+      boundary_or_exclusion_claims: "one_of: absent | weak | present | strong | unclear"
+      reusable_or_transmitted_analysis_artifact: "one_of: absent | weak | present | strong | unclear"
+      public_or_semi_public_communication: "one_of: absent | weak | present | strong | unclear"
+      d_language_or_dignity_language_risk: "one_of: absent | weak | present | strong | unclear"
+      score_band_or_ia_language_misreadability: "one_of: absent | weak | present | strong | unclear"
+      unclear_transmission_status: "one_of: absent | weak | present | strong | unclear"
+      critique_ready_output_needed: "one_of: absent | weak | present | strong | unclear"
+      language_imprecision_or_scope_leakage: "one_of: absent | weak | present | strong | unclear"
+      evidence_linkage_or_inference_risk: "one_of: absent | weak | present | strong | unclear"
+      reversibility_or_reopening_risk: "one_of: absent | weak | present | strong | unclear"
+      misuse_surface_pressure: "one_of: absent | weak | present | strong | unclear"
+    false_trigger_warnings:
+      - "MIP output existence alone is not an AHP trigger"
+      - "A-score or M-score language alone is not an AHP trigger"
+      - "assessment vocabulary alone is not an AHP trigger"
+      - "publicness alone is not AHP authorization"
+      - "template completion alone is not AHP need"
+    trigger_basis_summary: "bounded summary"
+
+  precision_need_review:
+    precision_need_status: "one_of: none | weak | moderate | strong | unclear"
+    relevant_dimensions:
+      analysis_claims_need_tighter_scope: "one_of: yes | no | unclear"
+      ambiguous_band_or_score_reading: "one_of: yes | no | unclear"
+      confidence_language_needs_qualification: "one_of: yes | no | unclear"
+      d_r_or_d_p_misreading_risk: "one_of: yes | no | unclear"
+      ia_box_decidability_needs_caution: "one_of: yes | no | unclear"
+    precision_need_effect: "one_of: no_change | recommend_ahp_source_reading | scan_only | revise_mip_output_first | unclear"
+
+  attack_surface_need_review:
+    attack_surface_need_status: "one_of: none | weak | moderate | strong | unsafe | unclear"
+    possible_attack_surfaces:
+      wording_risk: "one_of: absent | weak | present | strong | unclear"
+      scope_risk: "one_of: absent | weak | present | strong | unclear"
+      inference_risk: "one_of: absent | weak | present | strong | unclear"
+      evidence_linkage_risk: "one_of: absent | weak | present | strong | unclear"
+      reversibility_risk: "one_of: absent | weak | present | strong | unclear"
+      publicness_risk: "one_of: absent | weak | present | strong | unclear"
+      transmission_risk: "one_of: absent | weak | present | strong | unclear"
+      dignity_language_risk: "one_of: absent | weak | present | strong | unclear"
+    target_is_analysis_artifact_not_person: "one_of: true | false | unclear"
+    attack_surface_need_effect: "one_of: no_change | recommend_ahp_source_reading | scan_only | revise_mip_output_first | suspend | unclear"
+
+  hardening_need_review:
+    hardening_need_status: "one_of: none | weak | moderate | strong | unsafe | unclear"
+    next_iteration_need: "one_of: none | low | moderate | high | unclear"
+    hardening_action_likely_useful: "one_of: yes | no | unclear"
+    hardening_would_target:
+      - "wording"
+      - "scope"
+      - "evidence_linkage"
+      - "reversibility"
+      - "transmission_boundary"
+      - "claim_ceiling"
+      - "dignity_language"
+      - "none_or_unclear"
+    hardening_boundary_preserved: "one_of: yes | no | unclear"
+    hardening_need_effect: "one_of: no_change | recommend_ahp_source_reading | scan_only | revise_mip_output_first | unclear"
+
+  transmission_and_reuse_review:
+    transmission_reuse_status: "one_of: low | moderate | high | unsafe | unclear"
+    output_likely_to_be_reused: "one_of: yes | no | unclear"
+    output_likely_to_be_transmitted: "one_of: yes | no | unclear"
+    output_likely_to_be_public_or_semi_public: "one_of: yes | no | unclear"
+    output_likely_to_be_detached_from_source_limits: "one_of: yes | no | unclear"
+    transmission_status_upgrade_attempt_present: "one_of: yes | no | unclear"
+    required_boundary: >
+      AHP may improve analysis-artifact clarity and hardening, but it cannot
+      make a non-transmittable or weakly supported analysis transmittable.
+    effect_on_ahp_gate: "one_of: no_change | recommend_ahp_source_reading | revise_before_ahp | suspend | refuse_ahp_use | unclear"
+
+  score_hygiene_and_d_language_review:
+    score_hygiene_status: "one_of: clean | weak | risky | unsafe | unclear"
+    a_score_misread_as_person_score: "one_of: yes | no | unclear"
+    m_score_misread_as_maturity_verdict: "one_of: yes | no | unclear"
+    ia_box_misread_as_case_verdict: "one_of: yes | no | unclear"
+    d_language_misread_as_dignity_rating: "one_of: yes | no | unclear"
+    d_module_activation_confusion: "one_of: yes | no | unclear"
+    score_or_d_language_requires_ahp_pressure: "one_of: no | weak | moderate | strong | unclear"
+    effect_on_ahp_gate: "one_of: no_change | recommend_ahp_source_reading | revise_mip_output_first | suspend | refuse_ahp_use | unclear"
+
+  non_interference_review:
+    non_interference_status: "one_of: preserved | weak | violated | unclear"
+    ahp_source_reading_would_not_change_mip_axioms: "one_of: true | false | unclear"
+    ahp_source_reading_would_not_change_guardrails: "one_of: true | false | unclear"
+    ahp_source_reading_would_not_rescore_a_m_ia_d: "one_of: true | false | unclear"
+    ahp_source_reading_would_not_activate_d_module: "one_of: true | false | unclear"
+    ahp_source_reading_would_not_create_d_profile: "one_of: true | false | unclear"
+    ahp_source_reading_would_not_change_transmission_status: "one_of: true | false | unclear"
+    if_non_interference_not_preserved:
+      required_response: "one_of: revise_before_ahp | suspend_before_ahp | refuse_ahp_use | unclear"
+
+  non_trigger_review:
+    non_trigger_status: "one_of: none | present | strong | unclear"
+    non_triggers_checked:
+      mip_output_exists_only: "one_of: true | false | unclear"
+      score_language_without_misreadability: "one_of: true | false | unclear"
+      private_internal_use_without_reuse_pressure: "one_of: true | false | unclear"
+      low_person_nearness_and_low_publicness: "one_of: true | false | unclear"
+      no_attack_surface_beyond_normal_limits: "one_of: true | false | unclear"
+      ahp_would_create_false_authority: "one_of: true | false | unclear"
+    non_trigger_effect: "one_of: ahp_not_recommended | scan_only | revise_before_ahp | unclear"
+
+  person_nearness_and_dignity_review:
+    person_nearness_status: "one_of: low | medium | high | unclear"
+    dignity_language_status: "one_of: absent | bounded | risky | unsafe | unclear"
+    affected_persons_contestability: "one_of: preserved | weak | missing | not_applicable | unclear"
+    risk_of_person_level_findings_from_ahp: "one_of: none | weak | present | unsafe | unclear"
+    required_boundary: >
+      AHP attack points describe vulnerabilities in the analysis artifact, not
+      defects, vulnerabilities, dignity deficits, or maturity states in persons.
+    effect_on_ahp_gate: "one_of: no_change | recommend_ahp_source_reading | revise_mip_output_first | suspend | refuse_ahp_use | human_review_required | unclear"
+
+  rival_and_non_capture_review:
+    rival_pressure_status: "one_of: none | weak | present | strong | unresolved | unclear"
+    non_capture_status: "one_of: preserved | weak | missing | unclear"
+    rival_explanation_discriminates_better: "one_of: yes | no | unclear"
+    ahp_would_hide_rival_pressure: "one_of: yes | no | unclear"
+    ahp_would_help_surface_limits: "one_of: yes | no | unclear"
+    effect_on_ahp_gate: "one_of: no_change | recommend_ahp_source_reading | scan_only | revise_before_ahp | redirect_before_ahp | unclear"
+
+  correctability_review:
+    correctability_status: "one_of: preserved | weak | missing | symbolic_only | unclear"
+    reopening_conditions_visible: "one_of: yes | partial | no | unclear"
+    ahp_likely_to_improve_correctability: "one_of: yes | no | unclear"
+    ahp_likely_to_ritualize_correctability: "one_of: yes | no | unclear"
+    correction_can_affect_output: "one_of: yes | partial | no | unclear"
+    effect_on_ahp_gate: "one_of: no_change | recommend_ahp_source_reading | revise_before_ahp | suspend | refuse_ahp_use | unclear"
+
+  gate_result:
+    gate_status: "one_of: ahp_not_recommended | ahp_source_reading_recommended | scan_only | revise_before_ahp | downgrade_before_ahp | suspend_before_ahp | refuse_ahp_use | redirect_before_ahp | human_review_required | unclear"
+    ahp_recommendation_strength: "one_of: none | weak | moderate | strong | unsafe | unclear"
+    reason: "bounded reason"
+    claim_ceiling_effect: "one_of: no_change | weaken | downgrade | suspend | refuse | redirect | unclear"
+    next_allowed_step: "one_of: ahp_gate_output_check | read_ahp_yaml_after_checked_gate | revise_prior_output | stop_before_ahp | human_review | unclear"
+
+  selection_consistency_rules:
+    if_gate_status_ahp_not_recommended:
+      required_next_allowed_step: "ahp_gate_output_check"
+      ahp_source_reading_allowed_after_check: false
+    if_gate_status_ahp_source_reading_recommended:
+      required_next_allowed_step: "ahp_gate_output_check"
+      ahp_source_reading_allowed_after_check: true
+      user_confirmation_or_pipeline_acceptance_required: true
+    if_gate_status_scan_only:
+      required_next_allowed_step: "ahp_gate_output_check"
+      ahp_source_reading_allowed_after_check: false
+    if_gate_status_revise_or_downgrade_or_suspend_or_refuse_or_redirect:
+      ahp_source_reading_allowed_after_check: false
+      required_response: "resolve_gate_boundary_before_ahp_source_reading"
+    if_no_checked_mip_output:
+      ahp_source_reading_allowed_after_check: false
+      required_response: "return_to_mip_output_check_or_stop_before_ahp"
+
+  ahp_gate_handoff:
+    handoff_status: "one_of: ready_for_ahp_gate_output_check | ready_with_limits | incomplete | unclear"
+    fields_to_preserve:
+      - "checked_prior_outputs_import"
+      - "checked_mip_output_import"
+      - "existing_mip_analysis_requirement"
+      - "structured_case_fields_requirement"
+      - "ahp_trigger_review"
+      - "precision_need_review"
+      - "attack_surface_need_review"
+      - "hardening_need_review"
+      - "transmission_and_reuse_review"
+      - "score_hygiene_and_d_language_review"
+      - "non_interference_review"
+      - "non_trigger_review"
+      - "person_nearness_and_dignity_review"
+      - "rival_and_non_capture_review"
+      - "correctability_review"
+      - "gate_result"
+      - "selection_consistency_rules"
+    does_not_authorize:
+      - "AHP_application"
+      - "MIP_rescoring"
+      - "D_module_activation"
+      - "transmission_status_upgrade"
+      - "person_assessment"
+      - "public_or_institutional_use"
+      - "later_pipeline_artifact_generation"
+      - "closure_execution"
+
+  ahp_gate_quality_checks:
+    valid_yaml: "one_of: true | false | unchecked"
+    required_inputs_marked: "one_of: true | false | unclear"
+    checked_mip_output_required_and_marked: "one_of: true | false | unclear"
+    pms_yaml_not_redefined: "one_of: true | false | unclear"
+    prior_outputs_preserved: "one_of: true | false | unclear"
+    mip_output_not_rewritten: "one_of: true | false | unclear"
+    ahp_source_not_read: "one_of: true | false | unclear"
+    ahp_application_not_performed: "one_of: true | false | unclear"
+    no_precision_heuristic_generated: "one_of: true | false | unclear"
+    no_attack_points_generated: "one_of: true | false | unclear"
+    no_hardening_backlog_generated: "one_of: true | false | unclear"
+    non_interference_preserved: "one_of: true | false | unclear"
+    no_rescoring_or_d_activation: "one_of: true | false | unclear"
+    transmission_status_not_upgraded: "one_of: true | false | unclear"
+    person_nearness_and_dignity_risk_checked: "one_of: true | false | unclear"
+    non_triggers_checked: "one_of: true | false | unclear"
+    recommendation_not_authorization: "one_of: true | false | unclear"
+    gate_status_matches_next_step: "one_of: true | false | unclear"
+    no_later_pipeline_artifacts_generated: "one_of: true | false | unclear"
+
+  conservative_patch_policy_for_ahp_gate:
+    patch_policy_status: "active_for_ahp_gate_output_check_only"
+    patch_when:
+      - "invalid_yaml"
+      - "missing_required_field"
+      - "checked_mip_output_missing_but_ahp_recommended"
+      - "claim_too_strong"
+      - "ahp_recommendation_treated_as_authorization"
+      - "ahp_source_read_inside_gate"
+      - "ahp_application_performed_inside_gate"
+      - "precision_heuristic_generated_inside_gate"
+      - "attack_points_generated_inside_gate"
+      - "hardening_backlog_generated_inside_gate"
+      - "mip_result_changed_inside_gate"
+      - "a_m_ia_d_rescored_inside_gate"
+      - "d_module_activated_inside_gate"
+      - "transmission_status_upgraded_inside_gate"
+      - "person_assessment_or_person_ranking_introduced"
+      - "non_interference_not_checked"
+      - "non_triggers_not_checked"
+      - "rival_or_non_capture_lost"
+      - "correctability_lost"
+      - "gate_status_inconsistent_with_next_step"
+      - "later_pipeline_artifact_generated"
+    preferred_patch_style:
+      - "conservative"
+      - "bounded"
+      - "claim_weakening_where_needed"
+      - "explicit_unclear_or_missing_markers"
+      - "no_new_layer_creation"
+
+  final_ahp_gate_status:
+    status: "one_of: ready_for_ahp_gate_output_check | ready_with_limits_for_ahp_gate_output_check | requires_revision_before_check | suspend_ahp_gate | unclear"
+    ahp_source_reading_recommended: "one_of: true | false | unclear"
+    ahp_gate_summary: "short bounded summary"
+    next_required_step: "one_of: ahp_gate_output_check | revise_ahp_gate_output | suspend | unclear"
+    final_note: >
+      This status governs whether the AHP Gate output is ready to be checked.
+      It is not AHP source reading, not AHP application, not AHP output, not MIP
+      rescoring, not D activation, not a transmission upgrade, and not a closure execution state.

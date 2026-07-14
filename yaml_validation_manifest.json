@@ -1,0 +1,92 @@
+{
+  "schema_version": "PMS_ORCHESTRATOR_YAML_VALIDATION_1.0",
+  "description": "Local structural YAML validation profiles. These rules do not validate case meaning, claims, or analytical adequacy.",
+  "steps": {
+    "2": {
+      "reference": "templates/pms_discipline_pre_analysis_template.yaml",
+      "compare_keys": true,
+      "allow_extra_keys": false,
+      "extract_placeholder_enums": true
+    },
+    "4": {
+      "reference": "templates/pms_core_case_application_template.yaml",
+      "compare_keys": true,
+      "allow_extra_keys": false,
+      "extract_placeholder_enums": true
+    },
+    "6": {
+      "reference": "templates/pms_discipline_addon_recommendation_gate_template.yaml",
+      "compare_keys": true,
+      "allow_extra_keys": false,
+      "extract_placeholder_enums": true,
+      "rules": [
+        {
+          "path": "gate_result.selected_addon",
+          "allowed_values": [
+            "ANTICIPATION",
+            "CRITIQUE",
+            "CONFLICT",
+            "LOGIC",
+            "EDEN",
+            "SEX",
+            "none",
+            "unclear"
+          ]
+        }
+      ]
+    },
+    "9": {
+      "reference": "templates/pms_addon_{selected_addon_lower}_case_application_template.yaml",
+      "compare_keys": true,
+      "allow_extra_keys": false,
+      "extract_placeholder_enums": true
+    },
+    "11": {
+      "reference": "templates/pms_discipline_mip_gate_template.yaml",
+      "compare_keys": true,
+      "allow_extra_keys": false,
+      "extract_placeholder_enums": true
+    },
+    "14": {
+      "reference": "mip/MIP - Maturity in Practice.yaml",
+      "reference_subpath": "case",
+      "reference_root_key": "case",
+      "compare_keys": true,
+      "allow_extra_keys": false,
+      "extract_placeholder_enums": false,
+      "note": "The MIP source case section is used as the structural output reference."
+    },
+    "16": {
+      "reference": "templates/pms_discipline_ahp_gate_template.yaml",
+      "compare_keys": true,
+      "allow_extra_keys": false,
+      "extract_placeholder_enums": true
+    },
+    "18": {
+      "reference": "mip/MIP - Maturity in Practice - AHP Module.yaml",
+      "reference_subpath": "case_schema_patch.merge_into_case",
+      "compare_keys": true,
+      "allow_extra_keys": false,
+      "extract_placeholder_enums": false,
+      "note": "The AHP case-schema patch is used as the structural output reference."
+    },
+    "20": {
+      "reference": "templates/pms_case_record_stage_1_artifact_index_template.yaml",
+      "compare_keys": true,
+      "allow_extra_keys": false,
+      "extract_placeholder_enums": true
+    },
+    "22": {
+      "reference": "templates/pms_case_record_stage_2_layer_digest_extraction_template.yaml",
+      "compare_keys": true,
+      "allow_extra_keys": false,
+      "extract_placeholder_enums": true
+    },
+    "24": {
+      "reference": "templates/pms_case_record_stage_3_full_case_record_integration_template.yaml",
+      "compare_keys": true,
+      "allow_extra_keys": false,
+      "extract_placeholder_enums": true
+    }
+  }
+}

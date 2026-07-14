@@ -1,0 +1,1202 @@
+# ==============================================================================
+# PMS-DISCIPLINE — CRITIQUE ADD-ON CASE APPLICATION TEMPLATE
+# Template version: CLEAN_v0.2
+# Role: selected CRITIQUE add-on case application after checked Core and checked Add-on Gate
+# ==============================================================================
+pms_critique_addon_case_application:
+  schema_version: PMS-DISCIPLINE_CRITIQUE_ADDON_CASE_TEMPLATE_CLEAN_v0.2.1
+  schema_role: critique_addon_case_application_template
+  analysis_mode: selected_critique_addon_case_application_after_checked_core
+  template_status: clean_pms_discipline_addon_case_application_template
+  discipline_template_name: pms_addon_critique_case_application_template_CLEAN_v0_2.yaml
+  selected_addon_family: CRITIQUE
+  template_purpose: Apply the selected PMS-CRITIQUE source to a bounded case after PMS.yaml, checked Pre-Analysis YAML, checked Core Case Application YAML, checked Add-on Recommendation Gate YAML, and PMS-CRITIQUE.yaml have already been read or produced in prior steps. The output is a CRITIQUE add-on case application YAML only.
+  template_boundary: This template applies CRITIQUE without replacing PMS.yaml, re-running Core, re-deciding the Add-on Gate, reading additional sources, applying other add-ons, producing external-facing prose, applying MIP/AHP, generating a Case Record, rendering Markdown, or executing an action/decision-state execution.
+  repository_reference:
+    pms_base_reference_file: PMS.yaml
+    pms_base_reference_status: already_read_base_reference
+    selected_addon_source_file: PMS-CRITIQUE.yaml
+    selected_addon_source_status: already_read_selected_addon_source
+    template_role: critique_addon_case_application_template
+    reference_note: PMS.yaml supplies PMS Base grammar. PMS-CRITIQUE.yaml supplies the selected add-on source. Checked Pre-Analysis, checked Core, and checked Add-on Gate outputs constrain this application. No additional discipline reference file, MIP output, AHP output, Case Record, Markdown article, or unprovided file is available inside this step.
+  source_priority:
+    pms_yaml:
+      priority: 1
+      role: PMS Base reference already read before this step
+      may_define:
+      - PMS operator inventory
+      - PMS operator order
+      - PMS dependencies
+      - PMS derived structures
+      - PMS application guardrails
+      must_not_be_overridden_by:
+      - CRITIQUE add-on output
+      - case_packet
+      - checked_pre_analysis_yaml
+      - checked_core_case_application_yaml
+      - checked_addon_recommendation_gate_yaml
+      - PMS-CRITIQUE.yaml
+      - model_output
+    case_packet:
+      priority: 2
+      role: bounded case material supplied for this run
+      may_supply:
+      - case_title
+      - case_material
+      - source_status
+      - intended_use
+      must_not_supply:
+      - PMS Base revision
+      - CRITIQUE source content
+      - case verdict
+      - final decision execution
+    checked_pre_analysis_yaml:
+      priority: 3
+      role: checked boundary, source-status, burden, and claim-ceiling record
+      may_supply:
+      - case boundary
+      - source status
+      - intended use
+      - claim ceiling
+      - person-nearness, publicness, and irreversibility burden
+      - rival pressure
+      - non-capture zones
+      - correctability and reopening conditions
+      must_not_supply:
+      - CRITIQUE application result
+      - add-on authorization
+      - final decision execution
+    checked_core_case_application_yaml:
+      priority: 4
+      role: checked PMS Core case basis
+      may_supply:
+      - Core operator analysis
+      - Core dependency analysis
+      - derived-structure status
+      - Core synthesis
+      - claim ceiling
+      - Core limits
+      - rival pressure
+      - non-capture and correctability status
+      must_not_authorize:
+      - CRITIQUE use
+      - MIP use
+      - AHP use
+      - case closure
+      - final decision execution
+    checked_addon_recommendation_gate_yaml:
+      priority: 5
+      role: checked gate output confirming CRITIQUE as the selected add-on family for this step
+      must_not_supply:
+      - CRITIQUE application
+      - CRITIQUE source content
+      - stronger claim type
+      - case closure
+    selected_pms_critique_yaml:
+      priority: 6
+      role: selected CRITIQUE add-on source read in the previous step
+      may_define:
+      - critique-specific thresholds
+      - critique reduced signatures
+      - critique projections
+      - critique-facing axes
+      - drift typology
+      - modulators
+      - MIP docking interface boundaries
+      - example rendering discipline
+      must_not_define:
+      - PMS Base
+      - Core operator assignment
+      - truth adjudication
+      - motive verification
+      - sanction logic
+      - person ranking
+      - final decision state
+    this_critique_case_template:
+      priority: 7
+      role: CRITIQUE case application output structure
+  workflow_position:
+    phase: selected_addon_case_application
+    step_id: pms_critique_addon_case_application
+    preceded_by_required_steps:
+    - read_pms_yaml
+    - checked_pre_analysis_yaml
+    - checked_core_case_application_yaml
+    - checked_addon_recommendation_gate_yaml
+    - read_selected_pms_critique_yaml
+    next_required_step:
+    - critique_addon_output_check
+    step_boundary: CRITIQUE case application only; later steps must be opened by their own templates and checks.
+  template_io_contract:
+    required_inputs:
+    - PMS.yaml_read_completely
+    - case_packet
+    - checked_pre_analysis_yaml
+    - checked_core_case_application_yaml
+    - checked_addon_recommendation_gate_yaml
+    - PMS-CRITIQUE.yaml_read_completely
+    - pms_critique_addon_case_application_template
+    optional_inputs:
+    - explicit_user_constraint_on_critique_use
+    excluded_inputs_for_this_step:
+    - unprovided_files
+    - unselected_addon_sources
+    - MIP_output
+    - AHP_output
+    - case_record
+    - markdown_article
+    - final_decision_execution
+    produced_outputs:
+    - completed_critique_addon_case_application_yaml
+    - critique_threshold_and_scale_review
+    - critique_drift_and_modulator_review
+    - critique_non_capture_and_rival_pressure_record
+    - critique_addon_handoff
+    - critique_addon_quality_checks
+    not_produced_outputs:
+    - PMS_Base_revision
+    - Core_case_rewrite
+    - truth_certification
+    - motive_verification
+    - diagnostic_verdict
+    - legal_or_forensic_conclusion
+    - person_ranking
+    - sanction_recommendation
+    - MIP_authorization
+    - AHP_authorization
+    - Case_Record_generation
+    - Markdown_generation
+    - final_decision_execution
+  non_authority_boundary:
+    addon_is_authority: false
+    addon_recommendation_is_authorization: false
+    addon_application_rewrites_core: false
+    addon_application_applies_MIP_or_AHP: false
+    addon_application_generates_case_record: false
+    addon_application_generates_markdown: false
+    addon_application_executes_final_decision: false
+    note: CRITIQUE adds selected add-on visibility only. It does not certify truth, verify motives, authorize correction, generate sanction logic, or make critique vocabulary a verdict.
+  checked_prior_outputs_import:
+    checked_pre_analysis_import:
+      status: <usable | usable_with_limits | missing | unclear>
+      claim_ceiling: <imported | missing | unclear>
+      source_status: <preserved | weak | missing | unclear>
+      person_nearness_publicness_irreversibility: <low | moderate | high | severe | unclear>
+      correctability_and_reopening: <preserved | weak | missing | unclear>
+    checked_core_import:
+      core_status: <usable | usable_with_limits | not_usable | unclear>
+      claim_ceiling_effect: <no_change | lowered | exceeded | unclear>
+      core_operator_basis: <usable | usable_with_limits | underdescribed | unclear>
+      rival_and_non_capture_status: <preserved | weak | missing | unclear>
+    checked_addon_gate_import:
+      gate_status: <selected_addon_recommended | other | unclear>
+      selected_addon: <CRITIQUE | other | none | unclear>
+      recommendation_limits_preserved: <yes | partial | no | unclear>
+  checked_addon_gate_import:
+    source_record: checked_addon_recommendation_gate_yaml
+    selected_addon_required: CRITIQUE
+    source_status: <available | partial | missing | unclear>
+    recommendation_status: <selected_addon_recommended | user_confirmed_override | scan_only | rejected_as_over_application | unclear>
+    recommendation_basis: <Import operator-load, risk-shape, claim-shape, critique-threshold, publicness, exposure, correction, or mismatch-specific basis. Do not use complaint, negativity, disagreement, or critique vocabulary alone as trigger.>
+    doubts_or_limits:
+    - <doubt or none>
+    non_trigger_conditions_checked:
+    - complaint_or_negativity_not_critique
+    - disagreement_not_critique_trigger
+    - evaluation_language_not_critique_authorization
+    - public_exposure_not_correction
+    - critique_vocabulary_not_truth_adjudication
+    required_action_before_addon: <none | revise_core | downgrade_claim | suspend | refuse | redirect | human_review | unclear>
+  selected_critique_source_import:
+    source_file: PMS-CRITIQUE.yaml
+    source_read_status: <read_completely | not_read | mismatch | unclear>
+    selected_family_matches_source: <true | false | unclear>
+    source_boundary: The selected source may define CRITIQUE add-on concepts, thresholds, projections, drift classes, modulators, publicness overlay, and docking boundaries. It does not revise PMS Base or checked Core.
+  no_gate_redecision_boundary:
+    addon_gate_redecided_here: false
+    selected_addon_changed_here: false
+    other_addons_applied_here: false
+    MIP_or_AHP_opened_here: false
+    required_response_if_boundary_fails: revise_addon_output_before_check
+  critique_not_verdict_boundary:
+    critique_reading_is_truth_adjudication: false
+    critique_reading_verifies_motives: false
+    critique_reading_generates_sanction_logic: false
+    critique_reading_ranks_persons: false
+    critique_reading_prescribes_correction: false
+    note: CRITIQUE reconstructs critique-relevant structure and drift pressure. It does not decide whether a critique is true, morally right, sincere, legitimate, enforceable, or institutionally actionable.
+  addon_metadata:
+    model_name: Praxeological Meta-Structure – Critique Layer
+    model_short: PMS-CRITIQUE
+    status: repository_overlay_draft
+    maturity: draft
+    repository_role: paper_specific_application_schema
+    last_updated: '2026-04-06'
+    doi: 10.5281/zenodo.18175456
+    repositories:
+      pms_base: https://github.com/tz-dev/Praxeological-Meta-Structure-Theory
+      this_repo: https://github.com/tz-dev/PMS-CRITIQUE
+    authors:
+    - name: T. Zöller
+      role: originator
+    - name: ChatGPT (GPT-5.4 Thinking)
+      role: formalization_assistant
+    depends_on:
+      model_name: Praxeological Meta-Structure
+      model_short: PMS
+      schema_version: PMS_1.3
+      repository_role: current_base_schema
+    description: 'PMS-CRITIQUE is a PMS-conform application layer that reconstructs critique as a structurally constrained praxis form: how mismatch becomes interruptible through Χ-stabilized framed differentiation, how critique becomes productive through Φ and Σ, and how follow-up may become bound across time through Ψ without coercion. The layer provides operator mappings, reach and scale ladders, drift classes, selective modulators, critique-facing projections, and an optional MIP docking interface, while enforcing a strict application gate: Χ + reversibility + D.'
+    epistemic_status: This overlay is structurally disciplined and portable, but not final, exhaustive, uniquely sufficient, immune to revision, or superior to all rival critique grammars.
+    methodological_restraint: PMS-CRITIQUE does not claim monopoly on critique analysis. Rival grammars may remain stronger where normativity, institutional legitimacy, rhetorical force, discourse ethics, public rupture, resistance, or lived experience are the primary object.
+  addon_relationship_to_core:
+    status: subordinate_to_checked_pms_core_case
+    core_case_status: checked
+    core_case_source: <completed PMS Core case YAML>
+    rule: This CRITIQUE block is appended to or integrated with an already completed PMS Core v1.3 case artefact. It does not rewrite the core pass, redefine PMS operators, alter PMS dependencies, change derived structures, or treat CRITIQUE constructs as PMS Base.
+    preserved_core_elements:
+    - PMS operator inventory Δ, ∇, □, Λ, Α, Ω, Θ, Φ, Χ, Σ, Ψ
+    - PMS operator order and dependency hygiene
+    - PMS derived structures as derived, not primitive
+    - PMS application guardrails
+    - PMS non-diagnostic and non-person-ranking discipline
+    - PMS non-capture and rival-openness discipline
+    integration_rule: The CRITIQUE overlay may add visibility for critique thresholds, reach, scale, publicness, drift classes, modulators, critique-facing derived-axis projections, optional MIP docking, and misuse guardrails. It must not modify the completed PMS Core case except where a direct PMS.yaml inconsistency has been separately identified.
+  operator_reference:
+    source: PMS.yaml
+    schema_version: PMS_1.3
+    canonical_source_url: https://raw.githubusercontent.com/tz-dev/Praxeological-Meta-Structure-Theory/refs/heads/main/model/PMS.yaml
+    fixed_operator_set:
+    - Δ
+    - ∇
+    - □
+    - Λ
+    - Α
+    - Ω
+    - Θ
+    - Φ
+    - Χ
+    - Σ
+    - Ψ
+    no_new_operators: true
+    no_dependency_change: true
+    no_base_revision: true
+    dependency_hygiene:
+      chi_note: Χ is used here as a reduced signature for critique interruptibility. In PMS terms, Χ presupposes Φ, Θ, and □; it is not treated as a standalone trait.
+      no_operator_override: Any operator gloss in this overlay is an application-facing excerpt only. Canonical operator definitions and dependencies remain in PMS.yaml.
+      overlay_discipline: Derived critique constructs remain overlay-level and do not alter the base PMS derivation path.
+    methodological_restraint: PMS-CRITIQUE does not claim monopoly on critique analysis. Its narrower claim is that critique can be rendered with unusual structural clarity as a chain of differentiation, interruption, recontextualization, integration, and binding under asymmetry and temporality. Rival grammars may remain stronger where normativity, institutional legitimacy, rhetorical force, discourse ethics, public rupture, resistance, or lived experience are the primary object.
+  nested_overlay_policy:
+    overlays:
+      P:
+        name: Publicness Overlay
+        type: overlay_modulator
+        is_operator: false
+        amplifies:
+        - Ω
+        - Θ
+        - Α
+        note: Publicness amplifies exposure gradients, hardens irreversibility, and accelerates script stabilization without creating critique or correction by itself.
+        case_application: <State whether publicness amplifies the critique configuration in this case.>
+    no_base_extension: true
+    rule: 'PMS-CRITIQUE introduces overlay-level constructs only: critique formulas, reach and scale ladders, publicness overlay, drift classes, modulators, projections, docking interfaces, and example-packet discipline. These organize existing PMS operators and never become PMS operators or dependencies.'
+  validity_gate:
+    status: <passed | failed | needs_review>
+    gate_type: PMS_application_only
+    note: This gate constrains PMS application only. It does not constrain critique, refusal, rejection, revision proposals, or rival formalizations.
+    requires:
+      Distance_Chi:
+        id: Χ
+        name: Distance
+        status: <maintained | compromised | needs_review>
+        meaning: A maintained meta-position and stop-capability are present. The CRITIQUE overlay does not fuse the case into reaction, verdict, sanction, exposure-punishment, authority, or person-level attribution.
+      reversibility:
+        status: <maintained | compromised | needs_review>
+        meaning: Readings remain scene-bound, revisable, and non-final. The overlay does not produce global person labels, irreversible labels, or final judgments.
+      Dignity_in_Practice_D:
+        id: D
+        status: <maintained | compromised | needs_review>
+        meaning: Dignity-in-Practice is preserved. The overlay does not shame, rank, humiliate, morally evaluate, diagnose, or ontologically assess persons or groups.
+    gate_result: <valid_as_critique_overlay_application | invalid_as_critique_overlay_application | requires_revision>
+  critique_addon_scope:
+    scope_guardrails:
+    - Non-metaphysical, non-clinical, non-diagnostic.
+    - No person-level judgment, no person-ranking, no sanction logic.
+    - No adjudication of correctness, truth, motives, sincerity, or moral rightness.
+    - No prescriptive how-to manual, coaching protocol, therapy method, legitimacy tribunal, or enforcement script.
+    - Critique remains structural, scene-bound, reversible, and non-coercive.
+    - Drift labels remain structural descriptors, not accusations.
+    - Resistant cases must not be treated as invalid merely because they exceed PMS-CRITIQUE.
+    may_add_visibility_to:
+    - mismatch as Δ
+    - response pressure as ∇
+    - frame relevance and role space as □
+    - non-response or missing follow-up as Λ
+    - stabilized critique scripts as Α
+    - exposure gradients as Ω
+    - accumulation and irreversibility as Θ
+    - recontextualization as Φ
+    - stop-capability and interruptibility as Χ
+    - correction consolidation as Σ
+    - non-coercive follow-up binding as Ψ
+    - minimal, productive, and stable critique thresholds
+    - vertical reach and horizontal scale
+    - publicness amplification
+    - critique drift patterns
+    - modulator conditions
+    - critique-facing A/C/R/E/D projections
+    - optional MIP docking boundaries
+    must_not_do:
+    - treat critique as personal essence
+    - treat reaction as weaker critique
+    - treat judgment as strict critique without Χ, Φ, or Σ
+    - translate critique legibility into verdict
+    - convert Ψ into Ψ→Other coercive demand
+    - treat public exposure as correction
+    - use drift labels as sanctions
+    - collapse scene-bounded critique into person-typing
+    - use explanation-first language to neutralize accountability
+    - use evaluation-first labels to bypass structural explanation
+    - claim PMS Base output check
+  source_and_claim_burden_discipline:
+    status: <satisfied | partial | failed | not_applicable>
+    rule: CRITIQUE overlay use must preserve the Core claim ceiling and source-material limits. Critique-specific visibility does not turn reports into evidence, evaluation into truth, publicness into correction, or mismatch into legitimacy adjudication.
+    source_status_preservation:
+      documents: <preserved | partial | failed | not_applicable>
+      statistics_or_tables: <preserved | partial | failed | not_applicable>
+      datasets: <preserved | partial | failed | not_applicable>
+      reports_or_transcripts: <preserved | partial | failed | not_applicable>
+      public_or_media_material: <preserved | partial | failed | not_applicable>
+    claim_ceiling_preservation:
+      core_claim_ceiling_imported: <yes | no | unclear>
+      overlay_claim_ceiling: <same_as_core | lower_than_core | unclear | suspend>
+      forbidden_claim_escalations:
+      - truth_adjudication
+      - motive_verification
+      - moral_verdict
+      - legal_or_forensic_conclusion
+      - diagnosis
+      - person_ranking
+      - sanction_logic
+      - publication_permission
+      - MIP_or_AHP_authorization
+    critique_specific_burden_checks:
+      mismatch_evidence_status: <marked | underdescribed | missing | contested | not_required_for_low_claim>
+      response_space_status: <marked | underdescribed | missing | contested | not_required_for_low_claim>
+      publicness_or_exposure_status: <marked | underdescribed | missing | contested | not_applicable>
+      correction_possibility_status: <marked | underdescribed | missing | contested | not_applicable>
+      coercion_or_sanction_risk_status: <none | weak | present | high | unclear>
+    required_action_if_failed: <revise_overlay | downgrade_claim | suspend_overlay | refuse_requested_use | redirect_to_rival_or_domain_review>
+  critique_core:
+    scope_note: PMS-CRITIQUE models structural conditions of critique and drift under load. It does not adjudicate correctness of opinions, establish truth, verify motives, or provide normative discourse ethics.
+    definitions:
+      CRITIQUE_MIN:
+        label: Minimal Critique
+        applicability: <active | weak | not_applicable | needs_review>
+        formula:
+          required:
+          - Δ
+          - □
+          - Χ
+          background_typically_active:
+          - Ω
+          - Θ
+        gloss: 'Minimal critique is Χ-stabilized framed differentiation: a mismatch Δ becomes legible as relevant inside a frame □, and the configuration remains interruptible Χ rather than collapsing into impulse discharge, frame policing, or paralysis.'
+        threshold_status: strict_structural_minimum
+        non_equivalences:
+        - Reaction Δ + ∇ without Χ is not a weaker critique; it is structurally different.
+        - Judgment □ + Δ without Φ/Σ does not count as critique in the strict sense used here.
+        - Silence or paralysis under mismatch are not low-grade critique; they are distinct stabilizations.
+        case_application: <State whether the case reaches minimal critique and how Δ, □, and Χ are satisfied or under-specified.>
+        source_note: This is the strict structural minimum for what counts as critique within PMS-CRITIQUE. It is a threshold condition, not a universal ontology of critique as such.
+      CRITIQUE_PROD:
+        label: Productive Critique
+        applicability: <active | weak | not_applicable | needs_review>
+        formula:
+          required:
+          - Δ
+          - □
+          - Χ
+          - Φ
+          - Σ
+          background_typically_active:
+          - Ω
+          - Θ
+        gloss: Productive critique crosses from interruption into correction. Φ recontextualizes the mismatch into an actionable context; Σ consolidates a coherent corrective step that is coordinatable rather than merely asserted.
+        threshold_status: productive_correction_threshold
+        case_application: <State whether the case reaches productive critique, or whether it remains at interruption, reaction, judgment, commentary, silence, or drift.>
+        source_note: Within this grammar, productive critique marks structural reach toward correction. This does not exhaust the political, ethical, or existential value of critique as such.
+      CRITIQUE_STABLE:
+        label: Stable Critique / Follow-up Binding
+        applicability: <active | weak | not_applicable | needs_review>
+        formula:
+          required:
+          - Δ
+          - □
+          - Χ
+          - Φ
+          - Σ
+          - Ψ
+          background_typically_active:
+          - Ω
+          - Θ
+        gloss: Stable critique binds correction into a trajectory without coercing others. Follow-up becomes structurally owned over time Θ while remaining revisable and restrained by Dignity-in-Practice.
+        threshold_status: follow_up_binding_threshold
+        binding_rule: Ψ must bind self or own follow-up, not become Ψ→Other demand.
+        case_application: <State whether the case reaches stable critique and how follow-up ownership appears without coercion.>
+        source_note: Stability here means trajectory binding, not certainty, closure, or guaranteed success.
+    non_goals:
+    - No moral ranking of positions, speakers, or outcomes.
+    - No psychological typing, motive attribution, sincerity judgment, trait claim, or diagnostic claim.
+    - No prescriptive how-to manual, coaching protocol, therapy method, legitimacy tribunal, or sanctioning logic.
+    - 'No coercive enforcement: Ψ must not be converted into Ψ→Other demands.'
+    - No truth adjudication, correctness verdict, or final settlement of critique legitimacy.
+    reach_ladder_note: The vertical reach ladder is not a virtue ladder. It describes how far a critique chain structurally travels from mismatch to interruption to correction to binding before breaking.
+    boundedness_note: These critique formulas are paper-specific overlay constructs. They do not establish that all critique-relevant phenomena must be captured in exactly these terms.
+  critique_mapping:
+    overview: 'Operator-to-critique mappings are one-to-many: each PMS operator may realize multiple critique-relevant functions depending on frame and scale. This mapping is descriptive and does not treat operators as psychological traits or personal capacities.'
+    operator_roles:
+      Δ:
+        name: Difference
+        critique_role: Legible mismatch.
+        typical_realizations:
+        - Error vs. standard.
+        - Claim vs. evidence mismatch.
+        - Expectation vs. non-response mismatch carried by Λ.
+        case_application: <State the mismatch that becomes critique-relevant.>
+      ∇:
+        name: Impulse
+        critique_role: Directional pressure to respond.
+        typical_realizations:
+        - Fast-response pressure.
+        - Defensive countering.
+        - Demand for immediate explanation as closure substitute.
+        case_application: <State the response pressure or activation involved.>
+      □:
+        name: Frame
+        critique_role: Relevance and role space.
+        typical_realizations:
+        - Meeting / review frame.
+        - Training / evaluation frame.
+        - Platform discourse frame.
+        case_application: <State the frame that defines what counts as response, interruption, or correction.>
+      Λ:
+        name: Non-Event
+        critique_role: Structured absence under expectation.
+        typical_realizations:
+        - Promised follow-up does not occur.
+        - Repeated silence after raised concerns.
+        - Ambiguity sustained by not-deciding.
+        case_application: <State the missing response, omitted correction, delayed follow-up, or meaningful absence.>
+      Α:
+        name: Attractor
+        critique_role: Stabilized scripts that handle critique pressure without correction.
+        typical_realizations:
+        - Pile-on pattern.
+        - Silence script.
+        - Routine deflection.
+        - Process-talk without outcome.
+        case_application: <State whether a critique-handling pattern stabilizes.>
+      Ω:
+        name: Asymmetry
+        critique_role: Exposure gradients.
+        typical_realizations:
+        - Public target vs. diffuse crowd.
+        - Junior exposed under senior correction.
+        - Raiser bears cost; manager bears less cost.
+        case_application: <State the exposure, status, retaliation, or cost gradient.>
+      Θ:
+        name: Temporality
+        critique_role: Accumulation and irreversibility.
+        typical_realizations:
+        - Durable residue.
+        - Repeated non-follow-up hardens silence norm.
+        - No review windows; correction never consolidates.
+        case_application: <State how time, accumulation, residue, repetition, or review windows matter.>
+      Φ:
+        name: Recontextualization
+        critique_role: Reframing toward correction or substitute.
+        typical_realizations:
+        - Constraint context makes fix actionable.
+        - Endless explanation expansion without action plan.
+        - Reframing mismatch as tone problem.
+        case_application: <State whether recontextualization bridges toward correction or substitutes for it.>
+      Χ:
+        name: Distance
+        critique_role: Stop-capability / interruptibility.
+        typical_realizations:
+        - Legitimate pauses and renegotiations.
+        - Non-penalized meta-position.
+        - Protected revision windows.
+        case_application: <State how stop-capability or interruptibility appears or fails.>
+      Σ:
+        name: Integration
+        critique_role: Consolidation of a corrective step.
+        typical_realizations:
+        - Concrete fix, decision, or implementation unit.
+        - Aligned meaning that becomes actionable.
+        - Defined correction path with roles and constraints.
+        case_application: <State whether a corrective step consolidates.>
+      Ψ:
+        name: Self-Binding
+        critique_role: Non-coercive trajectory ownership.
+        typical_realizations:
+        - Assigned responsibility points and scheduled review.
+        - Audit loop or feedback loop.
+        - Bounded escalation rules that remain reversible.
+        case_application: <State whether follow-up is self-bound without coercing others.>
+  critique_projections:
+    overview: These critique-facing projections reuse the base PMS derived axes as readability aids for critique scenes. They do not redefine PMS formulas and do not create scoring, diagnosis, maturity labels, or person evaluation.
+    reuse_status: overlay_level_reuse_of_base_PMS_derived_axes
+    axes:
+      Awareness_A:
+        symbol: A
+        formula:
+        - Θ
+        - □
+        - Δ
+        description: Sustained, framed differentiation across time.
+        base_status: reuse_of_base_PMS_derived_axis
+        case_application: <State how critique sustains or fails framed differentiation over time.>
+      Coherence_C:
+        symbol: C
+        formula:
+        - Θ
+        - Λ
+        - □
+        - ∇
+        description: Narrative and expectation stability under time, framing, and non-events.
+        base_status: reuse_of_base_PMS_derived_axis
+        case_application: <State how critique pressure, frame, non-event, and temporality affect coherence.>
+      Responsibility_R:
+        symbol: R
+        formula:
+        - Ψ
+        - Φ
+        - Θ
+        - Ω
+        description: Bound follow-up ownership under asymmetry over time.
+        base_status: reuse_of_base_PMS_derived_axis
+        case_application: <State whether responsibility appears as follow-up ownership under asymmetry and time.>
+      Action_E:
+        symbol: E
+        formula:
+        - Σ
+        - Θ
+        - ∇
+        description: Enactable correction rather than commentary.
+        base_status: reuse_of_base_PMS_derived_axis
+        docking_note: Within PMS-CRITIQUE, E can function as a critique-internal bridging descriptor for correction reach. It is not thereby elevated into a separate MIP core parameter.
+        case_application: <State whether critique becomes enactable correction or remains commentary / interruption / drift.>
+      Dignity_in_Practice_D:
+        symbol: D
+        formula:
+        - Ψ
+        - Χ
+        - Ω
+        description: Restrained handling of asymmetry under self-binding.
+        base_status: reuse_of_base_PMS_derived_axis
+        case_application: <State how Dignity-in-Practice constrains the critique reading.>
+    projection_note: These projections increase readability within this framework but do not prove exhaustive critique representation.
+  critique_axes:
+    overview: 'PMS-CRITIQUE uses two descriptive axes: vertical reach and horizontal scale, plus publicness overlay P. Reach and scale are structural, not virtue, status, moral rank, or person quality.'
+    vertical_reach:
+      selected_level: <V0 | V1 | V2 | V3 | V4 | mixed | not_applicable | needs_review>
+      levels:
+        V0:
+          name: Irritation only
+          signature:
+          - Δ
+          description: Mismatch is registered but not interruptible or framed into a critique episode.
+          case_application: <State whether the case remains at irritation only.>
+        V1:
+          name: Reaction / discharge
+          signature:
+          - Δ
+          - ∇
+          description: Directional response without Χ; critique in the strict sense does not occur.
+          case_application: <State whether the case is reaction/discharge rather than critique.>
+        V2:
+          name: Minimal critique
+          signature:
+          - Δ
+          - □
+          - Χ
+          description: Interruption becomes possible inside a frame and remains revisable.
+          case_application: <State whether minimal critique is reached.>
+        V3:
+          name: Productive critique
+          signature:
+          - Δ
+          - □
+          - Χ
+          - Φ
+          - Σ
+          description: Recontextualization and integration consolidate a corrective step.
+          case_application: <State whether productive critique is reached.>
+        V4:
+          name: Stable critique
+          signature:
+          - Δ
+          - □
+          - Χ
+          - Φ
+          - Σ
+          - Ψ
+          description: Follow-up binding anchors correction into time without coercion.
+          case_application: <State whether stable critique is reached.>
+    horizontal_scale:
+      selected_system: <paper_tags | deployment_tags | not_applicable | needs_review>
+      selected_paper_tag: <a | b | c | d | mixed | not_applicable | needs_review>
+      selected_deployment_tag: <dyadic_micro | small_group_team | org_institution | public_mass | not_applicable | needs_review>
+      note: A case may carry both a paper tag and a deployment tag, but the systems themselves remain paper_tags and deployment_tags. No additional scale system is introduced.
+      paper_tags:
+        a:
+          label: Generic / Structural Critique (No Actor Binding)
+          description: Critique is treated as formal structural possibility. No actor, role, or scene is bound. Ω/Θ appear only as abstract parameters.
+          case_application: <State whether the case is generic/structural critique.>
+        b:
+          label: Single-Subject Critique (Self / Support / Learning)
+          description: Critique is inwardly bound. The subject occupies both poles. Ω is internalized; Χ must be self-generated unless scaffolded. Ψ is optional but decisive for durable trajectory change.
+          typical_drifts:
+          - Under-questioning
+          - Over-framing
+          - Φ without Σ
+          - Avoidance of Σ due to anticipated self-exposure costs
+          case_application: <State whether the case is single-subject critique.>
+        c:
+          label: Small Group Critique (Peers / Team / Family)
+          description: Critique becomes relational. Ω is distributed across roles; Χ is harder because interruption affects belonging and status. Λ becomes central; repeated Λ stabilizes Α scripts.
+          typical_drifts:
+          - Λ → Α silence script
+          - Judgment drift in evaluative micro-hierarchies
+          - Diffusion drift via unclear role space
+          case_application: <State whether the case is small-group critique.>
+        d:
+          label: Public Critique (Street / Media / Online)
+          description: 'Critique often operates under maximal amplification: Ω gradients steepen, Θ hardens irreversibility, Α stabilizes quickly, Χ becomes fragile, Σ is costly, and Ψ is rare or substituted by performative alignment signals.'
+          typical_drifts:
+          - Reaction drift under time pressure
+          - Public pillory
+          - Bystander paralysis → Λ persistence → silence attractor
+          case_application: <State whether the case is public critique.>
+      chapter_marker_quote_ready: 'The operators stay the same, but scale decides the cost: as critique moves into publicness, exposure and irreversibility amplify drift without adding new structure.'
+      deployment_tags:
+        dyadic_micro:
+          label: dyadic / micro
+          description: Small, direct interaction.
+          case_application: <State relevance if applicable.>
+        small_group_team:
+          label: small group / team
+          description: Teams, meetings, families.
+          case_application: <State relevance if applicable.>
+        org_institution:
+          label: organization / institution
+          description: Governance layers, policies.
+          case_application: <State relevance if applicable.>
+        public_mass:
+          label: public / mass
+          description: Media, online, street publics.
+          case_application: <State relevance if applicable.>
+      interoperability:
+        preferred_system: paper_tags
+        legacy_scale_tag_interpretation: paper_tags
+        allowed_systems:
+        - paper_tags
+        - deployment_tags
+        legacy_support:
+          legacy_field: scale_tag
+          legacy_system_assumed: paper_tags
+          rule: 'If scale_tag: a|b|c|d is provided without an explicit scale system, interpret it as paper_tags unless explicitly overridden.'
+    publicness_overlay:
+      id: P
+      applicability: <active | weak | not_applicable | needs_review>
+      type: overlay_modulator
+      is_operator: false
+      amplifies:
+      - Ω
+      - Θ
+      - Α
+      description: Publicness amplifies exposure gradients, hardens irreversibility, and accelerates script stabilization without creating critique or correction by itself.
+      case_application: <State whether publicness amplifies critique, drift, exposure, or residue in this case.>
+  drift_typology:
+    overview: Drift names predictable structural mutations of critique chains under load. Drift labels are not accusations; they are operator-readable stabilization forms.
+    methodological_status:
+      type: open_structural_index
+      note: The drift typology is not exhaustive. Some cases may resist clean classification without this constituting mere deficiency.
+    main_classes:
+      D1:
+        name: Reaction masquerading as critique
+        applicability: <active | risk | not_applicable | needs_review>
+        minimal_signature: Δ + ∇ present / Χ absent
+        description: Impulse discharge replaces interruption; expression is fast and non-interruptible.
+        typical_markers:
+        - tempo pressure substitutes for framing
+        - no stop-capability once launched
+        case_application: <State whether reaction drift is active or a risk.>
+      D2:
+        name: Judgment masquerading as critique
+        applicability: <active | risk | not_applicable | needs_review>
+        minimal_signature: □ + Δ present / Φ and Σ absent, often Ω leveraged
+        description: Evaluation replaces coordination; labels stabilize clarity at the cost of actionability.
+        typical_markers:
+        - evaluation replaces correction path
+        - exposure increases while actionability decreases
+        case_application: <State whether judgment drift is active or a risk.>
+      D3:
+        name: Narrative repair masquerading as critique
+        applicability: <active | risk | not_applicable | needs_review>
+        minimal_signature: Φ high / Σ absent
+        description: Recontextualization becomes endpoint; explanation expands while correction remains unreachable.
+        typical_markers:
+        - endless reframing
+        - no consolidated corrective step
+        case_application: <State whether narrative repair drift is active or a risk.>
+      D4:
+        name: Commentary / analysis paralysis
+        applicability: <active | risk | not_applicable | needs_review>
+        minimal_signature: Χ present / Σ absent
+        description: Meta-commentary stabilizes; interruption suspends correction indefinitely.
+        typical_markers:
+        - meta-position replaces integration
+        - revision windows exist but never close
+        case_application: <State whether commentary drift is active or a risk.>
+      D5:
+        name: Public pillory
+        applicability: <active | risk | not_applicable | needs_review>
+        minimal_signature: Ω + Θ + Α under P, restraint collapsed
+        description: Exposure replaces coordination; interruption fuses with degradation.
+        typical_markers:
+        - visibility-as-sanction
+        - irreversible residue fields dominate
+        case_application: <State whether public pillory is active or a risk.>
+      D6:
+        name: Silence attractor
+        applicability: <active | risk | not_applicable | needs_review>
+        minimal_signature: Λ persistent, often Λ → Α, under Ω/Θ
+        description: Repeated non-intervention stabilizes as default; non-critique becomes the expected script.
+        typical_markers:
+        - non-event load accumulates
+        - raising costs increase over time
+        case_application: <State whether silence attractor is active or a risk.>
+    compact_catalogue:
+      C1_Reaction_Drift:
+        minimal_signature: Δ + ∇ present / Χ absent
+        applicability: <active | risk | not_applicable | needs_review>
+        case_application: <Apply or reject this compact drift signature.>
+      C2_Judgment_Drift:
+        minimal_signature: □ + Δ present / Φ and Σ absent / Ω leveraged
+        applicability: <active | risk | not_applicable | needs_review>
+        case_application: <Apply or reject this compact drift signature.>
+      C3_Moralization_Drift:
+        minimal_signature: Ω high / Χ collapsed
+        applicability: <active | risk | not_applicable | needs_review>
+        case_application: <Apply or reject this compact drift signature.>
+      C4_Narrative_Reset_Drift:
+        minimal_signature: Φ high / Σ absent
+        applicability: <active | risk | not_applicable | needs_review>
+        case_application: <Apply or reject this compact drift signature.>
+      C5_Commentary_Drift:
+        minimal_signature: Χ present / Σ absent
+        applicability: <active | risk | not_applicable | needs_review>
+        case_application: <Apply or reject this compact drift signature.>
+      C6_Silence_as_Steering:
+        minimal_signature: Λ persistent / Ω unacknowledged
+        applicability: <active | risk | not_applicable | needs_review>
+        case_application: <Apply or reject this compact drift signature.>
+      C7_Diffusion_Drift:
+        minimal_signature: Ω distributed / □ unclear / Χ not triggered
+        applicability: <active | risk | not_applicable | needs_review>
+        case_application: <Apply or reject this compact drift signature.>
+      C8_Public_Pillory:
+        minimal_signature: Ω + Θ + Α under P
+        applicability: <active | risk | not_applicable | needs_review>
+        case_application: <Apply or reject this compact drift signature.>
+      C9_Integration_Bypass:
+        minimal_signature: ∇ + Φ present / Σ bypassed
+        applicability: <active | risk | not_applicable | needs_review>
+        case_application: <Apply or reject this compact drift signature.>
+      C10_Commitment_Evasion:
+        minimal_signature: Σ partial / Ψ absent
+        applicability: <active | risk | not_applicable | needs_review>
+        case_application: <Apply or reject this compact drift signature.>
+    typical_drift_chains:
+      chain_public:
+        applicability: <active | risk | not_applicable | needs_review>
+        description: Ω salience increases → Χ erodes → reaction stabilizes Α → Θ hardens residue.
+        case_application: <State whether this public drift chain appears.>
+      chain_narrative_to_silence:
+        applicability: <active | risk | not_applicable | needs_review>
+        description: Φ inflation delays Σ until attention shifts → Λ repetition → silence stabilizes Α.
+        case_application: <State whether this narrative-to-silence chain appears.>
+  modulators:
+    overview: Modulators are operator weightings that shift reachability and stabilization without adding new primitives. They are not person types and not prescriptions.
+    selectivity_note: These modulators are a selective set of recurrent weighting conditions legible in critique configurations, not a complete inventory of all possible scene-load variables.
+    items:
+      M1_frame_clarity:
+        name: Frame clarity
+        applicability: <active | weak | not_applicable | needs_review>
+        description: How clearly □ defines who may interrupt, what counts as response, and what correction could be.
+        case_application: <State how frame clarity affects the case.>
+      M2_non_event_density:
+        name: Non-event density
+        applicability: <active | weak | not_applicable | needs_review>
+        description: How often expected responses fail Λ and how much coordination shifts into absence.
+        case_application: <State how non-event density affects the case.>
+      M3_asymmetry_visibility:
+        name: Asymmetry visibility
+        applicability: <active | weak | not_applicable | needs_review>
+        description: Salience of exposure gradients Ω and status or retaliation risk in the scene.
+        case_application: <State how asymmetry visibility affects the case.>
+      M4_temporal_compression:
+        name: Temporal compression
+        applicability: <active | weak | not_applicable | needs_review>
+        description: Degree of time pressure versus availability of review windows Θ.
+        case_application: <State how temporal compression affects the case.>
+      M5_recontextualization_habituation:
+        name: Recontextualization habituation
+        applicability: <active | weak | not_applicable | needs_review>
+        description: Whether Φ is routinely used as bridge or becomes the default substitute.
+        case_application: <State how recontextualization habituation affects the case.>
+      M6_distance_availability:
+        name: Distance availability
+        applicability: <active | weak | not_applicable | needs_review>
+        description: Whether Χ stop-capability is practically activatable without penalty inside the frame.
+        case_application: <State how distance availability affects the case.>
+      M7_attractor_inertia:
+        name: Attractor inertia
+        applicability: <active | weak | not_applicable | needs_review>
+        description: Speed with which scripts Α harden into default handling such as outrage, silence, mockery, or judgment.
+        case_application: <State how attractor inertia affects the case.>
+      M8_publicness_overlay:
+        name: Publicness overlay
+        applicability: <active | weak | not_applicable | needs_review>
+        description: P overlay amplifies Ω/Θ/Α and increases drift sensitivity without changing primitives.
+        case_application: <State how publicness overlay affects the case.>
+  mip_docking_interface:
+    status: <not_indicated | scan_only | downstream_review_pressure | needs_review | unsafe>
+    purpose: Optional controlled handoff from structural explanation PMS-CRITIQUE to explicit evaluation MIP when legitimacy, attribution, or regime conditions are the stated object.
+    non_implication: Docking does not imply that PMS-CRITIQUE naturally culminates in evaluation. PMS-CRITIQUE remains complete as a structural grammar without downstream docking.
+    separation_rule:
+      pms_critique_role: Explains how critique emerges, stabilizes, drifts, and binds at the level of operator grammar.
+      mip_role: Evaluates enactments, attribution, and regime conditions under explicit criteria, documentation, and guardrails.
+      non_substitution:
+      - PMS-CRITIQUE must not be used to decide legitimacy.
+      - MIP must not be used to explain critique emergence or mutation.
+      - No back-projection of MIP verdicts into PMS causal language.
+      - No retrofitting of PMS structures into evaluative scores.
+    docking_points:
+      DP1_projection_input:
+        applicability: <active | weak | not_applicable | needs_review>
+        description: PMS critique-facing projections A/C/R/E/D may serve as scene-bound inputs for MIP-style case description without becoming trait claims.
+        case_application: <State whether projection input docking is relevant.>
+      DP2_asymmetry_evaluation:
+        applicability: <active | weak | not_applicable | needs_review>
+        description: PMS may describe asymmetry structurally; MIP may evaluate enactment of that asymmetry under its own explicit criteria.
+        case_application: <State whether asymmetry evaluation docking is relevant.>
+      DP3_regime_publicity_constraint:
+        applicability: <active | weak | not_applicable | needs_review>
+        description: Publicness and transmission conditions may be imported as explicit admissibility constraints for evaluative use.
+        case_application: <State whether regime/publicity docking is relevant.>
+      DP4_shared_critique_readiness:
+        applicability: <active | weak | not_applicable | needs_review>
+        description: Docking is valid only when structural explanation and evaluation remain documented, reversible, bounded, and non-weaponizable.
+        case_application: <State whether shared critique-readiness conditions are met.>
+    discipline_boundary:
+      rule: This block may only export MIP review pressure to the later pms_discipline_mip_gate_template.yaml. It does not apply MIP, does not authorize MIP, does not produce a maturity verdict, and does not allow back-projection of MIP vocabulary into the CRITIQUE overlay.
+      forbidden_moves:
+      - MIP_application_inside_CRITIQUE_overlay
+      - treating_critique_readiness_as_maturity_score
+      - treating_publicness_as_MIP_authorization
+      - treating_Dignity_in_Practice_as_score_or_rank
+      - back_projecting_MIP_results_into_CRITIQUE_causality
+      export_target: downstream_mip_pressure_review
+  limits_and_boundedness:
+    structural_limits:
+    - Does not establish truth.
+    - Does not verify motives, sincerity, or inner states.
+    - Does not adjudicate moral rightness.
+    - Does not rank persons, roles, or groups.
+    - Does not function as clinical, forensic, HR, compliance, or sanctioning tool.
+    - Does not dissolve accountability into 'just structure'.
+    - Does not promise exhaustive capture of lived experience, normative disagreement, or social reality.
+    genuine_non_capture:
+      status: kept_open
+      possible_when:
+      - the grammar produces a coherent reading but weakens what is structurally decisive in the case
+      - critique functions more as symbolic refusal, public rupture, ethical contestation, or resistance than as correction-oriented coordination
+      - rival framings preserve dimensions that PMS-CRITIQUE backgrounds by design
+      anti_absorption_rule:
+      - Do not prematurely redescribe resistant cases as mere drift.
+      - Do not treat resistant cases as calibration noise by default.
+      - Do not treat incomplete capture as proof that the scene is defective.
+      case_application: <State the case-specific non-capture zones.>
+    rival_framings:
+      status: kept_open
+      note: Rival critique grammars remain methodologically open. PMS-CRITIQUE may be more structurally legible in some cases without thereby being superior in all respects.
+      case_application: <State which rival critique grammars remain open.>
+    final_boundedness_statement: Nothing in this overlay requires PMS-CRITIQUE to be treated as final, exhaustive, or uniquely sufficient. Its strength remains most credible where its own limits, rival framings, and possible non-capture cases are kept explicit.
+  guardrails:
+    application_gate:
+      required:
+      - The PMS entry condition (Χ + reversibility + D) is a validity constraint on PMS application, not on critique, refusal, revision, or rejection.
+      - Χ (Distance) remains practically activatable; stop-capability is real, not merely formal.
+      - 'Reversibility: readings remain scene-bound and revisable; Θ accumulation is treated as real.'
+      - 'D (Dignity-in-Practice): no shaming, humiliation, or actor-ranking; critique stays structural.'
+      - Applications remain scene-bound rather than person-bound.
+      disallowed_uses:
+      - Person-labeling, motive attribution, psychological diagnosis.
+      - Verdict logic as an output of the model.
+      - Coercive binding Ψ→Other, threats, or exposure-as-punishment.
+      - Using drift labels as sanctions rather than structural descriptors.
+      - Using structure-talk to suspend accountability where responsibility was structurally available.
+      - Treating resistant cases as invalid merely because they exceed this grammar.
+      case_application: <State how the application gate is preserved in this case.>
+    dignity_in_practice:
+      status: <maintained | compromised | needs_review>
+      note: 'D constrains application mode, not content: analysis must not become a pile-on and must preserve restraint even when Ω or P are high.'
+      invalidity_clause: Critique becomes structurally invalid as a PMS-CRITIQUE enactment when degradation, humiliation, or exposure steering replaces correction.
+      case_application: <State how dignity-in-practice is preserved or at risk.>
+    misuse_signatures_to_flag:
+      chi_as_coercion:
+        signature: Using Χ-language to demand compliance (Χ as coercion).
+        status: <active | risk | absent | needs_review>
+        case_application: <State whether Χ-language drifts into coercion.>
+      exposure_as_correction:
+        signature: Treating public exposure as correction; P substituted for Σ/Ψ.
+        status: <active | risk | absent | needs_review>
+        case_application: <State whether exposure is substituted for correction.>
+      drift_labels_as_moral_rank:
+        signature: Turning drift labels into moral rank tokens.
+        status: <active | risk | absent | needs_review>
+        case_application: <State whether drift labels risk moral ranking.>
+      scene_to_person_typing:
+        signature: Collapsing scene-bounded critique into person-typing.
+        status: <active | risk | absent | needs_review>
+        case_application: <State whether scene descriptors risk becoming person labels.>
+      irreversible_binding_demands:
+        signature: Using drift language to justify irreversible binding demands.
+        status: <active | risk | absent | needs_review>
+        case_application: <State whether drift language risks coercive binding.>
+      explanation_neutralizes_accountability:
+        signature: Using explanation-first language to neutralize accountability.
+        status: <active | risk | absent | needs_review>
+        case_application: <State whether structural explanation risks neutralizing accountability.>
+      evaluation_bypasses_structure:
+        signature: Using evaluation-first labels to bypass structural explanation.
+        status: <active | risk | absent | needs_review>
+        case_application: <State whether evaluative labels bypass structural explanation.>
+  example_suite_schema_alignment:
+    status: reference_only_not_used_as_case_output
+    source: PMS-CRITIQUE.yaml:example_suite.packet_schema
+    required_fields_reference:
+    - scene_label
+    - frame_anchor (□)
+    - trigger_mismatch (Δ)
+    - operator_signature (reduced; 2–6 operators)
+    - guardrail_gate (Χ + reversibility + D reminder)
+    - structural_closure (2–5 plain sentences; non-instructional)
+    - scale
+    optional_fields_reference:
+    - impulse_pressure (∇)
+    - non_event_candidates (Λ)
+    - drift_class
+    - two_drift_markers_max
+    - cost_distribution (Ω/Θ)
+    - publicness_overlay (P) note
+    - reach_level (V0–V4)
+    - modulators (M1–M8)
+    - projection_notes (A/C/R/E/D)
+    - non_capture_flag
+    constraints:
+    - Roles, practices, constraints only; no person-typing or motives.
+    - Operator mapping is a readability aid, not a proof chain.
+    - No advice; no should; no enforcement language.
+    - Non-capture flags must not be used as dismissal tokens.
+    discipline_case_policy: 'PMS-DISCIPLINE case articles do not generate a separate PMS-CRITIQUE example packet by default. The packet schema is retained as a reference for scene-bound, non-instructional rendering discipline only. Examples remain optional under the markdown generation instructions.
+
+      '
+    scale_reference:
+      required_subfields:
+      - system
+      - tag
+      allowed_systems:
+      - paper_tags
+      - deployment_tags
+      legacy_support:
+        legacy_field: scale_tag
+        legacy_system_assumed: paper_tags
+        note: 'If scale_tag: a|b|c|d is provided, interpret it as system=paper_tags unless explicitly overridden.'
+  repository_examples_alignment:
+    status: reference_only_not_used_as_case_output
+    source: PMS-CRITIQUE.yaml:example_suite.repository_examples
+    note: 'Repository examples may exist as optional training material for structural reading discipline, but PMS-CRITIQUE does not depend on them and PMS-DISCIPLINE case articles do not generate or import them unless explicitly selected by the markdown generation instructions.
+
+      '
+    paths_reference:
+    - examples/Example 1 - The Missing Reply Becomes the Story.md
+    - examples/Example 2 - Fast Outrage, No Stop-Capability.md
+    - examples/Example 3 - Endless Reframing Meeting.md
+    - examples/Example 4 - Policy Without Follow-Up.md
+    - examples/Example 5 - Role Asymmetry Turns Feedback Into Exposure.md
+  load_order_and_meta_notes:
+    load_order:
+    - PMS.yaml
+    - PMS-CRITIQUE.yaml
+    - pms-critique-ext.yaml (optional; paper-specific additions)
+    compatibility:
+    - This layer is PMS_1.3-conform and does not add new operators.
+    - All constructs are mappable to Δ–Ψ signatures and scene-bound records.
+    - Derived critique projections do not override base PMS derived axes.
+    extensibility:
+    - Future versions may add optional paper-specific extensions without overriding this base layer.
+    - Extensions should remain modular, explicit, and overlay-level.
+    neutrality:
+    - All mappings remain structural; no psychologizing, moral ranking, or prescriptive claims are encoded.
+    boundedness:
+    - Translation into PMS-CRITIQUE terms does not by itself prove exhaustive capture.
+    - Absence of rival models in a given use context does not prove superiority.
+    - Formal YAML representation does not by itself secure direct implementation, legitimacy, or explanatory sufficiency.
+  critique_addon_quality_checks:
+    status: <passed | failed | pass_with_minor_notes | needs_review>
+    checks:
+      pms_base_preserved: <true | false>
+      core_case_preserved: <true | false>
+      no_new_pms_operators: <true | false>
+      no_dependency_redefinition: <true | false>
+      reduced_signatures_marked_as_shorthand: <true | false>
+      chi_dependency_hygiene_preserved: <true | false>
+      critique_thresholds_checked: <true | false>
+      vertical_reach_checked: <true | false>
+      horizontal_scale_checked: <true | false>
+      publicness_overlay_not_operator: <true | false>
+      drift_classes_not_person_labels: <true | false>
+      modulators_not_person_types: <true | false>
+      no_truth_adjudication: <true | false>
+      no_motive_verification: <true | false>
+      no_normative_tribunal: <true | false>
+      no_sanction_logic: <true | false>
+      no_coercive_binding: <true | false>
+      dignity_in_practice_preserved: <true | false>
+      reversibility_preserved: <true | false>
+      distance_chi_preserved: <true | false>
+      non_capture_preserved: <true | false>
+      rival_framings_preserved: <true | false>
+      optional_mip_docking_separated: <true | false>
+      example_suite_schema_alignment_present: <true | false>
+      discipline_recommendation_gate_import_present: <true | false>
+      source_and_claim_burden_preserved: <true | false>
+      critique_not_used_as_truth_adjudication: <true | false>
+      critique_not_used_as_sanction_logic: <true | false>
+      MIP_AHP_not_applied_inside_critique_overlay: <true | false>
+      checked_core_preserved: <true | false>
+      checked_addon_gate_import_present: <true | false>
+      no_case_record_generated: <true | false>
+      no_markdown_generated: <true | false>
+      no_final_decision_executed: <true | false>
+      downstream_mip_pressure_review_present: <true | false>
+      critique_addon_handoff_present: <true | false>
+      scale_legacy_support_preserved: <true | false>
+      source_definition_notes_preserved: <true | false>
+    issues_found:
+    - <issue or 'none'>
+    correction_required: <true | false>
+    final_overlay_judgment: <One-sentence judgment on whether the CRITIQUE overlay is valid, bounded, and correctly subordinated to PMS Core.>
+  critique_addon_synthesis:
+    primary_critique_reading: <Concise synthesis of what PMS-CRITIQUE makes visible in this case that the PMS Core pass did not fully isolate as a critique-specific threshold, reach, scale, drift, or publicness structure.>
+    threshold_result: <State whether the case reaches irritation only, reaction, minimal critique, productive critique, stable critique, or a drift configuration.>
+    mismatch_result: <State how Δ becomes critique-relevant or remains under-specified.>
+    frame_result: <State how □ defines response, role space, relevance, and correction possibility.>
+    distance_result: <State whether Χ stop-capability is real, weak, absent, or compromised.>
+    recontextualization_result: <State whether Φ bridges toward correction or substitutes for it.>
+    integration_result: <State whether Σ consolidates correction, remains absent, or is bypassed.>
+    self_binding_result: <State whether Ψ binds follow-up without coercion, remains absent, or becomes a risk of Ψ→Other demand.>
+    asymmetry_temporality_result: <State how Ω and Θ shape exposure, cost, residue, accumulation, and irreversibility.>
+    scale_publicness_result: <State the selected horizontal scale and whether P amplifies drift.>
+    drift_result: <State the main CRITIQUE drift risks and how they are constrained.>
+    dignity_result: <State how Dignity-in-Practice is preserved or where critique risks degradation, humiliation, exposure steering, or person-typing.>
+    non_capture_result: <State what remains outside PMS-CRITIQUE capture or open to rival critique grammars.>
+    optional_mip_docking_result: <State whether MIP docking is not triggered, optional, triggered, or inappropriate for this case.>
+    final_critique_formula_or_signature: <Use a case-specific CRITIQUE signature, e.g. CRITIQUE_MIN, CRITIQUE_PROD, CRITIQUE_STABLE, D1 reaction drift, D3 narrative repair, D5 public pillory, or a combined case-specific signature.>
+    final_claim_boundary: This CRITIQUE overlay adds visibility for critique thresholds, reach, scale, publicness, drift, modulators, and critique-facing projection boundaries. It does not revise PMS Base, rewrite the PMS Core pass, establish truth, verify motives, diagnose persons, rank persons, prescribe correction, generate sanction logic, validate PMS, or claim final capture of critique.
+  downstream_mip_pressure_review:
+    status: <not_indicated | scan_only | downstream_review_pressure | needs_review | unsafe | unclear>
+    source_from_critique: critique-specific MIP docking language may create later MIP review pressure only; it does not apply or authorize MIP.
+    possible_pressure_sources:
+    - critique-facing projections A/C/R/E/D
+    - asymmetry evaluation pressure
+    - publicness and transmission constraint
+    - shared critique-readiness conditions
+    - dignity-in-practice sensitivity
+    forbidden_moves:
+    - MIP_application_inside_CRITIQUE_addon
+    - treating_critique_readiness_as_maturity_score
+    - treating_publicness_as_MIP_authorization
+    - treating_Dignity_in_Practice_as_score_or_rank
+    - back_projecting_MIP_results_into_CRITIQUE_causality
+    - AHP_application_or_authorization_inside_CRITIQUE_addon
+    mip_pressure_from_critique: <none | weak | plausible | strong | unsafe | unclear>
+    reason: <State why the CRITIQUE add-on does or does not create later MIP review pressure. Do not convert critique, correction, responsibility, or dignity vocabulary into MIP authorization.>
+    recommended_later_mip_gate_status: <not_recommended | scan_only | recommended_with_limits | unsafe | human_review_required | unclear>
+  critique_addon_handoff:
+    handoff_status: <ready_for_critique_addon_output_check | ready_with_limits | incomplete | unclear>
+    preserves:
+    - PMS Base priority
+    - checked Pre-Analysis constraints
+    - checked Core constraints
+    - checked Add-on Gate limits
+    - source status
+    - claim ceiling
+    - rival pressure and non-capture
+    - correctability and reopening conditions
+    - CRITIQUE non-authority boundary
+    does_not_authorize:
+    - MIP_application
+    - AHP_application
+    - Case_Record_generation
+    - Markdown_generation
+    - person_ranking
+    - diagnosis
+    - legal_or_forensic_conclusion
+    - truth_adjudication
+    - motive_verification
+    - sanction_logic
+    - final_decision_execution
+  conservative_patch_policy_for_critique_output_check:
+    patch_policy_status: active_for_critique_addon_output_check_only
+    patch_when:
+    - invalid_yaml
+    - missing_required_field
+    - selected_addon_mismatch
+    - CRITIQUE_relevance_treated_as_authorization
+    - complaint_or_negativity_treated_as_critique_trigger
+    - source_status_laundered
+    - claim_ceiling_exceeded
+    - PMS_Base_redefined
+    - Core_output_overwritten
+    - other_addon_applied
+    - MIP_or_AHP_authorized
+    - case_record_generated
+    - markdown_generated
+    - decision_state_executed
+    - truth_or_motive_adjudication_introduced
+    - sanction_logic_introduced
+    - person_judgment_or_diagnosis_introduced
+    - public_exposure_treated_as_correction
+    - unprovided_source_assumed
+    - critique_threshold_source_note_erased
+    - scale_legacy_support_lost
+    - PMS_entry_condition_misquoted
+    preferred_patch_style:
+    - conservative
+    - bounded
+    - claim_weakening_where_needed
+    - explicit_unclear_or_missing_markers
+    - no_new_layer_creation
+  final_critique_addon_status:
+    status: <ready_for_addon_output_check | ready_with_limits_for_addon_output_check | requires_revision_before_check | suspend_addon_application | unclear>
+    selected_addon_confirmed: <true | false | unclear>
+    addon_output_summary: <short bounded summary>
+    claim_ceiling_effect: <no_change | lowered | exceeded_and_corrected | unclear>
+    next_required_step: <critique_addon_output_check | revise_addon_output | suspend | unclear>
+    final_note: This status governs whether the CRITIQUE add-on output is ready to be checked. It is not truth adjudication, not motive verification, not correction authorization, not sanction logic, not downstream MIP/AHP authorization, not external release readiness, and not decision-state execution.

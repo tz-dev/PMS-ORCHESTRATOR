@@ -1,0 +1,2162 @@
+# ==============================================================================
+# PMS-DISCIPLINE — SEX ADD-ON CASE APPLICATION TEMPLATE
+# Template version: CLEAN_v0.2.1
+# Role: selected SEX add-on case application after checked Core and checked Add-on Gate
+# Source-aligned against PMS-SEX.yaml
+# ==============================================================================
+pms_sex_addon_case_application:
+  schema_version: PMS-DISCIPLINE_SEX_ADDON_CASE_TEMPLATE_CLEAN_v0.2.1
+  case_schema_version: PMS-SEX_CASE_TEMPLATE
+  schema_role: sex_addon_case_application_template
+  overlay_status: application_profile_only
+  overlay_model: PMS-SEX
+  overlay_schema_version: PMS-SEX_PROFILE
+  sex_case_template_source: PMS-SEX_CASE_TEMPLATE
+  base_model: PMS
+  base_schema_version: PMS_1.3
+  discipline_status: selected_addon_layer_only_over_checked_core_case
+  template_status: clean_pms_discipline_addon_case_application_template
+  discipline_template_name: pms_addon_sex_case_application_template_CLEAN_v0_2.yaml
+  analysis_mode: selected_sex_addon_case_application_after_checked_core
+  template_purpose: >-
+    Apply the selected PMS-SEX source to a bounded case after PMS.yaml, checked Pre-Analysis YAML, checked Core Case Application
+    YAML, checked Add-on Recommendation Gate YAML, and PMS-SEX.yaml have already been read or produced in prior steps. The
+    output is a SEX add-on case application YAML only. It preserves PMS-SEX scene-bound structural mechanics while preventing
+    diagnosis, person verdict, sexual truth, practice guidance, legal/clinical/forensic conclusion, maturity/adultness verdict,
+    access entitlement, exposure license, MIP/AHP authorization, PMS Base revision, or final decision execution.
+  template_boundary: This template applies SEX without replacing PMS.yaml, re-running Core, re-deciding the Add-on Gate,
+    reading additional sources, applying other add-ons, producing external-facing prose, applying MIP/AHP, generating a 
+    Case Record, rendering Markdown, or executing an action/decision-state execution.
+  repository_reference:
+    pms_base_reference_file: PMS.yaml
+    pms_base_reference_status: already_read_base_reference
+    selected_addon_source_file: PMS-SEX.yaml
+    selected_addon_source_status: already_read_selected_addon_source
+    template_role: sex_addon_case_application_template
+    supported_addon_family: SEX
+    reference_note: PMS.yaml supplies PMS Base grammar. PMS-SEX.yaml supplies the selected add-on source. Checked 
+      Pre-Analysis, checked Core, and checked Add-on Gate outputs constrain this application. No additional discipline 
+      reference file, MIP output, AHP output, Case Record, Markdown article, or unprovided file is available inside this
+      step.
+  source_priority:
+    pms_yaml:
+      priority: 1
+      role: PMS Base reference already read before this step
+      may_define:
+      - PMS operator inventory
+      - PMS operator order
+      - PMS dependencies
+      - PMS derived structures
+      - PMS application guardrails
+      must_not_be_overridden_by:
+      - SEX add-on output
+      - case_packet
+      - checked_pre_analysis_yaml
+      - checked_core_case_application_yaml
+      - checked_addon_recommendation_gate_yaml
+      - PMS-SEX.yaml
+      - model_output
+    case_packet:
+      priority: 2
+      role: bounded case material supplied for this run
+      may_supply:
+      - case_title
+      - case_material
+      - source_status
+      - intended_use
+      must_not_supply:
+      - PMS Base revision
+      - SEX source content
+      - case verdict
+      - final decision execution
+    checked_pre_analysis_yaml:
+      priority: 3
+      role: >-
+        checked boundary, source-status, burden, person-nearness, publicness/irreversibility, non-capture, and claim-ceiling
+        record
+      may_supply:
+      - source material limits
+      - person-nearness burden
+      - publicness / irreversibility burden
+      - MIP/AHP downstream pressure markings
+      must_not_supply:
+      - SEX application result
+      - add-on authorization
+      - MIP authorization
+      - AHP authorization
+      - person ranking
+      - sexual truth
+      - maturity verdict
+      - final decision execution
+    checked_core_case_application_yaml:
+      priority: 4
+      role: checked PMS Core case basis for this selected add-on application
+      may_supply:
+      - case boundary
+      - operator assignments
+      - dependency status
+      - derived structure status
+      - claim ceiling
+      - source status
+      - non-capture zones
+      - rival readings
+      - falsifier and weakening conditions
+      must_not_be_rewritten_by:
+      - SEX overlay
+      - sexual vocabulary
+      - sexual cost topology vocabulary
+      - adult reciprocity language
+      - body / genital meaning language
+      - withdrawal / binding language
+      - publicness or outer-legibility language
+      - MIP or AHP outputs
+      must_not_authorize:
+      - SEX use by itself
+      - MIP use
+      - AHP use
+      - case closure
+      - final decision execution
+    checked_addon_recommendation_gate_yaml:
+      priority: 5
+      role: >-
+        checked gate output confirming SEX as the selected add-on family for this step
+      may_supply:
+      - SEX recommended / scan-only / not recommended / unsafe / unclear status
+      - doubts and non-trigger conditions
+      - over-application warnings
+      must_not_supply:
+      - authorization
+      - final decision state
+      - action authority
+      - case verdict
+      - sexual classification
+      - MIP authorization
+      - AHP authorization
+    selected_pms_sex_yaml:
+      priority: 6
+      role: selected SEX add-on source read in the previous step
+      may_define:
+      - SEX constructs
+      - SEX overlay fields
+      - SEX-specific guardrails
+      - SEX viability / drift / cost-topology checks
+      - SEX MIP-docking guards
+      must_not_define:
+      - PMS Base
+      - PMS operator inventory
+      - Core case findings
+      - diagnosis
+      - sexual truth
+      - person status
+      - practice instruction
+      - action authorization
+      - MIP authorization
+      - AHP authorization
+    this_sex_case_template:
+      priority: 7
+      role: SEX case application output structure
+      must_not_authorize:
+      - Core rewrite
+      - PMS Base revision
+      - MIP use
+      - AHP use
+      - publication
+      - intervention
+      - exposure
+      - final decision execution
+  workflow_position:
+    phase: selected_addon_case_application
+    step_id: pms_sex_addon_case_application
+    step_role: >-
+      This template applies only the selected SEX add-on after checked Pre-Analysis, checked PMS Core, checked Add-on Recommendation
+      Gate, and source reading of PMS-SEX.yaml. It produces a SEX add-on case application YAML that must itself be checked
+      before any later MIP Gate, Case Record, Markdown, or publication-facing use.
+    preceded_by_required_steps:
+    - read_pms_yaml
+    - checked_pre_analysis_yaml
+    - checked_core_case_application_yaml
+    - checked_addon_recommendation_gate_yaml
+    - read_selected_pms_sex_yaml
+    not_permitted_before_this_step:
+    - using_SEX_before_checked_core
+    - using_SEX_from_topic_label_alone
+    - MIP_application
+    - AHP_application
+    - case_record_integration
+    - article_generation
+    not_permitted_inside_this_step:
+    - rewriting_core_case_yaml
+    - redefining_PMS_operators_or_dependencies
+    - treating_SEX_constructs_as_PMS_Base
+    - treating_sexual_vocabulary_as_SEX_trigger
+    - treating_sexual_cost_topology_as_score_or_ranking
+    - treating_adult_reciprocity_language_as_maturity_or_adultness_verdict
+    - treating_body_or_genital_meaning_as_person_truth
+    - treating_direct_otherness_as_access_entitlement
+    - treating_outer_legibility_as_exposure_or_punishment_license
+    - treating_withdrawal_as_automatic_guilt_or_exculpation
+    - treating_viability_as_normality
+    - treating_SEX_output_as_MIP_or_AHP_authorization
+    - setting_final_decision_state_as_executed
+    - reading_unselected_addons_as_authority
+    - applying_MIP_or_AHP
+    - creating_maturity_or_adultness_verdict
+    - exporting_SEX_as_publication_permission
+    - using_SEX_output_as_final_decision_execution
+    next_required_step:
+    - sex_addon_output_check
+    step_boundary: SEX case application only; later steps must be opened by their own templates, gates, checks, and 
+      human route confirmation where required.
+  template_io_contract:
+    required_inputs:
+    - PMS.yaml_read_completely
+    - case_packet
+    - checked_pre_analysis_yaml
+    - checked_core_case_application_yaml
+    - checked_addon_recommendation_gate_yaml
+    - PMS-SEX.yaml_read_completely
+    - pms_sex_addon_case_application_template
+    optional_inputs_allowed_only_if_marked:
+    - prior_human_notes
+    - prior_model_output_as_input_not_evidence
+    - source_documents_full_or_excerpted
+    - statistical_material_or_tables
+    - transcripts_or_correspondence
+    - reports_or_institutional_records
+    - counter_reading_material
+    - affected_role_contestation_material
+    forbidden_inputs_at_addon_stage:
+    - unchecked_core_case_as_anchor
+    - SEX_vocabulary_as_trigger_without_checked_gate_record
+    - MIP_or_AHP_result_as_SEX_authority
+    - article_draft_as_case_evidence
+    - sexual_vocabulary_as_evidence
+    - body_or_genital_terms_as_person_truth
+    - source_presence_as_proof
+    - document_authority_as_action_authorization
+    produced_outputs:
+    - completed_SEX_addon_case_yaml
+    - SEX_overlay_scope_and_core_anchor_record
+    - layer_separation_record
+    - sexual_cost_topology_record
+    - direct_otherness_and_boundary_record
+    - withdrawal_binding_and_viability_record
+    - D_readout_and_downstream_pressure_record
+    - source_and_claim_burden_record
+    - sex_addon_quality_control
+    - downstream_mip_pressure_review
+    - addon_handoff
+    output_must_not_claim:
+    - SEX_authorization
+    - sexual_truth
+    - sexual_classification
+    - orientation_taxonomy
+    - person_ranking
+    - diagnosis
+    - practice_guidance
+    - action_authority
+    - exposure_permission
+    - maturity_or_adultness_verdict
+    - MIP_authorization
+    - AHP_authorization
+    - publication_readiness
+  discipline_addon_recommendation_gate_import:
+    required_record: pms_discipline_addon_recommendation_gate_output
+    acceptable_recommendation_statuses_for_application:
+    - recommended
+    - recommended_with_limits
+    - scan_only_with_explicit_human_continuation
+    - human_review_required_then_recommended
+    non_application_statuses:
+    - not_recommended
+    - rejected_as_over_application
+    - unsafe
+    - revise_core_recommended
+    - downgrade_recommended
+    - suspend_recommended
+    - refuse_recommended
+    - redirect_recommended
+    - unclear
+    import_fields:
+    - recommended_addon
+    - recommendation_status
+    - reason_for_recommendation
+    - non_trigger_conditions_reviewed
+    - over_application_warnings
+    - claim_ceiling
+    - person_nearness_burden
+    - source_status_limits
+    SEX_specific_non_trigger_checks:
+    - sexual_vocabulary_alone_is_not_SEX_trigger
+    - sexual_metaphor_alone_is_not_SEX_trigger
+    - body_or_genital_reference_alone_is_not_SEX_trigger
+    - relationship_or_desire_topic_alone_is_not_SEX_trigger
+    - adultness_or_maturity_language_alone_is_not_SEX_trigger
+    - publicness_or_exposure_language_alone_is_not_SEX_trigger
+    - withdrawal_or_non_binding_alone_is_not_SEX_trigger
+    if_gate_missing: >-
+      do_not_apply_SEX_overlay; return to add-on recommendation gate or mark as invalid workflow order
+  source_and_claim_burden_discipline:
+    general_rule: >-
+      SEX overlay may organize sexual-praxeological structure but may not upgrade source status or claim strength.
+    source_status_rules:
+    - reports remain reports
+    - interpretations remain interpretations
+    - model outputs remain model outputs not evidence
+    - statistics remain contextual inputs unless method and relevance are established
+    - sexual vocabulary in a source does not prove sexual-praxeological structure
+    - public documentation does not authorize exposure or punishment
+    claim_ceiling_rules:
+    - scene-bound structural reading only unless stronger source basis is explicitly present
+    - no person-level sexual truth
+    - no orientation taxonomy
+    - no diagnosis
+    - no moral ranking
+    - no access entitlement
+    - no practice advice
+    - no legal clinical forensic HR or policy conclusion
+    - no maturity/adultness verdict from PMS-SEX alone
+    required_weakening_when:
+    - input is thin, partial, fictional, synthetic, or model-generated
+    - person-nearness is high
+    - publicness or irreversibility risk is high
+    - rival explanations discriminate better
+    - sexual cost topology would be treated as score or ranking
+    - MIP-docking pressure appears but MIP has not yet been gated
+    additional_source_guardrails_from_PMS_SEX_yaml:
+    - no_moralism
+    - no_visibility_totalization
+    - no_boundary_aggression_authorization
+    - no_impulse_malice_default
+    - no_lack_of_malice_exculpation
+    - no_unlearned_handling_exculpation
+    - mip_no_back_projection
+  addon_validation_expectations:
+    validation_scope: >-
+      validate completed SEX overlay case YAML against PMS.yaml, PMS-SEX reference, this template, and PMS-DISCIPLINE constraints
+    must_check:
+    - YAML_parse_ok
+    - no_unfilled_placeholders_in_final_output
+    - checked_Core_anchor_present
+    - add_on_recommendation_gate_import_present
+    - Core_not_rewritten
+    - PMS_Base_not_redefined
+    - SEX_constructs_not_treated_as_PMS_Base
+    - sexual_vocabulary_not_used_as_trigger_by_itself
+    - sexual_cost_topology_not_scored_or_ranked
+    - direct_otherness_not_converted_into_access_entitlement
+    - outer_legibility_not_converted_into_exposure_license
+    - withdrawal_not_converted_into_guilt_or_exculpation
+    - viability_not_converted_into_normality
+    - adultness_or_maturity_not_concluded_without_MIP_gate
+    - source_status_preserved
+    - claim_ceiling_preserved
+    - rival_pressure_preserved
+    - MIP_AHP_not_authorized_by_SEX_output
+    patch_policy: >-
+      conservative_patch_only; fix surface/schema/workflow/guardrail errors without rewriting SEX theory or Core findings
+  downstream_mip_pressure_review:
+    status: <not_indicated | scan_only | downstream_review_pressure | needs_review | unsafe>
+    role: Record whether the completed SEX add-on creates later MIP Gate review pressure. This block does not apply MIP,
+      does not authorize MIP, does not authorize AHP, and does not create a maturity, adultness, dignity, or 
+      person-status verdict.
+    pressure_may_arise_from:
+    - person_nearness_burden
+    - publicness_or_transmission_burden
+    - maturity_or_adultness_language_pressure
+    - D_readout_sensitivity
+    - viability_and_governability_pressure
+    - sexual_cost_topology_misuse_surface
+    - artifact_hardening_or_public_transmission_pressure
+    must_not_export_as:
+    - MIP_authorization
+    - AHP_authorization
+    - maturity_score
+    - adultness_verdict
+    - dignity_score
+    - person_rank
+    - case_verdict
+    - publication_permission
+    recommended_next_gate_status: <not_recommended | scan_only | recommend_MIP_gate_review | unsafe | 
+      human_review_required | unclear>
+    reason: <State why the SEX add-on does or does not create later MIP Gate pressure. Do not convert sexuality, 
+      adultness, reciprocity, viability, or dignity vocabulary into MIP authorization.>
+  addon_handoff:
+    handoff_role: Make the checked SEX add-on output available to the next routed step without converting it into a Case
+      Record, Markdown article, MIP output, AHP output, or final verdict.
+    handoff_status: <ready | ready_with_limits | incomplete | blocked | not_applicable>
+    fields_to_preserve:
+    - selected_addon_family
+    - source_status_limits
+    - claim_ceiling
+    - Core anchor
+    - SEX scope
+    - non-trigger checks
+    - layer readout
+    - operator profile
+    - sexual cost topology
+    - direct otherness and access
+    - embodiment/body/genital boundary
+    - withdrawal and binding
+    - drift scan
+    - viability readout
+    - Dignity-in-Practice readout
+    - minimal psychology gate
+    - MIP docking gate result
+    - non-capture and rival pressure
+    - final claim boundary
+    must_not_claim:
+    - case verdict
+    - truth certification
+    - person status
+    - sexual truth
+    - maturity verdict
+    - adultness verdict
+    - MIP authorization
+    - AHP authorization
+    - publication readiness
+    - final decision execution
+  source_alignment:
+    pms_base:
+      source_file: PMS.yaml
+      schema_version: PMS_1.3
+      role: base operator grammar and application guardrails
+    sex_profile:
+      source_file: PMS-SEX.yaml
+      schema_version: PMS-SEX_PROFILE
+      profile_format: compact_machine_profile
+      role: current paper-repository SEX application overlay
+    sex_repo_case_template:
+      source_file: PMS-SEX_CASE_TEMPLATE / example template.yaml
+      case_schema_version: PMS-SEX_CASE_TEMPLATE
+      role: full field structure for scene-bound PMS-SEX example cases
+    discipline_policy: >-
+      DISCIPLINE uses PMS-SEX as a selected add-on layer over an already checked PMS-Core case. It does not generate a standalone
+      PMS-SEX example-suite artefact, Case Record, Markdown article, MIP output, or AHP output inside this step unless a later
+      routed step explicitly does so.
+  overlay_relationship_to_core:
+    status: subordinate_to_checked_pms_core_case
+    core_case_status: already_checked
+    core_case_source: <checked PMS-Core case YAML>
+    rule: >-
+      The SEX overlay is appended to or integrated after the already checked PMS-Core case. It may refer to Core operators,
+      Core scene framing, and Core boundary discipline as anchors, but it must not modify the PMS-Core pass, redefine PMS
+      operators, alter PMS dependencies, replace derived PMS axes, or treat PMS-SEX constructs as PMS Base.
+    preserved_core_elements:
+    - PMS operator inventory Δ, ∇, □, Λ, Α, Ω, Θ, Φ, Χ, Σ, Ψ
+    - PMS operator order and dependency hygiene
+    - PMS derived structures A, C, R, E, D as derived, not primitive
+    - PMS application guardrails
+    - PMS non-diagnostic and non-person-ranking discipline
+    - PMS non-capture and rival-openness discipline
+    integration_rule: >-
+      The SEX overlay may add visibility for scene framing, inner/outer/public layer separation, sexual cost topology, body
+      remainder, publicness, direct otherness, access logic, withdrawal/binding, path-cost, drift corridors, asymmetry-switch
+      drift, parity-to-exit, responsibility-to-authority, adult sexual reciprocity, dignity-in-practice constraints, and MIP
+      docking guards. It must not modify the completed PMS-Core case except where a direct PMS.yaml inconsistency has been
+      separately identified.
+    core_case_identifier: <DISCIPLINE case id>
+    core_case_title: <DISCIPLINE case title>
+    core_layer_handling:
+      read_core_for_anchor: true
+      rewrite_core: false
+      revise_core_findings: false
+      overwrite_core_formulas: false
+      alter_core_qc: false
+  pms_v13_and_sex_conformity:
+    status: conformant_overlay_required
+    base_schema_version: PMS_1.3
+    canonical_operator_spine: Δ → ∇ → □ → Λ → Α → Ω → Θ → Φ → Χ → Σ → Ψ
+    repository_dependency_order_preserved: true
+    no_new_meta_operators: true
+    no_operator_redefinition: true
+    no_dependency_rewrite: true
+    no_derived_axis_rewrite: true
+    no_direct_adultness_verdict: true
+    overlay_only: true
+    reduced_signatures_are_shorthand_only: true
+    sex_constructs_are_not_pms_base: true
+    mip_docking_required_for_adultness_or_maturity_language: true
+    notes:
+    - >-
+      PMS-SEX uses the default PMS repository dependency path as reference spine for domain-specific application. Reduced
+      formulas are shorthand, not alternative dependency graphs.
+    - >-
+      Publicness, outer legibility, body remainder, direct otherness, sexual cost topology, withdrawal/binding profiles,
+      drift profiles, viability conditions, and MIP docking are PMS-SEX overlay constructs, not PMS operators.
+    - >-
+      Suspended self-binding means Ψ is present as a deliberately suspended attribution condition. It is not absent, replaced,
+      removed, or transformed into a new operator.
+    - >-
+      Sexual cost topology is a scene-bound Ω/Θ cost layout. It is not a score, person measure, dignity measure, maturity
+      measure, sex truth, or genital truth.
+    - >-
+      Dignity-in-Practice remains the PMS-derived construct with canonical derivation [Ψ, Χ, Ω]; PMS-SEX adds application-side
+      D checks without revising PMS-D.
+  nested_overlay_policy:
+    overlays: {}
+    no_amplification_overlay: true
+    no_base_extension: true
+    rule: >-
+      PMS-SEX introduces no PMS operators or dependencies. Its reduced signatures, publicness/documentation overlays, path-cost
+      language, sexual cost topology, EDEN/PFO switch references, asymmetry-switch drift, parity-to-exit, responsibility-to-authority,
+      adult sexual reciprocity, modulators, warning signals, and MIP docking guards remain application-level constructs only.
+  operator_reference:
+    source: PMS.yaml
+    schema_version: PMS_1.3
+    fixed_operator_set:
+    - Δ
+    - ∇
+    - □
+    - Λ
+    - Α
+    - Ω
+    - Θ
+    - Φ
+    - Χ
+    - Σ
+    - Ψ
+    canonical_order:
+    - Δ
+    - ∇
+    - □
+    - Λ
+    - Α
+    - Ω
+    - Θ
+    - Φ
+    - Χ
+    - Σ
+    - Ψ
+    dependencies:
+      Δ: []
+      ∇:
+      - Δ
+      □:
+      - Δ
+      - ∇
+      Λ:
+      - □
+      Α:
+      - Δ
+      - ∇
+      - □
+      - Λ
+      Ω:
+      - Α
+      Θ:
+      - Ω
+      - Α
+      Φ:
+      - Θ
+      - Ω
+      - □
+      Χ:
+      - Φ
+      - Θ
+      - □
+      Σ:
+      - Χ
+      - Φ
+      Ψ:
+      - Σ
+      - Θ
+      - Χ
+    dependency_hygiene:
+      reduced_signatures_are_shorthand: true
+      reduced_signatures_do_not_change_dependencies: true
+      chi_presupposes:
+      - Φ
+      - Θ
+      - □
+      sigma_presupposes:
+      - Χ
+      - Φ
+      psi_presupposes:
+      - Σ
+      - Θ
+      - Χ
+      overlay_concepts_are_not_operators: true
+      drift_profiles_are_not_operators: true
+      axis_refs_are_not_operators: true
+      axis_refs_do_not_modify_pms_axes: true
+      mip_axes_do_not_modify_pms_axes: true
+    no_new_operators: true
+    no_dependency_change: true
+    no_base_revision: true
+  references:
+    pms_base: PMS.yaml / PMS_1.3
+    pms_sex_profile: PMS-SEX.yaml / PMS-SEX_PROFILE
+    pms_sex_case_template: PMS-SEX_CASE_TEMPLATE
+    checked_core_case: <checked PMS-Core case artefact>
+  sex_overlay_scope:
+    scope_guardrails:
+    - Non-metaphysical, non-clinical, non-diagnostic, non-therapeutic.
+    - No person-level judgment, no person-ranking, no orientation taxonomy, no identity verdict.
+    - No maturity hierarchy, dignity hierarchy, humiliation, or moral pathology.
+    - >-
+      No direct adultness verdict; maturity-relevant evaluation belongs only to explicit downstream MIP docking.
+    - >-
+      No how-to guidance, no risk-management manual, no optimization logic, no legal or forensic authority.
+    - Sexual cost topology is scene-bound cost layout, not score or ranking.
+    - Outer legibility is not public-punishment license.
+    - Internal framing is real but not total.
+    - Publicness is overlay, not necessary origin of consequence.
+    - >-
+      Asymmetry-switch drift, parity-to-exit, and responsibility-to-authority are configuration markers, not person labels.
+    - Direct otherness is reality-correction without access entitlement.
+    - Genital meaning must not be converted into genital sovereignty or person truth.
+    - Withdrawal is neither automatic guilt nor automatic exculpation.
+    - Viability means governability, not normality.
+    may_add_visibility_to:
+    - sexuality as recurring praxis pressure
+    - scene/frame grammar
+    - internal framing
+    - outer legibility
+    - pre-reflective scene readability
+    - publicness as □ extension
+    - path-cost / stabilization burden
+    - body as non-operator remainder
+    - sexual cost topology
+    - EDEN/PFO asymmetry-switch sexual instantiation
+    - asymmetry-switch drift
+    - parity-to-exit
+    - responsibility-to-authority
+    - adult sexual reciprocity
+    - asymmetry-specific responsibility
+    - cost-topology mismatch
+    - functional minimum conditions
+    - warning signals
+    - minimal psychology adapter
+    - Dignity-in-Practice module
+    - MIP docking guards
+    must_not_do:
+    - treat sexuality as person essence
+    - treat structural readability as diagnosis
+    - treat path-cost as person value
+    - treat sexual cost topology as maturity or dignity score
+    - treat body remainder as biological taxonomy
+    - treat publicness as accusation license
+    - treat asymmetry activation as automatic drift
+    - treat parity as automatic reciprocity
+    - treat responsibility as authority
+    - treat operator profile as adultness verdict
+    - claim PMS Base validation
+  case_meta:
+    id: <DISCIPLINE-sex-overlay-case-id>
+    title: <DISCIPLINE case title>
+    subtitle: <optional_short_subtitle>
+    status: <draft_overlay | final_overlay | needs_review>
+    model: PMS-SEX
+    model_schema_version: PMS-SEX_PROFILE
+    base_schema: PMS_1.3
+    file_name: <DISCIPLINE case file or overlay output file>
+    authorship:
+      originator: T. Zöller
+      formalization_assistant: ChatGPT 5.5 (Thinking)
+    purpose: >-
+      Demonstrate a bounded PMS-SEX structural overlay for a specified DISCIPLINE case scene while preserving the already
+      completed PMS-Core pass.
+    case_type: >-
+      <minimal_scene | contrast_case | layer_case | drift_case | viability_case | dignity_case | withdrawal_case | embodiment_case
+      | direct_otherness_case | mip_docking_case | non_capture_case | mixed_discipline_overlay>
+    primary_focus:
+      construct: <primary PMS-SEX concept, drift, module, viability condition, or pipeline step>
+      construct_status: >-
+        <concept | drift | drift_set | drift_chain | viability_condition | dignity_condition | mip_gate | limit_guard | example_schema_field>
+      yaml_home: <path in PMS-SEX.yaml>
+      secondary_constructs: []
+      not_a_case_of: []
+    discipline_part: <Part / chapter if applicable>
+    base_core_case_ref: <completed PMS-Core case ref>
+    addon: SEX
+    output_role: replace_existing_SEX_addon_layer_only
+    discipline_overlay_focus: <which old SEX add-on layer is being replaced or updated>
+  case_guardrails:
+    non_diagnostic: true
+    non_prescriptive: true
+    non_verdictive: true
+    non_person_labeling: true
+    non_orientation_taxonomy: true
+    non_sex_ranking: true
+    non_genital_truth: true
+    non_biological_destiny: true
+    no_hidden_motive_inference: true
+    no_psychological_diagnosis: true
+    no_therapy_or_intervention_protocol: true
+    no_practice_guidance: true
+    no_risk_optimization: true
+    no_public_punishment: true
+    no_public_confession_requirement: true
+    description_mode: structural_mapping_only
+    validity_gate_reference: guard_sets.final_profile
+    required_pms_entry_conditions:
+    - Χ
+    - reversibility
+    - Dignity-in-Practice
+    required_pms_sex_conditions:
+    - scene_bound
+    - operator_profile_only
+    - internal_outer_public_layers_distinguished
+    - sexual_cost_topology_explicit_if_relevant
+    - after_scene_dignity_checked_if_relevant
+    - direct_otherness_not_converted_into_access_entitlement
+    - genital_meaning_not_converted_into_genital_sovereignty
+    - withdrawal_not_moralized_or_exculpated_by_default
+    - viability_read_as_governability_not_normality
+    - mip_docking_only_if_maturity_or_adultness_language_appears
+    - visible_form_readability_without_totalization
+    - boundary_aggression_collapse_not_response_authorization
+    - impulse_nearness_not_malice_by_default
+    - lack_of_malice_not_exculpation
+    - unlearned_handling_not_innocence_claim
+    - MIP_no_back_projection_into_SEX_description
+    core_rule: >-
+      Map configurations; do not diagnose persons, prescribe practice, rank sexes, infer motives, or authorize action.
+    invalid_if_any:
+    - scene_packet_replaced_by_impression
+    - operator_trace_used_as_person_verdict
+    - visible_form_totalized_as_whole_configuration
+    - internal_framing_erases_outer_legibility
+    - public_measure_formation_becomes_confession_demand
+    - consent_or_mutuality_substitutes_for_cost_topology
+    - access_threshold_becomes_entitlement
+    - permission_image_treated_as_consent
+    - body_boundary_coding_treated_as_person_truth
+    - genital_meaning_treated_as_genital_sovereignty
+    - withdrawal_treated_as_automatic_guilt
+    - withdrawal_treated_as_automatic_exculpation
+    - D_suspended_for_clarity_or_punishment
+    - description_converted_directly_into_binding_or_action
+    - core_case_rewritten_by_overlay
+    - PMS_operator_redefined
+    - SEX_construct_treated_as_PMS_base
+    - adultness_or_maturity_verdict_made_without_MIP_docking
+    - D_suspended_for_clarity_authority_punishment_or_resolution
+    - moralism_or_pseudo_ought_introduced
+    - boundary_aggression_language_used_as_response_authorization
+    - impulse_nearness_treated_as_malice_by_default
+    - lack_of_malice_treated_as_exculpation
+    - unlearned_handling_treated_as_innocence_claim
+    - MIP_back_projected_into_SEX_person_ontology
+    prohibited_shortcuts:
+    - PMS-SEX-by-vibe
+    - deviance-by-label
+    - practice-label-settles-structure
+    - consent-settles-cost
+    - public-reaction-settles-harm
+    - body-state-proves-person-truth
+    - genital-self-description-settles-analysis
+    - orientation-or-identity-used-as-explanation
+    - motive-inference-from-operator-trace
+    - maturity-verdict-without-MIP-docking
+    - using_SEX_to_correct_or_override_PMS_Core
+    - using_SEX_as_relationship_advice
+    - using_SEX_as_clinical_legal_forensic_or_policy_authority
+    - visibility-settles-whole-configuration
+    - boundary-aggression-collapse-authorizes-response
+    - impulse-nearness-means-malice
+    - lack-of-malice-erases-consequence
+    - unlearned-handling-erases-cost
+    - MIP-result-retrofits-SEX-description
+    no_relationship_advice: true
+    no_legal_forensic_clinical_policy_conclusion: true
+    guard_registry_reference: PMS-SEX.yaml:guard_registry
+    guard_sets_reference: PMS-SEX.yaml:guard_sets.final_profile
+    no_moralism: true
+    no_visibility_totalization: true
+    no_boundary_aggression_authorization: true
+    no_impulse_malice_default: true
+    no_lack_of_malice_exculpation: true
+    no_unlearned_handling_exculpation: true
+  repo_use:
+    status: structural_focus_only
+    intended_use:
+    - scene_bound_analysis
+    - operator_mapping
+    - cost_topology_readout
+    - drift_and_viability_scan
+    - dignity_in_practice_check
+    - mip_docking_gate_if_relevant
+    not_intended_for:
+    - practice_guidance
+    - therapy_or_intervention
+    - legal_or_forensic_judgment
+    - relationship_advice
+    - diagnosis
+    - person_verdict
+    - sexual_identity_taxonomy
+    - maturity_or_adultness_verdict_from_PMS_SEX_alone
+    output_contract: >-
+      A completed case may name scene-bound structures, operator profiles, cost topology, drift risk, viability status, D-status,
+      and docking conditions; it must not prescribe action or decide person status.
+  example_schema_alignment:
+    required_fields_from_PMS_SEX_yaml:
+      vignette: minimal_vignette
+      repo_use: repo_use
+      operator_mapping: scene_packet.operator_trace and pms_sex_map.operator_profile
+      layer_distinction: scene_packet.layer_distinction and pms_sex_map.layer_readout
+      cost_topology: scene_packet.sexual_cost_topology and pms_sex_map.cost_topology_readout
+      drift_readout: pms_sex_map.drift_scan
+      viability_readout: pms_sex_map.viability_readout
+      dignity_readout: pms_sex_map.dignity_in_practice_readout
+      mip_gate: pms_sex_map.mip_docking_gate
+      closure: readable_structural_closure
+    optional_fields_from_PMS_SEX_yaml:
+      direct_otherness_readout: pms_sex_map.direct_otherness_and_access
+      genital_integration_readout: pms_sex_map.embodiment_boundary_genital_readout
+      withdrawal_expectation_readout: pms_sex_map.withdrawal_binding_readout
+      boundary_aggression_readability: >-
+        pms_sex_map.dignity_in_practice_readout.application_condition_profile.boundary_aggression_readability
+      eden_pfo_switch_note: pms_sex_map.asymmetry_activation_and_reciprocity and pms_sex_map.drift_scan
+      publicness_overlay_expansion: scene_packet.layer_distinction.publicness_overlay
+      biological_affordance_guard: scene_packet.embodiment_and_genital_meaning.biological_affordance_guard
+      non_capture_note: pms_sex_map.non_capture_and_limits
+  minimal_vignette:
+    scene: >-
+      <One compact paragraph describing the scene as a mechanism, not only as an end-state. Keep it concrete enough to map
+      role-positions, frame, repetition, medium, tone, timing, asymmetry, cost topology, non-events, body/boundary relevance,
+      direct otherness, withdrawal, and possible drifts. Where relevant, show how after-scene effects grow out of the scene
+      grammar, recurrence, symbolic handling, publicness, documentation, role structure, or cost layout. Do not over-narrate
+      inner motives, fantasies, pathology, or moral quality.>
+    temporal_boundary: >-
+      <where the scene begins, what recurrence or carryover matters, and where the bounded reading ends; include after-scene
+      carryover if relevant>
+    roles:
+    - id: role_A
+      label: >-
+        <scene-bound role-position, not person type; name frame-control, access, continuity, or cost-position only if relevant>
+    - id: role_B
+      label: >-
+        <scene-bound role-position, not person type; name cost-carrying, correction, withdrawal, exposure, or after-scene
+        position only if relevant>
+    - id: field_or_medium
+      label: >-
+        <optional medium, platform, audience, institution, category system, tone, documentation layer, shared narrative,
+        or non-human scene factor>
+    surface_description: <how the scene may initially appear before cost topology and Θ carryover are mapped>
+    pms_sex_question: <what PMS-SEX is testing in this case; formulate as structural test, not advice request>
+  scene_packet:
+    specified_scene: >-
+      <bounded scene under analysis; include the concrete recurrence, medium, tone, publicness, or after-scene boundary if
+      it drives the mechanism>
+    role_positions:
+      role_A:
+        scene_position: >-
+          <position in the scene; describe scene function such as frame-control, access-position, narrative-continuity, asymmetry
+          activation, or cost externalization without person-typing>
+        not_identity: true
+      role_B:
+        scene_position: >-
+          <position in the scene; describe scene function such as cost-carrying, correction-seeking, withdrawal, exposure,
+          body-boundary, or after-scene residue without person-typing>
+        not_identity: true
+      field_or_medium:
+        scene_position: >-
+          <optional field/medium/platform/category/audience/institution/tone/documentation/shared narrative; describe what
+          it stabilizes, amplifies, hides, circulates, or makes costly>
+        not_identity: true
+        optional: true
+    frame:
+      dominant_frame: >-
+        <intimacy | play | service | devotion | experimentation | non_binding | casual | boundary | exposure | publicness
+        | image_mediated | practice_label | authority | protection | parity | mixed | indeterminate>
+      frame_description: >-
+        <how the scene becomes legible inside and outside the scene; include whether the frame merely describes the practice
+        or also protects repetition, cost denial, exit cost, publicness, or symbolic continuity>
+      frame_status: <clear | ambiguous | unstable | contested | collapsed | indeterminate>
+      practice_label_if_any: >-
+        <label used by participants or observers, shared safety narrative, public category, or none>
+      frame_guard: >-
+        Practice labels, safety language, parity claims, and public categories may clarify internal framing but do not settle
+        outer legibility, cost topology, publicness, symbolic residue, or Θ carryover.
+    layer_distinction:
+      internal_framing:
+        description: <how the scene is inhabited, narrated, or understood from within>
+        status: <present | absent | contested | indeterminate>
+      outer_legibility:
+        description: <externally readable action-form without person verdict>
+        status: <low | medium | high | mixed | contested | indeterminate>
+        possible_outer_forms:
+        - >-
+          <asymmetry_form | exposure_form | humiliation_near_form | body_boundary_form | access_form | control_form | authority_form
+          | none | other>
+      publicness_overlay:
+        status: >-
+          <private | semi_private | documented | circulating | public | reputational | institutional | indeterminate>
+        effect: >-
+          <distribution, amplification, documentation, circulation, reputation, sedimentation, or none>
+        measure_vs_confession_guard: >-
+          Sexual praxis may be publicly measure-forming without making private preference confession-mandatory.
+      body_boundary_layer:
+        status: >-
+          <not_relevant | bodily_cost | exposure | boundary | shame | recognition | visibility | reproductive_or_health_cost
+          | genital_meaning | indeterminate>
+        note: <how body/boundary relevance structures the scene, if at all>
+      theta_carryover:
+        status: <none | low | medium | high | accumulating | irreversible | contested | indeterminate>
+        note: <what remains after the local episode>
+      layer_guard: Layers may diverge and must not collapse into each other.
+    operator_trace:
+      status: operator_profile_only
+      operator_reference: operator_spine
+      operator_set_fixed:
+      - Δ
+      - ∇
+      - □
+      - Λ
+      - Α
+      - Ω
+      - Θ
+      - Φ
+      - Χ
+      - Σ
+      - Ψ
+      primary_signature:
+        operators: []
+        shorthand_only: true
+        note: Reduced signatures are analytic shorthand and do not change PMS dependencies.
+      trace:
+        Δ: >-
+          <what specific difference, boundary, category, body/boundary marker, access threshold, or legibility distinction
+          makes this case readable; avoid generic contrast if a concrete scene distinction is available>
+        ∇: >-
+          <what pressure, impulse-nearness, attraction, urgency, tonal charge, escalation, proximity, or activation gradient
+          drives recurrence>
+        □: >-
+          <what frame, scene grammar, label, publicness, safety language, parity claim, or permission structure constrains
+          the scene and possibly protects the drift>
+        Λ: >-
+          <what non-event, silence, delay, refusal, absence, non-binding, avoided re-reading, unnamed cost, or withdrawal
+          structures expectation>
+        Α: >-
+          <what repetition, category, script, attractor, continuity demand, or stabilization path makes the pattern easier
+          to reproduce than to revise>
+        Ω: >-
+          <what asymmetry of access, exposure, cost, power, body, exit, responsibility, interpretation, language, publicness,
+          or correction-capacity is active>
+        Θ: >-
+          <what temporal accumulation, irreversibility, after-cost, documentation residue, reputational sediment, symbolic
+          continuity, or trajectory matters>
+        Φ: >-
+          <what recontextualization, narration, relabeling, justification, safety story, parity story, or later story changes
+          reading without necessarily changing costs>
+        Χ: >-
+          <what distance, stop-capability, meta-commentability, interruption, refusal, pause, re-reading, or correction remains
+          available or becomes costly>
+        Σ: >-
+          <what integration of costs, body, frame, desire, asymmetry, outer legibility, publicness, or contradiction is possible
+          or blocked>
+        Ψ: >-
+          <what self-binding, responsibility, commitment, non-binding, after-scene carry, or externalized binding load appears>
+      dependency_hygiene_note: >-
+        Any Χ, Σ, or Ψ reading presupposes PMS dependency hygiene and does not create a new operator path.
+    sexual_cost_topology:
+      concept_ref: sexual_cost_topology
+      status: <not_relevant | explicit | partial | hidden | denied | contested | indeterminate>
+      governing_rule: >-
+        Sexual cost topology is not a score, person measure, dignity rank, maturity rank, sex truth, or genital truth.
+      cost_dimensions:
+        bodily_costs:
+          role_A: <none | low | medium | high | mixed | indeterminate>
+          role_B: <none | low | medium | high | mixed | indeterminate>
+        exposure_costs:
+          role_A: <none | low | medium | high | mixed | indeterminate>
+          role_B: <none | low | medium | high | mixed | indeterminate>
+        reputational_costs:
+          role_A: <none | low | medium | high | mixed | indeterminate>
+          role_B: <none | low | medium | high | mixed | indeterminate>
+        symbolic_continuity_costs:
+          role_A: <none | low | medium | high | mixed | indeterminate>
+          role_B: <none | low | medium | high | mixed | indeterminate>
+        temporal_costs:
+          role_A: <none | low | medium | high | mixed | indeterminate>
+          role_B: <none | low | medium | high | mixed | indeterminate>
+        tonal_handling_costs:
+          role_A: <none | low | medium | high | mixed | indeterminate>
+          role_B: <none | low | medium | high | mixed | indeterminate>
+        binding_costs:
+          role_A: <none | low | medium | high | mixed | indeterminate>
+          role_B: <none | low | medium | high | mixed | indeterminate>
+        interruption_costs:
+          role_A: <none | low | medium | high | mixed | indeterminate>
+          role_B: <none | low | medium | high | mixed | indeterminate>
+        exit_costs:
+          role_A: <none | low | medium | high | mixed | indeterminate>
+          role_B: <none | low | medium | high | mixed | indeterminate>
+        documentation_or_trace_costs:
+          role_A: <none | low | medium | high | mixed | indeterminate>
+          role_B: <none | low | medium | high | mixed | indeterminate>
+        publicness_costs:
+          role_A: <none | low | medium | high | mixed | indeterminate>
+          role_B: <none | low | medium | high | mixed | indeterminate>
+        body_boundary_costs:
+          role_A: <none | low | medium | high | mixed | indeterminate>
+          role_B: <none | low | medium | high | mixed | indeterminate>
+        access_costs:
+          role_A: <none | low | medium | high | mixed | indeterminate>
+          role_B: <none | low | medium | high | mixed | indeterminate>
+        responsibility_costs:
+          role_A: <none | low | medium | high | mixed | indeterminate>
+          role_B: <none | low | medium | high | mixed | indeterminate>
+        after_scene_dignity_costs:
+          role_A: <none | low | medium | high | mixed | indeterminate>
+          role_B: <none | low | medium | high | mixed | indeterminate>
+      asymmetry_specific_responsibility:
+        role_A: >-
+          <what self-binding follows from role_A's actual cost, power, exit, access, or externalization profile>
+        role_B: >-
+          <what self-binding follows from role_B's actual cost, power, exit, access, or externalization profile>
+        field_or_medium: <what the medium/frame/category/audience structures, if relevant>
+      mismatch_check:
+        declared_parity: <present | absent | contested | indeterminate>
+        real_cost_distribution: <aligned | mismatched | hidden | disputed | indeterminate>
+        decisive_mismatch: >-
+          <if relevant, name the concrete mismatch between declared frame and real cost distribution, such as symbolic continuity,
+          interruption cost, exit cost, documentation, body-boundary burden, responsibility externalization, or after-scene
+          dignity>
+        possible_drift_ref: cost_topology_mismatch
+      guard: >-
+        Do not infer equal burdens, equal responsibility, guilt, rank, or person worth from cost topology. The issue is not
+        unequal cost as such, but whether unequal cost is named, carried, integrated, or externalized.
+    direct_otherness:
+      concept_ref: direct_otherness
+      status: <present | weak | absent | substituted | blocked | indeterminate>
+      real_other_correction:
+        available: <true | false | contested | indeterminate>
+        description: >-
+          <how a real other can respond, refuse, invite, misunderstand, correct, desire, withdraw, delay, or remain non-identical
+          with the script>
+      substitution_checks:
+        image_category_or_script_substitution: <present | absent | weak | indeterminate>
+        permission_image: <present | absent | weak | indeterminate>
+        simulated_counterdesire: <present | absent | weak | indeterminate>
+        access_counterdesire_loop: <present | absent | weak | indeterminate>
+      access_guard: >-
+        Direct otherness is reality-correction without access entitlement. No person owes access, desire, correction, explanation,
+        or availability.
+    embodiment_and_genital_meaning:
+      body_remainder_relevance: >-
+        <not_relevant | consequence_interface | visibility | irreversibility | cost_recognition | indeterminate>
+      biological_affordance_guard:
+        status: active
+        note: >-
+          Biology may structure affordances, risks, asymmetries, thresholds, and likely strategy spaces without establishing
+          destiny, rank, role, or moral evidence.
+      sexed_dependency_guard:
+        status: active
+        note: >-
+          Sexed dependency does not imply relationship mandate, heterosexual mandate, reproductive command, orientation ranking,
+          or person incompleteness.
+      body_boundary_coding:
+        status: <not_relevant | present | high_density | contested | indeterminate>
+        markers:
+        - >-
+          <body_state | exposure | withholding | opening | refusal | shame | recognition | boundary_form | bodily_consequence
+          | none>
+      genital_meaning:
+        status: <not_relevant | present | contested | overread | indeterminate>
+        integration_status: <integrated | partially_integrated | denied | enthroned | externalized | indeterminate>
+        sovereignty_risk: <none | low | medium | high | contested | indeterminate>
+      adult_sexual_emancipation_check:
+        formula: genital integration without genital sovereignty
+        status: >-
+          <not_relevant | supported | partial | blocked | replaced_by_sovereign_self_description | indeterminate>
+      guard: The genital belongs to the person; the person does not belong to the genital.
+    withdrawal_and_binding:
+      covert_psi_expectation:
+        status: <absent | weak | present | contested | indeterminate>
+        sources:
+        - >-
+          <care | access | repetition | ambiguity | desire | secrecy | after_scene_conduct | none | other>
+      ambivalence_withdrawal:
+        status: <not_relevant | structurally_adult | drift_risk | disowned_cost | indeterminate>
+        note: >-
+          <if relevant, whether withdrawal remains honestly framed and after-scene dignity is carried>
+      post_access_withdrawal:
+        status: <not_relevant | structurally_adult | drift_risk | disowned_cost | indeterminate>
+        note: >-
+          <if relevant, whether access-threshold pressure resolves without carrying after-scene cost>
+      non_binding_language:
+        status: <clear | ambiguous | shielding | mismatched | indeterminate>
+        cost_relation: <does non-binding language match or erase structured Ψ-expectation?>
+      after_scene_dignity:
+        status: <intact | strained | failed | contested | indeterminate>
+        markers:
+        - >-
+          <no_person_shrinking | shame_residue | self_worth_leak | blame_reversal | responsibility_flight | degradation
+          | immunity | none>
+      withdrawal_guard: Withdrawal is neither automatic guilt nor automatic exculpation.
+    asymmetry_activation_and_reciprocity:
+      sexual_reciprocity_under_real_asymmetry:
+        status: <supported | partial | strained | failed | not_relevant | indeterminate>
+        rule: >-
+          Sexual reciprocity does not require equal burdens; it requires that unequal burdens not be externalized.
+      asymmetry_activation:
+        present: <true | false | contested | indeterminate>
+        marked: <true | false | contested | indeterminate>
+        bounded: <true | false | contested | indeterminate>
+        linked_to_real_omega_theta_burden: <true | false | contested | indeterminate>
+        rebound_into_sigma_psi_where_relevant: <true | false | contested | indeterminate>
+        possible_drift_refs:
+        - unmarked_omega_activation
+        - asymmetry_switch_drift
+        - parity_to_exit
+        - responsibility_to_authority
+      guard: >-
+        Asymmetry is not the problem; false coordination or unmarked activation of real asymmetry is the problem.
+  pms_sex_map:
+    scene_packet_summary:
+      field_id: 1
+      bounded_scene: <one-sentence scene boundary>
+      main_structural_question: <what the template is testing>
+      strongest_non_capture_possibility: <plausible reason PMS-SEX may not capture the scene or should narrow its 
+        reading>
+    layer_readout:
+      field_id: 2
+      internal_outer_public_relation: <aligned | divergent | collapsed | contested | indeterminate>
+      internal_framing_result: <summary>
+      outer_legibility_result: <summary>
+      publicness_result: <summary>
+      visible_form_totalization_risk: <none | low | medium | high | contested | indeterminate>
+      result: <structural layer conclusion>
+      guardrail: >-
+        Internal meaning may be real without erasing outer form; outer legibility may be named without ranking persons.
+    operator_profile:
+      field_id: 3
+      dominant_ops:
+      - <operator_id>
+      reduced_signature: <optional shorthand, or null>
+      dependency_integrity: preserved
+      profile_summary: <compact Δ–Ψ reading>
+      not_claimed:
+      - operator_redefinition
+      - new_pms_axis
+      - adultness_verdict
+      - person_label
+    cost_topology_readout:
+      field_id: 4
+      concept_ref: sexual_cost_topology
+      topology_status: <explicit | partial | hidden | denied | mismatched | contested | indeterminate>
+      principal_costs:
+      - <cost dimension most relevant to the case>
+      externalization_pattern:
+        status: <none | weak | present | contested | indeterminate>
+        description: >-
+          <whose cost, binding, exposure, repair, stop-capability, or explanation burden is shifted where>
+      asymmetry_specific_responsibility_result: >-
+        <what role-specific self-binding would have to carry structurally, without prescribing action>
+      possible_drift_ref: >-
+        <cost_topology_mismatch | parity_to_exit | responsibility_to_authority | none | indeterminate>
+      guardrail: Cost topology does not rank suffering, worth, maturity, dignity, sex, or biology.
+    direct_otherness_and_access:
+      field_id: 5
+      direct_otherness_status: <present | weak | absent | substituted | blocked | indeterminate>
+      access_logic_status: >-
+        <not_relevant | threshold | frustration | entitlement_risk | category_mediated | indeterminate>
+      image_mediation_status: >-
+        <none | permission_image | simulated_counterdesire | access_counterdesire_loop | category_monopolization | mixed |
+        indeterminate>
+      possible_drift_refs:
+      - direct_otherness_failure
+      - access_entitlement_drift
+      - category_monopolization
+      result: >-
+        <whether real correction by an other remains available or is replaced by image/category/self-description>
+      guardrail: Access threshold-language must not become entitlement. Permission-image is not consent.
+    embodiment_boundary_genital_readout:
+      field_id: 6
+      body_boundary_status: <not_relevant | present | high_density | drift_risk | contested | indeterminate>
+      genital_meaning_status: >-
+        <not_relevant | integrated | denied | enthroned | sovereignty_risk | contested | indeterminate>
+      biological_affordance_status: <not_relevant | affordance_only | destiny_risk | rank_risk | indeterminate>
+      possible_drift_refs:
+      - body_boundary_person_truth_drift
+      - genital_sovereignty_drift
+      adult_sexual_emancipation_result: <not_relevant | integration_without_sovereignty | partial | failed | 
+        indeterminate>
+      guardrail: Body and genital meaning are real where relevant, but they do not become person truth.
+    withdrawal_binding_readout:
+      field_id: 7
+      covert_psi_expectation_status: <absent | weak | present | contested | indeterminate>
+      withdrawal_profile: >-
+        <none | ambivalence_withdrawal | post_access_withdrawal | non_event_steering | mixed | indeterminate>
+      non_binding_status: <honest | ambiguous | mismatched | shielding | indeterminate>
+      after_scene_dignity_status: <intact | strained | failed | contested | indeterminate>
+      possible_drift_refs:
+      - covert_psi_expectation_drift
+      - withdrawal_expectation_disowned
+      - after_scene_dignity_failure
+      result: <whether withdrawal/non-binding is structurally adult, indeterminate, or cost-disowning>
+      guardrail: Do not convert withdrawal into automatic guilt or automatic exculpation.
+    drift_scan:
+      field_id: 8
+      max_primary_drifts: 3
+      selected_drift_sets:
+        core_dysfunction_markers: false
+        final_overlay_markers: false
+        eden_pfo_drift_triad: false
+        access_and_category_drifts: false
+        embodiment_drifts: false
+        withdrawal_and_binding_drifts: false
+        mip_relevant_profiles: false
+      primary_drift_readout:
+      - drift_ref: <drift_id_or_null>
+        support: >-
+          <strong | weak | mixed | secondary | contested | provisional | indeterminate | suspended | defeated>
+        operator_basis: []
+        evidence_basis:
+        - <scene-bound structural basis, not motive inference>
+        counter_evidence:
+        - <condition weakening this drift reading>
+        not_a_person_label: true
+      drift_chain_readout:
+        candidate_chain: >-
+          <primary_destructive_chain | non_event_attractor_chain | layer_collapse_chain | eden_pfo_sexual_drift_chain | category_access_body_chain
+          | genital_sovereignty_chain | withdrawal_expectation_chain | none | indeterminate>
+        support: >-
+          <strong | weak | mixed | secondary | contested | provisional | indeterminate | suspended | defeated>
+        sequence_fit: <which steps fit and which do not>
+      drift_guardrail: >-
+        Drift profiles describe configuration trajectories, not persons, identities, pathologies, orientations, or moral rank.
+      source_drift_ids_to_check:
+      - psi_leak
+      - covert_psi_expectation_drift
+      - psi_externalization
+      - omega_escalation
+      - pseudo_symmetry_drift
+      - non_event_steering
+      - alpha_fixation
+      - category_monopolization
+      - theta_overload
+      - phi_inflation
+      - chi_loss
+      - outer_form_denial
+      - visible_form_fixation
+      - publicness_confusion
+      - access_entitlement_drift
+      - direct_otherness_failure
+      - body_boundary_person_truth_drift
+      - genital_sovereignty_drift
+      - withdrawal_expectation_disowned
+      - after_scene_dignity_failure
+      - unmarked_omega_activation
+      - asymmetry_switch_drift
+      - parity_to_exit
+      - responsibility_to_authority
+      - boundary_aggression_collapse
+      - sexed_leniency_drift
+      - asymmetric_self_control_burden
+      - humiliation_to_control_collapse_corridor
+      - cost_topology_mismatch
+      source_drift_chains_to_check:
+      - primary_destructive_chain
+      - non_event_attractor_chain
+      - layer_collapse_chain
+      - eden_pfo_sexual_drift_chain
+      - category_access_body_chain
+      - genital_sovereignty_chain
+      - withdrawal_expectation_chain
+      source_drift_guardrail: All drift references are configuration trajectories, not persons, identities, pathologies,
+        orientations, sex essences, maturity levels, or moral rank.
+    viability_readout:
+      field_id: 9
+      viability_status: >-
+        <structurally_governable | partially_governable | unstable | drift_dominant | indeterminate | non_capture>
+      viability_is: governability_not_normality
+      checks:
+        frame_explicit: <pass | partial | fail | contested | indeterminate>
+        omega_nameable: <pass | partial | fail | contested | indeterminate>
+        theta_realistic: <pass | partial | fail | contested | indeterminate>
+        chi_operable: <pass | partial | fail | contested | indeterminate>
+        lambda_tolerable: <pass | partial | fail | contested | indeterminate>
+        psi_handled: <pass | partial | fail | contested | indeterminate>
+        sigma_reachable_where_needed: <pass | partial | fail | contested | indeterminate>
+        cost_topology_explicit: <pass | partial | fail | contested | indeterminate>
+        category_pressure_proportional: <pass | partial | fail | contested | indeterminate>
+        access_non_entitled: <pass | partial | fail | contested | indeterminate>
+        body_boundary_coding_scene_bound: <pass | partial | fail | contested | indeterminate>
+        direct_otherness_non_entitled: <pass | partial | fail | contested | indeterminate>
+        genital_meaning_integrated_not_sovereign: <pass | partial | fail | contested | indeterminate>
+        withdrawal_expectations_honestly_carried: <pass | partial | fail | contested | indeterminate>
+        after_scene_dignity_intact: <pass | partial | fail | contested | indeterminate>
+        boundary_aggression_distinguishable: <pass | partial | fail | contested | indeterminate>
+        asymmetry_activation_marked_bounded_rebound: <pass | partial | fail | contested | indeterminate>
+        no_parity_to_exit: <pass | partial | fail | contested | indeterminate>
+        no_responsibility_to_authority: <pass | partial | fail | contested | indeterminate>
+      minimal_corridor_result: <pass | partial | fail | contested | indeterminate>
+      failure_or_strain_points:
+      - <viability condition that fails or strains>
+      guardrail: >-
+        A viability failure is not a person verdict, moral verdict, diagnosis, or practice ranking.
+      source_requires_groups:
+        frame:
+        - frame_explicit
+        - internal_outer_public_layers_not_collapsed
+        - practice_labels_do_not_end_structural_reading
+        cost_axis:
+        - omega_nameable
+        - theta_realistic
+        - cost_topology_explicit
+        - non_delegable_costs_nameable
+        - externalizable_costs_nameable
+        distance_and_correction:
+        - chi_operable
+        - stop_capability_available
+        - meta_commentability_available
+        - real_other_remains_free_to_refuse_script
+        - no_access_entitlement
+        binding:
+        - psi_handled
+        - no_covert_psi_as_default_carrier
+        - non_binding_language_does_not_erase_structured_expectation
+        - unequal_burdens_not_externalized
+        embodiment:
+        - biology_read_as_affordance_not_destiny
+        - sexed_dependency_read_without_relationship_mandate
+        - body_boundary_coding_scene_bound
+        - genital_meaning_integrated_not_sovereign
+        after_scene:
+        - after_scene_dignity_intact
+        - no_person_shrinking
+        - no_shame_residue_dumping
+        - no_self_worth_leak
+        - no_retrospective_responsibility_flight
+        asymmetry_activation:
+        - activation_marked
+        - activation_bounded
+        - activation_linked_to_real_omega_theta_burden
+        - activation_rebound_into_sigma_psi_where_relevant
+        - activation_not_repeatable_unmarked_exception
+      source_minimal_corridor_sequence:
+      - frame_explicit
+      - omega_nameable
+      - theta_realistic
+      - chi_operable
+      - lambda_tolerable
+      - psi_handled
+      - sigma_reachable_where_needed
+      - cost_topology_explicit
+      - category_pressure_proportional
+      - access_non_entitled
+      - body_boundary_coding_scene_bound
+      - direct_otherness_non_entitled
+      - genital_meaning_integrated_not_sovereign
+      - withdrawal_expectations_honestly_carried
+      - after_scene_dignity_intact
+      - boundary_aggression_distinguishable
+      - asymmetry_activation_marked_bounded_rebound
+      - no_parity_to_exit
+      - no_responsibility_to_authority
+      source_sexual_reciprocity_principle: unequal_burdens_must_not_be_externalized
+    dignity_in_practice_readout:
+      field_id: 10
+      module_ref: modules.dignity_in_practice
+      D_status: <preserved | strained | failed | contested | indeterminate>
+      application_condition_profile:
+        explicit_omega: <pass | partial | fail | contested | indeterminate>
+        operative_chi: <pass | partial | fail | contested | indeterminate>
+        no_covert_psi_demand_under_theta: <pass | partial | fail | contested | indeterminate>
+        after_scene_dignity: <pass | partial | fail | contested | indeterminate>
+        marked_bounded_asymmetry_activation: <pass | partial | fail | contested | indeterminate>
+        no_parity_to_exit: <pass | partial | fail | contested | indeterminate>
+        no_responsibility_to_authority: <pass | partial | fail | contested | indeterminate>
+        boundary_aggression_readability: <pass | partial | fail | contested | indeterminate>
+        outer_form_readability_without_visible_form_totalization: <pass | partial | fail | contested | indeterminate>
+      critique_drift_refs:
+      - <drift_id_if_D_relevant>
+      not_critique_by_itself:
+      - outer_legibility
+      - pre_reflective_readability
+      - publicness_as_overlay
+      - sexual_cost_topology
+      - biological_affordance_without_destiny
+      - body_boundary_coding
+      - genital_meaning
+      - withdrawal
+      - marked_bounded_asymmetry_activation
+      result: <D reading without person-status claim>
+      guardrail: Dignity in sexual practice is about how asymmetry is carried, not who someone is.
+      source_critique_drift_refs:
+      - psi_leak
+      - covert_psi_expectation_drift
+      - omega_escalation
+      - pseudo_symmetry_drift
+      - theta_overload
+      - outer_form_denial
+      - visible_form_fixation
+      - publicness_confusion
+      - asymmetry_switch_drift
+      - parity_to_exit
+      - responsibility_to_authority
+      - after_scene_dignity_failure
+      - boundary_aggression_collapse
+      - sexed_leniency_drift
+      - asymmetric_self_control_burden
+      - humiliation_to_control_collapse_corridor
+      - genital_sovereignty_drift
+      source_application_requires:
+      - explicit_omega
+      - operative_chi
+      - no_covert_psi_demand_under_theta
+      - after_scene_dignity
+      - marked_bounded_asymmetry_activation
+      - no_parity_to_exit
+      - no_responsibility_to_authority
+      - boundary_aggression_readability
+      - outer_form_readability_without_visible_form_totalization
+      source_closure_marker: Dignity in sexual practice is not about who someone is, but about how asymmetry is carried.
+    minimal_psychology_gate:
+      field_id: 11
+      module_ref: modules.minimal_psychology_adapter
+      activate: <true | false | indeterminate>
+      activation_conditions:
+        drift_marker_present: <true | false | contested | indeterminate>
+        viability_conditions_not_restoring_correction: <true | false | contested | indeterminate>
+        configuration_repeats_voluntarily: <true | false | contested | indeterminate>
+      permitted_question: What structural role is this desire playing in this configuration?
+      allowed_alarm_output: >-
+        <drift_persistence_present | structural_self_correction_failing | chi_frame_theta_require_reactivation | none | indeterminate>
+      prohibited_outputs:
+      - diagnosis
+      - motive_explanation
+      - clinical_claim
+      - identity_verdict
+      - orientation_claim
+      - maturity_verdict
+      - dignity_status_claim
+      - sex_truth
+      - genital_truth
+      - practice_instruction
+      result: <structural alarm only, or not activated>
+      source_typical_drift_refs:
+      - psi_leak
+      - covert_psi_expectation_drift
+      - omega_escalation
+      - chi_loss
+      - theta_overload
+      - outer_form_denial
+      - visible_form_fixation
+      - category_monopolization
+      - direct_otherness_failure
+      - genital_sovereignty_drift
+      - asymmetry_switch_drift
+      - parity_to_exit
+      - responsibility_to_authority
+      - boundary_aggression_collapse
+      - withdrawal_expectation_disowned
+      - after_scene_dignity_failure
+      allowed_alarm_outputs_reference:
+      - drift_persistence_present
+      - structural_self_correction_failing
+      - chi_frame_theta_require_reactivation
+      - internal_framing_insufficient_to_settle_enacted_structure
+      - outer_legibility_and_cost_distribution_require_re_reading_without_person_ranking
+      - visible_form_readable_without_totalization
+      - asymmetry_activation_requires_marking_bounding_rebinding
+      - parity_and_responsibility_language_require_cost_topology_re_reading
+      - boundary_and_aggression_require_structural_re_distinction
+      - genital_meaning_requires_integration_without_sovereignty
+      - withdrawal_requires_re_reading_against_structured_psi_expectation_and_after_scene_dignity
+      permitted_warning_hypothesis: Desire-language may be functioning as a drift-maintaining mechanism rather than as 
+        play, exploration, negotiated intensity, bounded practice, marked asymmetry activation, or structurally honest 
+        withdrawal.
+      prohibited_outputs_reference:
+      - diagnosis
+      - motive_explanation
+      - clinical_claim
+      - identity_verdict
+      - orientation_claim
+      - maturity_verdict
+      - dignity_status_claim
+      - sex_truth
+      - genital_truth
+      - biological_rank
+      - practice_instruction
+    mip_docking_gate:
+      field_id: 12
+      module_ref: modules.mip_docking
+      activate: <true | false | indeterminate>
+      trigger_conditions:
+        adultness_language_present: <true | false | indeterminate>
+        maturity_language_present: <true | false | indeterminate>
+        public_critique_language_present: <true | false | indeterminate>
+        responsibility_evaluation_required: <true | false | indeterminate>
+        system_or_regime_lens_required: <true | false | indeterminate>
+        operator_profile_needs_evaluative_ordering: <true | false | indeterminate>
+      pms_sex_records_only:
+        operator_profile: <profile summary if docking is activated>
+        drift_refs:
+        - <drift_id_if_relevant>
+      proper_question_if_activated: <one MIP-docking question, or null>
+      improper_questions_blocked:
+      - what_kind_of_person_does_this
+      - what_identity_or_orientation_does_this_reveal
+      - is_this_person_adult
+      - is_this_person_lower_in_dignity
+      - what_clinical_or_moral_defect_explains_this
+      docking_status: <not_needed | available | activated | deferred | blocked | indeterminate>
+      guardrail: PMS-SEX explains structure; MIP explains when critique is legitimate.
+      source_proper_questions_reference:
+      - did_role_position_carry_asymmetry_specific_self_binding
+      - was_self_binding_required_by_cost_power_exposure_exit_frame_control_and_externalization_profile_carried
+      - was_critique_legitimate_given_scene_bound_A_C_R_P_D_conditions
+      - did_public_critique_preserve_D_and_avoid_person_ranking
+      source_no_back_projection_rules:
+      - MIP_must_not_import_moral_psychology_into_PMS_SEX_description
+      - PMS_SEX_must_not_smuggle_evaluation_as_neutral_description
+      - outer_legibility_does_not_by_itself_authorize_public_critique
+      - path_cost_does_not_by_itself_establish_immaturity_or_blame
+      - drift_profile_does_not_by_itself_establish_person_adultness_failure
+      source_docking_axes_note: These labels belong to the MIP docking interface and do not redefine PMS-derived axes A,
+        C, R, E, or D.
+      source_IA_box_note_on_R: R in IA_box means reversibility, distinct from R as responsibility.
+      source_closure_marker: PMS-SEX explains how structures work; MIP explains when critique is legitimate.
+    non_capture_and_limits:
+      field_id: 13
+      adjacent_lenses_needed:
+      - >-
+        <therapy | law | ethics | empirical_reconstruction | sociology | discourse_analysis | phenomenology | community_history
+        | MIP | none | other>
+      stronger_rival_or_counter_reading: <what could better explain or narrow the PMS-SEX reading>
+      counter_scene_or_falsifier:
+        status: <available | weak | absent | indeterminate>
+        strongest_counter_reading: <scene-bound reading that could narrow, suspend, or defeat the PMS-SEX mapping>
+        would_weaken_reading_if:
+        - <condition that would make the primary reading weaker>
+        would_defeat_reading_if:
+        - <condition that would defeat the primary reading>
+      non_capture_status: <none | partial | strong | indeterminate>
+      prohibited_crossing_checked:
+        diagnosis: true
+        legal_conclusion: true
+        therapy_guidance: true
+        moral_verdict: true
+        policy_recommendation: true
+        practice_instruction: true
+      result: <whether PMS-SEX remains sufficient, partial, or should stop>
+      final_scope_guard: PMS-SEX reads what configurations do over time; it does not decide what persons are.
+    final_validity_gate:
+      field_id: 14
+      pipeline_step_ref: analysis_pipeline.steps.final_validity_gate
+      requires:
+        chi_preserved: <pass | partial | fail | contested | indeterminate>
+        reversibility_preserved: <pass | partial | fail | contested | indeterminate>
+        D_preserved: <pass | partial | fail | contested | indeterminate>
+        no_person_verdict: <pass | partial | fail | contested | indeterminate>
+        no_practice_guidance: <pass | partial | fail | contested | indeterminate>
+        no_public_punishment: <pass | partial | fail | contested | indeterminate>
+        no_cost_score: <pass | partial | fail | contested | indeterminate>
+        operator_profile_only: <pass | partial | fail | contested | indeterminate>
+        mip_docking_required_if_maturity_language_appears: <pass | partial | fail | contested | indeterminate>
+      final_profile_guard_set: guard_sets.final_profile
+      result: >-
+        <valid_description | valid_with_MIP_docking_needed | narrowed | provisional | suspended | invalid_as_PMS_SEX_case>
+      final_invalid_if_any:
+      - person_verdict_present
+      - diagnosis_present
+      - practice_guidance_present
+      - public_punishment_or_humiliation_present
+      - sexual_cost_topology_used_as_score
+      - operator_profile_used_as_adultness_verdict
+      - MIP_docking_bypassed_where_maturity_or_adultness_language_is_used
+  construct_selection:
+    primary_construct:
+      key: <schema_key_or_case_focus>
+      label: <human-readable construct name>
+      status: >-
+        <concept | drift | drift_set | drift_chain | viability_condition | dignity_condition | mip_gate | limit_guard | non_capture>
+      yaml_home: <path in PMS-SEX.yaml>
+      support: >-
+        <strong | weak | mixed | secondary | contested | provisional | indeterminate | suspended | defeated>
+    secondary_constructs:
+    - key: <optional secondary construct>
+      label: <human-readable construct name>
+      status: >-
+        <concept | drift | drift_set | drift_chain | viability_condition | dignity_condition | mip_gate | limit_guard |
+        non_capture>
+      yaml_home: <path in PMS-SEX.yaml>
+      support: >-
+        <strong | weak | mixed | secondary | contested | provisional | indeterminate | suspended | defeated>
+    explicitly_not_claimed:
+    - No person diagnosis.
+    - No hidden motive inference.
+    - No practice instruction.
+    - No orientation taxonomy.
+    - No sex truth.
+    - No genital truth.
+    - No biological destiny.
+    - No relationship mandate.
+    - No access entitlement.
+    - No maturity or adultness verdict from PMS-SEX alone.
+    - No dignity hierarchy.
+    - No public punishment or humiliation as critique mode.
+    - No final capture where non-capture is plausible.
+  readable_structural_closure:
+    summary: >-
+      <Final prose summary of the PMS-SEX reading in 5-7 sentences. It should name the scene structure, principal operator
+      profile, cost topology, relevant drifts or viability limits, and the strength and limits of the reading. It must include
+      the concrete case formula in the form: X remains locally/formally intact while Y produces Z under Ω/Θ, straining Χ/Σ/Ψ.
+      It must not tell anyone what to do.>
+    main_formula_used: >-
+      <central formula or marker for this example; prefer a compact formula such as X_remains_intact_while_Y_accumulates_Ω/Θ_costs_that_strain_Χ/Σ/Ψ>
+    support_level: >-
+      <strong | weak | mixed | secondary | contested | provisional | indeterminate | suspended | defeated>
+    final_status: >-
+      <description_only | non_capture | narrowed_reading | contested_reading | provisional_reading | suspended_reading | defeated_non_capture>
+    final_guardrail: >-
+      This example maps a scene. It does not diagnose persons, rank sexes, prescribe practice, or authorize intervention.
+    required_final_phrase: >-
+      This remains a scene-bound structural reading, not a diagnosis, verdict, instruction, or person-status claim.
+  assistant_test_vectors:
+    should_recognize:
+    - internal framing and outer legibility may diverge
+    - sexual cost topology must be mapped separately from consent or mutuality
+    - direct otherness is reality-correction without access entitlement
+    - >-
+      withdrawal may be adult or drift-relevant depending on structured Ψ-expectation and after-scene dignity
+    - genital meaning is real but must not become genital sovereignty
+    - Dignity-in-Practice concerns how asymmetry is carried
+    should_not_infer:
+    - hidden motive
+    - personality
+    - pathology
+    - orientation essence
+    - sex essence
+    - genital truth
+    - biological destiny
+    - moral guilt
+    - adultness verdict
+    - action recommendation
+    should_push_back_when:
+    - the user asks for a diagnosis or person label
+    - the user asks what someone should do sexually or relationally
+    - the scene is not bounded enough to map operator profiles
+    - consent language is used to erase cost topology
+    - publicness is used to justify shaming or exposure
+    - outer form is totalized as the whole configuration
+    - body or genital meaning is converted into person truth
+    - a drift reading has no counter-scene or falsifier
+    required_final_phrase: >-
+      This remains a scene-bound structural reading, not a diagnosis, verdict, instruction, or person-status claim.
+  core_anchor:
+    core_to_sex_bridge:
+      what_sex_overlay_may_reuse:
+      - scene boundary
+      - role positions
+      - operator trace
+      - asymmetry and temporality anchors
+      - boundary and non-capture notes
+      what_sex_overlay_must_not_change:
+      - Core operator conclusions
+      - Core derived-axis readings
+      - Core QC
+      - Core claim boundaries
+      - Core non-capture status
+      bridge_question: >-
+        <What sexuality-specific structure becomes visible here that the Core pass did not isolate as PMS-SEX structure?>
+    checked_core_case_summary:
+      core_scene_boundary: <copy or summarize the already completed Core scene boundary>
+      core_operator_signature: <copy existing Core operator signature if available>
+      core_primary_asymmetry_or_pattern: <copy existing Core Ω/Α/Θ finding if available>
+      core_boundary_discipline: <copy existing Core limitation / non-capture / rival-reading notes if available>
+  profile_map_alignment:
+    status: reference_alignment_to_current_PMS_SEX_yaml
+    guard_registry: PMS-SEX.yaml:guard_registry
+    guard_sets: PMS-SEX.yaml:guard_sets
+    operator_spine: PMS-SEX.yaml:operator_spine
+    concepts: PMS-SEX.yaml:concepts
+    concept_sets: PMS-SEX.yaml:concept_sets
+    drifts: PMS-SEX.yaml:drifts
+    drift_sets: PMS-SEX.yaml:drift_sets
+    viability: PMS-SEX.yaml:viability
+    modules: PMS-SEX.yaml:modules
+    analysis_pipeline: PMS-SEX.yaml:analysis_pipeline
+    example_schema: PMS-SEX.yaml:example_schema
+    final_profile_guard: PMS-SEX.yaml:final_profile_guard
+    rule: >-
+      Use PMS-SEX profile registries as reference sources; do not copy them into PMS Base or turn them into independent DISCIPLINE
+      primitives.
+  example_suite_schema_alignment:
+    status: reference_only_not_used_as_case_output
+    source: PMS-SEX.yaml:example_schema and PMS-SEX_CASE_TEMPLATE
+    required_blocks_reference:
+    - Minimal vignette / scene-bound input
+    - Why repo-useful / structural focus
+    - Operator mapping / reduced signature
+    - Inner / outer / public layer scan
+    - Sexual cost topology scan
+    - Drift markers
+    - Switch-drift markers
+    - Validity gate reminder
+    - Readable structural closure
+    optional_blocks_reference:
+    - Modulators
+    - MIP docking guard
+    - Minimal psychology adapter
+    - Publicness overlay
+    forbidden:
+    - pornographic or arousal-oriented rendering
+    - how-to guidance
+    - diagnostic labeling
+    - moral verdict
+    - person ranking
+    - orientation taxonomy
+    - adultness verdict
+    discipline_case_policy: >-
+      DISCIPLINE cases do not generate a separate PMS-SEX example suite unless explicitly requested. The schema is retained
+      as reference for scene-bound, non-instructional rendering discipline only.
+    current_required_fields:
+    - vignette
+    - repo_use
+    - operator_mapping
+    - layer_distinction
+    - cost_topology
+    - drift_readout
+    - viability_readout
+    - dignity_readout
+    - mip_gate
+    - closure
+    current_optional_fields:
+    - direct_otherness_readout
+    - genital_integration_readout
+    - withdrawal_expectation_readout
+    - boundary_aggression_readability
+    - eden_pfo_switch_note
+    - publicness_overlay_expansion
+    - biological_affordance_guard
+    - non_capture_note
+  analysis_pipeline_alignment:
+    status: reference_alignment_only
+    source: PMS-SEX.yaml:analysis_pipeline
+    step_ids:
+    - scene_boundary
+    - operator_spine_check
+    - layer_scan
+    - biology_and_sexed_dependency_guard
+    - cost_axis_scan
+    - direct_otherness_scan
+    - genital_integration_scan
+    - withdrawal_and_binding_scan
+    - drift_scan
+    - switch_drift_scan
+    - viability_check
+    - minimal_psychology_gate
+    - mip_docking_gate
+    - final_validity_gate
+    discipline_use: >-
+      Use as ordering/check discipline inside the SEX overlay; do not require a separate standalone PMS-SEX report unless
+      explicitly requested.
+  final_profile_guard_alignment:
+    source: PMS-SEX.yaml:final_profile_guard
+    status: terminal_validity_guard
+    text: >-
+      PMS-SEX remains valid by staying within what it can responsibly say: not what persons are, but what configurations do
+      over time. It reads sexual praxis as enacted configuration under frame, asymmetry, non-event, repetition, temporality,
+      distance, integration, and self-binding. It permits hard claims about cost, drift, outer legibility, sexual cost topology,
+      direct otherness, after-scene dignity, boundary/aggression readability, and consequence without converting those claims
+      into person-status judgments.
+    compressed_rules:
+    - no_consequence_free_sex
+    - no_desire_exempt_from_structural_conditions
+    - no_preference_as_public_confession_debt
+    - no_outer_form_erasure_by_internal_labels
+    - no_visible_form_totalization
+    - no_public_measure_as_confession_mandate
+    - no_path_cost_as_person_worth
+    - no_sexual_cost_topology_as_score
+    - no_biological_affordance_as_destiny_rank_or_role_proof
+    - no_sexed_dependency_as_relationship_prescription
+    - no_impulse_nearness_as_malice_by_default
+    - no_lack_of_malice_as_exculpation
+    - no_unlearned_handling_as_innocence_claim
+    - no_direct_otherness_as_access_entitlement
+    - no_permission_image_as_consent
+    - no_simulated_counterdesire_as_encounter
+    - no_body_boundary_coding_as_person_truth
+    - no_genital_meaning_as_genital_sovereignty
+    - no_adult_sexual_emancipation_as_person_hierarchy
+    - no_withdrawal_as_automatic_guilt
+    - no_withdrawal_as_automatic_exculpation
+    - no_non_binding_language_as_erasure_of_structured_psi_expectation
+    - no_boundary_aggression_collapse_as_response_authorization
+    - no_asymmetry_switch_as_authority
+    - no_parity_to_exit_as_reciprocity
+    - no_responsibility_to_authority_as_care
+    - no_operator_profile_as_direct_adultness_verdict
+    - no_critique_through_humiliation
+    - no_maturity_hierarchy
+    - no_dignity_hierarchy
+    - no_taxonomy_where_configuration_language_is_warranted
+    - no_total_capture_where_scene_exceeds_grammar
+    final_marker: Adult Sexual Emancipation = genital integration without genital sovereignty.
+    case_application: <State how the final PMS-SEX profile guard constrains this DISCIPLINE overlay case.>
+    sexual_reciprocity_guard: Sexual reciprocity under real asymmetry does not require equal burdens. It requires that 
+      unequal burdens not be externalized through unmarked asymmetry activation, parity-to-exit, 
+      responsibility-to-authority, after-scene dignity failure, or denied cost topology.
+    adult_sexual_emancipation_guard: Adult Sexual Emancipation means genital integration without genital sovereignty. It
+      is not enactment multiplication, public confession, genital celebration, liberation through visibility alone, 
+      boundary reduction, person hierarchy, or sovereign sexual self-description.
+    mip_docking_guard: PMS-SEX may record operator profiles and drift markers. It may not directly evaluate 
+      person-adultness. Adultness-relevant or maturity-relevant critique belongs to MIP docking and must remain 
+      scene-bound, reversible, non-person-ranking, non-diagnostic, and D-preserving.
+  checked_artifact_policy:
+    ready: If the SEX add-on output check returns ready, this YAML becomes the checked SEX add-on artifact.
+    corrected: If the check returns corrected, only the complete corrected YAML becomes the checked SEX add-on artifact;
+      audit prose is not the artifact.
+    not_ready: If the check returns not ready, stop and correct or rerun this add-on step. Do not carry this YAML 
+      forward as checked.
+    supersession_rule: Never carry a superseded pre-correction SEX YAML forward into MIP Gate, Case Record, Markdown, or
+      publication-facing use.
+  sex_overlay_quality_control:
+    status: <passed | failed | pass_with_minor_notes | needs_review>
+    checks:
+      pms_base_preserved: <true | false>
+      core_case_preserved: <true | false>
+      no_new_pms_operators: <true | false>
+      no_dependency_redefinition: <true | false>
+      reduced_signatures_marked_as_shorthand: <true | false>
+      overlay_concepts_marked_as_non_operators: <true | false>
+      sexual_cost_topology_not_score: <true | false>
+      body_remainder_not_operator_or_taxonomy: <true | false>
+      publicness_overlay_not_origin_or_accusation_license: <true | false>
+      inner_outer_public_layers_separated: <true | false>
+      path_cost_language_not_person_language: <true | false>
+      no_orientation_taxonomy: <true | false>
+      no_identity_verdict: <true | false>
+      no_person_ranking: <true | false>
+      no_maturity_or_adultness_verdict: <true | false>
+      no_dignity_hierarchy: <true | false>
+      no_diagnostic_or_clinical_claim: <true | false>
+      no_legal_or_forensic_claim: <true | false>
+      no_how_to_or_optimization_guidance: <true | false>
+      no_moral_verdict_logic: <true | false>
+      asymmetry_switch_not_authority: <true | false>
+      parity_not_treated_as_reciprocity_by_default: <true | false>
+      responsibility_not_converted_to_authority: <true | false>
+      adult_sexual_reciprocity_treated_as_viability_principle: <true | false>
+      mip_docking_separated: <true | false>
+      dignity_in_practice_preserved: <true | false>
+      distance_chi_preserved: <true | false>
+      reversibility_preserved: <true | false>
+      non_capture_preserved: <true | false>
+      direct_otherness_not_access_entitlement: <true | false>
+      genital_meaning_not_genital_sovereignty: <true | false>
+      withdrawal_not_automatic_guilt_or_exculpation: <true | false>
+      viability_as_governability_not_normality: <true | false>
+      final_profile_guard_applied: <true | false>
+      repo_template_required_fields_present: <true | false>
+      selected_addon_family_is_SEX: <true | false>
+      checked_pre_analysis_present: <true | false>
+      checked_core_case_present: <true | false>
+      checked_addon_gate_present: <true | false>
+      no_case_record_generated_inside_addon: <true | false>
+      no_markdown_rendered_inside_addon: <true | false>
+      downstream_pressure_not_authorization: <true | false>
+      checked_artifact_policy_present: <true | false>
+      source_guard_registry_alignment_present: <true | false>
+      source_concept_sets_preserved: <true | false>
+      source_drift_registry_alignment_present: <true | false>
+      source_drift_chains_preserved: <true | false>
+      viability_requires_groups_preserved: <true | false>
+      viability_minimal_corridor_preserved: <true | false>
+      minimal_psychology_allowed_alarm_outputs_preserved: <true | false>
+      mip_docking_proper_questions_preserved: <true | false>
+      mip_no_back_projection_preserved: <true | false>
+      no_moralism_preserved: <true | false>
+      visible_form_not_totalized: <true | false>
+      boundary_aggression_not_response_authorization: <true | false>
+      impulse_nearness_not_malice_by_default: <true | false>
+      lack_of_malice_not_exculpation: <true | false>
+      unlearned_handling_not_innocence_claim: <true | false>
+      sexual_reciprocity_guard_preserved: <true | false>
+      adult_sexual_emancipation_guard_preserved: <true | false>
+    issues_found:
+    - <issue or 'none'>
+    correction_required: <true | false>
+    final_overlay_judgment: >-
+      <One-sentence judgment on whether the SEX overlay is valid, bounded, and correctly subordinated to PMS Core.>
+  sex_overlay_synthesis:
+    primary_sex_reading: >-
+      <Concise synthesis of what PMS-SEX makes visible in this DISCIPLINE case that the PMS-Core pass did not fully isolate
+      as sexuality-specific scene, layer, cost-topology, direct-otherness, embodiment/boundary, withdrawal/binding, drift,
+      viability, or Dignity-in-Practice structure.>
+    scene_frame_result: >-
+      <State the bounded scene and frame, or why the case remains conceptual and not scene-bound.>
+    internal_framing_result: <State internal framing and its limits.>
+    outer_legibility_result: >-
+      <State the outer legibility result without turning it into accusation, diagnosis, or person-ranking.>
+    publicness_result: >-
+      <State whether publicness is absent, weak, active, amplifying, or confusingly treated as origin/nothing.>
+    body_remainder_result: <State whether body remainder/material consequence interface is relevant.>
+    sexual_cost_topology_result: >-
+      <State the cost topology across bodily, temporal, exposure, reputational, binding, exit, publicness, and responsibility
+      channels.>
+    asymmetry_temporality_result: >-
+      <State how Ω and Θ distribute exposure, capacity, costs, irreversibility, after-effects, or exit realism.>
+    distance_integration_binding_result: >-
+      <State the status of Χ, Σ, and Ψ, including stop-capability, coordination, self-binding, suspension, or leakage.>
+    drift_result: >-
+      <State the main PMS-SEX drift risks and whether they are active, risk, weak, absent, or not applicable.>
+    switch_drift_result: >-
+      <State whether asymmetry-switch drift, parity-to-exit, or responsibility-to-authority appears.>
+    reciprocity_result: >-
+      <State whether adult sexual reciprocity is satisfied, partial, structurally non-viable, under-specified, or not applicable.>
+    dignity_result: <State how Dignity-in-Practice is preserved, fragile, compromised, or not applicable.>
+    mip_docking_result: >-
+      <State whether MIP docking is not triggered, optional, triggered, or inappropriate; preserve operator-profile-only rule.>
+    non_capture_result: <State what remains outside PMS-SEX capture or open to rival framings.>
+    final_sex_formula_or_signature: >-
+      <Use a case-specific PMS-SEX signature, e.g. MF_4_2, sexual_cost_topology_signature_ch4_6, eden_pfo_sexual_instantiation_signature,
+      adult_sexual_reciprocity_signature, D_pms_sex_application_formula_ch21_3, or a combined case-specific signature.>
+    final_claim_boundary: >-
+      This SEX overlay adds visibility for sexual praxis as scene-bound structure, internal/outer/public layer separation,
+      sexual cost topology, direct otherness, body remainder, embodiment and genital meaning, withdrawal/binding, publicness,
+      path-cost, drift corridors, asymmetry-switch drift, parity-to-exit, responsibility-to-authority, adult sexual reciprocity,
+      Dignity-in-Practice, viability conditions, and MIP docking guards. It does not revise PMS Base, rewrite the PMS-Core
+      pass, diagnose persons, rank persons, classify sexual identity or orientation, issue adultness or maturity verdicts,
+      prescribe action, provide how-to guidance, authorize public accusation, validate PMS, or claim final capture of sexuality.
+    direct_otherness_result: >-
+      <State whether direct otherness is present, substituted, unavailable, or non-capturable, without converting it into
+      access entitlement.>
+    embodiment_genital_boundary_result: >-
+      <State body-remainder, body-boundary, biological-affordance, sexed-dependency, and genital-meaning relevance, if any,
+      without sex/genital truth claims.>
+    withdrawal_binding_result: >-
+      <State covert Ψ expectation, ambivalence withdrawal, post-access withdrawal, non-binding language, and after-scene dignity
+      status, if relevant.>
+    viability_result: >-
+      <State whether the configuration is governable, strained, under-specified, or non-viable under PMS-SEX viability conditions;
+      do not call this normality or maturity.>
+  sex_application_gate:
+    status: <passed | failed | needs_review>
+    gate_type: PMS_application_only
+    paper_refs:
+    - Ch. 0.2
+    - Ch. 0.4
+    - Ch. 0.9
+    - Ch. 21
+    - Ch. 22
+    - Appendix B
+    note: >-
+      This gate constrains PMS application only, not critique, rejection, refusal, revision, or rival formalization.
+    requires:
+      Distance_Chi:
+        id: Χ
+        name: Distance
+        status: <maintained | compromised | needs_review>
+        meaning: >-
+          Maintained meta-position and stop-capability; no fusion into verdict, urgency, enforcement, person-level attribution,
+          role, impulse, asymmetry activation, parity claim, responsibility claim, or self-justifying rhetoric.
+        case_application: <State how Distance is maintained or where it is compromised in this case.>
+      reversibility:
+        id: reversibility
+        status: <maintained | compromised | needs_review>
+        meaning: >-
+          Scene-bound, configuration-specific, revisable readings; no global person labels, irreversible interpretive claims,
+          identity verdicts, maturity verdicts, or ontological attributions.
+        case_application: <State how reversibility is preserved.>
+      Dignity_in_Practice_D:
+        id: D
+        name: Dignity-in-Practice
+        status: <maintained | compromised | needs_review>
+        meaning: >-
+          No shaming, humiliation, person-ranking, diagnosis, orientation taxonomy, maturity hierarchy, dignity hierarchy,
+          or person-worth evaluation; critique targets enacted structures and cost handling only.
+        case_application: <State how Dignity-in-Practice is preserved.>
+    prohibits:
+    - sexual_cost_topology_as_score
+    - asymmetry_switch_as_authority
+    - parity_to_exit_as_reciprocity
+    - responsibility_to_authority_as_care
+    - operator_profile_as_direct_adultness_verdict
+    - outer_legibility_as_public_punishment_license
+    - path_cost_as_person_value
+    - disturbance_language_as_orientation_taxonomy
+    gate_result: >-
+      <valid_as_sex_overlay_application | invalid_as_sex_overlay_application | requires_revision>
+    applies_to: SEX_overlay_application_in_DISCIPLINE
+    invalid_if_any:
+    - scene_packet_replaced_by_impression
+    - operator_trace_used_as_person_verdict
+    - visible_form_totalized_as_whole_configuration
+    - internal_framing_erases_outer_legibility
+    - public_measure_formation_becomes_confession_demand
+    - consent_or_mutuality_substitutes_for_cost_topology
+    - access_threshold_becomes_entitlement
+    - permission_image_treated_as_consent
+    - body_boundary_coding_treated_as_person_truth
+    - genital_meaning_treated_as_genital_sovereignty
+    - withdrawal_treated_as_automatic_guilt
+    - withdrawal_treated_as_automatic_exculpation
+    - D_suspended_for_clarity_or_punishment
+    - description_converted_directly_into_binding_or_action
+    - core_case_rewritten_by_overlay
+    - PMS_operator_redefined
+    - SEX_construct_treated_as_PMS_base
+    - adultness_or_maturity_verdict_made_without_MIP_docking
+    - D_suspended_for_clarity_authority_punishment_or_resolution
+  sex_overlay_integration:
+    placement: after_completed_PMS_Core_layer
+    replaces_old_sex_addon_layer: true
+    keeps_core_layer_unchanged: true
+    expected_output_shape:
+      markdown_case_section: <SEX add-on section only, if writing chapter prose>
+      yaml_case_layer: <this template filled as the SEX add-on layer only, if writing YAML>
+    integration_summary: >-
+      <One paragraph explaining how the SEX overlay is integrated into the DISCIPLINE case without modifying PMS-Core.>
+  selected_addon_family: SEX
+  final_sex_addon_status:
+    status: <ready_for_addon_output_check | incomplete | blocked | unsafe | needs_revision>
+    selected_addon_family: SEX
+    core_preserved: <true | false | needs_review>
+    source_status_preserved: <true | false | needs_review>
+    claim_ceiling_preserved: <true | false | needs_review>
+    mip_ahp_not_applied: <true | false | needs_review>
+    case_record_not_generated: <true | false | needs_review>
+    markdown_not_rendered: <true | false | needs_review>
+    final_decision_not_executed: <true | false | needs_review>
+    next_required_step: sex_addon_output_check
+    template_version: CLEAN_v0.2.1
+    source_alignment_status: <aligned_with_PMS_SEX_yaml | aligned_with_notes | needs_review>
+  source_profile_registry_detail_alignment:
+    status: source_alignment_to_current_PMS_SEX_yaml_v0_2_1
+    alignment_role: Preserve source registry mechanics without turning PMS-SEX registries into PMS Base, DISCIPLINE 
+      primitives, MIP output, or AHP output.
+    guard_registry_keys_preserved_as_references:
+    - scene_bound
+    - reversible_reading
+    - no_person_label
+    - no_diagnosis
+    - no_rank
+    - no_moralism
+    - no_instruction
+    - no_public_punishment
+    - no_orientation_taxonomy
+    - no_sex_truth
+    - no_genital_truth
+    - no_biological_destiny
+    - no_relationship_mandate
+    - no_access_entitlement
+    - no_consent_substitution
+    - no_permission_image_as_consent
+    - no_cost_score
+    - no_path_cost_person_value
+    - no_visibility_totalization
+    - no_internal_form_erasure
+    - no_public_confession
+    - no_boundary_aggression_authorization
+    - no_withdrawal_automatic_guilt
+    - no_withdrawal_automatic_exculpation
+    - no_impulse_malice_default
+    - no_lack_of_malice_exculpation
+    - no_unlearned_handling_exculpation
+    - operator_profile_only
+    - mip_docking_required
+    - mip_no_back_projection
+    - dignity_protection
+    - after_scene_dignity
+    - direct_otherness_guard
+    - genital_emancipation_guard
+    - asymmetry_activation_guard
+    - parity_guard
+    - responsibility_guard
+    guard_sets_preserved_as_references:
+    - base_validity
+    - no_capture
+    - structural_language
+    - publicness
+    - cost_topology
+    - biology
+    - body_boundary
+    - direct_otherness
+    - withdrawal
+    - mip
+    - final_profile
+    concept_sets_preserved_as_references:
+    - core
+    - layer_discipline
+    - outer_form_language
+    - embodiment_and_sexed_structure
+    - access_and_direct_otherness
+    - cost_and_asymmetry
+    - withdrawal_and_binding
+    - structural_language
+    - dignity_and_mip
+    drift_sets_preserved_as_references:
+    - core_dysfunction_markers
+    - final_overlay_markers
+    - eden_pfo_drift_triad
+    - access_and_category_drifts
+    - embodiment_drifts
+    - withdrawal_and_binding_drifts
+    - mip_relevant_profiles
+    analysis_pipeline_steps_preserved_as_ordering_reference:
+    - scene_boundary
+    - operator_spine_check
+    - layer_scan
+    - biology_and_sexed_dependency_guard
+    - cost_axis_scan
+    - direct_otherness_scan
+    - genital_integration_scan
+    - withdrawal_and_binding_scan
+    - drift_scan
+    - switch_drift_scan
+    - viability_check
+    - minimal_psychology_gate
+    - mip_docking_gate
+    - final_validity_gate
+    rule: These registries are read as PMS-SEX source references. They guide SEX overlay completion and checking; they 
+      do not authorize claims, overwrite Core, create person verdicts, or bypass later MIP/AHP gates.
+  source_concept_mechanics_alignment:
+    status: reference_alignment_only
+    core_source_concepts_to_keep_visible:
+    - scene
+    - configuration
+    - praxeological_grammar
+    - drift
+    - viability
+    - preference_praxis_boundary
+    - internal_framing
+    - outer_legibility
+    - pre_reflective_readability
+    - publicness_as_overlay
+    - practice_label
+    - visible_form_readability
+    cost_and_asymmetry_concepts_to_keep_visible:
+    - cost_layout
+    - sexual_cost_topology
+    - asymmetry_specific_responsibility
+    - sexual_reciprocity_under_real_asymmetry
+    - exit_realism
+    - pseudo_symmetry
+    - eden_pfo_asymmetry_switch
+    - asymmetry_activation
+    access_and_direct_otherness_concepts_to_keep_visible:
+    - direct_otherness
+    - category_escalation
+    - category_availability
+    - permission_image
+    - simulated_counterdesire
+    - access_counterdesire_loop
+    - access_based_deviance
+    embodiment_and_genital_concepts_to_keep_visible:
+    - biological_affordance_without_destiny
+    - sexed_dependency
+    - body_remainder
+    - body_boundary_coding
+    - delta_density_at_the_body
+    - body_switching_point
+    - body_boundary_coding_deviance
+    - genital_meaning
+    - sacralized_genital_self_reading
+    - genital_emancipation
+    - adult_sexual_emancipation
+    withdrawal_and_binding_concepts_to_keep_visible:
+    - covert_psi_expectation
+    - ambivalence_withdrawal
+    - post_access_withdrawal
+    - non_binding_language
+    - after_scene_dignity
+    rule: Concept names remain source references for scene-bound structural mapping. They are not taxonomy, diagnosis, 
+      identity, orientation, maturity, or dignity verdicts.

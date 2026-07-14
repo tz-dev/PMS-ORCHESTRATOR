@@ -1,0 +1,813 @@
+# =============================================================================
+# PMS-DISCIPLINE — CASE RECORD STAGE 3 FULL RECORD INTEGRATION TEMPLATE
+# Template version: PMS_DISCIPLINE_CASE_RECORD_STAGE_3_FULL_RECORD_INTEGRATION_CLEAN_0.3
+# Role: integrate checked Stage 1 manifest and checked Stage 2 layer digests
+#       into one bounded, inspectable, correctable full record.
+#
+# AUTHORITY ORDER:
+#   exact metadata / provenance:
+#     runner case-record manifest > checked Stage 1 > checked Stage 2
+#     > template default / placeholder > model inference
+#   substantive integrated content:
+#     checked Stage 2 > checked Stage 1 metadata > explicitly referenced checked
+#     layer artifact > template structure > bounded model marker
+#
+# Internal path discrepancies, template-status drift, attachment-name drift,
+# and workflow QA notes are record metadata, not substantive case findings.
+# =============================================================================
+
+pms_discipline_case_record_stage_3_full_case_record_integration:
+  schema_version: "PMS_DISCIPLINE_CASE_RECORD_STAGE_3_FULL_RECORD_INTEGRATION_CLEAN_0.3"
+  schema_role: "stage_3_full_record_integration_template"
+  stage_number: 3
+  stage_name: "full_record_integration"
+  template_status: "clean_pipeline_template"
+  analysis_mode: "integrate_checked_stage_1_and_stage_2_outputs"
+
+  template_purpose: >-
+    Integrate the checked Stage 1 artifact index and the checked Stage 2 layer
+    digests into a single bounded full record of the PMS-DISCIPLINE run. This
+    stage preserves what was used, what was withheld, what each checked layer
+    contributed, which risks remain, what claim ceiling applies, what paths are
+    permitted next, and what reopening conditions remain available. It is an
+    integration and accountability stage, not a reanalysis stage, not an output
+    check stage, not a source-reading stage, not an application stage, and not
+    a release-authorization stage.
+
+  source_reference:
+    pms_base_reference_file: "PMS.yaml"
+    stage_1_template_reference: "pms_case_record_stage_1_artifact_index_template.yaml"
+    stage_2_template_reference: "pms_case_record_stage_2_layer_digest_extraction_template.yaml"
+    stage_3_template_reference: "this_template"
+    reference_note: >-
+      PMS.yaml remains the PMS Base reference. Stage 3 may integrate only the
+      checked Stage 1 output, the checked Stage 2 output, and bounded metadata
+      supplied inside the current run. It may preserve references to prior
+      checked artifacts, but it may not strengthen, correct, or re-run them.
+
+  source_priority:
+    priority_order:
+      - rank: 1
+        source: "runner_case_record_manifest"
+        role: "authoritative exact run metadata and provenance contract supplied inline by the runner"
+        may_supply:
+          - "exact case-relative output paths"
+          - "file-existence status"
+          - "route and branch status"
+          - "step status"
+          - "expected Stage 1, Stage 2, and Stage 3 output references"
+        may_not_supply:
+          - "case findings"
+          - "operator assignments"
+          - "layer conclusions"
+          - "claim strengthening"
+      - rank: 2
+        source: "checked_stage_1_artifact_index_yaml"
+        role: "selected artifact, provenance, source-status, route, branch, and non-use metadata"
+        may_supply:
+          - "artifact inventory"
+          - "source status"
+          - "pipeline step presence"
+          - "checked-output availability"
+          - "missing, skipped, deferred, rejected, or unused artifacts"
+        may_not_supply:
+          - "layer digest substance beyond indexed metadata"
+          - "new analysis"
+          - "claim strengthening"
+      - rank: 3
+        source: "checked_stage_2_layer_digest_extraction_yaml"
+        role: "controlling bounded substantive digest source for integration"
+        may_supply:
+          - "layer digests"
+          - "claim ceilings"
+          - "risk summaries"
+          - "non-use summaries"
+          - "handoff summaries"
+          - "unresolved issue summaries"
+        may_not_supply:
+          - "exact metadata that conflicts with the runner manifest or checked Stage 1"
+          - "full replacement of original checked artifacts"
+          - "new layer analysis"
+          - "unrecorded claims"
+      - rank: 4
+        source: "PMS.yaml"
+        role: "base grammar reference already read earlier"
+        may_supply:
+          - "operator names and dependency discipline"
+          - "PMS application guardrails already active in prior checked outputs"
+        may_not_supply:
+          - "new case facts"
+          - "new layer conclusions"
+          - "run metadata"
+          - "release authorization"
+      - rank: 5
+        source: "checked_prior_layer_outputs_as_referenced_by_stage_1_and_stage_2"
+        role: "background references only when Stage 1 or Stage 2 flags a gap requiring exact checking"
+        may_supply:
+          - "exact wording for a referenced checked output where the digest is insufficient"
+          - "confirmation of artifact identity"
+        may_not_supply:
+          - "new interpretation beyond the checked output"
+          - "new output checks"
+          - "unlisted artifact insertion"
+      - rank: 6
+        source: "case_packet_metadata"
+        role: "case title, source status, intended use, and bounded material reference"
+        may_supply:
+          - "case title"
+          - "source status"
+          - "intended use"
+          - "material boundary"
+        may_not_supply:
+          - "new facts not already used in checked outputs"
+          - "fresh reinterpretation"
+      - rank: 7
+        source: "this_stage_3_template"
+        role: "integration structure and output contract"
+        may_supply:
+          - "required Stage 3 fields"
+          - "integration order"
+          - "quality checks"
+          - "output boundaries"
+        may_not_supply:
+          - "case conclusions"
+          - "operator assignments"
+          - "add-on recommendations"
+          - "MIP or AHP results"
+          - "metadata overrides"
+
+  workflow_position:
+    pipeline_phase: "after_checked_stage_2_layer_digest_extraction"
+    required_predecessors:
+      - step: "stage_1_applied"
+        required_status: "present"
+      - step: "stage_1_output_checked"
+        required_status: "checked_or_conservatively_corrected"
+      - step: "stage_2_applied"
+        required_status: "present"
+      - step: "stage_2_output_checked"
+        required_status: "checked_or_conservatively_corrected"
+    permitted_inputs:
+      - "runner_case_record_manifest"
+      - "checked_stage_1_artifact_index_yaml"
+      - "checked_stage_2_layer_digest_extraction_yaml"
+      - "case_packet_metadata"
+      - "human_confirmation_record_if_supplied"
+      - "prior_checked_artifact_exact_text_only_when_needed_to_resolve_an_index_or_digest_gap"
+    produced_output: "stage_3_full_record_integration_yaml"
+    possible_next_steps:
+      - "stage_3_output_check"
+      - "revise_stage_3_output_if_check_finds_patchable_defect"
+      - "return_to_stage_2_if_digest_gap_blocks_integration"
+      - "return_to_stage_1_if_artifact_index_gap_blocks_integration"
+      - "human_review_if_required_by_person_nearness_publicness_or_irreversibility"
+      - "stop_if_full_record_boundary_cannot_be_preserved"
+    excluded_operations:
+      - "source_reading"
+      - "Pre_Analysis_application"
+      - "Core_application"
+      - "Add_on_Gate_application"
+      - "selected_add_on_application"
+      - "MIP_Gate_application"
+      - "MIP_application"
+      - "AHP_Gate_application"
+      - "AHP_application"
+      - "output_checking_of_prior_layers"
+      - "patching_prior_checked_layers"
+      - "new_claim_generation"
+      - "public_release_authorization"
+      - "automated_decision_execution"
+      - "person_ranking"
+      - "dignity_scoring"
+      - "maturity_verdict"
+
+  stage_3_non_authority:
+    function: "bounded_integration_record"
+    authority_status: "non_authority"
+    permitted_force: >-
+      Stage 3 may integrate, preserve, index, summarize, and bound the checked
+      record. It may name the decision state already licensed by checked prior
+      outputs and Stage 2 digests, but it may not execute the decision state or
+      authorize release, institutional uptake, automated use, person-facing use,
+      or stronger claims.
+    non_authority_clauses:
+      - "Integration is not proof."
+      - "Record completion is not adequacy."
+      - "A checked full record is not a verdict."
+      - "Layer coherence is not source upgrade."
+      - "A visible decision state is not decision execution."
+      - "Human confirmation, where required, remains external to this template."
+      - "Workflow metadata drift is not a substantive case finding."
+      - "Template defaults cannot override checked upstream values."
+    person_protection_clause: >-
+      The integrated record remains scene-bound. It may preserve person-nearness
+      risk from prior checked outputs but may not turn that risk into person
+      ranking, motive attribution, maturity judgment, dignity measure, blame
+      verdict, or global identity claim.
+
+  stage_3_io_contract:
+    required_inputs:
+      runner_case_record_manifest:
+        required: true
+        purpose: "exact run metadata, route state, step state, file existence, and output paths"
+        missing_behavior: "use no inferred substitute; mark metadata unresolved and return for runner review"
+      checked_stage_1_artifact_index_yaml:
+        required: true
+        purpose: "artifact inventory and run manifest"
+        missing_behavior: "stage_3_not_ready_return_to_stage_1"
+      checked_stage_2_layer_digest_extraction_yaml:
+        required: true
+        purpose: "bounded layer digests for integration"
+        missing_behavior: "stage_3_not_ready_return_to_stage_2"
+      case_packet_metadata:
+        required: true
+        purpose: "case title, source status, intended use, material boundary"
+        missing_behavior: "use bounded missing marker and flag human review if the gap changes use risk"
+      human_confirmation_record_if_required:
+        required: false
+        purpose: "record whether a responsible human confirmed a risky decision state or use boundary"
+        missing_behavior: "mark missing and preserve next-step restriction if required"
+    optional_inputs:
+      exact_prior_checked_output_excerpt:
+        allowed_when: "Stage 1 or Stage 2 identifies a gap that cannot be resolved from the digest alone"
+        use_limit: "identity and exact-boundary clarification only"
+      user_supplied_record_note:
+        allowed_when: "note concerns intended use, source status, human confirmation, or record boundary"
+        use_limit: "record as note, not as source upgrade"
+    forbidden_inputs:
+      - "new case source material"
+      - "unindexed artifact"
+      - "unchecked layer output"
+      - "model output presented as evidence"
+      - "human preference presented as claim support"
+      - "request for stronger conclusion as evidence"
+      - "external facts absent from checked prior outputs"
+    produced_outputs:
+      - "integrated_record_metadata"
+      - "artifact_stack_summary"
+      - "layer_digest_integration"
+      - "path_selection_summary"
+      - "claim_ceiling_summary"
+      - "risk_and_burden_summary"
+      - "non_use_and_exclusion_summary"
+      - "rival_and_non_capture_summary"
+      - "correctability_and_reopening_summary"
+      - "human_confirmation_summary"
+      - "permitted_next_steps_summary"
+      - "stage_3_quality_checks"
+      - "final_stage_3_status"
+    forbidden_outputs:
+      - "new Core reading"
+      - "new add-on selection"
+      - "new MIP result"
+      - "new AHP overlay"
+      - "new operator assignment"
+      - "new source-status upgrade"
+      - "person ranking"
+      - "maturity verdict"
+      - "dignity score"
+      - "release permission"
+      - "automated decision"
+      - "public-facing prose artifact"
+
+  integration_status_legend:
+    field_value_rules:
+      present: "artifact, digest, or record component is present and usable for Stage 3 integration"
+      checked: "component is marked as checked by the relevant prior output-check step"
+      corrected: "component was conservatively corrected in a prior output-check step"
+      missing: "component is absent from the available checked stack"
+      not_applicable: "component is structurally irrelevant on this path"
+      not_used: "component was available or scannable but not used by disciplined choice"
+      refused: "component or use was refused under a checked boundary"
+      suspended: "component or claim remains unresolved and cannot be integrated as settled"
+      redirected: "component or path was redirected to another frame or review"
+      unclear: "available information is insufficient to classify confidently"
+      under_specified: "the component exists but lacks enough detail for stronger integration"
+      insufficient: "the component fails a required burden for the intended use"
+      bounded: "usable only within an explicit claim or use limit"
+    marker_policy: >-
+      Stage 3 must prefer bounded markers over invented completion. Missing,
+      unclear, unresolved, and under-specified items remain visible in the full
+      record rather than being smoothed into coherence.
+
+  decision_state_policy:
+    canonical_states:
+      - "proceed"
+      - "revise"
+      - "downgrade"
+      - "suspend"
+      - "refuse"
+      - "redirect"
+      - "unclear"
+    state_meanings:
+      proceed: >-
+        The checked stack permits continuation within declared limits. This is
+        not truth, release permission, person judgment, or stronger use license.
+      revise: >-
+        The record may continue only after a correctable defect is addressed in
+        the named prior step or in Stage 3 itself.
+      downgrade: >-
+        The claim or use must remain weaker than the intended or tempting form.
+      suspend: >-
+        A required threshold is unresolved and the output may not treat the item
+        as settled.
+      refuse: >-
+        A requested use or path violates a boundary preserved by the checked
+        stack.
+      redirect: >-
+        Another frame, rival account, domain review, or human review currently
+        carries the burden better.
+      unclear: >-
+        The checked stack does not license a stronger state.
+    weaken_policy: >-
+      Weakening is recorded as a correction within revise or downgrade rather
+      than as an additional canonical state.
+    execution_policy: >-
+      Stage 3 records the decision state and permitted next steps. It does not
+      execute the decision state.
+
+  integration_burden_rules:
+    core_rule: >-
+      Stage 3 integrates only checked and digest-supported content. Where the
+      checked stack conflicts, the weaker, more bounded, or more restrictive
+      reading controls unless Stage 2 already resolves the conflict.
+    source_status_rule: >-
+      Source status from the case packet and checked prior outputs must remain
+      visible. Stage 3 may not upgrade reports, interpretations, memories,
+      model outputs, synthetic material, or mixed material into evidence.
+    claim_ceiling_rule: >-
+      The integrated record must preserve the lowest active claim ceiling from
+      checked prior layers and from the Stage 2 digest. Stronger phrasing must
+      be weakened or marked as unsupported.
+    non_capture_rule: >-
+      A scene-bound record may not become a person-bound verdict. Person,
+      idea, effect, and model status remain distinct.
+    add_on_non_use_rule: >-
+      Unused, refused, not recommended, or not applicable add-ons remain visible
+      as path-selection facts. Their absence may be disciplined and must not be
+      treated as incompleteness.
+    MIP_rule: >-
+      If MIP was applied, Stage 3 may integrate its checked digest and named
+      constraints. It may not rescore A-score, M-score, IA-box, D-module, red
+      zones, source status, or MIP synthesis.
+    AHP_rule: >-
+      If AHP was applied, Stage 3 may integrate its checked digest as an
+      optional second-order analysis-quality overlay. It may not convert Attack
+      Points into proven defects, Hardening Backlog items into mandates, or
+      Precision Heuristic into authority.
+    rival_pressure_rule: >-
+      Rival accounts and non-capture limits must remain visible, especially
+      where they downgrade, suspend, refuse, or redirect the application path.
+    correctability_rule: >-
+      The full record must preserve what would reopen, revise, downgrade,
+      suspend, refuse, or redirect the application. Correction must remain able
+      to affect the record where the checked stack allows it.
+    human_confirmation_rule: >-
+      Where checked prior outputs require human confirmation for person-near,
+      public, institutional, technical, automated, or high-irreversibility use,
+      Stage 3 records whether confirmation is present, missing, or not
+      applicable. Missing confirmation restricts permitted next steps.
+
+  full_record_template:
+    record_identity:
+      case_title: "<case title from case packet or checked Stage 1>"
+      record_id: "<optional run id or missing>"
+      record_version: "stage_3_full_record_v0_2"
+      generated_from:
+        stage_1_output: "<checked Stage 1 artifact index reference>"
+        stage_2_output: "<checked Stage 2 digest extraction reference>"
+        template: "pms_case_record_stage_3_full_case_record_integration_template_CLEAN_v0_2"
+      source_status: "<source status preserved from case packet and checked prior outputs>"
+      intended_use: "<intended use preserved from case packet and checked prior outputs>"
+      material_boundary: "<bounded case material description, not re-summarized beyond checked prior outputs>"
+      integration_timestamp_or_run_marker: "<if provided, otherwise missing>"
+      record_status: "<draft | checked_ready_for_stage_3_output_check | not_ready | unclear>"
+
+    artifact_stack_summary:
+      PMS_base:
+        artifact_present: "<present | missing | unclear>"
+        read_status: "<read_completely | missing | unclear>"
+        role_in_record: "base grammar reference only"
+        restrictions: "no new case facts or stronger claims supplied at Stage 3"
+      pre_analysis:
+        artifact_present: "<present | missing | not_applicable | unclear>"
+        output_check_status: "<checked | corrected | missing | unclear>"
+        digest_available_from_stage_2: "<present | missing | unclear>"
+        integrated_role: "case boundary and handoff context"
+      core_case_application:
+        artifact_present: "<present | missing | unclear>"
+        output_check_status: "<checked | corrected | missing | unclear>"
+        digest_available_from_stage_2: "<present | missing | unclear>"
+        integrated_role: "Core reading, operators, claim ceiling, sufficiency status"
+      addon_recommendation_gate:
+        artifact_present: "<present | missing | unclear>"
+        output_check_status: "<checked | corrected | missing | unclear>"
+        selected_addon_family: "<ANTICIPATION | CRITIQUE | CONFLICT | LOGIC | EDEN | SEX | none | unclear>"
+        integrated_role: "add-on path selection and non-use record"
+      selected_addon_source:
+        artifact_present: "<present | missing | not_applicable | unclear>"
+        read_status: "<read_completely | not_applicable | missing | unclear>"
+        selected_family: "<family or not_applicable>"
+        integrated_role: "source availability for selected add-on only"
+      selected_addon_case_application:
+        artifact_present: "<present | missing | not_applicable | unclear>"
+        output_check_status: "<checked | corrected | not_applicable | missing | unclear>"
+        digest_available_from_stage_2: "<present | not_applicable | missing | unclear>"
+        integrated_role: "selected add-on contribution if used"
+      mip_gate:
+        artifact_present: "<present | missing | not_applicable | unclear>"
+        output_check_status: "<checked | corrected | not_applicable | missing | unclear>"
+        recommendation_status: "<read_MIP_yaml | no_MIP_continue | scan_only_note | revise_stack_before_MIP | downgrade_claim_before_MIP | suspend_before_MIP | refuse_requested_MIP_use | redirect_to_rival_or_domain_review | human_review_before_MIP | unclear | not_applicable>"
+        integrated_role: "MIP source-reading decision context"
+      mip_source:
+        artifact_present: "<present | missing | not_applicable | unclear>"
+        read_status: "<read_completely | not_applicable | missing | unclear>"
+        integrated_role: "MIP source availability where gate allowed reading"
+      mip_case_application:
+        artifact_present: "<present | missing | not_applicable | unclear>"
+        output_check_status: "<checked | corrected | not_applicable | missing | unclear>"
+        digest_available_from_stage_2: "<present | not_applicable | missing | unclear>"
+        integrated_role: "MIP contribution if applied"
+      ahp_gate:
+        artifact_present: "<present | missing | not_applicable | unclear>"
+        output_check_status: "<checked | corrected | not_applicable | missing | unclear>"
+        recommendation_status: "<ahp_source_reading_recommended | ahp_not_recommended | scan_only | revise_mip_output_before_ahp | downgrade_before_ahp | suspend_before_ahp | refuse_ahp_use | redirect_before_ahp | human_review_required | unclear | not_applicable>"
+        integrated_role: "AHP source-reading decision context"
+      ahp_source:
+        artifact_present: "<present | missing | not_applicable | unclear>"
+        read_status: "<read_completely | not_applicable | missing | unclear>"
+        integrated_role: "AHP source availability where gate allowed reading"
+      ahp_module_output:
+        artifact_present: "<present | missing | not_applicable | unclear>"
+        output_check_status: "<checked | corrected | not_applicable | missing | unclear>"
+        digest_available_from_stage_2: "<present | not_applicable | missing | unclear>"
+        integrated_role: "second-order analysis-quality overlay if applied"
+      stage_1_artifact_index:
+        artifact_present: "present"
+        output_check_status: "<checked | corrected | unclear>"
+        integrated_role: "run manifest source for Stage 3"
+      stage_2_layer_digest_extraction:
+        artifact_present: "present"
+        output_check_status: "<checked | corrected | unclear>"
+        integrated_role: "digest source for Stage 3"
+
+    path_selection_summary:
+      pipeline_path_taken:
+        pre_analysis: "<used | missing | unclear>"
+        core: "<used | missing | unclear>"
+        addon_gate: "<used | missing | unclear>"
+        selected_addon: "<used | not_used | not_applicable | refused | unclear>"
+        mip_gate: "<used | not_applicable | missing | unclear>"
+        mip_application: "<used | not_used | not_applicable | refused | suspended | unclear>"
+        ahp_gate: "<used | not_applicable | missing | unclear>"
+        ahp_application: "<used | not_used | not_applicable | refused | suspended | unclear>"
+        stage_1: "used"
+        stage_2: "used"
+        stage_3: "current_stage"
+      path_selection_rationale: "<bounded digest of why this path was taken, from Stage 2>"
+      explicit_non_use:
+        unselected_addons: "<list or none or unknown>"
+        skipped_mip: "<reason or not_applicable>"
+        skipped_ahp: "<reason or not_applicable>"
+        refused_paths: "<list or none>"
+        suspended_paths: "<list or none>"
+        redirected_paths: "<list or none>"
+      path_risk_note: "<any risk created by the path itself, or none>"
+
+    layer_digest_integration:
+      pre_analysis_digest:
+        integrated: "<yes | no | not_applicable | unclear>"
+        contribution: "<case boundary, source inventory, initial risk pressure, or bounded marker>"
+        limits: "<limits from Stage 2 digest>"
+      core_digest:
+        integrated: "<yes | no | unclear>"
+        contribution: "<Core operators, claim ceiling, sufficiency, major risks>"
+        limits: "<limits from Stage 2 digest>"
+      addon_gate_digest:
+        integrated: "<yes | no | unclear>"
+        contribution: "<selected family or Core-only / non-use rationale>"
+        limits: "<limits from Stage 2 digest>"
+      selected_addon_digest:
+        integrated: "<yes | no | not_applicable | unclear>"
+        contribution: "<selected add-on lens contribution if used>"
+        limits: "<limits and non-authority boundaries>"
+      mip_gate_digest:
+        integrated: "<yes | no | not_applicable | unclear>"
+        contribution: "<MIP recommendation context and limits>"
+        limits: "<gate limits>"
+      mip_digest:
+        integrated: "<yes | no | not_applicable | unclear>"
+        contribution: "<A-C-R-P-D, A/M/IA/D handling, red zones, synthesis, or bounded marker>"
+        limits: "<MIP output limits, non-use, non-authority boundaries>"
+      ahp_gate_digest:
+        integrated: "<yes | no | not_applicable | unclear>"
+        contribution: "<AHP recommendation context and limits>"
+        limits: "<gate limits>"
+      ahp_digest:
+        integrated: "<yes | no | not_applicable | unclear>"
+        contribution: "<Precision Heuristic, Attack Points, Hardening Backlog, or bounded marker>"
+        limits: "<AHP overlay limits and non-interference boundaries>"
+      integration_coherence_note: >-
+        <brief note on whether the layer digests cohere within the checked
+        claim ceiling, or which tensions remain unresolved>
+      integration_conflict_note: >-
+        <any unresolved conflict between digests, or none>
+
+    claim_ceiling_summary:
+      lowest_active_claim_ceiling: "<orientation | structural_sketch | hypothesis | bounded_reconstruction | evaluation | recommendation | intervention | technical_implementation | institutional_uptake | public_synthesis | refused | suspended | unclear>"
+      claim_ceiling_source:
+        from_core: "<value or missing>"
+        from_addon_gate: "<value or not_applicable>"
+        from_selected_addon: "<value or not_applicable>"
+        from_mip_gate: "<value or not_applicable>"
+        from_mip_output: "<value or not_applicable>"
+        from_ahp_gate: "<value or not_applicable>"
+        from_ahp_output: "<value or not_applicable>"
+        from_stage_2: "<value or missing>"
+      claims_licensed:
+        - "<bounded claim 1 or none>"
+      claims_not_licensed:
+        - "<unlicensed claim 1 or none>"
+      source_status_effect: "<how source status constrains the record>"
+      intended_use_effect: "<how intended use constrains the record>"
+      strengthening_blockers:
+        - "<reason stronger claims are blocked, or none>"
+
+    risk_and_burden_summary:
+      person_nearness:
+        status: "<low | moderate | high | unclear | not_applicable>"
+        burden_effect: "<claim weakening, human review, or none>"
+        protected_boundary: "scene-bound reading; no person ranking or dignity scoring"
+      publicness:
+        status: "<low | moderate | high | unclear | not_applicable>"
+        burden_effect: "<claim weakening, human review, or none>"
+      irreversibility:
+        status: "<low | moderate | high | unclear | not_applicable>"
+        burden_effect: "<reopening requirement, stop pressure, or none>"
+      automation_or_technical_mediation:
+        status: "<low | moderate | high | unclear | not_applicable>"
+        burden_effect: "<human confirmation, use restriction, or none>"
+      institutional_uptake:
+        status: "<low | moderate | high | unclear | not_applicable>"
+        burden_effect: "<use restriction, human review, or none>"
+      template_or_model_mediation:
+        status: "<present | absent | unclear>"
+        burden_effect: "<mark model/template status, or none>"
+      score_language_risk:
+        status: "<present | absent | unclear | not_applicable>"
+        burden_effect: "<score hygiene note, claim weakening, or none>"
+      D_language_risk:
+        status: "<present | absent | unclear | not_applicable>"
+        burden_effect: "<dignity-in-practice caution, or none>"
+      transmission_or_reuse_risk:
+        status: "<low | moderate | high | unclear | not_applicable>"
+        burden_effect: "<reuse restriction, AHP relevance, human review, or none>"
+      unresolved_risks:
+        - "<risk or none>"
+
+    rival_and_non_capture_summary:
+      rival_accounts_considered: "<yes | no | unclear>"
+      rival_account_summary:
+        - rival: "<rival account or none>"
+          status: "<live | weaker | stronger | unresolved | redirected | not_applicable | unclear>"
+          effect_on_record: "<downgrade | suspend | redirect | no_change | unclear>"
+      non_capture_limits:
+        - "<limit or none>"
+      model_status_note: "<PMS/MIP/AHP remain models/overlays, not exhaustive capture>"
+      person_idea_effect_model_separation: "<preserved | weakened | unclear | not_applicable>"
+
+    correctability_and_reopening_summary:
+      correctability_status: "<preserved | weakened | absent | unclear>"
+      correction_can_affect:
+        - "claim_ceiling"
+        - "artifact_index"
+        - "layer_digest"
+        - "integrated_record"
+        - "decision_state"
+        - "permitted_next_steps"
+      reopening_conditions:
+        new_relevant_evidence: "<reopens | does_not_reopen | unclear>"
+        changed_scope_or_intended_use: "<reopens | does_not_reopen | unclear>"
+        demonstrated_error_in_prior_checked_output: "<reopens | does_not_reopen | unclear>"
+        stronger_rival_account: "<reopens | does_not_reopen | unclear>"
+        affected_person_contestation_where_relevant: "<reopens | does_not_reopen | unclear | not_applicable>"
+      non_reopening_conditions:
+        repetition_without_new_support: "does_not_reopen"
+        desire_for_stronger_claim: "does_not_reopen"
+        workflow_completion_pressure: "does_not_reopen"
+        model_fluency: "does_not_reopen"
+      correction_boundary_note: "<how corrections must remain proportionate, scene-bound, and dignity-preserving>"
+
+    human_confirmation_summary:
+      human_confirmation_required: "<yes | no | unclear>"
+      reason_required: "<person_nearness | publicness | irreversibility | automation | institutional_uptake | technical_mediation | high_claim_burden | none | unclear>"
+      human_confirmation_present: "<yes | no | not_applicable | unclear>"
+      confirmation_scope: "<what was confirmed, or not_applicable>"
+      missing_confirmation_effect: "<restrict_next_steps | suspend | human_review_required | no_effect | unclear>"
+      human_responsibility_note: >-
+        Human confirmation, where required, is a responsibility marker rather
+        than a truth certificate.
+
+    permitted_next_steps_summary:
+      decision_state_recorded: "<proceed | revise | downgrade | suspend | refuse | redirect | unclear>"
+      decision_state_source: "<Stage 2 digest, checked prior output, human confirmation, or unclear>"
+      permitted_next_steps:
+        - "<next step or none>"
+      restricted_next_steps:
+        - "<restricted step or none>"
+      required_before_any_stronger_use:
+        - "<requirement or none>"
+      stop_conditions:
+        - "<condition or none>"
+      handoff_to_stage_3_output_check: "required"
+
+    integrated_record_summary:
+      compact_summary: >-
+        <concise integrated summary of the checked stack, bounded by Stage 2
+        digests and claim ceiling>
+      primary_record_limits:
+        - "<limit or none>"
+      primary_record_risks:
+        - "<risk or none>"
+      primary_record_non_use:
+        - "<non-use item or none>"
+      primary_record_reopening_conditions:
+        - "<condition or none>"
+      final_stage_3_boundary: >-
+        This full record integrates the checked pipeline stack for inspection
+        and later bounded use. It remains non-authoritative, correctable, and
+        limited by the source status, intended use, claim ceiling, and checked
+        prior outputs.
+
+  stage_3_quality_checks:
+    yaml_integrity_check:
+      status: "<pass | fail | unclear>"
+      check_items:
+        - "single root pms_discipline_case_record_stage_3_full_case_record_integration present"
+        - "all required Stage 3 sections present"
+        - "no unresolved template markers left where the field requires a case value"
+        - "field values use bounded markers where input is missing"
+    predecessor_check:
+      status: "<pass | fail | unclear>"
+      check_items:
+        - "checked Stage 1 output present"
+        - "checked Stage 2 output present"
+        - "Stage 3 output uses Stage 2 digests as primary integration material"
+        - "missing predecessor items are marked rather than inferred"
+    non_reanalysis_check:
+      status: "<pass | fail | unclear>"
+      check_items:
+        - "no new Core analysis introduced"
+        - "no new add-on selection introduced"
+        - "no new MIP result introduced"
+        - "no new AHP overlay introduced"
+        - "no prior checked artifact patched inside Stage 3"
+    claim_ceiling_check:
+      status: "<pass | fail | unclear>"
+      check_items:
+        - "lowest active claim ceiling preserved"
+        - "source status not upgraded"
+        - "intended use not expanded"
+        - "unlicensed claims listed or marked none"
+    path_selection_check:
+      status: "<pass | fail | unclear>"
+      check_items:
+        - "used paths visible"
+        - "unused paths visible"
+        - "refused, suspended, or redirected paths visible where present"
+        - "Core-only or no-add-on path preserved where applicable"
+    MIP_AHP_non_interference_check:
+      status: "<pass | fail | not_applicable | unclear>"
+      check_items:
+        - "MIP results not rescored"
+        - "AHP overlay not converted into MIP correction"
+        - "Attack Points not treated as proven defects"
+        - "Hardening Backlog not treated as mandate"
+        - "Precision Heuristic not treated as authority"
+    person_and_dignity_check:
+      status: "<pass | fail | unclear>"
+      check_items:
+        - "no person ranking"
+        - "no maturity verdict"
+        - "no dignity scoring"
+        - "person, idea, effect, and model status remain distinct where relevant"
+    correctability_check:
+      status: "<pass | fail | unclear>"
+      check_items:
+        - "reopening conditions preserved"
+        - "correction can affect the record where allowed"
+        - "human confirmation status recorded where required"
+        - "stop conditions visible"
+    non_authority_check:
+      status: "<pass | fail | unclear>"
+      check_items:
+        - "record completion not treated as proof"
+        - "decision state recorded but not executed"
+        - "no release permission generated"
+        - "no automated decision generated"
+
+  conservative_patch_policy_for_stage_3_output_check:
+    patch_scope: "Stage 3 output only"
+    patch_triggers:
+      - trigger: "invalid_yaml"
+        response: "repair YAML while preserving Stage 3 structure and field order as far as possible"
+      - trigger: "missing_required_stage_3_section"
+        response: "restore missing section with bounded markers rather than invented content"
+      - trigger: "predecessor_status_ignored"
+        response: "reinsert checked Stage 1 or Stage 2 status from available record"
+      - trigger: "new_analysis_inserted"
+        response: "remove or weaken to digest-supported integration statement"
+      - trigger: "claim_ceiling_overreach"
+        response: "weaken to lowest active ceiling and mark unsupported stronger claim"
+      - trigger: "source_status_upgrade"
+        response: "restore original source status and lower affected claims"
+      - trigger: "unselected_path_erased"
+        response: "restore explicit non-use, refusal, suspension, or redirect record"
+      - trigger: "MIP_or_AHP_interference"
+        response: "restore non-interference and remove rescoring, mandate, or authority drift"
+      - trigger: "person_capture_or_ranking"
+        response: "weaken to scene-bound risk note or refuse the unsupported person-level claim"
+      - trigger: "missing_correctability_or_reopening"
+        response: "restore correction and reopening fields from Stage 2 digest or mark unclear"
+      - trigger: "human_confirmation_required_but_erased"
+        response: "restore requirement and restrict next steps until confirmation is present"
+      - trigger: "release_or_decision_execution_language"
+        response: "replace with permitted-next-step or decision-state-record language"
+    patch_limits:
+      - "no new source material"
+      - "no new prior-layer analysis"
+      - "no prior checked artifact modification"
+      - "no MIP rescoring"
+      - "no AHP reclassification"
+      - "no release authorization"
+      - "no person ranking"
+      - "no dignity scoring"
+      - "no maturity verdict"
+    escalation_conditions:
+      - condition: "Stage 1 artifact index missing or unusable"
+        next_step: "return_to_stage_1_output_check"
+      - condition: "Stage 2 layer digest missing or unusable"
+        next_step: "return_to_stage_2_output_check"
+      - condition: "checked stack contradiction cannot be resolved conservatively"
+        next_step: "human_review_or_return_to_relevant_prior_output_check"
+      - condition: "source status or intended use changed after Stage 2"
+        next_step: "rerun_affected_prior_stage_or_suspend"
+      - condition: "human confirmation required and absent"
+        next_step: "human_confirmation_before_stronger_use"
+
+  stage_3_output_contract:
+    required_output_format: "YAML"
+    required_root: "pms_discipline_case_record_stage_3_full_case_record_integration"
+    required_sections:
+      - "schema_version"
+      - "schema_role"
+      - "workflow_position"
+      - "stage_3_io_contract"
+      - "full_record_template"
+      - "stage_3_quality_checks"
+      - "conservative_patch_policy_for_stage_3_output_check"
+      - "final_stage_3_status"
+    output_modes:
+      normal_completion:
+        status: "stage_3_full_record_ready_for_output_check"
+        required_content:
+          - "complete filled Stage 3 YAML"
+          - "bounded markers for missing or unresolved fields"
+          - "handoff to Stage 3 output check"
+      not_ready_completion:
+        status: "stage_3_not_ready"
+        required_content:
+          - "blocking issue"
+          - "affected predecessor"
+          - "next allowed correction step"
+      correction_needed_after_check:
+        status: "stage_3_corrected_by_output_check"
+        required_content:
+          - "concise correction list"
+          - "complete corrected Stage 3 YAML"
+    prohibited_output_modes:
+      - "freeform essay"
+      - "public-facing prose artifact"
+      - "new layer analysis"
+      - "release authorization"
+      - "decision execution"
+
+  compact_instruction_for_user_or_model: >-
+    Build one integrated full record from the checked Stage 1 artifact index and
+    the checked Stage 2 layer digests. Preserve artifact status, path selection,
+    claim ceiling, non-use, rival pressure, risk burden, correctability,
+    reopening conditions, human confirmation requirements, and permitted next
+    steps. Use bounded markers where information is missing or unclear. Keep the
+    output as Stage 3 integration only.
+
+  final_stage_3_status:
+    completion_state: "<stage_3_full_record_ready_for_output_check | stage_3_not_ready | unclear>"
+    readiness_for_stage_3_output_check: "<ready | not_ready | unclear>"
+    blocking_issues:
+      - "<issue or none>"
+    next_allowed_step: "<stage_3_output_check | return_to_stage_2_output_check | return_to_stage_1_output_check | human_review | suspend | unclear>"
+    final_boundary_statement: >-
+      Stage 3 produces a bounded full integration record only. It preserves the
+      checked pipeline state and its limits; it does not perform prior-layer
+      analysis, output checking, source reading, release authorization, or
+      decision execution.

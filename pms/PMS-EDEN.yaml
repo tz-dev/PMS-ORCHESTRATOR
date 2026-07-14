@@ -1,0 +1,1675 @@
+# =============================================================================
+#  PMS-EDEN — PAPER-SPECIFIC APPLICATION SCHEMA (OVERLAY)
+#
+#  Repository:
+#    https://github.com/tz-dev/PMS-EDEN
+#
+#  File:
+#    PMS-EDEN.yaml
+#
+#  Schema Version:
+#    PMS-EDEN_2.0
+#
+#  Status:
+#    working production version
+#
+#  Last Updated:
+#    2026-06-24
+# -----------------------------------------------------------------------------
+#  PURPOSE AND STATUS
+# -----------------------------------------------------------------------------
+#  This document defines the paper-specific APPLICATION SCHEMA for
+#  PMS-EDEN V2. It formalizes the theoretical arguments of the accompanying
+#  paper
+#
+#    "PMS-EDEN — A Praxeological Grammar of Adult Reciprocity and Its Loss
+#     through False-Coordinated Real Asymmetry"
+#
+#  in a machine-readable, structurally constrained form.
+#
+#  This schema is an OVERLAY, not a fork, replacement, or extension of PMS.
+#  It remains strictly subordinate to the canonical PMS repository reference
+#  specification (schema_version: PMS_1.3).
+#
+#  PMS-EDEN introduces no operator, meta-axiom, dependency relation, or
+#  derived PMS axis. EDEN-specific mechanisms, benchmarks, profiles, regime
+#  labels, shorthand terms, viability signatures, and mapping protocols remain
+#  overlay-level constructs.
+# -----------------------------------------------------------------------------
+#  RELATIONSHIP TO PMS (NON-NEGOTIABLE CONSTRAINTS)
+# -----------------------------------------------------------------------------
+#  - All PMS operators (Δ–Ψ) retain exactly the meanings defined in PMS.yaml.
+#  - Canonical operator order and dependency hygiene remain unchanged.
+#  - Canonical derived axes A, C, R, E, and D remain unchanged.
+#  - R remains the PMS-derived Responsibility axis; EDEN's Responsibility
+#    Principle is a separate paper-level attribution rule.
+#  - D remains the PMS-derived Dignity-in-Practice axis; EDEN explicitly adopts
+#    preservation of D as a normative benchmark and application condition.
+#  - Strict Action / Enactment remains E = Σ ∘ Θ ∘ ∇.
+#  - Paper-internal shorthand such as NRK is not a PMS operator or axis.
+#  - Theoretical compressions such as Adult Reciprocity, Reciprocity Loss,
+#    Correctability, and the Minimal Recovery Signature are not new PMS axes.
+# -----------------------------------------------------------------------------
+#  APPLICATION STATUS
+# -----------------------------------------------------------------------------
+#  EDEN is structural, scene-bound, non-psychological, non-clinical,
+#  non-diagnostic, non-prescriptive, and non-person-evaluative.
+#
+#  EDEN may describe structural configurations sharply. Description alone does
+#  not authorize binding use. Any use that steers, obligates, confronts,
+#  accuses, prescribes, intervenes, punishes, or enforces is an APPLICATION and
+#  must satisfy the canonical PMS entry condition plus EDEN's additional
+#  scene, counter-scene, evidentiary, and contextual-responsibility conditions.
+# =============================================================================
+
+schema_version: "PMS-EDEN_2.0"
+
+schema_meta:
+  model_name: "PMS-EDEN V2"
+  model_short: "PMS-EDEN"
+  status: "working_production"
+  repository_role: "paper_specific_overlay"
+  last_updated: "2026-06-24"
+  authors:
+    - {name: "T. Zöller", role: "originator"}
+    - {name: "ChatGPT (GPT-5.5 Thinking)", role: "formalization_assistant"}
+  paper:
+    title: "PMS-EDEN"
+    subtitle: "A Praxeological Grammar of Adult Reciprocity and Its Loss through False-Coordinated Real Asymmetry"
+    version_family: "V2"
+    source_status: "complete"
+  depends_on:
+    model_name: "Praxeological Meta-Structure"
+    model_short: "PMS"
+    schema_version: "PMS_1.3"
+    canonical_file: "PMS.yaml"
+    repository_relative_path: "PMS.yaml"
+    pinning: {schema_version: "PMS_1.3", commit: null}
+  description: >
+    Paper-specific PMS overlay for Adult Reciprocity as truthful coordination
+    of real Ω and Reciprocity Loss as false coordination of real Ω. It maps
+    scene-bound responsibility, integration, self-binding, distance, dignity,
+    non-events, temporality, drift, and correctability without redefining PMS
+    or enabling diagnosis, sex ranking, prescription, or verdict.
+  epistemic_status: >
+    Theoretical praxeological reconstruction; no independent prevalence,
+    recurrence, population, causal-universality, natural-law, or sex-truth
+    claim. Scene application remains evidential, revisable, and falsifiable.
+  methodological_restraint: >
+    Translation into EDEN terms does not prove exhaustive capture. Genuine
+    vulnerability, protection, hierarchy, local superiority, non-action,
+    openness, neutrality, coercion, institutional/material pressure,
+    psychological or trauma conditions, and stronger rivals remain possible.
+
+operator_reference:
+  source: "PMS.yaml"
+  schema_version: "PMS_1.3"
+  status: "pms_operator_reference"
+  fixed_set: ["Δ", "∇", "□", "Λ", "Α", "Ω", "Θ", "Φ", "Χ", "Σ", "Ψ"]
+  fixed_order: ["Δ", "∇", "□", "Λ", "Α", "Ω", "Θ", "Φ", "Χ", "Σ", "Ψ"]
+  dependencies:
+    "Δ": []
+    "∇": ["Δ"]
+    "□": ["Δ", "∇"]
+    "Λ": ["□"]
+    "Α": ["Δ", "∇", "□", "Λ"]
+    "Ω": ["Α"]
+    "Θ": ["Ω", "Α"]
+    "Φ": ["Θ", "Ω", "□"]
+    "Χ": ["Φ", "Θ", "□"]
+    "Σ": ["Χ", "Φ"]
+    "Ψ": ["Σ", "Θ", "Χ"]
+  semantic_invariants:
+    "Δ": "Difference; not rank."
+    "∇": "Directional impulse; not completed action."
+    "□": "Contextual frame; not proof of falsehood."
+    "Λ": "Structured absence within □; not mere absence."
+    "Α": "Recurrent attractor/stabilization; not an EDEN protocol."
+    "Ω": "Structural asymmetry; not inferiority, guilt, or domination by definition."
+    "Θ": "Temporal trajectory; not unsupported chronology."
+    "Φ": "Recontextualization; not inferred motive or deception."
+    "Χ": "Reflective distance/inhibition; not truth authority."
+    "Σ": "Integration; not agreement, peace, legitimation, or continuation."
+    "Ψ": "Self-binding; not obedience, confession, guilt, or imposed binding."
+  overlay_rule: "EDEN formulas and traces are overlay shorthand, never alternative PMS dependencies."
+  prohibited_changes: [redefine_any_pms_operator, add_meta_axioms, alter_canonical_operator_order, alter_canonical_dependencies, promote_overlay_constructs_to_pms_operators, promote_eden_benchmarks_to_pms_derived_axes, treat_reduced_signatures_as_alternative_dependency_paths]
+
+derived_axes_reference:
+  source: "PMS.yaml"
+  status: "canonical_pms_derived_constructs"
+  fixed_axes:
+    A: {name: "Awareness", formula: ["Θ", "□", "Δ"], chain_formula: "Θ ∘ □ ∘ Δ"}
+    C: {name: "Coherence", formula: ["Θ", "Λ", "□", "∇"], chain_formula: "Θ ∘ Λ ∘ □ ∘ ∇"}
+    R:
+      name: "Responsibility"
+      formula: ["Ψ", "Φ", "Θ", "Ω"]
+      chain_formula: "Ψ ∘ Φ ∘ Θ ∘ Ω"
+      eden_note: "EDEN's normative Responsibility Principle does not redefine or follow automatically from R."
+    E:
+      name: "Strict Action / Enactment"
+      formula: ["Σ", "Θ", "∇"]
+      chain_formula: "Σ ∘ Θ ∘ ∇"
+      eden_note: "Praxis is broader; scene relevance does not automatically establish E."
+    D:
+      name: "Dignity-in-Practice"
+      formula: ["Ψ", "Χ", "Ω"]
+      chain_formula: "Ψ ∘ Χ ∘ Ω"
+      eden_note: "EDEN adopts preservation of D as benchmark/application condition without redefining D."
+  mutation_policy: "forbidden_without_versioned_revision_of_base_pms"
+
+construct_status_registry:
+  purpose: "Keep PMS primitives/axes distinct from EDEN benchmarks, compressions, mechanisms, profiles, labels, boundaries, and protocols."
+  aliases: {normative_benchmark: "eden_normative_benchmark"}
+  statuses:
+    pms_operator_reference: {meaning: "Fixed PMS operator reference.", may_modify_pms: false}
+    pms_derived_axis_reference: {meaning: "Canonical PMS-derived axis reference.", may_modify_pms: false}
+    eden_normative_benchmark: {meaning: "Explicit EDEN standard; not PMS-derived natural law.", may_modify_pms: false}
+    eden_theoretical_compression: {meaning: "Paper compression; not operator or axis.", may_modify_pms: false}
+    eden_mechanism: {meaning: "Conditional scene mechanism using PMS vocabulary.", may_modify_pms: false}
+    overlay_construct: {meaning: "Paper construct subordinate to PMS.", may_modify_pms: false}
+    paper_internal_shorthand: {meaning: "Local abbreviation without operator/axis/diagnostic status.", may_modify_pms: false}
+    scene_bound_profile: {meaning: "Conditional scene drift; not identity or sex truth.", may_modify_pms: false}
+    regime_stabilization: {meaning: "Repeatable stabilization; not belief/person/ideology label.", may_modify_pms: false}
+    boundary_condition: {meaning: "Condition narrowing, suspending, or defeating a reading.", may_modify_pms: false}
+    falsifier: {meaning: "Condition under which a claim weakens or fails.", may_modify_pms: false}
+    application_protocol: {meaning: "Mapping order without mechanism or independent authority.", may_modify_pms: false}
+    viability_signature: {meaning: "Structural possibility; not repair protocol.", may_modify_pms: false}
+  unknown_status_policy: "reject"
+
+validity_gate:
+  scope: "application_only"
+  canonical_pms_entry_condition:
+    source: "PMS.yaml"
+    required_all:
+      - {id: "Χ", name: "Distance", meaning: "Reflective stop-capability; no fusion into urgency, verdict, enforcement, ideology, or person attribution."}
+      - {id: "reversibility", name: "Reversibility", meaning: "Reading remains scene-bound, revisable, narrowable, suspendable, and defeasible."}
+      - {id: "D", name: "Dignity-in-Practice", meaning: "No shaming, ranking, humiliation, ontological evaluation, sex ranking, or degradation."}
+  eden_application_requirements:
+    required_all:
+      - {id: "scene_packet", meaning: "Specified scene, role-positions, real Ω, effects, costs, Θ, and Σ/Ψ relevance."}
+      - {id: "counter_scene_exposure", meaning: "A plausible materially different scene can change the reading."}
+      - {id: "contextual_responsibility", meaning: "R attribution tracks effect under legibility, capacity, alternatives, Θ, and Ω cost/exposure."}
+      - {id: "evidentiary_answerability", meaning: "No concept, pattern, frame, role code, or label replaces evidence."}
+      - {id: "affected_role_contestation", meaning: "Affected roles may contest packet, evidence, frame, R trace, or application without confirming EDEN by disagreement."}
+      - {id: "independent_application_authority", meaning: "EDEN-MAP supplies no authority to confront, accuse, prescribe, intervene, punish, or enforce."}
+  does_not_apply_to: [critique_of_pms_or_eden, refusal, rejection, revision_proposals, rival_formalization]
+  invalid_if_any: [Χ_suspended_for_clarity_or_urgency, reversibility_suspended_for_verdict, D_suspended_for_truth_or_efficiency, scene_packet_replaced_by_impression, counter_scene_cannot_change_reading, responsibility_without_scene_conditions, description_converted_directly_into_binding, person_or_sex_label_substituted_for_scene_analysis]
+  consequence: "Any invalid trigger makes claimed PMS-EDEN application methodologically invalid."
+
+description_to_action_firewall:
+  status: "non_negotiable_application_constraint"
+  description:
+    definition: "Operator-traceable scene mapping without obligation."
+    permitted_outputs: [name_real_asymmetry, trace_structuring_effect, identify_possible_responsibility_displacement, identify_possible_integration_or_self_binding_blockage, record_counter_scenes_and_falsifiers]
+    forbidden_conversions: [binding, obligation, confrontation, accusation, prescription, intervention, punishment, enforcement]
+  application:
+    definition: "Mapping used to steer, bind, obligate, prescribe, confront, accuse, intervene, punish, or enforce."
+    trigger_operations: [steer, bind, obligate, prescribe, confront, accuse, intervene, punish, enforce]
+    required_conditions_all: [scene_packet, counter_scene_exposure, "Χ", reversibility, "D", contextual_responsibility, affected_role_contestation, independent_application_authority]
+    deny_if_any_missing: true
+  core_formulas: ["Description may name structure.", "Application requires Χ, reversibility, D, and contextual responsibility.", "Description does not authorize binding."]
+
+paper_lens:
+  name: "Adult Reciprocity and Reciprocity Loss"
+  definition: "Tests whether real Ω is truthfully coordinated through R, Σ, Ψ, Χ, D, and correctability or falsely coordinated through displaced R and blocked Σ/Ψ."
+  unit_of_analysis: "specified_praxeological_scene"
+  positive_starting_point: "Adult Reciprocity"
+  central_mechanism: "False-Coordinated Real Asymmetry"
+  culminating_loss: "Reciprocity Loss as erosion of shared correctability under real Ω"
+  non_goals: [comprehensive_social_theory, psychology_or_personality_theory, clinical_or_therapeutic_model, theology_or_exegesis, sex_metaphysics, sex_truth_claims, culture_war_framework, general_ideology_diagnosis, empirical_prevalence_study, relationship_manual, intervention_protocol, political_program, verdict_or_recommendation_engine]
+  prohibited_inferences: [operator_configuration_to_mental_state, scene_pattern_to_personality, role_position_to_ontological_worth, sexed_scene_to_sex_essence, structuring_effect_to_malice, vulnerability_to_immunity, capacity_to_total_guilt, difference_to_rank, non_action_to_automatic_praxis, description_to_action_authority]
+
+paper_structure_map:
+  status: "ownership_index_only"
+  chapters:
+    "1":
+      title: "Core Thesis"
+      homes: [core_thesis, method_and_positive_baseline.adult_reciprocity, responsibility_and_praxis_architecture.recognition_drift.equal_standing_positive_standard, regime_test_scene_and_loss_architecture.reciprocity_loss]
+    "2-6": {home: "method_and_positive_baseline"}
+    "7-10": {home: "mechanism_architecture"}
+    "11-14": {home: "responsibility_and_praxis_architecture"}
+    "15-17": {home: "regime_test_scene_and_loss_architecture"}
+    "18-19": {home: "boundary_and_application_architecture"}
+    "20":
+      title: "Conclusion and Theoretical Payoff"
+      homes: [core_thesis, method_and_positive_baseline.adult_reciprocity.full_positive_structure, method_and_positive_baseline.garden, method_and_positive_baseline.limited_legibility, regime_test_scene_and_loss_architecture.reciprocity_loss, architecture_invariants.reflexive_self_binding, boundary_and_application_architecture.falsifiers]
+  appendices:
+    A:
+      title: "Structural Glossary"
+      homes: [construct_status_registry, operator_reference, derived_axes_reference, core_thesis, mechanism_architecture, responsibility_and_praxis_architecture, regime_test_scene_and_loss_architecture, boundary_and_application_architecture, description_to_action_firewall]
+    B:
+      title: "Adjacent Frameworks"
+      home: "boundary_and_application_architecture.adjacent_frameworks"
+  duplication_policy: "Index canonical homes; do not duplicate chapter or glossary prose."
+
+core_thesis:
+  thesis_statement: "Adult Reciprocity is truthful coordination of real Ω; Reciprocity Loss begins where real Ω is falsely coordinated, R displaced, Σ/Ψ blocked, and shared correctability eroded."
+  positive_baseline:
+    id: "adult_reciprocity"
+    status: "eden_normative_benchmark"
+    full_development_home: "method_and_positive_baseline.adult_reciprocity"
+    formulas: ["Adult Reciprocity ≠ symmetry.", "Adult Reciprocity = truthful coordination of real Ω."]
+    not_equivalent_to: [symmetry, sameness, harmony, equal_burden, formal_equality, abolition_of_asymmetry]
+    status_note: "Explicit EDEN benchmark; not total access, metaphysical truth, empirical universal, or automatic application."
+  negative_counterpart:
+    id: "reciprocity_loss"
+    status: "eden_theoretical_compression"
+    full_development_home: "regime_test_scene_and_loss_architecture.reciprocity_loss"
+    formulas: ["Reciprocity Loss = false coordination of real Ω.", "Reciprocity Loss is the erosion of shared correctability under real asymmetry."]
+    not_equivalent_to: [conflict, disagreement, inequality, asymmetry, hurt, lack_of_harmony, failed_communication, unequal_burden, guilt]
+  governing_distinction:
+    formulas: ["Asymmetry is not the failure.", "False coordination of asymmetry is the failure."]
+    implications: ["Real Ω remains visible.", "Power, vulnerability, protection, dependency, hierarchy, local superiority, and unequal R may be genuine.", "Reality does not justify asymmetry.", "Inequality alone does not establish failure."]
+  master_trace:
+    status: "eden_theoretical_compression"
+    sequence: ["coordinated Ω", "false-coordinated real Ω", "displaced R", "blocked Σ/Ψ", "reciprocity loss"]
+    chain_formula: "coordinated Ω → false-coordinated real Ω → displaced R → blocked Σ/Ψ → reciprocity loss"
+    status_note: "Structural trace; not chronology, deterministic cause, PMS dependency, or universal sequence."
+  central_mechanism_preview:
+    id: "false_coordinated_real_asymmetry"
+    status: "eden_mechanism"
+    full_development_home: "mechanism_architecture.false_coordinated_real_asymmetry"
+    components: {real_asymmetry: "real Ω", coordination_frame: "false frame", responsibility: "displaced R", integration_and_self_binding: "blocked/weakened/simulated/avoided/externalized Σ/Ψ"}
+    formula: "real Ω + false coordination frame + displaced R + blocked Σ/Ψ = false-coordinated real Ω"
+    boundaries: ["The asymmetry need not be false; the coordination is false.", "Partial framing alone is insufficient.", "Scene evidence must establish effect, displaced R, and Σ/Ψ relevance."]
+  responsibility_invariant:
+    pms_axis: "R"
+    eden_rule_status: "eden_normative_benchmark"
+    full_development_home: "responsibility_and_praxis_architecture.responsibility_principle"
+    formula: "R follows real structuring effect under available legibility, capacity, alternative possibility, Θ trajectory, and Ω cost/exposure conditions."
+    boundaries: ["R is not blame.", "R is not guilt.", "R is not moral worth.", "R is not person condemnation.", "R is not mere causality.", "R is not outcome-liability alone.", "R does not require malice.", "R remains scene-limited."]
+  correctability_invariant:
+    id: "shared_correctability"
+    status: "eden_normative_benchmark"
+    full_development_home: "regime_test_scene_and_loss_architecture.reciprocity_loss.correctability"
+    definition: "Capacity to receive, test, revise, and integrate proportionate correction while R tracks effect and D remains preserved."
+    boundaries: ["Not agreement.", "Not peace.", "Not reconciliation.", "Not compulsory engagement.", "Not acceptance of every criticism.", "Not a PMS operator or axis."]
+  architecture_demotions:
+    false_comparison: {status: "eden_mechanism", rule: "Attractor/amplifier/stabilizer, not first cause.", forbidden_role: "origin_or_master_mechanism", full_development_home: "method_and_positive_baseline.false_comparison"}
+    pseudo_symmetry: {status: "overlay_construct", rule: "One Switch Family form.", forbidden_role: "master_mechanism", full_development_home: "mechanism_architecture.switch_family.members.pseudo_symmetry"}
+    pfo:
+      status: "regime_stabilization"
+      formulas: ["PFO is not the origin of reciprocity loss.", "PFO is one regime form in which reciprocity loss stabilizes."]
+      forbidden_roles: [origin, center, person_type, sex_truth, ideology_diagnosis, political_insult, all_modern_gender_order]
+      full_development_home: "regime_test_scene_and_loss_architecture.pfo"
+    eden_scene:
+      status: "overlay_construct"
+      formulas: ["Eden is not the paper's origin.", "Eden is a test scene for the paper's grammar.", "Eden is not foundation; Eden is demonstration."]
+      forbidden_roles: [paper_origin, proof_path, sex_truth_source, theological_dependency, master_history_of_reciprocity_loss]
+      full_development_home: "regime_test_scene_and_loss_architecture.eden_scene"
+  core_scope_guardrails: ["Bidirectionality is not symmetry.", "Non-symmetry is not one-sidedness.", "Profiles are scene-bound drift patterns, not sex truths.", "Praxis ≠ strict E.", "No Passive Praxis ≠ every non-action is action.", "Low Ψ may shift Ψ-load only with traceable scene effect.", "Structure critique ≠ person threat.", "Protection from degradation ≠ protection from responsibility.", "No concept, pattern, frame, or label replaces scene evidence."]
+
+architecture_invariants:
+  positive_first: "PMS-EDEN begins from Adult Reciprocity, not Eden, Fall, False Comparison, PFO, or Pseudo-Symmetry."
+  mechanism_center: "False-Coordinated Real Asymmetry is the central coordination mechanism."
+  culmination: "Reciprocity Loss as Tragedy culminates in loss of shared correctability."
+  application_after_boundaries: "Boundaries, counter-scenes, and falsifiers precede EDEN-MAP."
+  reflexive_self_binding: ["EDEN is not outside the garden.", "A theory about immunization must not immunize itself.", "A theory of reciprocity loss remains answerable to reciprocity in its own use.", "EDEN must release scenes that do not belong to it."]
+  forbidden_master_chains: ["Eden → Fall → comparison → PFO → reciprocity loss", "False Comparison as first cause", "PFO as origin or center", "Pseudo-Symmetry as master mechanism"]
+
+method_and_positive_baseline:
+  paper_scope:
+    chapters: [2, 3, 4, 5, 6]
+    function: "Method, Adult Reciprocity, learned legibility-field, Limited Legibility, comparison susceptibility, and demoted False Comparison."
+
+  method_and_pms_discipline:
+    status: "overlay_construct"
+    structural_not_psychological_primary:
+      primary_rule: "Structure first."
+      definition: "Begin with scene organization: □, Λ, Ω, Θ, Φ, Α, Σ, Ψ, costs, protection, recognition, and correction access; do not infer motive, personality, affect, diagnosis, or hidden state."
+      psychological_appearances:
+        evidence_status: "independently_evidenced_scene_data_only"
+        rule: "Fear, shame, aggression, resentment, hurt, withdrawal, avoidance, guilt, or control enter only as evidenced scene data, never as PMS derivations."
+      preferred_question: "What does the role-position structure in this scene?"
+      prohibited_shortcuts: [motive_inference_from_effect, mental_state_inference_from_operator_mapping, personality_inference_from_scene_pattern, moral_character_inference_from_responsibility, sex_essence_inference_from_role_position]
+
+    description_and_application:
+      firewall_reference: "description_to_action_firewall"
+      structural_description_status: "May name a possible scene configuration without binding use."
+      application_status: "Steering, obligation, confrontation, accusation, prescription, intervention, punishment, or enforcement remains validity-gated."
+      formulas: ["Description may name structure.", "Application requires Χ, reversibility, D, and contextual responsibility.", "Description does not authorize binding."]
+
+    scene_packet_method:
+      status: "application_protocol"
+      purpose: "Minimum admissible input; entry threshold, not finding or verdict."
+      minimum_fields: [specified_scene, role_positions, real_Ω, traceable_structuring_effect, responsibility_recognition_protection_cost_or_legibility_shift, Σ_Ψ_relevance, possible_counter_scene]
+      role_position_rule: "Scene role, never person essence, psychology, identity, sex truth, or moral worth."
+      real_omega_rule: "Requires consequential unevenness in capacity, exposure, cost, protection, recognition, access, timing, dependency, vulnerability, Action-Power, or legibility; disagreement, irritation, identity, or affiliation is insufficient."
+      structuring_effect_rule: "Trace what changes what can be said, done, withheld, carried, corrected, recognized, protected, exposed, or made costly."
+      sigma_psi_rule: "Test whether costs/effects enter Σ and consequential positions remain self-bound through Ψ."
+      counter_scene_entry_rule: "Include at least one plausible reading capable of weakening, narrowing, suspending, or defeating EDEN."
+      prohibited_inputs: [isolated_statement, decontextualized_action, identity_or_sex, political_affiliation, role_suspicion, atmospheric_resemblance, PFO_by_impression]
+
+    method_validity_gate:
+      status: "application_protocol"
+      canonical_reference: "validity_gate"
+      required_configuration: ["Χ", reversibility, "D", counter_scene_exposure, contextual_responsibility, affected_role_contestation, independent_application_authority]
+      meanings:
+        "Χ": "Reflective inhibition; no urgency, fusion, retaliation, humiliation, or verdict."
+        reversibility: "Reading remains correctable, narrowable, suspendable, and abandonable."
+        "D": "Critique preserves standing; no degradation or rank."
+        counter_scene_exposure: "A materially different reading can change the result."
+        contextual_responsibility: "R follows effect under actual scene conditions."
+        affected_role_contestation: "Affected roles may contest without confirming EDEN by disagreement."
+        independent_application_authority: "EDEN supplies no authority to bind or enforce."
+      scope_rule: "Χ is not a description truth condition; it becomes mandatory when description guides or binds action."
+
+    counter_scene_protocol:
+      status: "application_protocol"
+      core_rule: "Every EDEN reading must remain answerable to a counter-scene that could change it."
+      required_tests:
+        - {id: real_omega_test, question: "Is real Ω operative and consequential?"}
+        - {id: responsibility_displacement_test, question: "Is R displaced from real structuring effect?"}
+        - {id: sigma_psi_test, question: "Are Σ/Ψ blocked, weakened, simulated, or externalized?"}
+        - {id: genuine_case_test, question: "Could genuine vulnerability, protection, hierarchy, superiority, non-action, openness, or non-capture explain the scene?"}
+        - {id: rival_explanation_test, question: "Does a rival fit the decisive evidence better?"}
+      contestation_rule: "Affected roles may contest packet, evidence, frame, R trace, or application; disagreement neither defeats nor confirms EDEN."
+      unresolved_result_statuses: [contested, provisional, narrowed, indeterminate]
+      prohibited_reclassification: "Do not recode unresolved disagreement as failed correctability, immunization, threat-coding, non-binding, or resistance to truth."
+
+    analyst_guardrail:
+      status: "boundary_condition"
+      statements: ["The analyst is not outside Ω, □, Φ, Χ, Α, or Θ.", "The analyst remains subject to learned legibility, comparison susceptibility, partial knowledge, and R-displacement risk.", "A theory about immunization can immunize itself.", "A theory about False Comparison can become a superiority frame.", "A theory about R can become accusation.", "A theory about D can degrade if D is abandoned in use."]
+      self_binding_requirement: "Analyst remains able to revise, narrow, suspend, or release the reading and answerable for the analysis's effects."
+
+  adult_reciprocity:
+    status: "eden_normative_benchmark"
+    definition: "Truthful coordination of real Ω; 'Adult' stipulates structural answerability, not age, psychological maturity, moral superiority, advice, or typology."
+    formulas: ["Adult Reciprocity ≠ symmetry.", "Adult Reciprocity = truthful coordination of real Ω."]
+
+    full_positive_structure:
+      chain_formula: "real Ω visible + D preserved + R follows real structuring effect + Σ integrates costs and effects + Ψ binds relevant actors to their own effect + Χ keeps revision possible"
+      components:
+        real_omega_visible: {meaning: "Ω remains nameable without denial, flattening, or rank conversion."}
+        dignity_preserved: {pms_axis: "D", meaning: "Standing preserved with agency, criticizability, and proportionate answerability."}
+        responsibility_follows_effect: {pms_axis: "R", meaning: "Answerability tracks real effect under scene conditions."}
+        costs_and_effects_integrated: {pms_operator: "Σ", meaning: "Costs, exposures, effects, and R enter a shared account."}
+        actors_self_bound: {pms_operator: "Ψ", meaning: "Consequential positions remain attached to their effects."}
+        revision_possible: {pms_operator: "Χ", meaning: "Distance keeps correction, narrowing, and revision possible."}
+      status_note: "EDEN benchmark; operator-traceable but not PMS axis, natural law, empirical universal, or prevalence claim."
+
+    not_equivalent_to: [symmetry, sameness, harmony, equal_burden, formal_equality, conflict_absence, abolition_of_asymmetry]
+
+    unequal_burden_rule:
+      formulas: ["Adult reciprocity does not require equal burdens.", "Adult reciprocity requires non-externalization of unequal burdens."]
+      meaning: "Unequal cost, exposure, vulnerability, protection, access, capacity, or R must remain speakable, answerable, integrated, and self-bound rather than silently transferred."
+
+    recognition_and_responsibility:
+      status: "eden_normative_benchmark"
+      formulas: ["Recognition plus responsibility is the adult hinge.", "Recognition without answerability is not equal standing."]
+      positive_relation: "Recognition preserves D/agency; R keeps effect criticizable. Recognition without R risks immunity; R without recognition risks domination/degradation."
+      boundaries: ["Recognition is not immunity.", "Responsibility is not punishment.", "Equal standing is not sameness or identical obligation.", "Adult recognition includes criticizability.", "Adult responsibility preserves D."]
+      deferred_negative_development: [Recognition-without-Responsibility, Pseudo-Equal-Standing, Critique-to-Threat_Switch]
+
+    dignity_in_practice:
+      pms_axis: "D"
+      eden_status: "adopted_normative_condition"
+      formula: "protection from degradation + recognition of agency + criticizability without humiliation + responsibility without domination"
+      components: [protection_from_degradation, recognition_of_agency, criticizability_without_humiliation, responsibility_without_domination]
+      core_distinctions: ["Dignity is not immunity.", "Responsibility is not degradation.", "Critique can degrade; critique is not degrading as such.", "Structure critique is not person threat."]
+      status_note: "D = Ψ ∘ Χ ∘ Ω remains canonical; EDEN adoption adds no automatic authority or empirical universality."
+
+    integration_role:
+      pms_operator: "Σ"
+      formula: "Σ integrates costs and effects."
+      meaning: "Brings Ω, costs, exposure, consequences, and R into accountable relation; not agreement, surface coherence, justification, conflict suppression, or continuation."
+      simulation_boundary: "Preferred-description coherence excluding actual costs is simulated, not sufficient Σ."
+      relation_to_psi: "One position absorbing what another will not bind is transferred integration-load, not reciprocal Σ."
+
+    self_binding_role:
+      pms_operator: "Ψ"
+      formulas: ["Adult Ψ begins as self-binding, not other-binding.", "low Ψ on one side → increased Ψ-load on the other."]
+      meaning: "Attachment to one's effects without guilt, confession, self-punishment, or imposed binding of another."
+      boundaries: ["Not guilt.", "Not rigid consistency.", "Not compliance or obedience.", "Absent Ψ does not authorize forced binding."]
+      downstream_development: "responsibility_and_praxis_architecture.no_passive_praxis.non_binding_as_Ψ_load_shift"
+
+    distance_role:
+      pms_operator: "Χ"
+      meaning: "Keeps R, recognition, Ψ, and correction revisable and D-preserving; blocks premature urgency, fusion, shame, threat, retaliation, or verdict."
+      boundaries: ["Not detachment from R.", "Not endless postponement.", "Not evasion or neutrality by default.", "Does not suspend all judgment."]
+      dual_role: {positive_benchmark: "Keeps Adult Reciprocity correctable.", application_gate: "Prevents description becoming immediate enforcement."}
+
+    failure_signature:
+      status: "eden_theoretical_compression"
+      formula: "Where real Ω structures the scene but D cannot be preserved, R cannot follow real structuring effect, Σ cannot integrate costs and effects, Ψ cannot bind role-positions to their own effects, and Χ cannot keep revision possible, Adult Reciprocity begins to fail."
+      signatures: [recognition_or_protection_without_criticizability_and_R, R_or_critique_without_D_and_self_restraint, vulnerability_or_formal_equality_detached_from_cost_truth_and_Ψ, structuring_non_action_or_non_binding_without_effect_ownership, legitimation_without_integration]
+      scope_note: "Benchmark-failure signals only; not full later mechanisms or sufficient findings by category."
+
+  garden:
+    status: "eden_theoretical_compression"
+    definition: "Learned legibility-field shaping what can be seen, named, trusted, feared, protected, exposed, corrected, and carried; theoretical socialization reconstruction, not empirical developmental sequence."
+    formula: "Garden = learned legibility-field."
+    non_equivalences: [Eden, paradise, innocence, pure_reciprocity_before_society, theological_origin, paper_origin, new_master_metaphor, grand_social_theory]
+
+    field_functions:
+      enables: [recognition, responsibility, correction, distance, self_binding, trust, role_legibility, shared_expectation]
+      may_limit: [cost_legibility, asymmetry_legibility, criticizability, dynamic_reversibility, alternative_coordination]
+
+    society_and_personality_compressions:
+      formulas: ["Society = stabilized praxis.", "Personality = internalized praxis."]
+      status_note: "EDEN compressions; not PMS equations, developmental laws, exhaustive sociology, typology, diagnosis, or inner essence."
+      society_meaning: "Repeatable praxis stores expectations, roles, permissions, burdens, protections, and recognizable R."
+      personality_meaning: "Durable internalized praxis orientation structures possibilities, costs, expectation, trust, shame, distance, R, and Ψ."
+
+    stabilization_ambivalence:
+      formula: "Stabilized praxis increases coordination capacity, but lowers dynamic reversibility once Α patterns protect themselves under Ω/Θ."
+      enables: [coordination, memory, roles, trust, skill, shared_expectations, recognizable_responsibility]
+      risks: [path_dependence, rigidity, invisible_costs, blocked_revision, asymmetric_normality, legibility_poverty]
+      governing_rule: "Stabilization is ambivalent, not guilty."
+
+    recursive_formation:
+      operators: ["□", "Α", "Θ", "Ω"]
+      trace: [anthropological_disposition, repeated_praxis, social_frame, adaptive_pressure, internalized_disposition, reproduced_praxis]
+      chain_formula: "anthropological disposition → repeated praxis → social frame → adaptive pressure → internalized disposition → reproduced praxis"
+      interpretation: "Recursive loop, not origin story; formation/reproduction is non-symmetrical, partly legible, and unequally costly."
+      core_statement: "The human being produces the environment that produces the human being — but not symmetrically, not fully consciously, and not under equal costs."
+
+    problem_solving_and_inflexibility:
+      trace: [problem, repeated_solution, stabilized_expectation, "Α", path_dependence_under_Θ, reduced_reversibility]
+      chain_formula: "problem → repeated solution → stabilized expectation → Α → path-dependence under Θ → reduced reversibility"
+      meaning: "Solutions enable coordination but may self-protect, normalize costs, and frame later problems."
+      chi_requirement: "Χ asks what solutions now distribute, conceal, normalize, or obstruct from revision."
+
+    structural_powerlessness:
+      preferred_label: "Structural Powerlessness"
+      definition: "Need for change becomes felt before concepts, trust, roles, distance, or shared R permit coordination."
+      formula: "Structural powerlessness arises where necessity becomes felt but cannot yet be coordinated."
+      boundaries: [not_weakness, not_passivity, not_failure_of_will, not_psychological_helplessness, not_innocence_or_excuse]
+
+    blind_spot_formation:
+      definition: "Learned legibility hides some costs, Ω, R, or burdens while producing competence within its stabilized frame."
+      formula: "The blind spot is not ignorance alone; it is learned legibility under stabilized Ω, □, and Θ."
+      boundaries: [not_stupidity, not_bad_faith_by_default, not_guilt, not_pathology, not_responsibility_erasure]
+
+    analyst_inclusion:
+      formula: "The analyst is not outside the Garden."
+      meaning: "EDEN concepts remain learned, partial, counter-scene-exposed, distanced, reversible, and self-bound."
+
+  limited_legibility:
+    status: "eden_theoretical_compression"
+    definition: "Role-position participates without complete access to all effects, histories, costs, alternatives, Ω, or R."
+    epistemic_status: "Theoretical-methodological premise; degree and availability remain evidentiary."
+    dimensions: [embodied, social, conceptual, affective, historical, role_based, linguistic, cost_visibility]
+    core_rules: ["Limited legibility is not innocence.", "Limited legibility is not excuse.", "Limited legibility is not stupidity.", "Limited legibility is not guilt.", "Responsibility remains real under limited legibility.", "Limited legibility changes the conditions of responsibility attribution; it does not erase responsibility."]
+
+    asymmetry_under_temporality:
+      status: "eden_theoretical_compression"
+      trace: ["real Ω across Θ", "repeated praxis within □", "Α stabilization", "Φ as nature/culture/reality"]
+      chain_formula: "real Ω operative across Θ + repeated praxis within □ → Α stabilization → Φ recontextualization as nature / culture / reality"
+      interpretation: "Conditional legibility risk; not PMS axis/dependency, empirical sequence, prevalence claim, or proof of unjustified Ω."
+      distinctions: ["Historically stabilized ≠ unreal.", "Real ≠ uncriticizable.", "Constructed ≠ fake.", "Naturalized ≠ justified."]
+
+    missing_concepts:
+      status: "overlay_construct"
+      core_formula: "When structure cannot be named, it does not disappear; it is carried affectively, morally, relationally, or bodily."
+      possible_missing_vocabularies: [responsibility_without_guilt, asymmetry_without_rank, protection_without_immunity, vulnerability_with_responsibility, non_action_with_structuring_effect, self_binding_load, asymmetric_cost]
+      possible_displaced_forms: [shame, irritation, guilt, hostility, personal_failure, weakness, domination, ingratitude, threat]
+      boundary: "Legibility gap, not total explanation, innocence condition, or proof of later drift."
+
+    orientation_need:
+      status: "overlay_construct"
+      meaning: "Under partly legible Ω, comparison may locate burden, exposure, protection, Action-Power, R, timing, or explanation demand."
+      rules: ["Comparison is not always false.", "Comparison can serve coordination.", "Comparison becomes dangerous when it replaces coordination."]
+
+    comparison_susceptibility:
+      status: "eden_theoretical_compression"
+      definition: "Comparison becomes more available than coordination under partial legibility; not moral failure, diagnosis, drift mechanism, or inevitability."
+      components: [limited_legibility, real_Ω, Θ_stabilization, missing_concepts, recognition_need, responsibility_pressure, cost_opacity, weak_or_externalized_Ψ]
+      formula: "limited legibility + real Ω + Θ stabilization + missing concepts + recognition need + responsibility pressure + cost opacity + weak or externalized Ψ → comparison susceptibility"
+      interpretation: "Conditional susceptibility, not linear/deterministic cause; comparison may remain functional and correctable."
+      correction_openings: [real_Ω_more_nameable, R_traceable_without_humiliation, costs_enter_shared_frame, Ψ_less_externalized, comparison_subordinate_to_coordination]
+      boundary: "Comparison susceptibility is not yet False Comparison."
+
+    praxis_relation_to_value_relation:
+      status: "eden_mechanism"
+      praxis_relation_questions: ["Who carries what?", "Who can act?", "Who must wait?", "Who is exposed/protected?", "Who can name/integrate cost?", "Who remains bound to effect?"]
+      value_relation_markers: [higher_or_lower, superior_or_inferior, worthy_or_unworthy, credible_or_suspect, mature_or_immature, valuable_or_burdensome, protected_or_dangerous]
+      formulas: ["The problem is not that difference is seen.", "The problem is that difference is read as rank where coordination is required."]
+      scope_note: "Conversion point, not drift origin or full rank-artifact analysis."
+
+  false_comparison:
+    status: "eden_mechanism"
+    architectural_role: [frame_attractor, amplifier, stabilizer]
+    definition: "Comparison captured by □ so rank, value, suspicion, idealization, threat, or defect displaces truthful coordination of real Ω."
+    core_rules: ["False Comparison is not the first cause.", "False Comparison is not the paper's origin.", "False Comparison is not the master mechanism of reciprocity loss.", "Comparison is not false because it compares.", "False Comparison does not create real Ω.", "False Comparison falsely coordinates real Ω.", "Comparison becomes false when it substitutes for truthful coordination.", "Difference is not rank.", "Asymmetry is not inferiority."]
+
+    operator_reading:
+      principal_configuration: "Α within □ under partly legible Ω/Θ conditions"
+      note: "EDEN mechanism using PMS operators; not dependency, derived axis, or proof every comparison attractor is false."
+
+    responsibility_and_coordination_effects:
+      possible_effects: ["R follows attributed rank rather than effect", "Σ integrates cost only through bearer value", "Ψ weakens for protected position and shifts load", "D erodes through ranking/idealization/suspicion/persona", "Critique-to-Threat becomes more available"]
+      scope_note: "Conditional, scene-evidenced effects; later sections develop them fully."
+
+    drift_forms:
+      negative_comparison_drift:
+        status: "eden_mechanism"
+        definition: "Difference becomes lower standing, defect, burden, suspicion, reduced credibility, or lesser agency before coordination."
+        conversion_examples: ["dependency → inferiority risk", "vulnerability → weakness risk", "need → defect risk", "exposure → suspicion risk", "different capacity/timing → lesser-agency risk"]
+        primary_effect: "What the scene distributes is displaced by what is allegedly wrong with the negatively coded position."
+
+      positive_comparison_drift:
+        status: "eden_mechanism"
+        definition: "Position is idealized/elevated/purified or made too valuable, innocent, vulnerable, necessary, or exemplary for criticizability."
+        core_rule: "Idealization can be capture."
+
+      fixing_comparison_drift:
+        status: "eden_mechanism"
+        definition: "Comparison preassigns who must be corrected, educated, rescued, regulated, contained, matured, or made ready before coordination."
+        primary_effect: "Frame persists by locating correction in the position disturbing or carrying its burden."
+
+      threat_coding_comparison_drift:
+        status: "eden_mechanism"
+        definition: "Difference becomes domination, contamination, manipulation, destabilization, danger, or inherent risk before effect/counter-scenes are traced."
+        core_rule: "Threat-coding can be capture."
+        boundary: "Real danger remains possible and must not be dissolved into drift."
+
+      combined_drift_note: "Forms may reinforce one another; scene effects on coordination, R, Σ, Ψ, and criticizability decide status, not tone."
+
+    comparison_loop:
+      status: "eden_theoretical_compression"
+      sequence: ["limited legibility under Ω/Θ", comparison_susceptibility, False_Comparison, false_coordinated_real_Ω, displaced_R, blocked_Σ_Ψ, reciprocity_loss_pressure, increased_comparison_susceptibility]
+      loop_formula: "limited legibility under Ω/Θ → comparison susceptibility ↔ False Comparison ↔ false-coordinated real Ω → displaced R → blocked Σ/Ψ → reciprocity-loss pressure → increased comparison susceptibility"
+      interpretation: "Reinforcing loop, not origin, chronology, exhaustive explanation, or PMS dependency."
+      demotion_note: "False Comparison may be symptom and stabilizer."
+
+    comparison_levels:
+      status: "overlay_construct"
+      function: "Comparison-site map, not person/group/sex taxonomy."
+      domains:
+        responsibility_recognition_credibility_explanation: {functional_use: "Clarify R, standing, credibility, and explanation burden.", drift_risk: "Rank/suspicion/fragility/idealization predetermines whose account matters."}
+        cost_dependency_exposure_vulnerability_protection_danger: {functional_use: "Clarify burden, reliance, risk, alternatives, and protection need.", drift_risk: "Dependency becomes inferiority, vulnerability defect/immunity, or danger before testing."}
+        agency_binding_and_non_action: {functional_use: "Clarify action, refusal, delay, withdrawal, openness, and structuring absence.", drift_risk: "Agency is ranked or non-action presumed innocent/guilty before effect tracing."}
+        language_access: {functional_use: "Clarify legitimate cost terms and legibility burden.", drift_risk: "Missing language lowers credibility or externalizes explanation burden."}
+      global_guardrails: ["Bidirectionality is not symmetry.", "Non-symmetry is not one-sidedness.", "Comparison levels are scene domains, not identity profiles."]
+
+    functional_vs_drifted:
+      functional_comparison:
+        properties: [bounded, scene_specific, revisable, counter_scene_exposed, cost_aware, responsibility_compatible, Σ_and_Ψ_supporting, D_preserving, coordination_reopening]
+        formula: "Functional comparison reopens coordination."
+      drifted_comparison:
+        properties: [ranking, persona_forming, immunizing, overexposing, responsibility_displacing, Σ_and_Ψ_blocking, D_eroding, critique_to_threat_enabling, coordination_replacing]
+        formula: "Drifted comparison replaces coordination."
+
+    boundaries:
+      not_false_by_default: [comparison, discernment, judgment, critique, evaluation, difference, asymmetry]
+      false_comparison_weakens_where: [comparison_bounded_and_specific, comparison_clarifies_real_distribution, R_attached_to_effect, costs_enter_Σ, consequential_positions_self_bound_through_Ψ, D_preserved, counter_scenes_can_change_reading]
+      deferred_developments: [inferiority_and_superiority_misframing, real_sexed_praxis_relation_under_Ω, false_coordinated_real_asymmetry_full_mechanism, switch_family]
+
+mechanism_architecture:
+  paper_scope:
+    chapters: [7, 8, 9, 10]
+    function: "Real sexed praxis under Ω; rank-artifact misframing; False-Coordinated Real Asymmetry; Switch Family."
+  analytical_status: "Conditional scene configurations, not typologies, prevalence/distribution claims, person labels, diagnoses, or sex essences; occurrence, recurrence, direction, and R remain evidentiary."
+
+  real_sexed_praxis_relation_under_Ω:
+    status: "overlay_construct"
+    definition: "Possible embodied, socially framed, historically stabilized, asymmetrically exposed, responsibility-relevant relation among sexed role-positions; states what positioning structures, not what a sex is."
+    terminology:
+      man_woman_label:
+        use: "Compressed initial label for sexed role-positions."
+        not_equivalent_to: [essence, ontology, archetype, fixed_identity, population_typology, person_verdict]
+      preferred_term: "sexed role-position"
+    possible_structuring_dimensions: [embodiment, sexuality, reproduction, vulnerability, dependency, protection, exposure, capacity, responsibility, recognition, language, institutions, history, timing, cost]
+    reality_guardrails: ["Embodiment does not mean destiny.", "Social framing does not mean fiction.", "Historical stabilization does not mean justification.", "Vulnerability does not mean immunity.", "Power does not mean total guilt.", "Protection does not mean the end of responsibility.", "Responsibility does not mean degradation.", "Sexed Ω can be real without becoming essence, rank, diagnosis, group verdict, or sex truth."]
+    scene_bound_entry_condition: "Sexed positioning is relevant only where evidence shows effects on capacity, exposure, cost, protection, dependency, timing, language, recognition, R, or correction; sex/identity/coding alone is insufficient."
+    asymmetrically_distributed_roles:
+      status: "eden_theoretical_compression"
+      formula_lines: [asymmetrically_distributed, bidirectionally_operative, not_equal, not_identical, not_guilt_totalizing, not_immunity_producing, not_rank_forming, not_symmetry_erasing]
+      meaning: "Multiple positions may structure effects, carry R, drift, or suffer harm while mechanism, cost, Action-Power, exposure, protection, language, and alternatives remain non-identical."
+      high_sensitivity_guardrails: ["Both role-positions may drift, be harmed, and be responsible.", "They need not drift through the same mechanisms.", "They need not carry the same costs.", "They need not possess the same language, capacity, protection, or alternatives.", "Bidirectionality is not symmetry.", "Non-symmetry is not one-sidedness.", "Shared involvement does not establish equal responsibility.", "Shared damage does not establish equal loss."]
+    no_symmetrizing_flattening:
+      symmetrizing_error: "Assuming identical costs, exposure, protection need, R conditions, language, or drift mechanisms."
+      one_sided_error: "Treating non-symmetry as proof that only one position can structure, answer, drift, harm, protect, depend, expose, or be harmed."
+      adult_coordination_rule: "Map bidirectional effects without equalizing magnitude, mechanism, cost, R, exposure, or criticizability."
+    dependency_is_not_inferiority:
+      status: "eden_normative_benchmark"
+      formula: "Dependency is not inferiority."
+      meaning: "Embodied, material, temporal, social, affective, sexual, reproductive, protective, institutional, or linguistic dependency may raise exposure and alter R without lowering adult standing or worth."
+      coordination_requirements: [dependency_visible, protection_possible, agency_recognized, responsibility_proportionately_possible, D_preserved]
+      failure_risks: {denial: "Dependency/exposure becomes invisible.", rank_conversion: "Dependency becomes lesser agency/worth.", immunization: "Dependency becomes R exemption.", degradation: "Dependency becomes humiliating/de-adulting."}
+    strength_is_not_superiority:
+      status: "eden_normative_benchmark"
+      formula: "Strength is not superiority."
+      meaning: "Capacity, protection-capacity, Action-Power, burden capacity, access, bodily power, or endurance may increase R without higher worth, generalized authority, invulnerability, or total guilt."
+      coordination_requirements: [real_power_traceable, capacity_increases_R_where_effect_structured, exposure_and_vulnerability_legible, local_capacity_not_general_rank, D_available_to_stronger_position]
+      failure_risks: {denial: "Capacity/power becomes illegible.", rank_conversion: "Capacity becomes entitlement/authority/higher worth.", guilt_totalization: "Power becomes unlimited liability/total guilt.", vulnerability_erasure: "Expected strength blocks exposure/protection language."}
+    female_praxis_as_fully_adult:
+      status: "eden_normative_benchmark"
+      formula: "To hold female praxis responsible is not to make it lesser; it is to treat it as fully adult."
+      meaning: "Female-coded vulnerability, embodiment, dependency, protection need, exposure, and agency may coexist without reduced adulthood, criticizability, R, or sentimental immunity."
+      joint_coordination: [female_coded_vulnerability, female_coded_agency, female_coded_protection_need, female_coded_responsibility, D_preserving_criticizability]
+      boundaries: ["Protection must not infantilize.", "Responsibility must not degrade.", "Vulnerability must not become immunity.", "Critique must not become anti-female suspicion.", "Scene-bound; not a claim about women as persons or class."]
+    male_praxis_as_exposed_and_vulnerable:
+      status: "eden_normative_benchmark"
+      formulas: ["Male power may be real.", "Male exposure and vulnerability may also be real.", "These do not cancel each other."]
+      meaning: "Male-coded capacity may structure R while suspicion, explanation burden, restricted vulnerability language, reduced protection, or expected self-containment remain real."
+      joint_coordination: [male_coded_power, male_coded_responsibility, male_coded_exposure, male_coded_vulnerability, D_preserving_recognition]
+      boundaries: ["Exposure does not create innocence.", "Vulnerability does not cancel responsibility.", "Power does not cancel vulnerability.", "Responsibility does not authorize guilt-totalization or degradation.", "Not reversal theory or a claim about men as persons or class."]
+    real_protection_real_responsibility:
+      status: "eden_normative_benchmark"
+      formulas: ["Protection can be real.", "Responsibility can remain real.", "Protection without responsibility becomes immunity risk.", "Responsibility without protection becomes degradation or overexposure risk."]
+      meaning: "Protected positions may structure effects; responsible positions may require protection from humiliation, overexposure, false attribution, and D-loss."
+    profile_guardrail:
+      formula: "Profiles are scene-bound drift patterns, not sex truths."
+      prohibited_inferences: [profile_to_sex_essence, profile_to_population_distribution, profile_to_person_type, profile_to_fixed_moral_status]
+
+  inferiority_and_superiority_misframing:
+    status: "eden_mechanism"
+    definition: "Rank conversion of a situated condition under real Ω into generalized lower/higher standing, agency, authority, priority, immunity, or worth; difference may be real, ranking/coordination is artifact."
+    rank_artifact:
+      status: "overlay_construct"
+      definition: "Frame product converting dependency, vulnerability, capacity, sensitivity, protection, authority, status, or exposure into generalized value position."
+      sequence: [False_Comparison, Inferiority_Misframing, Superiority_Misframing]
+      chain_formula: "False Comparison → Rank Artifact A: Inferiority Misframing → Rank Artifact B: Superiority Misframing"
+      boundaries: ["A rank artifact is not a verified hierarchy.", "A local capacity difference is not ontological superiority.", "A local limitation is not ontological inferiority.", "Not every local inferiority/superiority claim is false.", "Misframing is coordination error, not merely incorrect opinion."]
+    inferiority_misframing:
+      status: "eden_mechanism"
+      definition: "Limitation, dependency, vulnerability, need, exposure, criticizability, or R becomes lower rank/agency/adulthood/authority/standing."
+      formula: "real dependency / vulnerability / limitation / exposure → lower rank or lower agency"
+      possible_coordination_effects: ["protection becomes paternalism", "recognition becomes condescension", "criticizability appears degrading", "responsibility becomes difficult to attach", "real vulnerability may be abandoned in the name of parity"]
+      boundaries: ["Dependency is not inferiority.", "Vulnerability is not lower adulthood.", "Need is not lesser agency.", "Exposure is not diminished worth.", "Real limitations may remain relevant to task, protection, and responsibility."]
+    superiority_misframing:
+      status: "eden_mechanism"
+      definition: "Real/attributed capacity, sensitivity, protection-power, status, knowledge, rationality, vulnerability, or recognition becomes higher rank, priority, immunity, exemption, or authority."
+      formula: "real or attributed capacity / sensitivity / vulnerability / status → higher rank, priority, immunity, or authority"
+      possible_coordination_effects: ["capacity becomes entitlement", "protection-power becomes command-right", "rationality becomes interpretive monopoly", "vulnerability becomes final moral priority", "status becomes exemption", "local competence becomes generalized authority"]
+      boundaries: ["Local superiority can be real.", "Local authority can be justified.", "Vulnerability can require protection.", "Capacity increases answerability where it structures effect.", "None establishes general rank or reduced criticizability."]
+    sex_coded_pseudo_forms:
+      status: "scene_bound_profile"
+      global_guardrail: "Possible scene rank artifacts, not claims about women/men, essence, recurrence, prevalence, motive, personality, or character."
+      female_pseudo_inferiority:
+        definition: "Female-coded vulnerability/dependency/embodiment/exposure/need/protection-relevance becomes lower agency, adulthood, authority, or criticizability."
+        formula: "female-coded vulnerability / dependency / exposure / protection-relevance → lower agency or lesser adulthood"
+        core_risk: "Protection becomes de-adulting or paternalistic."
+        positive_boundary: "Protection without de-adulting; responsibility without degradation."
+      female_pseudo_superiority:
+        definition: "Female-coded vulnerability/recognition/sensitivity/exposure/protection-relevance becomes priority, immunity, interpretive authority, or suspended criticizability."
+        formula: "female-coded vulnerability / recognition / sensitivity / protection-relevance → priority, immunity, interpretive authority, or suspended criticizability"
+        core_risk: "Protection and recognition preserve standing by sacrificing answerability."
+        anti_suspicion_boundary: "Does not imply manipulation or falsity of vulnerability, sensitivity, recognition, or protection need."
+      male_pseudo_inferiority:
+        definition: "Male-coded vulnerability/need/hurt/fear/uncertainty/dependency/recognition need becomes weakness, immaturity, threat, domination, control-attempt, or illegitimate demand."
+        formula: "male-coded vulnerability / need / hurt / uncertainty / dependency → weakness, immaturity, threat, control-attempt, or illegitimate demand"
+        core_risk: "Capacity is treated as canceling vulnerability-legibility."
+        responsibility_boundary: "Vulnerability-legibility does not remove R for real effect."
+      male_pseudo_superiority:
+        definition: "Male-coded strength/force/rationality/performance/protection-capacity/competence/endurance/status/Action-Power becomes authority, command-right, higher worth, exemption, or general rank."
+        formula: "male-coded strength / rationality / performance / protection capacity / status → authority, command-right, higher worth, exemption, or generalized rank"
+        core_risk: "Capacity becomes superiority rather than precise answerability."
+        positive_boundary: "Strength without superiority; protection without command; competence without monopoly."
+    coordination_failure:
+      status: "eden_mechanism"
+      effects:
+        responsibility: "Inferiority makes answerability degrading; superiority makes rank/priority/protection/status reduce it; R follows artifact, not effect."
+        integration: "Costs/effects pass through worth hierarchy before Σ, producing selective/blocked integration."
+        self_binding: "Lower rank makes Ψ confirm inferiority; higher rank makes Ψ optional/beneath status."
+        criticizability: "Rank determines speech, explanation, protection, credibility, cost absorption, and revision access."
+      global_boundary: "Decisive only where rank organizes coordination; stereotype, error, or crude statement alone is insufficient."
+
+  false_coordinated_real_asymmetry:
+    status: "eden_mechanism"
+    architectural_role: "central_mechanism"
+    definition: "Real Ω remains operative but a frame displaces R, blocks Σ, weakens/externalizes Ψ, and erodes Adult Reciprocity/correctability; asymmetry need not be false, coordination is false."
+    formula: "real Ω + false coordination frame + displaced R + blocked Σ/Ψ = false-coordinated real Ω"
+    required_components:
+      real_omega: {meaning: "Consequential Ω remains operative."}
+      false_coordination_frame: {meaning: "Frame makes Ω falsely legible or selectively carries it."}
+      displaced_responsibility: {meaning: "R no longer follows effect under scene conditions."}
+      blocked_integration_or_self_binding: {meaning: "Costs/effects cannot enter Σ and/or consequential positions detach through Ψ."}
+    status_note: "EDEN mechanism; not PMS operator/axis/dependency, empirical sequence, diagnosis, or recurrence proof."
+    not_equivalent_to: [false_asymmetry, asymmetry_itself, asymmetry_misrepresentation_only, False_Comparison_only, rank_artifact_only, Pseudo_Symmetry, PFO, mere_error, conflict, inequality]
+
+    asymmetry_misrepresentation_distinction:
+      asymmetry_misrepresentation:
+        formula: "real Ω is described falsely"
+        meaning: "Dependency becomes weakness, capacity worth, vulnerability innocence, protection authority, R blame, or non-action automatically neutral/active."
+      false_coordinated_real_asymmetry:
+        formula: "real Ω is coordinated falsely"
+        meaning: "Praxis organizes cost, protection, criticizability, integration, Ψ, and unexplained positions through false/selectively insufficient framing."
+      governing_rule: "Accurate vocabulary may be necessary but is insufficient. A scene can improve its description while retaining the same responsibility, cost, protection, criticizability, and self-binding distribution."
+
+    false_coordination_frames:
+      status: "overlay_construct"
+      frame_rule: "Partiality is not falsity; coordination becomes false where partial truth prevents proportionate entry of effect, cost, R, Σ, Ψ, or correction."
+      frame_families:
+        comparison: {valid_function: "Clarifies differences, costs, burdens, capacities, or R.", false_coordination_risk: "Rank/value replaces effect tracing."}
+        protection: {valid_function: "Shelters vulnerability, dependency, exposure, or danger.", false_coordination_risk: "Protection reassigns adulthood or removes criticizability/R."}
+        parity: {valid_function: "Corrects domination, condescension, or illegitimate hierarchy.", false_coordination_risk: "Formal equality flattens exposure, dependency, cost, or R."}
+        superiority: {valid_function: "Names local capacity, knowledge, authority, resilience, or R.", false_coordination_risk: "Local advantage becomes rank, priority, exemption, or command."}
+        vulnerability: {valid_function: "Names injury, exposure, need, sensitivity, or protection relevance.", false_coordination_risk: "Vulnerability becomes immunity or is denied because capacity exists."}
+        responsibility: {valid_function: "Connects answerability to effect, role, duty, or consequence.", false_coordination_risk: "R is under/over/misassigned, moralized, totalized, or attached to visibility/outcome."}
+        recognition: {valid_function: "Preserves D, voice, visibility, standing, and protection from degradation.", false_coordination_risk: "Recognition removes criticizability or opposes answerability to D."}
+        non_action_or_neutrality:
+          valid_function: "Preserves restraint, distance, boundary, or genuine non-involvement."
+          false_coordination_risk: "Structuring Λ stays illegible while shifting cost, timing, access, or Ψ-load."
+          full_development_home: "responsibility_and_praxis_architecture.no_passive_praxis"
+        legitimation: {valid_function: "Makes lawful, functional, protective, fair, or necessary arrangements intelligible.", false_coordination_risk: "Φ makes displacement appear normal, fair, necessary, autonomous, equal, responsible, or inevitable."}
+      combination_rule: "Frames may combine; presence alone proves nothing—trace displaced R and blocked Σ/Ψ."
+
+    responsibility_displacement:
+      status: "eden_mechanism"
+      definition: "R no longer follows the position/configuration structuring the relevant effect."
+      governing_formula: "R follows real structuring effect under available legibility, capacity, alternative possibility, Θ trajectory, and Ω cost/exposure conditions."
+      required_conditions:
+        available_legibility: "What could be seen, anticipated, received through feedback, or traced."
+        capacity: "What could be structured, prevented, redirected, absorbed, exposed, protected, or corrected."
+        alternative_possibility: "Materially relevant alternatives under actual constraints."
+        temporality: "Effect, feedback, correction opportunity, delay, repetition, and path-dependence across Θ."
+        cost_and_exposure: "Asymmetrical cost of acting, not acting, naming, correcting, or carrying."
+      displacement_forms:
+        underassignment: "Consequential position appears passive, vulnerable, neutral, protective, burdened, or uninvolved beyond evidence."
+        overassignment: "Position bears whole-scene R because stronger, visible, articulate, active/reactive, or criticizable."
+        misassignment: "R attaches to cost expression/carriage rather than effect structure."
+        totalization: "Bounded R becomes unlimited liability/generalized guilt."
+      boundaries: ["Responsibility is not assigned by appearance, identity, sex, suffering, or status.", "Visibility is not equivalent to structuring effect.", "Intention is not equivalent to structuring effect.", "Outcome is not equivalent to responsibility.", "Capacity increases responsibility only where it structures effect.", "Limited legibility constrains attribution without erasing every responsibility relation."]
+      full_principle_home: "responsibility_and_praxis_architecture.responsibility_principle"
+
+    blocked_Σ:
+      status: "eden_mechanism"
+      definition: "Scene cannot bring costs, exposure, R, vulnerability, protection, dependency, consequence, and counter-truth into accountable relation."
+      core_formula: "Σ-simulation is not integration."
+      not_equivalent_to: [disagreement, conflict, lack_of_harmony, absence_of_closure, narrative_incoherence]
+      selective_integration_patterns: ["vulnerability integrated without responsibility", "capacity integrated without exposure", "protection integrated without agency or criticizability", "equality integrated without unequal cost", "recognition integrated without correction", "autonomy integrated without dependency or consequence", "responsibility integrated without dignity"]
+      simulation_markers: [stable_description, recognized_victim_position, fixed_responsible_side, protected_side, fairness_language, agreement_without_cost_integration, continuity_without_answerability]
+      relation_to_R: "Displaced R permits integration only of the displaced account, excluding actual effect/cost."
+      relation_to_Ψ: "Where a position will not bind its effects, another may integrate what remains uncarried."
+      boundary: "Σ does not promise reconciliation, agreement, symmetrical cost, or closure; it keeps relevant truths jointly available."
+
+    blocked_Ψ:
+      status: "eden_mechanism"
+      definition: "Consequential position fails to remain bound to its effects, distributed costs, or coordination frame."
+      forms:
+        avoided: "No binding to a co-structured effect."
+        simulated: "R language without carrying binding cost."
+        externalized: "Another carries interpretation, continuity, restraint, explanation, anticipation, repair, or correction."
+        weakened: "Verbal binding no longer constrains timing, exposure, correction, or consequence."
+      formulas: ["Non-binding can shift Ψ-load.", "low Ψ on one side → increased Ψ-load on the other."]
+      possible_shifted_loads: [uncertainty_absorption, affect_regulation, continuity_maintenance, silence_interpretation, explanation_burden, critique_restraint, repair_burden, option_preservation]
+      criticizability_effect: "Visible/reactive/explaining/pressing/stabilizing/repairing position may become more criticizable than the less-bound position structuring conditions."
+      boundaries: ["Blocked Ψ is not hypocrisy by definition.", "Silence, uncertainty, delay, and non-binding may be legitimate.", "No motive, strategy, or blame follows automatically.", "No non-action becomes praxis without □/Λ/Ω/Θ and traceable effect.", "Naming shifted Ψ-load does not authorize imposed binding."]
+      full_development_home: "responsibility_and_praxis_architecture.no_passive_praxis.non_binding_as_Ψ_load_shift"
+
+    Φ_recontextualization_and_legitimation:
+      status: "eden_mechanism"
+      definition: "Φ can recode displacement as normal, fair, necessary, protective, autonomous, equal, responsible, realistic, or inevitable, changing scene identity and criticizability."
+      formula: "Legitimation is action-power at the level of □/Φ."
+      possible_recontextualizations: ["protection → care", "parity → fairness", "vulnerability → authority or immunity", "responsibility → unilateral burden or authority", "neutrality → non-involvement", "non-binding → freedom or autonomy", "stability → necessity or realism"]
+      stabilization_rule: "Φ recontextualizes; Α recurrently stabilizes."
+      boundaries: ["Legitimation is not deception by definition.", "A justification may be sincere and locally valid.", "Moral, protective, equality, autonomy, or realism language is not drift by category.", "Test whether legitimation restores or obscures R, Σ, Ψ, cost, and correction."]
+
+    mechanism_completion:
+      trace: [real_Ω, false_coordination_frame, displaced_R, blocked_Σ, weakened_simulated_avoided_or_externalized_Ψ, Φ_legitimation, possible_Α_stabilization]
+      interpretation: "Mechanism architecture, not mandatory chronology or exhaustive loss account; Switch Family specifies changing frames around the active hub."
+
+  switch_family:
+    status: "eden_mechanism"
+    definition: "Frame-shift family: real Ω persists while operative frame, R distribution, critique access, and Σ/Ψ status change."
+    core_formula: "Switch = real Ω remains + operative frame changes + responsibility distribution changes + critique access changes + Σ/Ψ status changes"
+    minimal_trace: "same real Ω → different frame → different responsibility distribution → different critique access → different Σ/Ψ blockage"
+    status_note: "Structural movement, not manipulation, strategy, bad faith, motive, person type, or drift by itself; shifts may be valid, corrective, protective, or necessary."
+    relevance_condition: "Drift-relevant only where false coordination persists while the scene appears revised/resolved."
+
+    members:
+      pseudo_symmetry:
+        status: "eden_mechanism"
+        definition: "Appearance of equality/parity/reciprocity/mutuality while Ω stays unintegrated and R/Σ/Ψ falsely distributed."
+        formula: "formal equality + unintegrated real Ω + displaced R + blocked Σ/Ψ"
+        mechanism_effects: ["formal equality masks unequal cost, exposure, timing, dependency, or capacity", "critique of real asymmetry appears anti-equal or regressive", "Σ is simulated by declaring parity", "shared-responsibility language conceals unequal Ψ-load"]
+        boundaries: ["Pseudo-Symmetry is not the master mechanism.", "Symmetry, parity, equality, and equal standing may be necessary and corrective.", "Parity is false only where it replaces rather than enables truthful coordination."]
+
+      pseudo_subordination:
+        status: "eden_mechanism"
+        definition: "Weakness/dependency/vulnerability/passivity/injury/lower position reorganizes R and criticizability while effect remains active."
+        formula: "apparent weakness / vulnerability / passivity / lower position + real structuring effect + lowered criticizability + displaced R + blocked Σ/Ψ"
+        mechanism_effects: ["protection shields effect from answerability", "passivity appears structurally empty while shaping others' conditions", "vulnerability is integrated without agency or responsibility", "another role-position carries increased restraint or Ψ-load"]
+        boundaries: ["Genuine vulnerability, dependency, injury, passivity, and protection need remain possible.", "Pseudo-Subordination does not mean secret dominance.", "Pseudo-Subordination does not diagnose manipulation or strategy.", "Qualifier concerns coordination through subordinate appearance, not falsity of vulnerability."]
+
+      pseudo_superiority:
+        status: "eden_mechanism"
+        definition: "Local capacity/authority/competence/virtue/vulnerability/R/status/protection-power becomes rank, priority, command-right, or exemption."
+        formula: "local capacity / authority / virtue / status / protection-power + generalized rank or priority + displaced R + blocked Σ/Ψ"
+        mechanism_effects: ["local capacity escapes its field", "competence or protection becomes reduced criticizability", "authority integrates capacity while excluding affected agency or cost", "the other position must bind around the superiorized frame"]
+        boundaries: ["Expertise can be real.", "Hierarchy can be functional.", "Authority can be legitimate and bounded.", "Protection-power can be necessary.", "Greater capacity increases answerability where it structures effect."]
+
+      exception_switch:
+        status: "eden_mechanism"
+        definition: "Exception frame suspends/alters/defers ordinary R, criticizability, cost-truth, or Ψ."
+        formula: "ordinary coordination suspended + exception frame introduced + responsibility / criticizability / cost-truth altered + return or answerability conditions become unclear"
+        legitimate_bases: [crisis, injury, danger, trauma, exhaustion, acute_vulnerability, asymmetrical_exposure]
+        drift_conditions: [scope_unbounded, duration_or_return_unclear, exception_critique_becomes_vulnerability_critique, one_side_carries_suspended_answerability_cost, temporary_reduced_binding_becomes_durable_externalized_Ψ_load]
+        boundary: "Exceptions may be legitimate, protective, proportional, necessary; drift requires lost boundedness, answerability, cost integration, or revisability."
+
+      responsibility_to_authority:
+        status: "eden_mechanism"
+        definition: "Greater R under Ω becomes claim to govern, define, control, or overrule another position."
+        core_formula: "Greater responsibility under Ω does not create a right to govern the other."
+        drift_trace: "greater burden or consequence → increased responsibility → generalized authority or command-right"
+        mechanism_effects: ["burden becomes entitlement to define the scene", "critique appears to deny the responsible position's burden", "protection absorbs the protected position's adult agency", "decision-pressure obscures decision-power costs", "the governed position carries increased Ψ-load"]
+        boundaries: ["Responsibility can justify bounded action, protection, refusal, limits, or decision.", "Some scenes require legitimate authority.", "Authority becomes false where it exceeds its field or loses answerability to its effects."]
+
+      parity_to_exit:
+        status: "eden_mechanism"
+        definition: "Formal equality/autonomy/mutuality/parity becomes exit from cost-truth under real Ω."
+        core_formula: "Parity-to-Exit begins when formal equality replaces cost-truth."
+        mechanism_effects: ["formal freedom conceals unequal exit cost", "withdrawal appears empty despite continuity/exposure effects", "critique of exit appears anti-autonomous or controlling", "autonomy is integrated without dependency or consequence", "the remaining position carries increased continuity or Ψ-load"]
+        boundaries: ["Exit can be necessary.", "Refusal, withdrawal, privacy, boundary, and non-participation may be legitimate.", "Equality may require the right to leave.", "Drift begins only where asymmetrical exit effects become illegible."]
+
+    switch_drift:
+      status: "eden_theoretical_compression"
+      threshold_formula: "Switch drift requires pattern + consequence + responsibility displacement."
+      required_convergence:
+        pattern: "Same/compatible switches recur at R-relevant points."
+        consequence: "Movement changes cost, exposure, options, criticizability, Σ, Ψ, or correctability."
+        responsibility_displacement: "R follows the available frame rather than real effect."
+      signals:
+        repeatability: {meaning: "Movement recurs at decisive points rather than once."}
+        asymmetric_availability: {meaning: "One position switches at lower cost while another remains bound to the prior frame."}
+        critique_cost_increase: {meaning: "Each shift makes the same objection harder to state/test."}
+        responsibility_redistribution: {meaning: "Who answers changes while effect remains unresolved."}
+        integration_failure_beneath_surface_revision: {meaning: "Scene appears fairer/safer/equal/caring while costs remain outside Σ."}
+        binding_load_displacement: {meaning: "One gains ambiguity/exception/autonomy/authority while another increases Ψ-load."}
+        legitimation_replacing_integration: {meaning: "New frame justifies persistence instead of integrating cost."}
+      evidence_rule: "No signal proves drift alone: repeatability without consequence, consequence without displaced R, or displaced R without pattern is insufficient."
+      counter_scene_rule: "Protection, exception, parity, authority, or exit may reopen R, Σ, Ψ, Χ, or D; test correction versus preserved false coordination."
+
+    transition_boundary:
+      statements: ["The Switch Family names movement, not motive.", "Switch drift is structural, not diagnostic.", "A switch is not a person type or tactic by definition.", "A single switch does not establish drift or regime stabilization.", "PFO remains downstream and is not defined in this pass."]
+
+responsibility_and_praxis_architecture:
+  paper_scope:
+    chapters: [11, 12, 13, 14]
+    function: "Praxis beyond visible action without converting every absence into praxis; scene-bound Responsibility Principle; Immunization, Overexposure, AEP; Recognition-without-Responsibility, Pseudo-Equal-Standing, Critique-to-Threat Switch."
+  analytical_status: "Conditional scene-bound configurations, not motive, personality, pathology, moral essence, sex truth, prevalence, recurrence, or population distribution; R remains limited by legibility, capacity, alternatives, temporality, and asymmetrical cost/exposure."
+
+  no_passive_praxis:
+    status: "eden_normative_benchmark"
+    definition: "Visible action does not exhaust scene-structuring praxis. Non-action becomes praxis-relevant only as a meaningful framed non-event affecting real asymmetry across time and traceably changing another role-position's action conditions, costs, exposure, R, integration, self-binding, or correctability."
+    core_formulas: ["No Passive Praxis ≠ every non-action is action.", "Non-action becomes praxis only when it structures a scene under □/Λ/Ω/Θ."]
+    negative_guardrails: ["Not every silence is control.", "Not every delay is manipulation.", "Not every refusal is drift.", "Not every absence is responsibility.", "Not every openness is evasion.", "Not every non-response is steering.", "No motive or mental state follows from structural effect."]
+    threshold_conditions:
+      frame: {operator: "□", requirement: "Role, expectation, dependency, commitment, boundary, or relevance structure makes the absence meaningful."}
+      non_event: {operator: "Λ", requirement: "Omitted event changes what the scene can do, carry, expect, or correct."}
+      asymmetry: {operator: "Ω", requirement: "Absence unevenly affects cost, timing, exposure, access, options, R, or binding load."}
+      temporality: {operator: "Θ", requirement: "Effect accumulates, persists, narrows alternatives, or becomes path-dependent."}
+      traceable_effect: {requirement: "Scene shows who had to wait, adapt, infer, explain, stabilize, regulate, decide, or absorb cost."}
+    strict_entry_gate:
+      formulas: ["No scene, no passive praxis.", "No real Ω, no passive praxis.", "No traceable structuring effect, no passive praxis.", "No □/Λ/Ω/Θ relevance, no passive praxis."]
+      consequence: "Without these requirements, non-action remains mere absence, ordinary inconvenience, or outside EDEN rather than Passive Praxis."
+    praxis_vs_strict_E:
+      status: "overlay_construct"
+      formulas: ["Praxis ≠ strict Action E.", "Strict Action / Enactment E = [Σ, Θ, ∇].", "Canonical chain: E = Σ ∘ Θ ∘ ∇."]
+      praxis_scope: [direct_action, structuring_non_action, framing, timing, withholding, recognition, protection, legitimation, cost_distribution, self_binding_or_non_binding]
+      strict_E_scope: "Integrated realization of directionality across time; a structuring non-event may be praxis-relevant without satisfying Σ, Θ, and ∇ as strict enactment."
+      boundary: "Broadens praxis relevance without redefining canonical PMS axis E or collapsing absence into action."
+    three_levels_of_non_action:
+      status: "overlay_construct"
+      formula: "Mere Absence ≠ Structuring Non-Event ≠ Integrated Abstention."
+      levels:
+        mere_absence:
+          definition: "Nothing occurs, but no relevant □/Λ/Ω/Θ configuration or traceable effect organizes cost, exposure, timing, R, integration, self-binding, or correctability."
+          pms_status: "not_praxis_relevant_in_the_specified_scene"
+        structuring_non_event:
+          definition: "Absence shapes what others must do, carry, infer, avoid, absorb, explain, stabilize, or leave unresolved under traceable □/Λ/Ω/Θ."
+          pms_status: "praxis_relevant_but_not_automatically_strict_E"
+        integrated_abstention:
+          definition: "Scene-bound evidence supports restraint, refusal, silence, non-intervention, or delay as integrated directionality across Σ, Θ, and ∇."
+          pms_status: "may_count_as_strict_E_where_the_canonical_formula_is_supported"
+          valid_forms: [ethical_restraint, disciplined_non_intervention, boundary_respect, preservation_of_Χ, refusal_to_escalate, protection_from_overexposure, refusal_of_illegitimate_participation]
+      anti_inference_rule: "Integrated Abstention requires observable structural evidence; it does not infer unobserved intention or mental state."
+    passive_praxis_formula:
+      status: "eden_theoretical_compression"
+      formula: "non-action + □/Λ/Ω/Θ structuring + traceable scene effect → praxis-relevant non-event"
+      effect_domains: [options, timing, access, exposure, cost, recognition, responsibility, Σ, Ψ, correctability]
+      responsibility_note: "Praxis relevance permits R analysis; it establishes neither R nor blame. R remains conditioned by the Responsibility Principle."
+    action_power:
+      status: "overlay_construct"
+      definition: "Capacity to structure praxis conditions."
+      formula: "Action-Power ≠ direct action alone; Action-Power = capacity to structure praxis conditions."
+      possible_vectors: [direct_action, non_action, frame_control, timing_control, recognition_allocation_or_withholding, access_control, explanation_withholding, protection_framing, legitimation, non_binding, cost_distribution, language_control, binding_control]
+      status_note: "Scene-mapping construct, not PMS operator, fixed person attribute, moral rank, or evidence of domination by itself."
+    indirect_action_power:
+      status: "overlay_construct"
+      definition: "Capacity to structure another role-position's action conditions through access, timing, recognition, withholding, framing, legitimation, protection, or non-binding without necessarily commanding directly."
+      formula: "Indirect Action-Power = capacity to structure another role-position's action conditions without necessarily acting through direct command."
+      trace_requirements: ["what becomes available or unavailable", "who must adapt", "which cost increases", "which alternative narrows", "which timing becomes decisive", "which recognition, access, or clarification is withheld or delayed"]
+      boundaries: ["Not every influence is Action-Power.", "Not every access condition is domination.", "Necessary role boundaries, sequencing, and permissions remain possible.", "No traceable scene effect means no Indirect Action-Power finding."]
+    under_explained_adaptive_steering:
+      status: "eden_mechanism"
+      definition: "A role-position repeatedly adapts around ambiguity, delay, silence, non-clarification, non-response, or non-binding while the adaptation's source and cost remain insufficiently named."
+      formula: "under-explained ambiguity or non-event + adaptation by another role-position + unintegrated cost = Under-Explained Adaptive Steering"
+      possible_adaptations:
+        practical: [wait, preserve_alternatives, absorb_delay, maintain_continuity]
+        communicative: [explain_more, ask_less, soften_speech, anticipate_objections]
+        regulatory: [suppress_irritation, maintain_calm, avoid_escalation, carry_uncertainty]
+        interpretive: [infer_meaning, translate_silence, organize_around_unclear_conditions]
+      anti_diagnostic_rule: "Does not diagnose passive aggression, manipulation, avoidance, hidden control, or intention; steering names the induced adaptive field, not conscious strategy."
+      boundary: "Ordinary coordination, legitimate uncertainty, necessary delay, and protective silence remain possible; drift requires recurrent adaptive burden whose source/cost remain unavailable to integration or R."
+    non_binding_as_Ψ_load_shift:
+      status: "eden_mechanism"
+      definition: "One role-position does not bind itself to effects of ambiguity, delay, openness, refusal, silence, non-clarification, or non-decision while another must organize around that non-binding."
+      formulas: ["low Ψ on one side → increased Ψ-load on the other.", "I do not bind myself, but you must organize yourself around my non-binding."]
+      possible_shifted_loads: [waiting, option_preservation, timing_management, interpretation, explanation, continuity, self_regulation, critique_restraint, repair]
+      possible_frame_effects: ["the unbound position appears open, careful, uncertain, fragile, or neutral", "the adapting position appears pressing, impatient, demanding, controlling, or overactive", "R attaches more readily to visible reaction than to conditions produced by non-binding", "Σ integrates openness while excluding its cost"]
+      legitimate_non_binding: ["no commitment was undertaken or reasonably presupposed", "the scene remains insufficiently legible", "premature closure would be false or coercive", "Χ must be preserved", "no legitimate obligation to bind exists", "consent requires continued non-binding"]
+      coercion_guardrail: "Naming a Ψ-load shift does not authorize compelled clarity, commitment, reassurance, availability, disclosure, confession, or continued engagement."
+    neutrality_test:
+      status: "application_protocol"
+      core_rule: "Neutrality must be tested, not presumed false."
+      questions: ["Is there an operative □?", "Is there a meaningful Λ?", "Is real Ω affected?", "Does Θ accumulate the effect?", "Are cost, exposure, access, timing, recognition, alternatives, or options shifted?", "Are Σ or Ψ blocked, displaced, or externalized?", "Can R be traced without accusation under the Responsibility Principle?", "Is there a stronger counter-scene?"]
+      neutrality_supporting_conditions: [no_relevant_frame_expectation, no_meaningful_non_event, no_affected_real_Ω, no_temporal_accumulation, no_shifted_cost_or_option_burden, no_presupposed_self_binding, no_available_alternative, genuine_restraint_incapacity_boundary_distance_or_non_involvement]
+      two_errors_prevented:
+        neutrality_by_declaration: "Visible non-action does not prove structural neutrality."
+        accusation_by_absence: "A missing event does not prove praxis, responsibility, or drift."
+
+  responsibility_principle:
+    status: "eden_normative_benchmark"
+    pms_axis_reference: "R"
+    status_distinction: "R = Ψ ∘ Φ ∘ Θ ∘ Ω is canonical PMS-derived Responsibility. EDEN's Responsibility Principle separately connects answerability to real structuring effect; it neither redefines R nor follows automatically from the derivation."
+    governing_formula: "R follows real structuring effect under available legibility, capacity, alternative possibility, Θ trajectory, and Ω cost/exposure conditions."
+    principal_rule: "R follows what a role-position actually structures under scene conditions, not visibility, declared intention, identity, formal role, outcome, vulnerability, protection claim, suffering, or direct action alone."
+    negative_definitions: ["R is not blame.", "R is not guilt.", "R is not moral worth.", "R is not person condemnation.", "R is not mere causality.", "R is not outcome-liability alone."]
+    double_boundary: ["Responsibility remains real even without malice.", "Responsibility remains limited by legibility, capacity, alternatives, Θ, and Ω."]
+    responsibility_conditions:
+      real_structuring_effect: {meaning: "What the role-position materially shapes in options, timing, access, exposure, protection, recognition, language, cost, criticizability, integration, binding, or correction."}
+      available_legibility: {meaning: "What was sufficiently visible, foreseeable, role-known, repeated, communicated, or traceable at the relevant point."}
+      capacity: {meaning: "What the role-position could structure, prevent, redirect, absorb, expose, protect, clarify, refrain from, or correct."}
+      alternative_possibility: {meaning: "What materially relevant difference the role-position could make under actual constraints."}
+      temporality: {meaning: "How effect, feedback, repetition, delay, missed correction, and available understanding developed across Θ."}
+      asymmetrical_cost_and_exposure: {meaning: "How acting, not acting, speaking, waiting, correcting, refusing, or carrying burden affected positions unequally."}
+    awareness_and_availability_note:
+      terminology_rule: "Awareness is ordinary-language shorthand for available legibility; it does not add canonical PMS axis A = Θ ∘ □ ∘ Δ to R or make A an automatic R condition."
+      dynamic_rule: "Legibility, capacity, and alternatives may change across Θ; later feedback can strengthen R without retroactively assigning initial omniscience."
+    responsibility_and_action:
+      formulas: ["Visible action is one responsibility vector.", "Structuring non-action is another responsibility vector.", "Action may create responsibility, but responsibility is not identical with action.", "Non-action may create responsibility-relevant effects, but non-action is not automatically responsibility."]
+      vectors: [direct_action, indirect_Action_Power, framing, timing_control, withholding, recognition_allocation, protection_allocation, access_control, cost_distribution, legitimation, non_binding, structuring_non_action]
+      mapping_rule: "Each vector must separately pass real effect, legibility, capacity, alternatives, temporality, and asymmetrical-cost tests."
+    protection_does_not_cancel_responsibility:
+      status: "eden_normative_benchmark"
+      formulas: ["Protection from degradation ≠ protection from responsibility.", "Protection against harm ≠ protection against criticizability."]
+      meaning: "Protection may alter R's timing, form, exposure, privacy, demand, or channel without erasing real answerability by default."
+      valid_protective_modifications: [slower_naming, narrower_attribution, reduced_exposure, more_careful_framing, greater_distance, private_rather_than_public_correction]
+      coupled_risks: {protection_cancels_responsibility: "immunization risk", responsibility_ignores_protection: "overexposure and degradation risk"}
+    structure_critique_is_not_person_threat:
+      status: "eden_normative_benchmark"
+      formulas: ["Structure critique ≠ person threat.", "Critique of personhood ≠ critique of a responsibility-displacing structure."]
+      structure_critique_object: [scene_bound_frame, cost_distribution, responsibility_distribution, integration_or_self_binding_blockage, recognition_or_protection_relation, correctability]
+      prohibited_targets: [personhood, ontological_worth, sex_essence, moral_essence, global_character, diagnostic_identity]
+      reversibility_rule: "If scene, evidence, legibility, capacity, alternatives, or stronger counter-scene changes, the R reading must change."
+    self_control_over_other_control:
+      status: "eden_normative_benchmark"
+      formulas: ["Adult Ψ begins as self-binding, not other-binding.", "EDEN may describe where self-binding is absent or externalized; it cannot convert that description into imposed binding of the other."]
+      self_control_definition: "Structural answerability to one's effects, not emotional suppression, moral policing, self-punishment, obedience, or confession."
+      other_control_risk: "R language becomes demands that another explain, expose, bind, soften, wait, reassure, disclose, absorb, or surrender legitimate distance."
+      primary_question: "Can the role-position become answerable to the cost or condition it structures?"
+    responsibility_under_real_Ω:
+      status: "eden_theoretical_compression"
+      formula: "Real Ω may produce asymmetrical responsibility conditions; Ω alone does not determine R, and asymmetrical responsibility is not absent responsibility."
+      dimensional_examples: [responsibility_for_timing, responsibility_for_recognition, responsibility_for_protection, responsibility_for_direct_action, responsibility_for_framing, responsibility_for_non_binding, responsibility_for_correction_access]
+      errors:
+        symmetrical_assignment: "Equal R imposed despite unequal capacity, cost, exposure, access, and alternatives."
+        one_sided_totalization: "Only the more powerful, visible, active, or institutionally exposed position is treated as R-capable."
+      adult_standard: "Truthful responsibility, not equal responsibility."
+      transition_formulas: ["Where responsibility is underassigned, immunization forms.", "Where responsibility is overassigned, overexposure forms.", "Where language for the distribution is missing, Asymmetric Explanatory Poverty forms."]
+
+  immunization_overexposure_and_AEP:
+    status: "eden_mechanism"
+    coupled_drift:
+      definition: "Coupled distortion: effect is insufficiently answerable in one location, R exceeds legibility/protection in another, and language for the distribution may be asymmetrically unavailable."
+      formulas: ["Where responsibility is underassigned, immunization forms.", "Where responsibility is overassigned, overexposure forms.", "Where language for the distribution is missing, Asymmetric Explanatory Poverty forms.", "Immunization = effect without full responsibility.", "Overexposure = responsibility without full legibility / protection."]
+      anti_essentialist_guardrails: ["Immunization and overexposure are coupled, but not fixed to the same sex or role-position.", "Profiles are scene-bound drift patterns, not sex truths.", "The same person or role-position can be immunized in one scene and overexposed in another.", "A role-position may be immunized in one dimension and overexposed in another.", "No profile establishes recurrence, prevalence, identity, motive, guilt, or innocence."]
+    immunization:
+      status: "eden_mechanism"
+      definition: "Real structuring effect remains less answerable than its scene role permits; R is softened, displaced, critique-protected, recontextualized as harm, or difficult to name."
+      formula: "Immunization = effect without full responsibility."
+      structural_trace: "real structuring effect → critique arises → critique is framed as harm → correction is blocked → R is displaced"
+      possible_frames: [vulnerability, protection, recognition, care, hurt, non_action, non_binding]
+      possible_effects: ["criticizability decreases while effect remains", "one true vulnerability absorbs agency or R", "another carries increased adaptation, explanation, restraint, or Ψ-load", "Φ recodes structure critique as hostility, domination, insensitivity, or lack of care"]
+      boundaries: ["Immunization is not vulnerability.", "Immunization is not protection.", "Immunization is not recognition.", "Immunization is not innocence.", "Critique may genuinely be harmful, humiliating, coercive, inaccurate, premature, or overbroad.", "Critique of false protection ≠ rejection of protection.", "Requires traceable effect under the Responsibility Principle."]
+    overexposure:
+      status: "eden_mechanism"
+      definition: "A role-position becomes too available to R, suspicion, explanation demand, correction duty, danger coding, or blame before adequate legibility, protection, distance, alternatives, or traceable effect connection."
+      formula: "Overexposure = responsibility without full legibility / protection."
+      structural_trace: "reaction or power-coded presence → heightened scrutiny → motive presumed before structure is traced → protection reduced → responsibility load increases"
+      possible_frames: [danger, control, domination, burden, presumed_guilt, visible_power, expected_strength]
+      possible_effects: ["request for clarity is pre-read as coercion", "critique is pre-read as domination", "boundary is pre-read as abandonment", "need is pre-read as immaturity", "explanation is pre-read as manipulation or evasion", "self-binding demand outruns traceable R", "D is damaged through R without protection"]
+      boundaries: ["Overexposure is not innocence.", "Overexposure does not deny real power.", "Overexposure does not deny real responsibility.", "Critique may be justified.", "Danger, coercion, domination, and direct harm may be real.", "Drift concerns premature/excessive attribution, not accountability itself."]
+    asymmetric_explanatory_poverty:
+      status: "eden_mechanism"
+      abbreviation: "AEP"
+      definition: "Scene condition where a role-position carries high exposure/R load but lacks legitimate terms for describing how that load is produced, underassigned elsewhere, or overassigned here."
+      formula: "AEP = high exposure + low legitimate language + critique-to-threat switch + responsibility overload"
+      components:
+        high_exposure: "Strong availability to scrutiny, suspicion, correction, explanation demand, or R assignment."
+        low_legitimate_language: "Its account is recoded as evasive, threatening, controlling, fragile, resentful, self-pitying, or irresponsible."
+        critique_to_threat: "Description becomes evidence against the speaker before structure is tested."
+        responsibility_overload: "Role-position carries real R plus the burden of making its account harmless and recognizable."
+      negative_definition: ["AEP is not stupidity.", "AEP is not incapacity.", "AEP is not moral inferiority.", "AEP is not lack of articulation.", "AEP is not an epistemic defect of a sex."]
+      distinction_from_limited_legibility: "Limited Legibility is general bounded access; AEP is asymmetrical distribution of exposure and legitimate explanatory language."
+      boundaries: ["A claim of unspeakability does not establish innocence.", "AEP does not cancel R for real structuring effect.", "AEP must be tested under legibility, capacity, alternatives, Θ, and Ω.", "AEP can occur beyond sex-coded scenes."]
+    scene_bound_profiles:
+      status: "scene_bound_profile"
+      global_guardrail: "Profiles compress possible R, exposure, protection, language, and Action-Power configurations; they do not state sex truths, frequency, guilt, or innocence."
+      male_overexposure_profile:
+        definition: "Possible scene configuration where male-coded presence, action, speech, need, hurt, vulnerability, or critique is highly available to suspicion/R while protection and legitimate explanatory language are reduced."
+        core_formulas: ["Male power may be real.", "Male overexposure may also be real.", "These do not cancel each other."]
+        possible_signals: ["male-coded action is read first as danger", "explanation is read as self-exoneration or control", "precision is read as emotional evasion", "hurt is read as weakness, manipulation, resentment, or concealed demand", "distance is read as avoidance or threat", "early, strong, and visible self-binding is demanded", "naming overexposure is read as refusal of R"]
+        boundaries: ["Not a male innocence claim.", "Not a denial of male-coded power, harm, coercion, or R.", "Not a counter-victimhood claim.", "Requires evidenced overassigned R, reduced protection, and low legitimate language."]
+      female_immunization_profile:
+        definition: "Possible scene configuration where female-coded vulnerability, hurt, recognition, protection, care, non-action, or non-binding is less available to R than real structuring effect warrants."
+        core_formulas: ["Female vulnerability can be real.", "Female agency can be real.", "Female responsibility can be real.", "These must remain jointly coordinable."]
+        possible_signals: ["hurt receives interpretive priority before counter-effect is traced", "vulnerability becomes a responsibility shield", "recognition becomes incompatible with criticizability", "care makes R claims appear cruel or unsafe", "non-action appears harmless while shifting timing, interpretation, or Ψ-load", "non-binding is protected as openness while another organizes around its costs"]
+        boundaries: ["Not a claim of female guilt, manipulation, evasion, or moral inferiority.", "Not a denial of female-coded vulnerability, harm, protection need, or exposure.", "Not applicable by sex, identity, affect, silence, or isolated statement.", "Requires underassigned R relative to real scene-bound effect."]
+    no_reversal_into_counter_immunity:
+      status: "boundary_condition"
+      formulas: ["Critique of female immunization ≠ male immunity.", "Critique of male overexposure ≠ denial of male responsibility.", "Critique of false protection ≠ rejection of protection.", "Critique of overexposure ≠ exemption from answerability.", "Critique of responsibility overload ≠ refusal of responsibility.", "Critique of recognition without responsibility ≠ permission to humiliate.", "The correction of false asymmetry must not become a new false asymmetry."]
+      anti_verdict_rule: "Immunization, Overexposure, and AEP remain revisable scene relations; naming drift does not settle the critic's R, reverse burden, authorize degradation, or establish a fixed profile."
+
+  recognition_drift:
+    status: "eden_mechanism"
+    recognition_without_responsibility:
+      status: "eden_mechanism"
+      definition: "Recognition, dignity, voice, protection, moral standing, or equal status detaches from criticizability, consequence attribution, self-binding, correction, and R for real structuring effect."
+      formula: "Recognition-without-Responsibility = recognition claim + responsibility discount + reduced criticizability + weakened self-binding + blocked correction"
+      core_guardrails: ["The problem is not recognition.", "The problem is recognition decoupled from responsibility.", "Recognition is not immunity.", "Recognition claims may be valid, overdue, and dignity-preserving.", "Critique can be degrading, but critique is not degrading as such."]
+      possible_frames: [dignity, vulnerability, protection, equality, injury, care, safety]
+      responsibility_effect: "The recognized role-position remains symbolically adult but less answerable; another may carry more explanation, caution, restraint, or Ψ-load."
+    equal_standing_positive_standard:
+      status: "eden_normative_benchmark"
+      formula: "Equal standing = recognition + answerability + criticizability + consequence attribution + correctability + Dignity-in-Practice"
+      components:
+        recognition: "Standing, voice, visibility, agency, and protection from degradation."
+        answerability: "Real participation includes R for real structuring effect."
+        criticizability: "Recognized role-position remains open to proportionate structural criticism."
+        consequence_attribution: "Effects remain traceable without guilt-totalization or person condemnation."
+        correctability: "Recognition and R remain revisable without force, immunity, or humiliation."
+        dignity_in_practice: "Answerability is non-degrading and recognition non-immunizing."
+      formulas: ["Recognition without answerability is not equal standing.", "Answerability without Dignity-in-Practice is overexposure.", "Equal dignity ≠ identical role ≠ identical exposure ≠ identical cost ≠ identical responsibility."]
+      meaning: "Shared recognizability and answerability without humiliation, not formal symmetry or identical burden."
+    pseudo_equal_standing:
+      status: "eden_mechanism"
+      definition: "Equal-standing language remains while adult answerability weakens: recognition is affirmed but criticizability, R, self-binding, consequence attribution, or correction remain asymmetrically available."
+      formula: "Pseudo-Equal-Standing = equal recognition claim + unequal criticizability + responsibility discount + protected frame + blocked correction"
+      drift_trace: "equal recognition claim → critique becomes costly → responsibility is discounted → self-binding weakens → correction is blocked → Adult Reciprocity is simulated"
+      possible_effects: ["one role-position can criticize while critique of it becomes threat-coded", "adult recognition is claimed when affirming but reduced when answerability is required", "another is answerable without equivalent recognition/protection", "equality language stabilizes Immunization and Overexposure simultaneously"]
+      distinction_from_pseudo_symmetry: "Pseudo-Symmetry broadly hides real Ω through parity; Pseudo-Equal-Standing specifically claims dignity/standing equality while discounting criticizability and R."
+      boundaries: ["Not every resistance to critique is Pseudo-Equal-Standing.", "Critique may be inaccurate, coercive, degrading, badly timed, or overbroad.", "Equal standing does not require identical burden or exposure.", "Requires structural detachment of recognition from proportionate answerability."]
+    critique_to_threat_switch:
+      status: "eden_mechanism"
+      definition: "Φ recontextualizes critique of real structuring effect as threat to dignity, safety, recognition, vulnerability, or personhood before the R claim reaches its object."
+      formula: "structure critique → threat frame → critic becomes danger → responsibility becomes harm → correction blocked → immunization stabilizes"
+      possible_recontextualizations: ["request for answerability → lack of care", "critique of non-binding → control", "description of cost → accusation", "demand for correction → domination", "responsibility question → harm", "naming asymmetry → threat to equality or recognition"]
+      boundaries: ["Threat can be real.", "Critique can be degrading, coercive, humiliating, excessive, or unsafe.", "Felt threat alone does not decide whether critique is degrading or structurally accurate.", "The critic is not automatically right.", "Requires proportionate structure critique to be recoded before content testing."]
+      responsibility_effect: "R may shift from the role-position whose effect is named to the critic for producing discomfort, danger, or recognitional cost."
+      sigma_psi_effect: "Σ may integrate vulnerability while excluding R; Ψ may weaken for the protected position while the critic carries greater carefulness, reassurance, and explanation burden."
+    recognition_protection_and_Ψ_load:
+      status: "eden_mechanism"
+      formula: "Recognition + weak Ψ + critique-to-threat → increased Ψ-load on the other"
+      structural_relation: "I am recognized without binding myself, while you must bind yourself around my recognition claim."
+      possible_shifted_loads: [tone_regulation, timing_regulation, wording_regulation, affect_regulation, anticipation_of_injury, preservation_of_safety_language, proof_of_harmlessness, recognitional_acceptability_of_critique]
+      double_bind_examples:
+        direct_speech: "may be recoded as harsh, unsafe, coercive, or insufficiently recognizing"
+        softened_speech: "may lose the force needed to reach responsibility"
+        withdrawal: "may be recoded as avoidant or uncaring"
+        continued_explanation: "may be recoded as controlling"
+      governing_distinction: "Protection of dignity ≠ protection from responsibility."
+      coercion_guardrail: "A shifted Ψ-load may be described but does not authorize forced access, correction, confession, commitment, or continued engagement."
+    female_coded_drift_under_recognition_frames:
+      status: "scene_bound_profile"
+      definition: "Possible scene configuration where female-coded vulnerability, injury, dignity, care, recognition, protection need, non-action, or non-binding makes real structuring effect less criticizable."
+      core_guardrails: ["This is not a claim about female essence.", "It is a claim about role-position under specific frames.", "Female vulnerability, protection need, agency, and responsibility may all be real.", "These must remain jointly coordinable."]
+      formula: "female-coded vulnerability / recognition claim / protection frame + critique-to-threat switch + responsibility discount → reduced criticizability of real structuring effect"
+      possible_forms:
+        hurt_as_interpretive_priority: "Hurt is recognized while what it structures becomes unavailable."
+        vulnerability_as_critique_block: "Protection from degradation expands into protection from non-degrading critique."
+        recognition_as_moral_priority: "Equal dignity becomes reduced consequence attribution or self-binding."
+        care_as_responsibility_shield: "Answerability is pre-read as cruelty, coldness, or refusal of care."
+        non_action_as_harmlessness: "Silence, delay, hesitation, or non-clarification shifts cost while appearing non-dominant and empty."
+        non_binding_as_openness: "Openness is protected while another carries waiting, interpretation, or Ψ-load."
+      boundaries: ["Not applicable by sex, identity, affect, vulnerability, silence, or isolated statement.", "Not a manipulation, weaponization, or motive claim.", "Genuine threat, harm, coercion, and protection need remain counter-scenes.", "Naming the profile does not create male immunity or authorize unprotected critique."]
+    recognition_with_responsibility:
+      status: "eden_normative_benchmark"
+      definition: "Positive coordination: recognized without immunization, protected without de-adulting, criticized without humiliation, and held proportionately responsible without domination."
+      formula: "Recognition-with-Responsibility = recognition + criticizability + self-binding + proportionate responsibility + dignity-preserving correction + Σ/Ψ openness"
+      requirements:
+        recognition: "Standing and vulnerability remain visible."
+        criticizability: "Real effects can be named without person degradation."
+        self_binding: "Recognized position remains attached to what it structures."
+        proportionate_responsibility: "R follows effect under legibility, capacity, alternatives, Θ, and Ω."
+        dignity_preserving_correction: "Correction does not become humiliation, domination, or coercion."
+        sigma_psi_openness: "Vulnerability, agency, protection, cost, and R can enter the same account."
+      boundaries: ["Recognition-with-Responsibility does not require every critique to be accepted.", "Protection may limit, slow, redirect, or suspend critique where harm risk is real.", "Critique remains answerable to D, Χ, proportionality, evidence, and counter-scene.", "The recognized role-position remains answerable to real structuring effect.", "The critic remains answerable to the effects and form of critique."]
+      closing_formula: "The aim is not less recognition; the aim is recognition that can remain adult under real Ω."
+
+regime_test_scene_and_loss_architecture:
+  paper_scope:
+    chapters: [15, 16, 17]
+    function: "PFO as downstream stabilization; Eden as late minimal test scene; Reciprocity Loss as tragic erosion of shared correctability under real asymmetry. Adds no PMS operator, derived axis, mandatory chronology, prevalence claim, or application authority."
+  governing_hierarchy:
+    formulas: ["PFO is downstream regime stabilization.", "Eden is a test scene, not an origin.", "Reciprocity Loss is the culminating theoretical payoff."]
+    prohibited_master_chain: "Eden → Fall → comparison → PFO → reciprocity loss"
+
+  pfo:
+    name: "Postfeminist Override"
+    abbreviation: "PFO"
+    status: "regime_stabilization"
+    definition: "One downstream regime form where false-coordinated real asymmetry, displaced R, blocked Σ/Ψ, and established drift mechanisms stabilize through repeatable recognition, protection, parity, or exception frames."
+    core_formulas: ["PFO is not the origin of reciprocity loss.", "PFO is one regime form in which reciprocity loss stabilizes.", "PFO is downstream regime stabilization.", "PFO = regime stabilization of false-coordinated real Ω under recognition / protection / parity / exception frames with displaced R and blocked Σ/Ψ.", "PFO is repeatable frame availability under real Ω."]
+    downstream_trace:
+      sequence: [false_coordinated_real_Ω, displaced_R, blocked_Σ_Ψ, switch_drift, immunization_overexposure, recognition_without_responsibility, possible_regime_stabilization, PFO]
+      status_note: "Dependency/stabilization trace, not strict chronology, universal development, causal law, or alternative PMS dependency path."
+      possibility_guardrail: "False coordination, switches, Immunization, Overexposure, recognition drift, or R displacement may occur without PFO."
+    dependency_references: [method_and_positive_baseline.limited_legibility, method_and_positive_baseline.false_comparison, mechanism_architecture.real_sexed_praxis_relation_under_Ω, mechanism_architecture.inferiority_and_superiority_misframing, mechanism_architecture.false_coordinated_real_asymmetry, mechanism_architecture.switch_family, responsibility_and_praxis_architecture.no_passive_praxis, responsibility_and_praxis_architecture.responsibility_principle, responsibility_and_praxis_architecture.immunization_overexposure_and_AEP, responsibility_and_praxis_architecture.recognition_drift]
+    regime_not_belief:
+      formulas: ["PFO is not primarily belief.", "PFO is repeatable frame availability under real Ω.", "A role-position may participate in PFO without intending, endorsing, or consciously knowing the regime form."]
+      analytical_questions: ["Which frames become repeatedly available?", "What do they make speakable?", "What do they make unspeakable or costly?", "How do they distribute R?", "What happens to Σ/Ψ?"]
+      boundary: "Participation follows scene effects, not inward conviction. Non-endorsement does not cancel R for real effect; it blocks ideology diagnosis and motive inference."
+    omega_illegibility_and_operational_asymmetry:
+      status: "eden_mechanism"
+      definition: "Real Ω keeps distributing cost, exposure, protection, criticizability, recognition, timing, R, or self-binding while language naming that distribution is recoded as threat, regression, domination, harm, or refusal of recognition."
+      formulas: ["Ω remains operational.", "Ω becomes hard to name.", "Naming Ω becomes threat, regression, domination, or harm.", "Σ remains blocked.", "Ψ remains asymmetrically distributed."]
+      operation_description_split:
+        operation: "Scene distributes burden, permission, protection, exposure, criticizability, and R unequally."
+        description: "Scene may describe itself as equal, caring, protective, progressive, safe, or dignity-preserving."
+      distinctions:
+        limited_legibility: "General bounded structural access; not regime-stabilized blockage."
+        AEP: "Asymmetrical exposure/legitimate-language distribution; PFO may intensify but is not identical to it."
+        omega_illegibility: "Regime feature where naming operational Ω threatens the displacement-preserving frame."
+      guardrail: "Ω-illegibility is a scene condition, not ignorance, stupidity, confusion, or personal conceptual deficiency."
+    frame_cluster:
+      recognition: {valid_function: "Preserve standing, voice, agency, and dignity.", drift_function: "Make criticizability/consequence attribution appear to withdraw recognition."}
+      protection: {valid_function: "Reduce real harm, exposure, degradation, or coercion.", drift_function: "Expand protection against degradation into R discount or immunity."}
+      parity: {valid_function: "Resist false rank, domination, or unilateral authority.", drift_function: "Make real asymmetrical cost, exposure, or R difficult to name."}
+      exception: {valid_function: "Respond to real vulnerability, risk, harm, timing, exposure, or limited capacity.", drift_function: "Become repeatable suspension of consequence, correction, or self-binding."}
+      integration_rule: "Frames need not be wholly false; stabilization occurs when partial truth repeatedly blocks other relevant truths and protects R displacement."
+    switch_family_as_regime:
+      formula: "switch available + critique cost high + responsibility displacement repeatable + Σ/Ψ blockage stable + Α stabilization = regime stabilization"
+      conditions:
+        switch_availability: "Familiar recognition, protection, parity, or exception route reclassifies R-relevant structure."
+        critique_cost: "Critic must establish harmlessness before structural content can be tested."
+        repeated_responsibility_displacement: "R repeatedly shifts from real effect onto critic/correction discomfort."
+        stable_sigma_psi_blockage: "Scene repeatedly cannot integrate real distribution or keep consequential positions self-bound."
+        attractor_stabilization: "Recurrent frame logic becomes normal, expected, and protocol-like as Α without a new operator function."
+      single_event_guardrails: ["A single switch does not prove PFO.", "A single recognition claim does not prove PFO.", "A single protection claim does not prove PFO.", "A single equality frame does not prove PFO."]
+    persistence_conditions:
+      frame_availability: "Recognizable routes away from difficult R questions already exist."
+      legitimation: "Routes retain partial moral truth and appear legitimate."
+      critique_cost: "Naming structure becomes costly before content testing."
+      responsibility_displacement: "Naming the problem becomes more R-relevant than the problem named."
+      chronic_non_event: {operator: "Λ", meaning: "Correction, cost integration, R naming, asymmetry testing, or frame revision repeatedly does not occur."}
+      correction_window_erosion: {operator: "Θ", meaning: "Delayed naming becomes easier to disqualify as untimely, resentful, excessive, or regressive."}
+      attractor_stabilization: {operator: "Α", meaning: "Recurrent route becomes increasingly available without becoming a new protocol/dependency."}
+      bad_faith_guardrail: "Regime stability requires repeatable frame availability, not conscious bad faith."
+    reciprocity_damage:
+      formula: "PFO does not merely harm one side; it damages the possibility of Adult Reciprocity itself."
+      vectors:
+        responsibility: "R no longer reliably follows real structuring effect."
+        integration: "Recognition, protection, parity, or exception excludes truths needed for Σ."
+        self_binding: "One role-position carries the Ψ-load preserving a frame around another."
+        correction: "Correction becomes morally suspect before structure testing."
+        counter_scene: "Counter-scenes are absorbed as resentment, regression, control, or threat instead of revising the reading."
+      distribution_guardrail: "Loss of relational possibility is shared but not equal in cost, R, exposure, duration, or reversibility."
+    sexed_omega_profile_guardrails: ["Common sexed codings are possible regime effects, not fixed truths.", "Female-coded immunization does not establish female guilt or essence.", "Male-coded overexposure does not establish male innocence or erase male responsibility.", "A role-position may be protected, burdened, immunized, or overexposed in different dimensions of the same scene.", "Bidirectionality is not symmetry, and non-symmetry is not one-sidedness."]
+    strict_boundary:
+      false_positive_formula: "Not every modern gender frame, feminist claim, protection demand, equality claim, recognition claim, vulnerability claim, or criticism of male power is PFO."
+      negative_definitions: ["PFO is not a person type.", "PFO is not a sex truth.", "PFO is not detected by vibe.", "PFO is not an ideology diagnosis.", "PFO is not a political insult.", "PFO is not all modern gender order.", "PFO is not feminism, postfeminism, anti-feminism, equality discourse, recognition politics, vulnerability language, or criticism of male power as such."]
+      scope_formulas: ["False-coordinated real Ω can occur without PFO.", "PFO is only one regime stabilization form."]
+      false_positive_list: [genuine_recognition, necessary_protection, truthful_parity, justified_exception, genuine_vulnerability, valid_feminist_claim, valid_criticism_of_male_power, isolated_switch_or_claim]
+      defeasibility_formulas: ["A PFO reading must be able to fail.", "If counter-scenes cannot change the reading, PFO has become a verdict frame, not an analytic category."]
+      application_firewall: "Defines PFO but authorizes no application to persons, couples, institutions, sexes, groups, political positions, or cases; application requires the global validity gate and independent authority."
+
+  eden_scene:
+    status: "overlay_construct"
+    chapter_role: "minimal_test_scene"
+    definition: "Late compact demonstration of existing grammar: coordinated asymmetry, meaningful boundary, breach, consequence, exposure, legibility management, and R trace without theoretical, moral, theological, sexed, or historical origin claim."
+    core_formulas: ["Eden is not the paper's origin.", "Eden is a test scene for the paper's grammar.", "Eden is not foundation.", "Eden is demonstration.", "Eden supports V2 discipline.", "It does not replace V2 architecture."]
+    hierarchy:
+      prior_grammar: [Adult_Reciprocity, coordinated_and_false_coordinated_real_Ω, R_Σ_Ψ_relations, Switch_Family, No_Passive_Praxis, Responsibility_Principle, responsibility_and_recognition_drift, possible_regime_stabilization]
+      correct_order: "already-developed grammar → Eden as minimal test case"
+      incorrect_order: "Eden scene → derive everything"
+    minimal_praxis_scene:
+      function: "Make elementary praxis relations legible with few moving parts; receives rather than generates the grammar."
+      elements: [frame, difference, real_asymmetry, meaningful_boundary_or_option, possible_action_or_non_action, exposure_shift, consequence_field, responsibility_trace]
+      scene_status: "Scene-bound configuration, not universal history, literal/theological anthropology, or symbolic totalization."
+    ground_state:
+      status: "eden_theoretical_compression"
+      definition: "Real difference, boundary, and asymmetry are present but not yet falsely coordinated: coordinated Ω, not symmetry, fusion, innocence, or absence of structure."
+      core_formulas: ["The ground state is not symmetry.", "It is coordinated Ω.", "Ω present but coordinated.", "□ stable but not comparative.", "Σ not yet represented as blocked.", "Ψ not yet represented as displaced.", "Χ not yet defensive.", "Λ not yet structurally dominant.", "Θ not yet erosion trajectory."]
+      operator_reading:
+        omega: "Difference/asymmetry are real without rank, threat, immunity, or R displacement."
+        frame: "Meaningful relations, boundaries, permissions, prohibitions, possibilities, and expectations exist without comparison machinery."
+        integration: "Difference, boundary, relation, exposure possibility, and R are not represented as mutually excluding."
+        self_binding: "No evidence yet of refusal, externalization, or unequal Ψ-load."
+        distance: "Distinction exists without suspicion, withdrawal, or defensive separation."
+        non_event: "Λ remains background possibility, not dominant drift carrier."
+        temporality: "Sequence exists without delayed correction, accumulated exposure, or path-dependent erosion."
+      anti_romanticization: "Does not establish moral innocence, complete integration, total legibility, fusion, absence of difference, or empirical human history."
+    breach_as_consequence_activation:
+      status: "eden_theoretical_compression"
+      negative_chain: "knowledge gained → humanity begins"
+      positive_chain: "praxis relation interrupted → consequence field activated → Ω becomes differently legible → R becomes contested"
+      body_formulas: ["The body is not newly known.", "It is newly framed as exposed under Ω."]
+      meaning: "Breach does not create difference, embodiment, boundary, R, knowledge, sexuality, or humanity; it changes the legibility/consequence of existing structure."
+      responsibility_boundary: "Consequence activation makes R readable/contestable; it does not decide blame, guilt, punishment, essence, or moral worth."
+    consequence_field:
+      status: "eden_theoretical_compression"
+      formula: "breach → consequence field → Λ / Ω / Θ activation → R becomes traceable and contested"
+      operators:
+        non_event: {id: "Λ", function: "What is not carried, integrated, maintained, protected, or kept in prior coordination may become structurally relevant."}
+        asymmetry: {id: "Ω", function: "Exposure, body, boundary, access, vulnerability, and cost become differently distributed/legible."}
+        temporality: {id: "Θ", function: "Interruption opens trajectories of carrying, concealment, explanation, repair, denial, delay, or erosion."}
+        responsibility: {id: "R", function: "Boundary, option, enactment/non-enactment, exposure, and consequence become traceable without total attribution."}
+      scope_boundary: "Tests but does not redevelop No Passive Praxis or the Responsibility Principle and does not establish a full drift regime."
+    fig_leaves:
+      name: "Fig Leaves"
+      status: "overlay_construct"
+      definition: "Minimal legibility management under newly exposed Ω; manages post-breach visibility and marks exposure, boundary, body, distance, and non-visibility as structurally meaningful."
+      core_formula: "Fig Leaves = legibility management under newly exposed Ω."
+      structural_functions:
+        response: "Covering responds to altered exposure."
+        disclosure: "Reduced visibility also marks what became exposure-relevant."
+        distance: "Χ becomes newly defensive/protective between body/gaze, exposure/access, presence/visibility."
+        non_visibility: "Covering does not erase; the unshown may structure the scene."
+        temporality: "Gesture follows breach and precedes later integration/stabilization."
+      responsibility_relation: "Does not decide R; shows registered exposure shift and visibility management sufficient for limited R trace."
+      negative_definitions: ["Fig Leaves are not shame psychology.", "Fig Leaves are not moral guilt.", "Fig Leaves are not manipulation by definition.", "Fig Leaves are not PFO.", "Fig Leaves are not recognition-without-responsibility.", "Fig Leaves are not immunity or a full regime.", "Fig Leaves are not a sex-truth claim."]
+    negative_responsibility_kernel:
+      name: "Negative Responsibility Kernel"
+      abbreviation: "NRK"
+      status: "paper_internal_shorthand"
+      definition: "Compact Eden-scene configuration where meaningful boundary/option, available legibility, consequence under Ω/Θ, and enactment/non-enactment uncarried by Σ/Ψ make R traceable without moral totalization."
+      demotion_formulas: ["NRK is not a PMS operator.", "NRK adds no axiom.", "NRK is a paper-internal shorthand.", "NRK is a special case of the Responsibility Principle, not the general responsibility theory.", "NRK supports responsibility trace without moral guilt."]
+      formula: "NRK = available legibility + meaningful boundary / option + consequential effect under Ω/Θ + enactment or non-enactment not carried by Σ/Ψ + responsibility trace."
+      components:
+        available_legibility: "Frame, boundary, option, relation, or consequence is sufficiently available for tracing."
+        meaningful_boundary_or_option: "Scene distinguishes mere occurrence from consequence-bearing praxis relation."
+        consequential_effect: "Effect alters exposure/relation under real Ω across Θ."
+        non_carrying: "Enactment/non-enactment is not integrated by Σ or self-bound by Ψ."
+        responsibility_trace: "R becomes contestable without total R, guilt, blame, or person judgment."
+      negative_meaning: "Negative means non-carrying, non-integration, or non-binding under consequence, not morally bad, guilty, corrupt, inferior, or ontologically stained."
+      boundaries: ["NRK does not assign responsibility from outcome alone.", "NRK does not compete with or modify canonical R.", "NRK does not found EDEN.", "NRK is not a diagnostic or application tool.", "Use beyond the test scene remains subject to the global validity gate."]
+    grammar_test:
+      status: "overlay_construct"
+      questions: ["Can Ω be present without being falsely coordinated?", "Can breach activate consequence without becoming knowledge- or guilt-origin?", "Can R become traceable without moral totalization?", "Can exposure become newly legible without shame psychology?", "Can concealment manage visibility without already becoming regime stabilization?", "Can Λ/Ω/Θ become active while the scene remains analytically minimal?"]
+      success_condition: "Demonstrates coordinated Ω, consequence activation, legibility management, and R trace while subordinate to established grammar."
+      small_scene_guardrail: "Enough structure to test praxis, exposure, and R trace; insufficient to explain later Reciprocity Loss, regime stabilization, or sexed social order."
+    non_moral_boundary:
+      five_misreading_corrections: ["Eden ≠ origin.", "Breach ≠ knowledge gain.", "Sin ≠ moral-primary category in this paper.", "Sex difference ≠ essence.", "Reciprocity Loss ≠ bad intent."]
+      prohibited_uses: [theological_proof_path, mythic_or_universal_history, guilt_origin_theory, gender_blame_story, sex_truth_source, PFO_origin, source_of_Reciprocity_Loss, application_by_mythic_resemblance]
+      positive_boundary: "Theological, literary, mythic, symbolic, or anthropological readings belong to adjacent frameworks; this schema neither depends on nor governs them."
+      closing_formulas: ["Eden may demonstrate; it may not found.", "Eden may clarify; it may not totalize.", "Eden may test; it may not replace."]
+
+  reciprocity_loss:
+    name: "Reciprocity Loss as Tragedy"
+    status: "eden_theoretical_compression"
+    definition: "Structural loss where real Ω persists while R is displaced, Σ blocked, Ψ weakened/externalized, Χ reduced, D damaged, and shared capacity for proportionate correction erodes or disappears."
+    full_formula:
+      title: "Reciprocity Loss"
+      components: ["real Ω remains", "R displaced", "Σ blocked", "Ψ weakened / externalized", "Χ reduced", "D damaged", "correctability lost"]
+      chain_formula: "Reciprocity Loss = real Ω remains + R displaced + Σ blocked + Ψ weakened / externalized + Χ reduced + D damaged + correctability lost."
+    core_formulas: ["Reciprocity Loss = false coordination of real Ω.", "Reciprocity Loss is the erosion of shared correctability under real asymmetry.", "Reciprocity loss is not merely conflict.", "Conflict can remain compatible with reciprocity.", "Reciprocity loss begins when correction itself becomes illegible, unsafe, one-sided, humiliating, immunized, or impossible.", "Asymmetry is not the failure.", "False coordination of asymmetry is the failure."]
+    negative_definitions: [not_conflict, not_disagreement, not_inequality, not_asymmetry, not_hurt, not_unequal_burden, not_lack_of_harmony, not_failed_communication, not_guilt, not_relationship_ending]
+    status_boundary: "EDEN theoretical compression, not PMS-derived axis, prevalence claim, mandatory development, moral verdict, or automatic finding; scene readings remain evidential, revisable, counter-scene-exposed, and defeasible."
+    operator_relations:
+      real_omega: "Differences in capacity, exposure, obligation, protection, dependency, timing, access, or consequence persist even when unnamed."
+      displaced_R: "R no longer follows real effect precisely and may be discounted, protected, redirected, or overassigned."
+      blocked_sigma: "Relation cannot integrate asymmetry, effects, costs, and R into coherent praxis relation."
+      weakened_psi: "Consequential positions cease durable self-binding and shift interpretation, continuity, restraint, or repair burden."
+      reduced_chi: "Scene loses reflective distance/stop-capability for revision without fusion, retaliation, withdrawal, or totalization."
+      damaged_D: "Asymmetry is handled through overexposure, devaluation, reduced adult agency, rank, or critique immunity rather than dignity-preserving restraint."
+      lost_correctability: "Proportionate correction can no longer reliably reach real effect and alter coordination."
+    adult_reciprocity_contrast:
+      formulas: ["Adult Reciprocity ≠ symmetry.", "Adult Reciprocity = truthful coordination of real Ω.", "Reciprocity Loss = false coordination of real Ω."]
+      survival_conditions: "Adult Reciprocity survives difference, conflict, critique, unequal burden, and irreducible capacity differences where Ω stays visible, R follows effect, Σ integrates cost, Ψ stays self-bound, Χ preserves revision, D is protected, and correction matters."
+    pfo_relation:
+      formulas: ["PFO is not the origin of reciprocity loss.", "PFO is one regime form in which reciprocity loss stabilizes.", "Reciprocity Loss can occur and stabilize without PFO."]
+      boundary: "PFO is one downstream stabilization through recognition, protection, parity, and exception frames; it neither exhausts nor defines the loss."
+    collapse_trace:
+      status: "eden_theoretical_compression"
+      master_trace: "coordinated Ω → false-coordinated real Ω → displaced R → blocked Σ/Ψ → reciprocity loss"
+      extended_trace: "limited legibility → comparison susceptibility → false comparison → inferiority/superiority misframing → false-coordinated real Ω → switch drift → displaced R → blocked Σ/Ψ → reciprocity loss"
+      trace_guardrails: ["The sequence is not a strict chronology.", "It is a structural trace.", "Elements may overlap, loop, stabilize one another, arise in another order, or remain absent.", "False Comparison remains an attractor, amplifier, and stabilizer, not a first cause.", "No element alone establishes Reciprocity Loss.", "PFO is not a necessary stage.", "Pseudo-Symmetry is not a master mechanism.", "The trace is not a Fall narrative or PMS dependency path."]
+      possible_feedbacks: ["Blocked Σ increases orientation need and comparison susceptibility.", "Rank misframing makes real Ω less legible and strengthens frame dependence.", "Switch drift protects false coordination from correction.", "Displaced R increases non-binding and shifted Ψ-load.", "Non-binding adds integration burden to the adapting position."]
+      alternatives_remain_possible: ["Limited legibility can improve.", "Comparison can remain functional.", "Misframing can be corrected.", "Switches can remain bounded and valid.", "R can be reattached.", "Σ and Ψ can reopen."]
+    loss_of_orientation:
+      status: "eden_theoretical_compression"
+      formula: "unclear Ω + blocked Σ + displaced R → orientation failure"
+      definition: "Scene loses stable legitimate access to what protection, R, equality, agency, critique, silence, withdrawal, and cost mean within its structure."
+      practical_ambiguities: [protection_becomes_unclear, responsibility_becomes_unclear, critique_becomes_risky, recognition_becomes_conditional, silence_becomes_ambiguous, repair_becomes_unavailable, cost_becomes_unspeakable, agency_becomes_misread]
+      compensatory_orientations: [comparison, status, protection, moralization, exit, control, silence, withdrawal, role_hardening, blame]
+      conditionality: "None is inherently drifted; relevance begins where it replaces structural access rather than answering it."
+      anti_diagnostic_formula: "Disorientation is not stupidity; it is a structural effect of blocked Σ/Ψ under real Ω."
+      AEP_relation: "AEP intensifies orientation loss where high exposure combines with low legitimate language and the account is recoded before testing."
+    cost_distribution:
+      status: "eden_theoretical_compression"
+      definition: "Maps where work/damage of carrying false coordination accumulates; vectors do not rank suffering, decide standing, prove interpretation, or imply equal loss."
+      vectors:
+        visibility_cost: "Who is scrutinized while another consequential position stays comparatively opaque."
+        explanation_cost: "Who must explain structure, burden, and harmlessness of naming it."
+        reaction_cost: "Who regulates both original burden and response form, tone, timing, and recognizability."
+        waiting_cost: "Who carries duration, suspended action, anticipation, or option preservation under uncertainty."
+        binding_cost: "Who absorbs added Ψ-load where another remains less bound to effects."
+        protection_cost: "Who loses criticizability through protection or carries vigilance, restraint, risk, and exposure required to protect."
+        speech_cost: "Who risks standing or threat/weakness/hostility/control/evasion recoding by describing the scene."
+        repair_cost: "Who reopens communication, supplies language, restores continuity, reduces threat, integrates accounts, or enables correction."
+        dignity_cost: "Who is reduced to danger, vulnerability, utility, R, protection, or burden rather than preserved in D."
+        exposure_cost: "Who remains open to consequence, accusation, demand, physical risk, instability, or public interpretation."
+        recognition_cost: "Whose standing depends on accepting/performing the dominant account."
+        legibility_cost: "Who translates structures the shared frame cannot/will not name."
+        chi_cost: "Who creates reflective space, restrains escalation, preserves revisability, or absorbs suspicion attached to distance."
+        option_loss: "Which alternatives disappear under delay, dependency, burden, or stabilized drift."
+      psi_formula: "low Ψ on one side → increased Ψ-load on the other."
+      distribution_guardrails: ["Bidirectionality is not symmetry.", "Different positions may carry different losses under the same drift.", "Shared loss does not imply equal loss.", "Shared involvement does not establish equal responsibility.", "Shared damage does not establish equal cost.", "Cost distribution is not victim competition or moral balancing.", "Greater exposure does not establish innocence.", "Greater protection does not automatically establish immunity.", "Greater explanation burden does not prove the account correct."]
+      profile_relation:
+        immunized_position: "Effect remains partly R-protected, potentially diminishing full adult agency."
+        overexposed_position: "R exceeds available legibility/protection."
+        scene_bound_note: "Either may occur in different dimensions of one role-position; profiles are not identities or sex truths."
+    correctability:
+      name: "Shared Correctability"
+      status: "eden_normative_benchmark"
+      definition: "Relational capacity to receive, test, revise, and integrate proportionate correction while R follows real effect and dignity-in-practice is preserved."
+      core_formulas: ["The worst loss is not conflict.", "The worst loss is the loss of shared correctability.", "A relation can survive conflict; it cannot sustain reciprocity when correction itself becomes illegible.", "Correctability requires Χ, Σ, Ψ, and D."]
+      negative_definitions: ["Correctability is not agreement.", "Correctability is not peace.", "Correctability is not reconciliation.", "Correctability is not compulsory engagement.", "Correctability is not forced harmony.", "Correctability is not acceptance of every criticism.", "Correctability is not preservation of every relation.", "Correctability is not a PMS operator or derived axis."]
+      loss_transformations: ["Critique cannot land.", "Correction appears as threat.", "Responsibility appears as domination.", "Protection appears as immunity.", "Equality appears as exit.", "Silence appears as neutrality.", "Non-binding appears as autonomy.", "Legitimation replaces repair."]
+      requirements:
+        chi: "Χ preserves reflective distance, stop-capability, revisability, and distinction between structural claim and total person judgment."
+        sigma: "Σ holds vulnerability with agency, protection with criticizability, asymmetrical capacity with dignity, and partial accuracy with counter-evidence."
+        psi: "Ψ keeps consequential positions attached to their effects rather than externalizing correction burden."
+        dignity: "D preserves criticizability without humiliation, sex ranking, essence claims, or degradation."
+        responsibility: "R reattaches to effect under legibility, capacity, alternatives, Θ, and Ω."
+      criterion: "Impaired where proportionate, revisable, counter-scene-exposed, dignity-preserving correction cannot reach relevant effect regardless of careful bounding."
+      critique_guardrails: ["Not all critique is valid.", "Not all correction is dignity-preserving.", "A relation loses reciprocity when even proportionate, counter-scene-exposed, dignity-preserving correction cannot land.", "Accuracy alone is insufficient for praxis.", "Failure of critique to land does not prove the critique false.", "Correctability does not authorize compelled agreement, disclosure, access, reconciliation, or continued engagement."]
+      scene_status: "Availability/loss is a descriptive hypothesis requiring evidence, counter-scenes, and defeat conditions."
+    tragedy_not_guilt:
+      status: "eden_theoretical_compression"
+      core_formulas: ["Tragedy, not guilt.", "Structure, not verdict.", "Loss, not accusation.", "Responsibility remains possible without malice.", "Tragedy does not erase responsibility.", "Responsibility does not require total guilt.", "Structure remains real without erasing agency.", "Agency remains real without essence blame."]
+      required_distinctions: [responsibility_without_guilt_totalization, harm_without_villain_simplification, agency_without_essence_blame, structure_without_exculpation, tragedy_without_innocence_theater]
+      boundaries: ["Tragedy is not fatalism.", "Tragedy is not exculpation.", "Tragedy is not equal responsibility.", "Tragedy is not innocence theater.", "Structural explanation is not an innocence certificate.", "Calling a drift tragic does not remove responsibility.", "Calling a drift responsible does not require total guilt."]
+      no_counter_immunity: "Critique of Immunization cannot immunize the critic; critique of Overexposure cannot erase the overexposed position's effects; critique of false protection cannot reject protection; correcting one false asymmetry must not create another."
+    stability_through_devaluation:
+      status: "eden_mechanism"
+      definition: "A reciprocity-damaged relation, institution, or arrangement stays predictable by lowering the standing of costs, claims, burdens, signals, or role-positions more cheaply than reopening shared correctability."
+      core_formulas: ["Stability is not reciprocity.", "Order is not integration.", "Peace is not correctability.", "Predictability is not Adult Reciprocity.", "Devaluation can stabilize a damaged system.", "A system can become stable because correction is no longer allowed to work."]
+      trace: "stability without reciprocity → devaluation as glue → role-hardening → speech loss → responsibility distortion → repeated pseudo-resolution"
+      functions:
+        devaluation: "Discount relevance, credibility, maturity, legitimacy, or recognizability of signal-carrier/cost."
+        role_hardening: "Fix positions as protector, danger, burden, vulnerable/competent/integrating/repair-bearing side."
+        speech_loss: "Permit only vocabulary unable to alter R structure."
+        responsibility_distortion: "Assign R by stabilized role expectations instead of retracing effect."
+        pseudo_resolution: "Close conflict through familiar reassignment, silence, legitimation, restored protection, or devalued signal without causal integration."
+      possible_stabilizers: [devaluation, avoidance, legitimation, immunization, overexposure, silence, pseudo_protection, non_binding, critique_to_threat, role_hardening, moralization]
+      conditionality: "No stabilizer is drift by itself; relevance requires repeated preservation of false coordination and reduced access to proportionate correction."
+      positive_counter_scene: ["Not all stability is devaluation.", "Some stability is genuine coordination.", "Some routines support reciprocity.", "Some institutions preserve correctability."]
+      pfo_relation: "PFO is one regime form of damaged stability; stability through devaluation can occur beyond PFO."
+    minimal_recovery_signature:
+      name: "Minimal Recovery Signature"
+      status: "viability_signature"
+      components: ["Ω named", "R reattached to real effect", "Λ made speakable", "Χ restored", "Σ reopened", "Ψ self-bound", "D protected"]
+      formula: "Ω named; R reattached to real effect; Λ made speakable; Χ restored; Σ reopened; Ψ self-bound; D protected."
+      component_meanings:
+        omega_named: "Relevant asymmetry/effects enter as coordinable facts without automatic rank, threat, immunity, or guilt."
+        responsibility_reattached: "R follows effect under legibility, capacity, alternatives, Θ, and Ω cost/exposure."
+        lambda_speakable: "Relevant absence is examinable without default emptiness or guilt."
+        chi_restored: "Interpretation/correction regain stop-capability, proportionality, revisability, and openness to defeat."
+        sigma_reopened: "Vulnerability/agency, protection/criticizability, unequal capacity/dignity, cost/consequence re-enter one account."
+        psi_self_bound: "Consequential positions stay attached across time to effects without fully externalizing continuity/correction burden."
+        dignity_protected: "Renewed criticizability avoids humiliation, rank, coercion, or person/sex degradation."
+      conjunction_guardrails: ["Ω named without D may become rank or domination.", "R reattached without Χ may become accusation or irreversible verdict.", "Λ made speakable without counter-scenes may become presumed guilt.", "Σ reopened without Ψ may leave one position integrating what another will not carry.", "Ψ without Χ may become shame, rigidity, or compulsory self-condemnation.", "D without responsibility may become immunity or de-adulting protection."]
+      recovery_formulas: ["Recovery is not the abolition of asymmetry.", "Recovery is the truthful, criticizable, self-bound coordination of asymmetry.", "A minimal recovery signature does not mean repair will happen.", "It means the structural conditions of shared correctability are no longer fully blocked."]
+      status_guardrails: ["This is a viability signature, not a therapeutic program.", "This is not a moral recipe.", "This is not a sequence of steps.", "This is not a duty to reconcile or preserve a relation.", "This is not an intervention protocol.", "This is not a guarantee of repair.", "This supplies no authority to change, confront, bind, diagnose, or rank another person."]
+      tragedy_continuity: "Legibility/R may return after trust, alternatives, or continuation are lost under Θ; truer structure neither cancels consequence nor guarantees restoration."
+    transition_to_boundaries:
+      statement: "A Reciprocity Loss reading remains hypothetical. Chapter 18 must test genuine vulnerability, protection, hierarchy, openness, neutrality, rival explanations, counter-scenes, and falsifiers before EDEN-MAP use."
+
+boundary_and_application_architecture:
+  paper_scope:
+    chapters: [18, 19]
+    appendix_interface: "Appendix B — Adjacent Frameworks"
+    function: "Keep EDEN bounded, discriminative, falsifiable, counter-scene-exposed, and usable only for scene mapping; preserve genuine cases and stronger rivals before mapping; constrain outputs through the Description-to-Action Firewall."
+  governing_order:
+    sequence: [boundary_conditions, genuine_case_and_non_capture_tests, rival_explanations, counter_scene_protocol, falsifiers, EDEN_MAP, description_application_status, revision_point_or_open_question]
+    rule: "Boundary conditions, counter-scenes, and falsifiers precede EDEN-MAP application."
+
+  boundary_conditions:
+    status: "boundary_condition"
+    purpose: "Specify where an EDEN reading holds, weakens, narrows, becomes secondary, must be suspended, or fails; boundaries provide discriminative force, not apologies or hidden accusations."
+    core_formulas: ["EDEN must remain falsifiable, bounded, scene-bound, counter-scene exposed, and discriminative.", "No concept may replace judgment.", "No pattern may replace evidence.", "No frame may replace scene analysis.", "No EDEN label may replace scene analysis.", "EDEN must not become a model that always finds itself.", "A theory becomes stronger, not weaker, when it can say where it does not apply."]
+    distinctions:
+      boundary_condition: "Limit/weakening condition of a specified claim."
+      counter_scene: "Same relevant evidence organized through a materially different structural reading."
+      rival_explanation: "Competing framework/causal account potentially explaining decisive evidence better."
+      non_capture: "Valid result that EDEN is not the right or primary account."
+      falsifier: "Condition weakening or defeating the specified EDEN reading."
+    insufficient_appearances: ["Discomfort alone is not EDEN.", "Conflict alone is not EDEN.", "Difference alone is not EDEN.", "Power difference alone is not EDEN.", "Vulnerability alone is not EDEN."]
+    weakening_conditions: [no_real_Ω, no_traceable_structuring_effect, no_responsibility_displacement, no_blocked_Σ_Ψ, no_repeated_or_consequential_drift_where_recurrence_is_claimed, no_false_coordination, stronger_rival_explanation]
+    mechanism_specific_weakening:
+      passive_praxis: "No meaningful Λ, affected Ω, Θ accumulation, or traceable shifted cost/option burden."
+      critique_to_threat: "Proportionate structural critique was not threat-recontextualized before content testing."
+      immunization_overexposure: "Neither underassigned R nor R exceeding legibility/protection is evidenced."
+      PFO: "No repeatable regime stabilization; only isolated claim, frame, switch, or resemblance."
+      reciprocity_loss: "Correction remains consequentially possible and Χ, Σ, Ψ, D remain sufficiently open."
+    positive_weakening_formula: "If real Ω is acknowledged, R follows structuring effect, Σ integrates cost, Ψ is self-bound, and counter-scenes remain possible, then EDEN's drift claim weakens."
+    release_rule: "Absent required conditions, EDEN must narrow, yield to a stronger explanation, or release the scene."
+
+  genuine_vulnerability_and_protection:
+    status: "boundary_condition"
+    governing_formulas: ["Vulnerability can be genuine.", "Protection can be genuine.", "Vulnerability and protection are not false as such.", "EDEN applies only where vulnerability or protection frames block proportionate responsibility, criticizability, or integration of real effect."]
+    genuine_vulnerability:
+      signature: [real_exposure, real_harm_risk, real_protection_need, responsibility_still_proportionately_possible, D_preserved]
+      meaning: "Exposure, dependency, injury, incapacity, danger, trauma, illness, or limited alternatives may reduce capacity, remove alternatives, change timing, and require asymmetrical protection."
+      responsibility_rule: "May limit R without erasing every effect; attribution follows legibility, capacity, alternatives, Θ, and Ω cost/exposure."
+    genuine_protection:
+      signature: [bounded, specific, cost_aware, revisable, responsibility_compatible, Σ_Ψ_opening]
+      meaning: "May reduce demand, alter timing, restrict access, preserve distance, asymmetrically allocate authority, or suspend expectations under real harm/degradation risk."
+      drift_threshold: "Drift begins only where protection categorically suspends R, criticizability, self-binding, or correction for real effect."
+      temporal_guardrail: "Temporary suspension during danger, incapacity, injury, or overwhelming exposure is not categorical immunity; revision must not pressure premature withdrawal of needed protection."
+    two_direction_D_rule: "Responsibility must not force exposure or degradation; protection must not reduce a role-position to helplessness, partial agency, or permanent exemption from adult standing."
+
+  genuine_superiority_and_hierarchy:
+    status: "boundary_condition"
+    governing_formulas: ["Superiority can be genuine.", "Hierarchy can be genuine.", "Local superiority ≠ global superiority.", "Functional hierarchy ≠ ontological rank."]
+    genuine_local_superiority:
+      signature: [specified_field, traceable_competence_or_capacity, bounded_scope, greater_answerability_where_effect_increases, no_generalization_into_person_worth]
+      boundary: "Real domain-specific performance, knowledge, authority, resilience, or judgment becomes misframing only when generalized into overall standing or used to erase D."
+    genuine_hierarchy:
+      signature: [task_or_role_relevant, transparent, bounded, revisable_or_terminable_where_scene_permits, answerable_to_effects, non_humiliating, preserves_counter_scene_and_correction_access]
+      valid_sources: [competence, legal_duty, institutional_role, care_obligation, emergency_authority, asymmetrical_risk, dependency_or_developmental_condition]
+      boundary: "Unequal authority/R is not false coordination when functional, proportionate, criticizable, cost-aware, and revisable; EDEN must not treat every hierarchy as capture."
+
+  genuine_non_action_openness_and_neutrality:
+    status: "boundary_condition"
+    governing_formulas: ["Non-action can be mere absence.", "Silence can be restraint.", "Delay can be legitimate.", "Openness can be legitimate.", "Non-binding can be honest openness.", "Legitimation can be accurate."]
+    neutral_non_action:
+      supporting_conditions: [no_operative_expectation_or_relevant_□, no_meaningful_Λ, no_consequential_real_Ω, no_Θ_accumulation, no_shifted_cost_exposure_timing_option_or_Ψ_load, no_available_alternative, genuine_incapacity_uncertainty_restraint_boundary_distance_or_non_involvement]
+      formula: "No □/Λ/Ω/Θ structuring and no traceable scene effect → no Passive Praxis finding."
+    legitimate_openness:
+      signature: [uncertainty_honestly_represented, no_commitment_falsely_implied, another_role_positions_freedom_preserved, costs_and_timing_effects_nameable, boundaries_and_exit_available, no_hidden_transferred_Ψ_load]
+      coercion_guardrail: "EDEN never converts non-binding into compelled commitment, clarity, reassurance, disclosure, availability, or continued relation."
+    accurate_legitimation:
+      meaning: "A frame may truthfully describe law, duty, scarcity, protection need, authority, capacity, material constraint, or functional role; drift begins only where explanation replaces integration of traceable effects/costs."
+
+  rival_explanations:
+    status: "boundary_condition"
+    governing_formulas: ["A rival explanation can be stronger.", "Partial EDEN relevance does not establish explanatory priority.", "EDEN weakens where a rival framework explains the scene better."]
+    families:
+      institutional_role: "Formal mandate, organizational design, incompatible roles, throughput pressure, or administrative failure."
+      economic_and_material_pressure: "Scarcity, dependency, labor conditions, resource limits, or material risk."
+      law_and_authority: "Legal obligation, confidentiality, due process, jurisdiction, or legitimate unequal authority."
+      trauma_illness_and_incapacity: "Altered capacity, threat response, participation limits, protective distance, or temporality."
+      direct_violence_or_coercion: "Immediate harm, domination, coercive control, or acute danger requiring primary safety/legal account."
+      ordinary_misunderstanding: "Local ambiguity, incomplete information, error, or incompatible expectations without stabilized drift."
+      external_stress_and_crisis: "Acute load, emergency, bereavement, displacement, or environmental pressure."
+      cultural_and_historical_account: "Learned scripts, historical conditions, norms, or cultural mismatch requiring broader evidence."
+      theological_or_symbolic_reading: "Doctrinal, exegetical, literary, ritual, or symbolic meaning irreducible to praxeological mapping."
+      feminist_masculinity_or_sociological_framework: "Historical, political, institutional, empirical, or sexed-power explanation stronger than local EDEN mechanism."
+    strength_test: [explains_decisive_evidence_more_specifically, preserves_more_relevant_structure, requires_fewer_unsupported_inferences, distinguishes_conditions_from_resemblance, changes_prediction_or_interpretation_when_conditions_change]
+    admissible_outcomes: [EDEN_retained_as_strongest, EDEN_narrowed_to_local_mechanism, EDEN_secondary_to_another_explanation, reading_suspended_pending_evidence, scene_released_as_non_capture]
+    anti_absorption_rule: "Rival checking fails if every alternative is redescribed as hidden EDEN."
+
+  counter_scene_protocol:
+    status: "application_protocol"
+    entry_formula: "Every strong EDEN reading must test at least one counter-scene where the same facts do not imply false-coordinated real Ω."
+    governing_formulas: ["A counter-scene must be able to change the reading.", "Otherwise it is decorative, not methodological.", "Counter-scene is not politeness.", "Counter-scene is a methodological exposure to non-capture."]
+    strongest_counter_scene_rule: "Choose the plausible alternative best able to preserve/explain difficult evidence, not the easiest to dismiss."
+    required_questions: ["Could this be genuine vulnerability?", "Could this be genuine protection?", "Could this be genuine hierarchy?", "Could this be genuine superiority?", "Could this be genuine non-capture?", "Could this be neutral non-action?", "Could non-binding be legitimate openness?", "Could the legitimation frame be accurate?", "Is responsibility truly displaced?", "Is Σ/Ψ truly blocked?", "Is the alleged immunized side actually exposed?", "Is the alleged overexposed side actually exerting unchecked power?", "Is a rival explanation stronger?"]
+    minimum_protocol: ["Name the bounded EDEN reading.", "Name the strongest counter-scene.", "Specify what evidence would support it.", "Specify what evidence would defeat or narrow the EDEN reading.", "Do not proceed if the counter-scene cannot matter."]
+    permitted_effects: [defeat_the_reading, narrow_to_one_mechanism, redirect_responsibility, reduce_confidence, make_another_explanation_primary, suspend_judgment]
+    PFO_guardrail: ["A PFO reading must be able to fail.", "If counter-scenes cannot change the reading, PFO has become a verdict frame, not an analytic category."]
+    contestation_rule: "Affected role-positions may contest packet, evidence, frame, R trace, or application; disagreement alone neither defeats nor confirms EDEN and is not drift by default."
+
+  falsifiers:
+    status: "falsifier"
+    definition: "Specified condition materially weakening, narrowing, or defeating an EDEN reading rather than merely adding uncertainty."
+    principal_falsifiers: ["Ω is minimal or absent.", "The alleged non-action does not structure costs or options.", "Responsibility remains properly attached to effect.", "Critique remains possible.", "Σ/Ψ are robustly open.", "Protection is bounded and responsibility-compatible.", "Vulnerability remains criticizable without degradation.", "Hierarchy is bounded and functional.", "A rival explanation is stronger.", "The alleged pattern is not repeated or consequential.", "A counter-scene explains the scene better."]
+    positive_falsifier: "If real Ω is acknowledged, R follows structuring effect, Σ integrates cost, Ψ is self-bound, Χ remains available, D is preserved, and counter-scenes remain possible, then the EDEN drift claim weakens or fails."
+    evidence_limits: ["No concept may replace evidence.", "No pattern may replace scene-bound evidence.", "No protection frame may replace responsibility.", "No performance may replace dignity.", "No EDEN label may replace scene analysis."]
+    dignity_status:
+      scene_evidence: "D-erosion is evidence only inside a traceable configuration; alone it does not establish EDEN."
+      method_condition: "Humiliation by analysis is method failure; application without D is invalid."
+    hard_safety_formulas: ["If no falsifier can be named, the EDEN reading is methodologically unsafe.", "If EDEN cannot name what would defeat its reading, EDEN is not being used methodologically.", "The final test of EDEN is whether it can release a scene when the scene does not belong to it."]
+
+  eden_map:
+    name: "EDEN-MAP"
+    status: "application_protocol"
+    purpose: "Order established scene-bound questions to test support, uncertainty, narrowing, secondary status, or defeat of false-coordinated real Ω, displaced R, blocked Σ/Ψ, and drift mechanisms; adds no operator, mechanism, diagnosis, verdict, or authority."
+    status_formulas: ["EDEN-MAP maps scenes.", "EDEN-MAP maps what may be structurally happening.", "It does not tell what should be done.", "It does not diagnose persons.", "It does not rank sexes.", "It does not authorize coercive action.", "It does not replace counter-scene testing."]
+    prohibited_uses: [clinical_or_personality_diagnosis, person_couple_group_or_sex_label, moral_tribunal, verdict_or_recommendation_engine, therapy_repair_or_intervention_protocol, coercive_authorization, application_by_resemblance_or_vibe, PFO_present_closure, identity_based_profile_assignment]
+    protocol_order: [scene_packet, real_omega_mapping, false_coordination_frame, responsibility_and_action_power, sigma_psi_and_cost_distribution, non_passivity_and_non_binding, immunization_overexposure_and_AEP, counter_scene_and_falsifier, description_to_action_status, revision_point_or_open_question]
+
+    scene_packet:
+      status: "application_protocol"
+      entry_formula: "EDEN-MAP begins with a scene packet, not a theory label."
+      status_note: "Entry threshold, not finding or verdict."
+      required_fields: [specified_scene_and_temporal_limits, actors_role_positions, dominant_□, real_Ω, relevant_Λ, Θ_trajectory, traceable_structuring_effects, visible_costs, available_language, recognition_structure, protection_structure, responsibility_distribution, Σ_Ψ_status, non_action_relevance, non_binding_relevance, legitimation_frame, immunization_overexposure_signals, AEP_signals, action_power_distribution, counter_scene_possibility]
+      role_position_rule: "Records what can be structured in this scene, never global identity, psychology, character, sex truth, or moral worth."
+      hard_input_limits: ["No isolated-sentence diagnosis.", "No identity-based application.", "No EDEN-by-vibe.", "No application by label.", "No application by impression.", "No theory label in place of a scene.", "No frame-only reading without effects and costs.", "No actor-only reading without asymmetry and temporality."]
+      counter_scene_at_entry: "At least one plausible alternative organization of evidence enters before EDEN reading formation."
+
+    real_omega_mapping:
+      status: "application_protocol"
+      governing_formulas: ["Map real Ω before evaluating false coordination.", "Asymmetry is not yet failure.", "Real Ω must be mapped before it is judged.", "If no real Ω structures the scene, EDEN weakens or does not apply strongly."]
+      dimensions: [capacity, exposure, dependency, protection, obligation, access, timing_control, frame_control, recognition_control, binding_control, language_access, explanation_burden, risk, cost, exit_and_waiting_capacity]
+      mapping_questions: ["What asymmetry is real?", "Who can act, decide, prevent, protect, delay, clarify, withdraw, or correct?", "Who is exposed, dependent, protected, or restricted?", "Who controls timing, framing, recognition, access, and binding?", "Who can wait, remain unclear, or preserve options?", "Who must respond, clarify, explain, absorb risk, or pay for ambiguity?", "What does each difference change in options, cost, exposure, responsibility, or correction access?"]
+      multidimensional_guardrail: "Keep crossed asymmetries visible; authority, exit power, embodiment, language, timing, protection, and explanation burden may diverge and cannot become one rank."
+      sexed_scene_guardrail: "Sexed embodiment/positioning may alter real Ω but never predetermines R, profile, recurrence, or person value."
+
+    false_coordination_frame:
+      status: "application_protocol"
+      formula: "real Ω + false coordination frame + displaced R + blocked Σ/Ψ = false-coordinated real Ω"
+      governing_rule: "A frame becomes false coordination only where it organizes real Ω by displacing R and blocking Σ and/or Ψ."
+      candidate_frame_families: [comparison, protection, parity, superiority, vulnerability, responsibility, recognition, non_action_neutrality, non_binding_autonomy, legitimation, authority]
+      validity_guardrail: "No family is categorically false; each may be accurate, functional, dignity-preserving, R-compatible, and correctable."
+      questions: ["What frame organizes the scene?", "Does it make real Ω speakable or unspeakable?", "Does R follow real structuring effect?", "Does it block proportionate critique?", "Does it simulate or reopen Σ?", "Does it support or externalize Ψ?", "Does it preserve D?", "Which costs appear fair, natural, protective, equal, autonomous, or necessary?", "Can the frame be revised?", "Can a counter-scene change the reading?"]
+      output_limit: "Without supported displaced R and blocked Σ/Ψ, record that no dominant false-coordination frame is established."
+
+    responsibility_and_action_power:
+      status: "application_protocol"
+      responsibility_formula: "R follows real structuring effect under available legibility, capacity, alternative possibility, Θ trajectory, and Ω cost/exposure conditions."
+      action_power_definition: "Capacity to structure praxis conditions; not operator, fixed trait, moral rank, or blame finding."
+      vectors: [direct_action, structuring_non_action, framing, timing, access, recognition_allocation, protection_allocation, withholding, non_binding, legitimation, language_control, cost_distribution]
+      questions: ["What does each role-position actually structure?", "What was sufficiently legible at the relevant point?", "What capacity and materially relevant alternatives were available?", "How did effect and feedback change across Θ?", "What Ω cost or exposure conditions limit attribution?", "Is responsibility underassigned, proportionate, or overassigned?"]
+      guardrails: ["Visibility is not responsibility.", "Capacity is not total guilt.", "Vulnerability is not immunity.", "Direct action does not exhaust Action-Power.", "Structuring effect does not establish motive or malice.", "Unequal responsibility may be truthful where scene conditions are unequal."]
+
+    sigma_psi_and_cost_distribution:
+      status: "application_protocol"
+      sigma_question: "Can relevant effects, costs, protections, exposures, and responsibilities enter the same account?"
+      psi_question: "Do consequential role-positions remain attached to what they structure, or is binding load externalized?"
+      cost_vectors: [visibility, explanation, reaction, waiting, binding, protection, speech, repair, dignity, exposure, recognition, legibility, Χ, option_loss]
+      formula: "low Ψ on one side → increased Ψ-load on the other."
+      output_statuses: [open, partially_open, mixed_evidence, blocked, simulated, externalized, indeterminate]
+      guardrail: "Distinguish burdens without ranking suffering or inferring equal R, equal loss, or moral standing."
+
+    non_passivity_and_non_binding:
+      status: "application_protocol"
+      core_formulas: ["No Passive Praxis ≠ every non-action is action.", "Non-action becomes praxis only when it structures a scene under □/Λ/Ω/Θ.", "Silence can be restraint.", "Delay can be legitimate.", "Non-binding can be honest openness."]
+      classification:
+        mere_absence: "No relevant □/Λ/Ω/Θ or traceable effect."
+        structuring_non_event: "Absence shapes options, timing, exposure, cost, R, or Ψ-load under threshold conditions."
+        integrated_abstention: "Evidence supports integrated directionality across Σ, Θ, and ∇ without mental-state inference."
+        legitimate_openness: "Uncertainty is honest, costs nameable, freedom/exit available, and transferred load not concealed."
+      checks: ["Was an event meaningfully expected under □?", "Does Λ alter what another position must do or carry?", "Is real Ω affected?", "Does Θ accumulate or narrow alternatives?", "Is a shifted cost, option, exposure, timing, or Ψ-load traceable?", "Was another materially relevant alternative available?", "Could restraint, incapacity, uncertainty, boundary, or non-involvement explain the absence?"]
+      coercion_guardrail: "A finding never authorizes compelled clarity, commitment, disclosure, reassurance, availability, or continued engagement."
+
+    immunization_overexposure_and_AEP:
+      status: "application_protocol"
+      formulas: ["Immunization = effect without full responsibility.", "Overexposure = responsibility without full legibility / protection.", "AEP = high exposure + low legitimate language + critique-to-threat switch + responsibility overload."]
+      coupled_questions: ["Whose real effects remain insufficiently answerable?", "Whose responsibility exceeds traceable effect, legibility, capacity, alternatives, or protection?", "Who has legitimate language for describing the distribution?", "Whose critique becomes threat before its content is tested?", "Is genuine vulnerability present?", "Is genuine protection needed and bounded?", "Is actual power or unchecked Action-Power present?", "Is actual exposure or dignity risk present?", "Is counter-immunity forming?"]
+      profile_guardrails: ["Do not assign immunization or overexposure by sex in advance.", "Profiles are scene-bound drift patterns, not sex truths.", "Critique of female immunization ≠ male immunity.", "Critique of male overexposure ≠ denial of male responsibility.", "No output may identify an immunized or overexposed person as a fixed identity."]
+      positive_falsifier: "If vulnerability is genuine, protection is bounded, R follows structuring effect, Σ/Ψ remain open, D is preserved, and counter-scenes remain possible, the immunization / overexposure reading weakens."
+
+    counter_scene_and_falsifier:
+      status: "application_protocol"
+      governing_formulas: ["A counter-scene must be able to change the reading.", "If no falsifier can be named, the EDEN reading is methodologically unsafe."]
+      required_output:
+        bounded_eden_reading: "Exact local configuration claimed."
+        strongest_counter_scene: "Most plausible materially different organization of difficult evidence."
+        counter_scene_support: "Evidence strengthening the alternative."
+        eden_defeat_condition: "Evidence/condition narrowing, reversing, suspending, or defeating EDEN."
+        result_effect: "Change to confidence, scope, R, or explanatory priority."
+      admissible_results: [strongly_supported, weakly_supported, narrowed, secondary, contested, provisional, indeterminate, suspended, defeated_non_capture]
+      no_proceed_rule: "Do not affirm EDEN if the counter-scene cannot matter or no falsifier can be named."
+
+    description_to_action_status:
+      status: "application_protocol"
+      firewall_reference: "description_to_action_firewall"
+      core_formulas: ["Description may name structure.", "Application requires Χ, reversibility, D, and contextual responsibility.", "Description does not authorize binding."]
+      description: "Operator-traceable scene mapping without obligation/action authority."
+      application: "Use of a map to steer, bind, obligate, prescribe, confront, accuse, intervene, punish, or enforce."
+      application_requirements: [scene_packet, counter_scene_exposure, Χ, reversibility, D, contextual_responsibility, affected_role_contestation_standing, independent_application_authority]
+      hard_boundaries: ["EDEN-MAP supplies no independent application authority.", "Structural coherence supplies no standing to confront or enforce.", "Humiliation within the scene may be evidence.", "Humiliation by the analysis is a method failure.", "Application without D is methodologically invalid.", "Disagreement may not be recoded as confirmation, immunization, threat-coding, or resistance to truth."]
+      prohibited_outputs: [recommendation, verdict, diagnosis, intervention_protocol, moral_sentence, final_person_label, sex_ranking, coercive_authorization]
+
+    revision_point_or_open_question:
+      status: "application_protocol"
+      rule: "Mandatory terminal step identifying evidence, changed condition, unresolved distinction, or counter-scene capable of altering the map."
+      source_field: "boundary_and_application_architecture.eden_map.output_schema.mandatory_final_field"
+
+    output_schema:
+      status: "application_protocol"
+      ordered_fields:
+        - {id: 1, field: "Scene packet summary", requirement: "Bounded scene, role-positions, temporal limits, principal effects, and evidentiary constraints."}
+        - {id: 2, field: "Real Ω", requirement: "Consequential multidimensional asymmetries and what each changes."}
+        - {id: 3, field: "Dominant false-coordination frame", requirement: "Frame only if displaced R and blocked Σ/Ψ are supported; otherwise record not established."}
+        - {id: 4, field: "Responsibility / Action-Power distribution", requirement: "Structuring effects and attribution limits under the Responsibility Principle."}
+        - {id: 5, field: "Σ / Ψ status", requirement: "Integration and self-binding openness, blockage, simulation, externalization, or uncertainty."}
+        - {id: 6, field: "Cost distribution", requirement: "Differentiated costs without suffering rank or equal-responsibility inference."}
+        - {id: 7, field: "Non-action / non-binding relevance", requirement: "Mere absence, structuring non-event, integrated abstention, legitimate openness, or indeterminate."}
+        - {id: 8, field: "Immunization / overexposure / AEP result", requirement: "Scene-bound coupled result with genuine-case and counter-immunity checks."}
+        - {id: 9, field: "Counter-scene / falsifier result", requirement: "Strongest alternative, supporting evidence, defeat condition, and effect on the reading."}
+        - {id: 10, field: "Description / Application status", requirement: "Non-binding description or separately authorized and fully gated application; record contestation."}
+        - {id: 11, field: "Revision point / open question", requirement: "Evidence, changed condition, unresolved distinction, or counter-scene capable of altering the map."}
+      mandatory_final_field: "Revision point / open question"
+      final_field_formula: "EDEN-MAP output must end with: revision point / open question."
+      closure_guardrails: ["No sealed output.", "No final verdict.", "No case closure.", "No diagnosis.", "No recommendation."]
+      unresolved_rule: "Mark unresolved disagreement contested, provisional, narrowed, or indeterminate; never default-convert it into drift."
+      clarity_rule: "Output may state strong, weak, secondary, indeterminate, or defeated support; evidentiary clarity never becomes person verdict or action command."
+
+  adjacent_frameworks:
+    status: "overlay_construct"
+    appendix_home: "Appendix B — Adjacent Frameworks"
+    purpose: "Scholarly orientation and competition; adjacent frameworks may overlap, differ in level/mechanism, and explain better without becoming EDEN foundations, confirmations, or incomplete versions."
+    positioning_formulas: ["Positioning without dependence.", "Overlap without equivalence.", "Contribution without replacement.", "Difference without superiority.", "PMS-EDEN is positioned beside adjacent frameworks.", "It is not derived from them.", "It does not replace them."]
+    eden_distinct_target: "false-coordinated real asymmetry as a praxeological reciprocity-loss mechanism"
+    comparison_template:
+      overlap: "What both approaches make visible."
+      non_equivalence: "Difference in object, mechanism, level, method, or evidence."
+      risk: "What over-assimilation would distort."
+    areas:
+      practice_theory: {overlap: "Situated conduct, recurrent practice, practical intelligibility, field reproduction.", non_equivalence: "EDEN isolates scene-specific Ω, R, Σ, Ψ, D, correctability.", risk: "Treating every practice pattern as Reciprocity Loss or EDEN as general practice theory."}
+      habitus_and_symbolic_power: {overlap: "Learned dispositions, classifications, embodied expectations, indirect power.", non_equivalence: "EDEN does not generally theorize symbolic capital, class reproduction, or durable disposition.", risk: "Reducing history to local frames or every normalized difference to false coordination."}
+      structuration: {overlap: "Recursive conduct/reproduced-condition relation.", non_equivalence: "EDEN has narrower scene-level asymmetry/R target.", risk: "Inflating EDEN into comprehensive agency/social-reproduction theory."}
+      interaction_order: {overlap: "Roles, framing, face, recognition, timing, encounter organization.", non_equivalence: "EDEN adds operator-disciplined asymmetry, non-event, R, self-binding, correctability.", risk: "Treating every face threat/framing conflict as Reciprocity Loss."}
+      systems_theory: {overlap: "Communication, expectation, self-stabilization, recursive reproduction, observational limits.", non_equivalence: "EDEN retains praxeological scenes and R-bearing role-positions.", risk: "Dissolving R into systems or anthropomorphizing systems."}
+      governmentality: {overlap: "Indirect conduct-shaping, normalization, self-regulation, legitimation, possible-action fields.", non_equivalence: "EDEN targets Reciprocity Loss through false coordination of real Ω.", risk: "Making every self-regulation scene governmentality or EDEN political-rationality theory."}
+      recognition_theory: {overlap: "Standing, dignity, visibility, misrecognition, adult participation.", non_equivalence: "EDEN links recognition to criticizability, R, Ψ, consequence, correction.", risk: "Reducing recognition injury to R evasion or Pseudo-Equal-Standing."}
+      action_and_responsibility_theory: {overlap: "Agency, omission, intention, capacity, answerability, action, consequence.", non_equivalence: "EDEN distinguishes praxis/strict E and conditions R by effect, legibility, capacity, alternatives, Θ, Ω.", risk: "Claiming general action theory or collapsing structural answerability into moral/legal liability."}
+      feminist_theory: {overlap: "Sexed power, embodiment, care, dependency, vulnerability, recognition, institutions, unequal exposure.", non_equivalence: "EDEN asks how real sexed Ω stays coordinable without rank, displacement, blockage, Immunization, or Overexposure.", risk: "Flattening diverse historical/empirical theories or replacing feminist analysis."}
+      masculinity_studies: {overlap: "Male-coded roles, R burdens, vulnerability constraints, authority, exposure, protection.", non_equivalence: "EDEN offers scene-bound profiles, not sociology, psychology, or masculinity truth.", risk: "Turning conditional Overexposure/AEP into claims about men."}
+      postfeminism_and_discourse_analysis: {overlap: "Equality, autonomy, empowerment, choice, recognition, protection, exception frames.", non_equivalence: "PFO is downstream regime stabilization, not postfeminism as field, belief, movement, or identity.", risk: "Ideology diagnosis or categorical suspicion of recognition/equality language."}
+      psychology_and_moral_psychology: {overlap: "Perception, affect, motive, attribution, agency, moral judgment, conflict, correction.", non_equivalence: "EDEN does not infer mental states, personality, attachment, cognition, development, or pathology.", risk: "Psychologizing operator relations or turning R traces into character claims."}
+      theological_and_eden_readings: {overlap: "Eden, breach, embodiment, exposure, concealment, consequence, R, relation.", non_equivalence: "Eden is a late minimal test scene, not replacement for doctrine, exegesis, anthropology, history, or symbolism.", risk: "Making Eden the origin or translating theology into undeveloped operator claims."}
+      trauma_and_vulnerability_frameworks: {overlap: "Exposure, impaired capacity, protective distance, altered Θ, narrowed alternatives, threat, participation conditions.", non_equivalence: "Trauma/acute vulnerability may explain silence, withdrawal, protection, or inconsistent participation better.", risk: "Default-recoding incapacity as non-binding, protection as Immunization, or distress as Critique-to-Threat."}
+    non_goals: [comprehensive_social_theory, psychology_or_moral_psychology, theology_or_exegesis, sex_metaphysics, general_ideology_critique, empirical_prevalence_study, therapy_model_or_relationship_manual, political_or_legal_program, comprehensive_literature_review, novelty_proof_by_renaming]
+    replacement_boundaries: ["EDEN does not replace theology.", "EDEN does not replace sociology.", "EDEN does not replace psychology.", "EDEN does not replace feminism or masculinity studies.", "EDEN does not replace adjacent frameworks."]
+    strongest_domain: "EDEN is strongest where real asymmetry is falsely coordinated, R displaced, Σ/Ψ blocked, shared correctability eroded, and counter-scenes/rivals do not explain better."
+    outcome_rule: ["Retain where the mechanism is supported.", "Narrow where only a partial mechanism is supported.", "Release where the scene is better explained otherwise."]

@@ -1,0 +1,444 @@
+# =============================================================================
+#  PMS-DISCIPLINE — MIP GATE TEMPLATE
+#
+#  Template version:
+#    PMS-DISCIPLINE_MIP_GATE_CLEAN_v0.1
+#
+#  DISCIPLINE role:
+#    Review whether MIP should be read next after checked Core and, where used,
+#    checked selected Add-on output. This gate records MIP recommendation
+#    pressure, doubts, burden, red-zone risk, dignity-in-practice sensitivity,
+#    and timing for possible MIP use. It does not apply MIP, assign bands,
+#    activate modules, score persons, rank groups, or issue maturity verdicts.
+# =============================================================================
+
+pms_discipline_mip_gate:
+  schema_version: "PMS-DISCIPLINE_MIP_GATE_CLEAN_v0.1"
+  schema_role: "pms_discipline_mip_gate_template"
+  analysis_mode: "post_checked_core_and_addon_mip_gate"
+  template_status: "clean_mip_gate_template"
+  template_purpose: >-
+    Review whether MIP should be read as the next reference step after checked
+    Pre-Analysis, checked Core Case Application, checked Add-on Recommendation
+    Gate, and checked selected Add-on Case Application where an add-on was used.
+    This gate records recommendation pressure, doubts, burden, red-zone risk,
+    and timing for possible MIP use. It does not apply MIP, read MIP as case
+    authority, assign bands, activate modules, score dignity, rank persons, or
+    issue maturity verdicts.
+
+  repository_reference:
+    pms_base_reference_file: "PMS.yaml"
+    pms_base_reference_status: "already_read_base_reference"
+    mip_source_status_in_this_step: "not_read"
+    mip_source_reading_status_if_recommended: "next_reference_step_only"
+    template_role: "mip_recommendation_gate_template"
+    reference_note: >-
+      PMS.yaml supplies PMS Base grammar. Checked Pre-Analysis, checked Core,
+      checked Add-on Gate, and checked selected Add-on output constrain this gate.
+      MIP source material is read only if this checked gate recommends that next
+      reference step and the user accepts it. This gate does not assume any
+      unprovided application-discipline file or MIP output.
+
+  source_priority:
+    pms_yaml:
+      priority: 1
+      role: "PMS Base reference already read before this step"
+      may_define:
+        - "PMS_operator_inventory"
+        - "PMS_operator_order"
+        - "PMS_dependencies"
+        - "PMS_derived_structures"
+        - "PMS_application_guardrails"
+      must_not_be_overridden_by:
+        - "pms_discipline_mip_gate"
+        - "mip_source_if_later_read"
+        - "case_templates"
+        - "addon_sources"
+        - "model_output"
+    case_packet:
+      priority: 2
+      role: "bounded case material supplied for this run"
+      may_supply:
+        - "case_material"
+        - "source_status"
+        - "intended_use"
+      must_not_supply:
+        - "MIP_result"
+        - "person_rank"
+        - "maturity_verdict"
+    checked_pre_analysis_yaml:
+      priority: 3
+      role: "checked boundary, source-status, burden, and claim-ceiling record"
+      may_supply:
+        - "source_material_inventory"
+        - "input_status"
+        - "intended_use"
+        - "claim_ceiling"
+        - "person_nearness_publicness_irreversibility_burden"
+        - "rival_pressure"
+        - "non_capture_zones"
+        - "correctability_and_reopening"
+    checked_core_case_application_yaml:
+      priority: 4
+      role: "checked PMS Core case basis"
+      may_supply:
+        - "core_operator_analysis"
+        - "core_dependency_analysis"
+        - "derived_structure_status"
+        - "non_capture_and_rival_pressure_record"
+        - "falsifier_and_weakening_conditions"
+        - "core_quality_control"
+        - "case_synthesis"
+      must_not_authorize:
+        - "MIP_use"
+        - "person_ranking"
+        - "maturity_verdict"
+        - "dignity_scoring"
+    checked_addon_recommendation_gate_yaml:
+      priority: 5
+      role: "checked add-on family selection or Core-only record"
+      may_supply:
+        - "core_only_or_selected_addon_status"
+        - "selected_addon_family"
+        - "recommendation_limits"
+        - "false_trigger_and_non_use_record"
+      must_not_authorize:
+        - "MIP_use"
+        - "stronger_claim_type"
+        - "case_closure"
+    checked_selected_addon_case_application_yaml_if_any:
+      priority: 6
+      role: "checked selected add-on case basis where an add-on was used"
+      may_supply:
+        - "addon_specific_risk_shape"
+        - "addon_specific_claim_limits"
+        - "addon_output_check_status"
+        - "addon_rejected_or_not_used_record"
+      must_not_authorize:
+        - "MIP_use"
+        - "stronger_claim_type"
+        - "case_closure"
+    this_mip_gate_template:
+      priority: 7
+      role: "MIP gate output structure only"
+      may_structure:
+        - "mip_recommendation_record"
+        - "mip_doubts_and_burden_record"
+        - "mip_red_zone_record"
+        - "mip_non_trigger_record"
+        - "mip_required_conditions_before_use"
+        - "mip_gate_handoff"
+      must_not_supply:
+        - "MIP_case_application"
+        - "MIP_band_assignment"
+        - "D_module_activation"
+        - "IA_box_result"
+        - "maturity_verdict"
+
+  workflow_position:
+    phase: "mip_gate"
+    step_id: "mip_recommendation_gate"
+    step_role: >-
+      This step occurs after checked Core output and after checked selected
+      Add-on output where an add-on was used. It reviews whether MIP should be
+      read next, remain unused, be scan-only, be revised toward later use, or be
+      suspended/refused/redirected under burden and red-zone constraints.
+    preceded_by_required_steps:
+      - "read_pms_yaml"
+      - "checked_pre_analysis_yaml"
+      - "checked_core_case_application_yaml"
+      - "checked_addon_recommendation_gate_yaml"
+      - "checked_selected_addon_case_application_yaml_if_addon_was_used"
+    next_allowed_step:
+      - "mip_gate_output_check"
+    later_possible_step_after_checked_gate_if_recommended:
+      - "read_MIP_source_yaml"
+    not_permitted_inside_this_step:
+      - "reading_MIP_source_as_case_authority"
+      - "applying_MIP"
+      - "assigning_A_score_or_M_score"
+      - "activating_D_module"
+      - "creating_D_profile"
+      - "running_IA_box"
+      - "issuing_maturity_verdict"
+      - "ranking_persons_or_groups"
+      - "scoring_dignity"
+      - "executing_finality"
+
+  gate_io_contract:
+    required_inputs:
+      - "PMS.yaml_read_completely"
+      - "case_packet"
+      - "checked_pre_analysis_yaml"
+      - "checked_core_case_application_yaml"
+      - "checked_addon_recommendation_gate_yaml"
+      - "checked_selected_addon_case_application_yaml_if_addon_was_used"
+    optional_inputs_allowed_only_if_marked:
+      - "user_supplied_request_for_MIP"
+      - "prior_MIP_notes_as_input_not_authority"
+      - "human_reviewer_notes"
+      - "domain_expert_notes"
+      - "source_extraction_update_after_addon_output_check"
+      - "changed_intended_use"
+    excluded_inputs_for_this_step:
+      - "MIP_output_as_prior_authority"
+      - "MIP_score_requested_as_target"
+      - "later_artifact_as_evidence"
+      - "user_desire_for_maturity_label_as_trigger"
+      - "public_interest_as_permission_to_rank"
+      - "source_volume_as_MIP_warrant"
+      - "PMS_or_addon_coherence_as_MIP_authorization"
+      - "unprovided_files"
+    produced_outputs:
+      - "mip_recommendation_record"
+      - "mip_doubts_and_burden_record"
+      - "mip_red_zone_record"
+      - "mip_non_trigger_record"
+      - "mip_required_conditions_before_use"
+      - "mip_gate_handoff"
+      - "mip_gate_quality_checks"
+    not_produced_outputs:
+      - "completed_MIP_case_yaml"
+      - "MIP_A_score"
+      - "MIP_M_score"
+      - "MIP_D_profile"
+      - "MIP_IA_box_result"
+      - "maturity_verdict"
+      - "person_evaluation"
+      - "dignity_ranking"
+      - "public_transmission_permission"
+      - "finality_execution"
+
+  mip_gate_non_authority:
+    status: "required"
+    clauses:
+      gate_not_MIP_application: >-
+        This gate may recommend, defer, reject, or mark MIP as unsafe, but it does
+        not apply MIP.
+      recommendation_not_authorization: >-
+        A recommendation to read MIP source material is not authorization to apply
+        MIP and does not license any band, module, score, profile, or verdict.
+      person_nearness_not_permission: >-
+        Person-nearness raises burden; it does not permit ranking, diagnosis,
+        dignity scoring, or maturity labeling.
+      source_volume_not_warrant: >-
+        Large source volume, coherent Core analysis, or strong add-on relevance
+        does not by itself warrant MIP use.
+      stop_capability_required: >-
+        The gate may stop, downgrade, suspend, refuse, redirect, or require human
+        review before MIP source reading or MIP application.
+
+  checked_prior_outputs_import:
+    checked_pre_analysis_import:
+      source_status: "<usable | usable_with_limits | missing | unclear>"
+      claim_ceiling: "<imported | missing | unclear>"
+      person_nearness: "<low | moderate | high | unclear>"
+      publicness: "<private | limited | public | unclear>"
+      irreversibility: "<low | moderate | high | unclear>"
+      correctability_and_reopening: "<preserved | weak | missing | unclear>"
+      import_quality: "<usable | usable_with_limits | not_usable | unclear>"
+    checked_core_import:
+      core_status: "<usable | usable_with_limits | not_usable | unclear>"
+      relevant_core_signals:
+        - "<signal or none>"
+      rival_and_non_capture_status: "<preserved | weak | missing | unclear>"
+      falsifier_and_weakening_conditions: "<present | partial | missing | unclear>"
+      core_claim_ceiling_effect: "<no_change | weaken | downgrade | suspend | refuse | redirect | unclear>"
+    checked_addon_gate_import:
+      gate_status: "<core_only | selected_addon_recommended | no_addon_recommended | other | unclear>"
+      selected_addon: "<ANTICIPATION | CRITIQUE | CONFLICT | LOGIC | EDEN | SEX | none | unclear>"
+      recommendation_limits_preserved: "<yes | partial | no | unclear>"
+    checked_selected_addon_output_import_if_any:
+      addon_used: "<yes | no | unclear>"
+      addon_family: "<ANTICIPATION | CRITIQUE | CONFLICT | LOGIC | EDEN | SEX | none | unclear>"
+      addon_output_status: "<usable | usable_with_limits | not_usable | not_applicable | unclear>"
+      addon_specific_risk_shape: "<person_near_practice | responsibility_asymmetry | trajectory | power_to_act | dignity_in_practice | none | unclear>"
+      addon_claim_limits: "<preserved | lowered | exceeded | unclear>"
+
+  mip_applicability_gate:
+    MIP_relevance_trigger_review:
+      person_near_practice_pressure: "<none | weak | moderate | strong | unclear>"
+      trajectory_or_developmental_claim_pressure: "<none | weak | moderate | strong | unclear>"
+      responsibility_under_asymmetry_pressure: "<none | weak | moderate | strong | unclear>"
+      power_to_act_or_role_capacity_pressure: "<none | weak | moderate | strong | unclear>"
+      dignity_in_practice_pressure: "<none | weak | moderate | strong | unclear>"
+      public_or_irreversible_use_pressure: "<none | weak | moderate | strong | unclear>"
+      structural_trigger_met: "<yes | no | partial | unclear>"
+      trigger_summary: "<State why MIP is or is not structurally relevant.>"
+    non_trigger_conditions:
+      user_requested_MIP_label_only: "<yes | no | unclear>"
+      curiosity_only: "<yes | no | unclear>"
+      model_coherence_only: "<yes | no | unclear>"
+      source_volume_only: "<yes | no | unclear>"
+      public_interest_only: "<yes | no | unclear>"
+      moral_discomfort_only: "<yes | no | unclear>"
+      generic_dignity_language_only: "<yes | no | unclear>"
+      future_or_risk_language_only: "<yes | no | unclear>"
+      non_trigger_result: "<clear | caution | blocks_MIP | unclear>"
+    burden_review:
+      source_status: "<strong | partial | weak | missing | contested | unclear>"
+      claim_ceiling: "<orientation | structural_sketch | bounded_reconstruction | evaluation | recommendation | public_synthesis | unclear>"
+      person_nearness: "<low | moderate | high | unclear>"
+      publicness: "<private | limited | public | unclear>"
+      irreversibility: "<low | moderate | high | unclear>"
+      affected_person_or_role_contestation_available: "<yes | partial | no | unclear>"
+      redress_or_correction_path_available: "<yes | partial | no | unclear>"
+      human_review_required: "<yes | no | unclear>"
+      burden_result: "<low | moderate | high | severe | prohibitive | unclear>"
+      required_claim_restraint: "<State how burden affects MIP recommendation and claim ceiling.>"
+    source_and_evidence_review:
+      source_status_preserved: "<yes | partial | no | unclear>"
+      extraction_needed_before_MIP: "<none | document_extraction | statistical_method_review | dataset_audit | source_conflict_review | domain_review | unclear>"
+      statistics_or_dataset_claim_burden: "<none | weak_context_only | method_review_required | suspend_for_stronger_claim | unclear>"
+      source_conflict_status: "<none | preserved_as_rival_pressure | unresolved | smoothed_over | unclear>"
+      source_laundering_risk: "<low | medium | high | unresolved | unclear>"
+      required_action_if_failed: "<revise | downgrade | suspend | refuse | redirect | unclear>"
+    mip_red_zone_review:
+      clinical_diagnostics_risk: "<none | weak | present | prohibitive | unclear>"
+      therapy_planning_risk: "<none | weak | present | prohibitive | unclear>"
+      forensic_or_criminal_justice_risk: "<none | weak | present | prohibitive | unclear>"
+      HR_individual_decision_risk: "<none | weak | present | prohibitive | unclear>"
+      child_or_youth_diagnostics_risk: "<none | weak | present | prohibitive | unclear>"
+      public_pillory_or_online_shaming_risk: "<none | weak | present | prohibitive | unclear>"
+      humiliation_diagnostics_risk: "<none | weak | present | prohibitive | unclear>"
+      dignity_labelling_of_persons_risk: "<none | weak | present | prohibitive | unclear>"
+      ranking_format_risk: "<none | weak | present | prohibitive | unclear>"
+      red_zone_result: "<clear | caution | red_zone_present | prohibitive | unclear>"
+      required_action_if_red_zone_present: "<downgrade | suspend | refuse | redirect | human_review_required | unclear>"
+    D_module_sensitivity_review:
+      D_module_considered: "<no | scan_only | possible_later | unsafe | unclear>"
+      D0_protection_preserved: "<yes | partial | no | unclear>"
+      D1_D2_not_treated_as_dignity_itself: "<yes | partial | no | unclear>"
+      D_profile_risk: "<none | weak | present | prohibitive | unclear>"
+      public_individual_D_reading_risk: "<none | weak | present | prohibitive | unclear>"
+      D_module_recommendation: "<do_not_use | scan_only | possible_with_human_review | unsafe | unclear>"
+      note: "<State why D-module is or is not suitable later.>"
+    A_M_band_and_IA_box_review:
+      A_band_risk: "<none | weak | present | prohibitive | unclear>"
+      M_band_risk: "<none | weak | present | prohibitive | unclear>"
+      hard_score_risk: "<none | weak | present | prohibitive | unclear>"
+      IA_box_verdict_risk: "<none | weak | present | prohibitive | unclear>"
+      label_over_trajectory_risk: "<none | weak | present | prohibitive | unclear>"
+      required_safeguard: "<bands_with_justification | no_bands | no_IA_box | trajectory_only | human_review_required | unclear>"
+    rival_and_non_capture_review:
+      rival_pressure_status: "<preserved | weak | missing | rival_discriminates_better | unclear>"
+      non_capture_status: "<preserved | weak | missing | contested | unclear>"
+      risk_of_MIP_absorbing_non_fit: "<low | medium | high | unresolved | unclear>"
+      required_action: "<none | revise | downgrade | suspend | redirect | unclear>"
+    correctability_review:
+      reasons_accessible: "<yes | partial | no | unclear>"
+      contestation_available: "<yes | partial | no | unclear>"
+      correction_can_change_MIP_recommendation: "<yes | symbolic_only | no | unclear>"
+      reopening_conditions:
+        - "new_source_material"
+        - "source_status_correction"
+        - "affected_person_contestation"
+        - "red_zone_discovered"
+        - "better_rival_explanation"
+        - "claim_use_change"
+        - "publicness_or_irreversibility_change"
+        - "human_review_failure"
+      correctability_result: "<preserved | partial | symbolic_only | absent | unclear>"
+
+  mip_recommendation_output:
+    recommendation_status: "<not_recommended | scan_only | recommended | recommended_with_limits | unsafe | revise_before_MIP | downgrade_before_MIP | suspend_before_MIP | refuse_MIP_use | redirect_before_MIP | human_review_required | unclear>"
+    recommendation_summary: "<One-paragraph summary of whether MIP should be read next and under what limits.>"
+    reason_for_recommendation: "<State the structural basis: person-near practice, trajectory, responsibility under asymmetry, power-to-act, dignity-in-practice dynamics, or none.>"
+    doubts:
+      - "<doubt or none>"
+    required_conditions_before_MIP_use:
+      - "<condition or none>"
+    prohibited_MIP_moves:
+      - "person_ranking"
+      - "maturity_verdict"
+      - "hard_A_or_M_scores_without_band_justification"
+      - "Dignity_in_Practice_as_dignity_score"
+      - "D_profile_as_person_label"
+      - "IA_box_as_moral_verdict"
+      - "public_individual_D_reading_without_guardrails"
+      - "clinical_diagnostic_use"
+      - "forensic_or_HR_individual_decision_use"
+      - "MIP_as_PMS_Base"
+    recommended_next_step: "<read_MIP_source_yaml | do_not_use_MIP | scan_only_note | revise_stack_before_MIP | downgrade_claim_before_MIP | suspend_before_MIP | refuse_requested_MIP_use | redirect_to_rival_or_domain_review | human_review_before_MIP | unclear>"
+    MIP_source_read_recommendation:
+      status: "<recommended | not_recommended | scan_only | unsafe | human_review_required | unclear>"
+      note: "<If recommended, state that reading MIP source YAML is only the next reference step, not application or authorization.>"
+    MIP_case_application_recommendation:
+      status: "<not_yet | possible_after_reading_MIP_source_yaml | not_recommended | unsafe | unclear>"
+      note: "<State whether MIP case application may be prepared after reading MIP source YAML and preserving all gate limits.>"
+
+  mip_gate_handoff:
+    handoff_status: "<ready_for_mip_gate_output_check | ready_with_limits | incomplete | not_applicable | unclear>"
+    fields_to_preserve:
+      - "mip_recommendation_output.recommendation_status"
+      - "mip_applicability_gate.mip_red_zone_review.red_zone_result"
+      - "mip_applicability_gate.D_module_sensitivity_review.D_module_recommendation"
+      - "mip_recommendation_output.required_conditions_before_MIP_use"
+      - "mip_recommendation_output.prohibited_MIP_moves"
+      - "mip_recommendation_output.recommended_next_step"
+      - "mip_applicability_gate.burden_review.human_review_required"
+    claims_not_licensed_by_handoff:
+      - "MIP_application"
+      - "MIP_A_score"
+      - "MIP_M_score"
+      - "MIP_D_profile"
+      - "MIP_IA_box_result"
+      - "maturity_verdict"
+      - "person_ranking"
+      - "dignity_ranking"
+      - "finality_execution"
+
+  mip_gate_quality_checks:
+    valid_yaml: "<true | false | unchecked>"
+    source_priority_preserved: "<true | false | unclear>"
+    PMS_yaml_not_redefined: "<true | false | unclear>"
+    MIP_source_not_treated_as_PMS_Base: "<true | false | unclear>"
+    MIP_not_applied_inside_gate: "<true | false | unclear>"
+    no_A_or_M_band_assigned: "<true | false | unclear>"
+    no_D_module_activated: "<true | false | unclear>"
+    no_IA_box_result_created: "<true | false | unclear>"
+    no_maturity_verdict: "<true | false | unclear>"
+    no_person_ranking: "<true | false | unclear>"
+    D0_D1_D2_distinction_preserved: "<true | false | unclear>"
+    red_zones_checked: "<true | false | unclear>"
+    non_trigger_conditions_checked: "<true | false | unclear>"
+    source_status_preserved: "<true | false | unclear>"
+    rival_and_non_capture_preserved: "<true | false | unclear>"
+    correctability_preserved: "<true | false | unclear>"
+    no_out_of_scope_output_generated: "<true | false | unclear>"
+
+  conservative_patch_policy_for_mip_gate:
+    patch_policy_status: "active_for_mip_gate_output_check_only"
+    patch_when:
+      - "invalid_yaml"
+      - "missing_required_field"
+      - "MIP_recommendation_treated_as_authorization"
+      - "MIP_applied_inside_gate"
+      - "A_or_M_band_assigned_inside_gate"
+      - "D_module_activated_inside_gate"
+      - "IA_box_result_created_inside_gate"
+      - "red_zone_ignored"
+      - "maturity_language_treated_as_trigger"
+      - "person_nearness_treated_as_person_ranking_permission"
+      - "source_status_laundered"
+      - "rival_or_non_capture_pressure_missing"
+      - "human_review_requirement_missing_where_burden_high"
+      - "out_of_scope_output_generated"
+    patch_how:
+      - "minimal_necessary_expansion"
+      - "no_new_theory"
+      - "no_PMS_Base_revision"
+      - "no_MIP_application_by_patch"
+      - "no_claim_strengthening_by_patch"
+      - "bounded_markers_where_support_is_insufficient"
+    patch_result_allowed_values:
+      - "PASS"
+      - "PASS_WITH_MINOR_NOTES"
+      - "FAIL_REQUIRES_REVISION"
+      - "SUSPEND_BEFORE_MIP"
+      - "REFUSE_MIP_USE"
+      - "REDIRECT_BEFORE_MIP"
+
+  final_mip_gate_status:
+    status: "<ready_for_mip_gate_output_check | ready_for_mip_gate_output_check_with_limits | scan_only_no_MIP_application | not_recommended | revise_stack_before_MIP | downgrade_before_MIP | suspend_before_MIP | refuse_MIP_use | redirect_before_MIP | human_review_required | unclear>"
+    one_sentence_conformity_judgment: "<State whether MIP may be recommended for source reading after output check, not used, deferred, suspended, refused, redirected, or sent to human review, and under what limits.>"

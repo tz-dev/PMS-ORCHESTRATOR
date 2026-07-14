@@ -1,0 +1,1255 @@
+# ==============================================================================
+# PMS-DISCIPLINE — CONFLICT ADD-ON CASE APPLICATION TEMPLATE
+# Template version: CLEAN_v0.2.1
+# Role: selected CONFLICT add-on case application after checked Core and checked Add-on Gate
+# ==============================================================================
+pms_conflict_addon_case_application:
+  schema_version: PMS-DISCIPLINE_CONFLICT_ADDON_CASE_TEMPLATE_CLEAN_v0.2.1
+  schema_role: conflict_addon_case_application_template
+  analysis_mode: selected_conflict_addon_case_application_after_checked_core
+  template_status: clean_pms_discipline_addon_case_application_template
+  discipline_template_name: pms_addon_conflict_case_application_template_CLEAN_v0_2_1.yaml
+  selected_addon_family: CONFLICT
+  template_purpose: Apply the selected PMS-CONFLICT source to a bounded case after PMS.yaml, checked Pre-Analysis YAML, checked Core Case 
+    Application YAML, checked Add-on Recommendation Gate YAML, and PMS-CONFLICT.yaml have already been read or produced in prior steps. The 
+    output is a CONFLICT add-on case application YAML only.
+  template_boundary: This template applies CONFLICT without replacing PMS.yaml, re-running Core, re-deciding the Add-on Gate, reading 
+    additional sources, applying other add-ons, producing external-facing prose, applying MIP/AHP, generating a Case Record, rendering 
+    Markdown, or executing an action/decision-state execution.
+  repository_reference:
+    pms_base_reference_file: PMS.yaml
+    pms_base_reference_status: already_read_base_reference
+    selected_addon_source_file: PMS-CONFLICT.yaml
+    selected_addon_source_status: already_read_selected_addon_source
+    template_role: conflict_addon_case_application_template
+    reference_note: PMS.yaml supplies PMS Base grammar. PMS-CONFLICT.yaml supplies the selected add-on source. Checked Pre-Analysis, checked
+      Core, and checked Add-on Gate outputs constrain this application. No additional discipline reference file, MIP output, AHP output, 
+      Case Record, Markdown article, or unprovided file is available inside this step.
+  source_priority:
+    pms_yaml:
+      priority: 1
+      role: PMS Base reference already read before this step
+      may_define:
+        - PMS operator inventory
+        - PMS operator order
+        - PMS dependencies
+        - PMS derived structures
+        - PMS application guardrails
+      must_not_be_overridden_by:
+        - CONFLICT add-on output
+        - case_packet
+        - checked_pre_analysis_yaml
+        - checked_core_case_application_yaml
+        - checked_addon_recommendation_gate_yaml
+        - PMS-CONFLICT.yaml
+        - model_output
+    case_packet:
+      priority: 2
+      role: bounded case material supplied for this run
+      may_supply:
+        - case_title
+        - case_material
+        - source_status
+        - intended_use
+      must_not_supply:
+        - PMS Base revision
+        - CONFLICT source content
+        - case verdict
+        - final decision execution
+    checked_pre_analysis_yaml:
+      priority: 3
+      role: checked boundary, source-status, burden, and claim-ceiling record
+      may_supply:
+        - case boundary
+        - source status
+        - intended use
+        - claim ceiling
+        - person-nearness, publicness, and irreversibility burden
+        - rival pressure
+        - non-capture zones
+        - correctability and reopening conditions
+      must_not_supply:
+        - CONFLICT application result
+        - add-on authorization
+        - final decision execution
+    checked_core_case_application_yaml:
+      priority: 4
+      role: checked PMS Core case basis
+      may_supply:
+        - Core operator analysis
+        - Core dependency analysis
+        - derived structure status
+        - non-capture and rival pressure record
+        - falsifier and weakening conditions
+        - Core quality control
+        - Core synthesis
+      must_not_authorize:
+        - CONFLICT use by itself
+        - claim strengthening
+        - person ranking
+        - case closure
+    checked_addon_recommendation_gate_yaml:
+      priority: 5
+      role: checked add-on family selection record
+      may_supply:
+        - selected_addon_family
+        - recommendation limits
+        - trigger-basis summary
+        - false-trigger and non-use record
+      must_not_authorize:
+        - CONFLICT application as proof
+        - stronger claim type
+        - case closure
+        - downstream MIP/AHP use
+    selected_pms_conflict_yaml:
+      priority: 6
+      role: already-read selected CONFLICT add-on source
+      may_supply:
+        - CONFLICT role and scope
+        - CONFLICT trigger logic
+        - CONFLICT non-trigger conditions
+        - CONFLICT constructs and signatures
+        - CONFLICT-specific guardrails
+      must_not_override:
+        - PMS Base
+        - checked Pre-Analysis
+        - checked Core
+        - checked Add-on Gate
+        - claim ceiling
+    this_conflict_case_template:
+      priority: 7
+      role: CONFLICT add-on case application output structure only
+  workflow_position:
+    phase: selected_addon_case_application
+    step_id: pms_conflict_addon_case_application
+    preceded_by_required_steps:
+      - read_pms_yaml
+      - checked_pre_analysis_yaml
+      - checked_core_case_application_yaml
+      - checked_addon_recommendation_gate_yaml
+      - read_selected_pms_conflict_yaml
+    next_required_step:
+      - conflict_addon_output_check
+    step_boundary: This step applies exactly the selected CONFLICT add-on source to the bounded case. It does not re-run Core, re-decide the
+      Add-on Gate, read other add-ons, apply MIP/AHP, generate a Case Record, render Markdown, or execute a final decision state.
+  template_io_contract:
+    required_inputs:
+      - PMS.yaml_read_completely
+      - case_packet
+      - checked_pre_analysis_yaml
+      - checked_core_case_application_yaml
+      - checked_addon_recommendation_gate_yaml
+      - PMS-CONFLICT.yaml_read_completely
+      - pms_addon_conflict_case_application_template
+    optional_inputs:
+      - explicit_user_constraint_on_CONFLICT_use
+      - human_reviewer_notes_marked_as_notes_not_authority
+    excluded_inputs_for_this_step:
+      - unprovided_files
+      - other_addon_source_yaml
+      - other_addon_case_application_template
+      - MIP_output
+      - AHP_output
+      - case_record
+      - markdown_article
+      - final_decision_execution
+    produced_outputs:
+      - completed_PMS_CONFLICT_addon_case_application_yaml
+      - conflict_trigger_review
+      - conflict_non_trigger_and_false_trigger_review
+      - conflict_construct_application
+      - conflict_synthesis
+      - conflict_addon_handoff
+    not_produced_outputs:
+      - PMS_Base_revision
+      - Core_case_application_yaml
+      - Add-on_Gate_output
+      - other_addon_output
+      - MIP_case_application_yaml
+      - AHP_output
+      - case_record
+      - markdown_article
+      - final_decision_execution
+  non_authority_boundary:
+    template_completion_is_not_certification: true
+    addon_relevance_is_not_authorization: true
+    conflict_visibility_is_not_conflict_verdict: true
+    ordinary_disagreement_is_not_conflict_trigger: true
+    hostility_or_tension_is_not_conflict_trigger: true
+    solution_need_is_not_CONFLICT_authorization: true
+    governance_or_intervention_authorized_here: false
+    person_ranking_authorized_here: false
+    diagnostic_or_legal_conclusion_authorized_here: false
+    downstream_MIP_AHP_authorized_here: false
+  checked_prior_outputs_import:
+    checked_pre_analysis_yaml:
+      status: <available | available_with_limits | missing | unclear>
+      claim_ceiling: <imported | missing | unclear>
+      source_status: <preserved | weak | missing | unclear>
+      person_nearness_publicness_irreversibility_burden: <low | moderate | high | severe | unclear>
+      rival_and_non_capture_status: <preserved | weak | missing | unclear>
+      correctability_and_reopening_status: <preserved | weak | missing | unclear>
+    checked_core_case_application_yaml:
+      status: <available | available_with_limits | missing | unclear>
+      core_sufficiency_status: <sufficient | sufficient_with_limits | unstable | insufficient | unclear>
+      relevant_core_signals:
+        - <signal or none>
+      operator_dependency_status: <preserved | weak | missing | unclear>
+      claim_ceiling_effect: <no_change | lowered | exceeded | unclear>
+    checked_addon_recommendation_gate_yaml:
+      status: <available | available_with_limits | missing | unclear>
+      selected_addon: <CONFLICT | other | none | unclear>
+      selected_addon_matches_this_template: <true | false | unclear>
+      recommendation_limits_preserved: <yes | partial | no | unclear>
+  checked_addon_gate_import:
+    gate_status: <selected_addon_recommended | scan_only | no_addon_recommended | rejected_as_over_application | revise_before_addon | 
+      downgrade_before_addon | suspend_before_addon | refuse_before_addon | redirect_before_addon | unclear>
+    selected_addon: <CONFLICT | other | none | unclear>
+    selected_addon_matches_this_template: <true | false | unclear>
+    recommendation_strength: <none | weak | moderate | strong | unclear>
+    selection_consistency_status: <consistent | inconsistent | unclear>
+    gate_limits_preserved:
+      recommendation_not_authorization: <true | false | unclear>
+      no_addon_source_read_inside_gate: <true | false | unclear>
+      no_addon_application_inside_gate: <true | false | unclear>
+      claim_ceiling_preserved: <true | false | unclear>
+    import_quality:
+      status: <usable | usable_with_limits | not_usable | unclear>
+      required_response: <continue_addon_application | revise_gate_output | suspend_addon_application | refuse_addon_application | unclear>
+  selected_conflict_source_import:
+    source_status: <already_read | missing | mismatch | unclear>
+    source_matches_selected_addon: <yes | no | unclear>
+    source_role: selected CONFLICT source reference only
+    source_constraints_to_preserve:
+      - CONFLICT is subordinate to PMS Base
+      - CONFLICT does not redefine PMS operators
+      - CONFLICT does not turn disagreement into conflict by topic cue
+      - CONFLICT does not authorize intervention, governance, or downstream MIP/AHP use
+  overlays:
+    P:
+      name: Publicness Overlay
+      is_operator: false
+      amplifies:
+        - Ω
+        - Θ
+        - Α
+        - Φ
+      note: 'Amplification only. Higher publicness increases exposure coupling and raises the cost of revision. It introduces no new operators.'
+      case_application: '<State whether publicness amplifies the conflict configuration in this case.>'
+    MG:
+      name: Misuse Gradient (Transmission Risk)
+      is_operator: false
+      amplifies:
+        - Ω
+        - Θ
+      note: 'Classification of predictable misuse risk when operator language travels through excerpt dynamics, audience coupling, or enforcement
+        affordances. Not an operator.'
+      case_application: '<State the misuse-gradient relevance for this case.>'
+  no_gate_redecision_boundary:
+    gate_redecision_performed_here: false
+    selected_addon_changed_here: false
+    allowed_response_if_mismatch: stop_and_return_selected_addon_mismatch
+  conflict_not_solution_boundary:
+    conflict_reading_is_not_solution_procedure: true
+    terminality_is_not_finality: true
+    downstream_docking_is_mode_shift_not_continuation: true
+    intervention_or_governance_authorized_here: false
+    prohibited_drift:
+      - conflict_visibility_to_verdict
+      - terminality_to_finality
+      - publicness_to_enforcement_warrant
+      - dignity_collapse_to_person_judgment
+      - downstream_docking_to_governance_authority
+  conflict_trigger_review:
+    ordinary_disagreement_present: <yes | no | unclear>
+    hostility_or_tension_present: <yes | no | unclear>
+    structural_conflict_trigger_met: <yes | no | partial | unclear>
+    stabilized_incompatibility_pressure: <none | weak | moderate | strong | unclear>
+    binding_collision_pressure: <none | weak | moderate | strong | unclear>
+    asymmetry_lock_in_pressure: <none | weak | moderate | strong | unclear>
+    priced_or_asymmetric_distance_pressure: <none | weak | moderate | strong | unclear>
+    exposure_capture_pressure: <none | weak | moderate | strong | unclear>
+    terminal_positioning_pressure: <none | weak | moderate | strong | unclear>
+    non_trigger_conditions:
+      - ordinary_disagreement_not_conflict_trigger
+      - hostility_or_tension_not_conflict_trigger
+      - public_controversy_not_conflict_trigger
+      - incompatibility_language_not_stabilized_conflict_proof
+      - solution_need_not_CONFLICT_authorization
+    false_trigger_risk: <none | low | medium | high | unclear>
+  core_and_claim_boundary_preservation:
+    core_findings_preserved: <yes | partial | no | unclear>
+    core_findings_strengthened_by_addon: false
+    claim_ceiling_from_checked_pre_analysis: <imported | missing | unclear>
+    claim_ceiling_from_checked_core: <imported | missing | unclear>
+    addon_claim_ceiling: <same_as_core | lower_than_core | unclear>
+    if_addon_pressure_exceeds_claim_ceiling:
+      required_action: <weaken | downgrade | suspend | refuse | redirect | unclear>
+      note: CONFLICT fit may not raise the claim ceiling.
+  addon_metadata:
+    model_name: PMS–CONFLICT Application Profile
+    model_short: PMS-CONFLICT
+    status: selected_addon_case_application_profile
+    repository_role: pms_discipline_selected_addon_case_application_profile
+    depends_on:
+      model_name: Praxeological Meta-Structure
+      model_short: PMS
+      schema_version: PMS_1.3
+      repository_role: current_base_schema
+    source_file: PMS-CONFLICT.yaml
+    description: 'PMS-CONFLICT is an application profile for PMS that formalizes the conflict lens: how incompatibility stabilizes once binding
+      persists, trajectories accumulate, distance/exit becomes priced or asymmetric, and exposure converts description into pressure. The profile
+      expresses the CONFLICT source strictly in the canonical PMS operator grammar Δ–Ψ, without redefining operators or altering dependencies.
+      It provides reduced signatures, core drift classes, scale/cost overlays, non-operator constructs, and reusable safety interfaces for application-bound
+      contexts.'
+    methodological_restraint: CONFLICT sharpens stabilized-incompatibility visibility only. It does not authorize classification, solution 
+      procedure, downstream MIP/AHP use, person judgment, governance action, publication permission, or PMS Base revision.
+  addon_relationship_to_core:
+    status: subordinate_to_checked_pms_core_case
+    core_case_status: <checked | checked_with_limits | missing | unclear>
+    core_case_source: <checked PMS Core Case Application YAML>
+    rule: 'This CONFLICT add-on block is appended to or integrated with an already completed PMS Core case artefact. It does not rewrite the core
+      pass, redefine PMS operators, alter PMS dependencies, change derived structures, or treat CONFLICT constructs as PMS Base.'
+    preserved_core_elements:
+      - PMS operator inventory Δ, ∇, □, Λ, Α, Ω, Θ, Φ, Χ, Σ, Ψ
+      - PMS operator order and dependency hygiene
+      - PMS derived structures as derived, not primitive
+      - PMS application guardrails
+      - PMS non-diagnostic and non-person-ranking discipline
+      - PMS non-capture and rival-openness discipline
+    integration_rule: 'The CONFLICT add-on may add visibility for stabilized incompatibility, binding collision, asymmetry lock-in, exposure capture,
+      dignity collapse, priced or asymmetric distance, terminal regime positioning, publicness, misuse gradients, and downstream docking. It must
+      not modify the completed PMS Core case except where a direct PMS.yaml inconsistency has been separately identified.'
+  checked_addon_gate_import_detail:
+    source_record: checked pms_discipline_addon_recommendation_gate_template.yaml output
+    source_status: <checked | checked_with_limits | missing | unclear>
+    import_rule: The checked Add-on Recommendation Gate constrains this CONFLICT add-on application but does not authorize claim 
+      strengthening. If the checked gate is missing, unclear, or rejects CONFLICT as over-application, this template may not be filled 
+      except to mark why CONFLICT should not proceed.
+    selected_addon:
+      expected: CONFLICT
+      actual: <CONFLICT | other | none | unclear>
+      matches_this_template: <true | false | unclear>
+    recommendation_status:
+      gate_status: <selected_addon_recommended | scan_only | no_addon_recommended | rejected_as_over_application | revise_before_addon | 
+        downgrade_before_addon | suspend_before_addon | refuse_before_addon | redirect_before_addon | unclear>
+      recommendation_strength: <none | weak | moderate | strong | unclear>
+    non_trigger_conditions_checked:
+      - ordinary_disagreement_not_conflict_trigger
+      - hostility_or_tension_not_conflict_trigger
+      - public_controversy_not_conflict_trigger
+      - incompatibility_language_not_stabilized_conflict_proof
+      - solution_need_not_CONFLICT_authorization
+    required_action_before_addon: <proceed_with_limits | revise_core | downgrade_claim | suspend | refuse | redirect | human_review | 
+      unclear>
+    trigger_basis_import: <Import operator-load, risk-shape, or claim-shape reason for CONFLICT review. Do not use topic label alone.>
+    doubts_and_limits_import:
+      doubts:
+        - <doubt or none>
+      limits:
+        - <limit or none>
+  nested_overlay_policy:
+    no_base_extension: true
+    rule: 'PMS-CONFLICT introduces overlay-level constructs only: reduced signatures, drift classes, scale matrices, publicness/misuse overlays,
+      and non-operator conflict constructs. These organize existing PMS operators. They never replace PMS generativity with explanation, never
+      bypass Ω, Θ, or Χ, and never become PMS operators or dependencies.'
+  validity_gate:
+    status: <valid | valid_with_limits | invalid | requires_revision | unclear>
+    gate_type: selected_conflict_addon_case_application_gate
+    note: 'This gate checks whether CONFLICT can be applied as the selected add-on without re-running Core, changing the selected add-on, or raising
+      the claim ceiling.'
+    requires:
+      Distance_Chi:
+        id: Χ
+        name: Distance
+        status: <maintained | compromised | needs_review>
+        meaning: 'Reflective distance is maintained. The CONFLICT add-on does not fuse the case into verdict, urgency, enforcement, or person-level
+          attribution.'
+      reversibility:
+        id: reversibility
+        status: <maintained | compromised | needs_review>
+        meaning: 'Readings remain scene-bound, revisable, and non-final. The overlay does not produce global person labels, irreversible labels,
+          or final judgments.'
+      Dignity_in_Practice_D:
+        id: D
+        name: Dignity-in-Practice
+        status: <maintained | compromised | needs_review>
+        meaning: 'Enacted restraint under asymmetry is preserved. The overlay does not shame, rank, humiliate, or ontologically evaluate persons
+          or groups.'
+    gate_result: <valid_as_conflict_addon_case_application | invalid_as_conflict_addon_case_application | requires_revision | suspend | 
+      unclear>
+  operator_reference:
+    source: PMS.yaml
+    schema_version: PMS_1.3
+    fixed_operator_set:
+      - Δ
+      - ∇
+      - □
+      - Λ
+      - Α
+      - Ω
+      - Θ
+      - Φ
+      - Χ
+      - Σ
+      - Ψ
+    dependency_hygiene_note: 'Any use of Χ in reduced signatures is shorthand only. In PMS, Χ depends on Φ, Θ, and □. Reduced signatures do not
+      negate prerequisites or alter the default dependency path recorded in PMS.yaml.'
+    no_new_operators: true
+    no_dependency_change: true
+    no_base_revision: true
+  conflict_addon_scope:
+    scope_guardrails:
+      - Non-metaphysical, non-clinical, non-diagnostic.
+      - No person-level judgment, no ranking, no sanction logic.
+      - Describes structural regimes and operator drift under load.
+      - 'No procedure manual: no intervention scripts, no solutions section.'
+      - Bounded to this grammar; no monopoly claim over conflict intelligibility as such.
+    may_add_visibility_to:
+      - stabilized incompatibility
+      - binding collisions under Ψ
+      - Σ-failure or Σ-incompatibility under load
+      - asymmetry gradients under Ω
+      - temporal hardening under Θ
+      - priced or asymmetric distance under Χ
+      - conflict attractor stabilization under Α
+      - exposure capture under Ω/Θ/Φ with publicness amplification
+      - dignity collapse under Ω/Θ/Χ/Ψ pressure
+      - young Α-field dynamics
+      - institutionalized distance regimes
+      - application-boundary and misuse-gradient red zones
+      - terminal regime positioning
+      - downstream docking into governance or evaluation layers
+    must_not_do:
+      - treat conflict as personal essence
+      - treat incompatibility as diagnosis
+      - translate conflict legibility into verdict
+      - produce intervention scripts or solution procedures
+      - convert Σ-failure into moral failure
+      - convert Ω-gradient into authority claim
+      - convert publicness into enforcement warrant
+      - convert terminality into finality
+      - treat downstream governance as continuation of PMS-CONFLICT
+      - claim PMS Base output check
+      - treat ordinary disagreement, hostility, or tension as CONFLICT trigger
+      - convert CONFLICT visibility into downstream MIP or AHP authorization
+      - raise the Core claim ceiling through overlay fit
+      - treat examples or article readability as evidence
+  source_and_claim_burden_discipline:
+    claim_ceiling_import:
+      from_checked_pre_analysis: <orientation | structural_sketch | hypothesis | bounded_reconstruction | evaluation | recommendation | 
+        intervention | public_synthesis | unclear>
+      from_checked_core: <imported | missing | unclear>
+      addon_ceiling: <same_or_lower_than_checked_core | lowered | unclear>
+      rule: CONFLICT may not raise the claim ceiling by add-on fit, conflict fluency, or source readability.
+    conflict_specific_claims_allowed_only_with_limits:
+      - stabilized incompatibility as case-bound structural reading
+      - binding collision as overlay construct
+      - priced or asymmetric distance as overlay reading
+      - terminal regime positioning as PMS-CONFLICT-internal regime description
+    claims_not_licensed:
+      - empirical proof of conflict
+      - diagnosis
+      - personality typing
+      - moral verdict
+      - legal or forensic conclusion
+      - solution procedure
+      - sanction logic
+      - governance authority
+      - PMS Base output check
+      - downstream MIP authorization
+      - downstream AHP authorization
+      - article publication permission
+    statistics_or_dataset_use:
+      method_status_required_for_stronger_claims: true
+      downgrade_rule: If statistics or datasets lack method, population/sample, timeframe, or source status, use them only as weak context 
+        or require suspension for stronger empirical claims.
+    source_conflict_rule: Conflicting materials must remain rival pressure or source conflict. Do not resolve source conflict by forcing PMS
+      or CONFLICT coherence.
+    source_material_import:
+      source_status_from_case_packet: <from CASE PACKET>
+      source_status_from_checked_pre_analysis: <imported | missing | unclear>
+      source_material_status: <none | marked | partial | underdescribed | required_but_missing | unclear>
+      source_use_rule: Documents, reports, statistics, datasets, transcripts, public materials, or institutional records remain marked 
+        inputs. They do not become proof, CONFLICT authorization, PMS output check, or person-level warrant merely because they exist.
+  conflict_lens:
+    methodological_boundedness:
+      status: <active | weak | not_applicable | needs_review>
+      note: 'PMS-CONFLICT develops a structural grammar of stabilized incompatibility under binding, asymmetry, and temporality. It does not claim
+        to exhaust everything conflict is or could become under other analytical grammars.'
+      constraints:
+        - Conflict legibility here is internal to the PMS grammar.
+        - Terminality here names the end of reintegration resources within this grammar.
+        - Where classification and attractor logic preserve coherence, non-capture remains open.
+      case_application: '<State how the case remains bounded to the PMS-CONFLICT grammar and where rival conflict grammars remain open.>'
+    scope_limit_of_tragic_legibility:
+      status: <active | weak | not_applicable | needs_review>
+      note: 'The tragedy clause should not be read as an inflationary claim that mature conflict is always or finally tragic. Its narrower claim
+        is that tragedy remains structurally possible even under maintained distance, reflexivity, and responsibility constraints, and that some
+        conflicts become more legible without becoming more integrable.'
+      openings:
+        - Not every hard conflict is tragic in the strong sense developed here.
+        - Tragic legibility does not eliminate rival conflict grammars.
+      case_application: '<State whether the case is conflict-legible, tragically legible, or not tragic in the strong CONFLICT sense.>'
+    core_definition:
+      conflict_domain_layer:
+        is_operator: false
+        applicability: <active | weak | not_applicable | needs_review>
+        definition: 'Within this descriptive architecture, CONFLICT names a terminal descriptive regime in which incompatibility is stabilized
+          under binding, temporality, asymmetry, and costly or asymmetric distance. The model increases legibility of this regime but does not
+          generate an additional internal operator that restores integrability once Σ no longer carries under Θ/Ω with priced or asymmetric Χ.'
+        minimal_operator_touchpoints:
+          - Σ
+          - Ψ
+          - Ω
+          - Θ
+          - Χ
+        case_application: '<State whether the case reaches the conflict-domain layer and how Σ, Ψ, Ω, Θ, and Χ are involved.>'
+    terminal_positioning:
+      applicability: <active | weak | not_applicable | needs_review>
+      terminal_stack_claim: 'Within the PMS-domain stack developed here, CONFLICT functions as the terminal domain layer: beyond maximal Δ–Ψ load
+        under Θ/Ω/Χ, the model yields no further internal reintegration grammar — only downstream governance, institutionalization, decision,
+        or evaluation.'
+      structural_full_stop_sentence: 'The CONFLICT source does not continue into solutions. It ends where praxis becomes tragically legible but
+        no longer integrable within this descriptive pathway.'
+      terminality_without_finality: 'Terminality here is stack-internal and grammar-internal. It does not claim that conflict as such admits no
+        further analysis, only that this operator grammar does not generate an additional internal reintegration layer once Σ has failed under
+        sustained Θ/Ω/Ψ with costly or asymmetric Χ.'
+      case_application: '<State whether terminal positioning is active, weak, or not applicable in this case.>'
+    downstream_docking:
+      status: <not_triggered | triggered | needs_review>
+      note: 'Within this stack architecture, CONFLICT terminates the PMS domain grammar. Any continuation constitutes a mode shift into downstream
+        governance, institutionalization, decision, or evaluation layers, not a further descriptive extension of PMS-CONFLICT itself.'
+      allowed_continuations:
+        - governance frameworks
+        - institutional rule-setting
+        - decision procedures
+        - evaluation overlays
+      disallowed_continuations:
+        - implicit solution derivation
+        - hidden intervention logic
+        - operator extension beyond Δ–Ψ
+      case_application: '<State whether the case remains descriptive or triggers explicit downstream docking.>'
+  non_operator_constructs:
+    conflict_attractor_A_conflict:
+      is_operator: false
+      applicability: <active | weak | not_applicable | needs_review>
+      definition: 'Stabilized conflict pattern Α_conflict in which incompatibility itself becomes a repeatable orientation field under asymmetric
+        cost and temporal pressure; distance or exit remains formally available but priced or asymmetric.'
+      operator_touchpoints:
+        - Α
+        - Ω
+        - Θ
+        - Ψ
+        - Χ
+      case_application: '<State whether conflict itself stabilizes as an attractor in this case.>'
+    binding_collision:
+      is_operator: false
+      applicability: <active | weak | not_applicable | needs_review>
+      definition: 'Two or more bindings Ψ collide and remain jointly non-viable under the same frame and time trajectory; integration Σ cannot
+        produce a shared spine at acceptable cost.'
+      operator_touchpoints:
+        - Ψ
+        - Ω
+        - Θ
+        - Σ
+      case_application: '<State whether incompatible bindings collide in this case and whether Σ can carry a shared spine.>'
+    asymmetry_lock_in:
+      is_operator: false
+      applicability: <active | weak | not_applicable | needs_review>
+      definition: 'Exit or reflection costs Χ become structurally asymmetric under Ω and Θ: one role position can withdraw, delay, or reframe
+        at lower price, turning Χ-availability into a power gradient rather than a shared stabilizing resource.'
+      operator_touchpoints:
+        - Ω
+        - Θ
+        - Χ
+      case_application: '<State whether distance, exit, delay, or reflection costs are asymmetrically distributed.>'
+    exposure_capture:
+      is_operator: false
+      applicability: <active | weak | not_applicable | needs_review>
+      definition: 'Recontextualization Φ under scaled exposure converts interpretation into enforcement affordances: statements harden into irreversible
+        pressure rather than remaining revisable, scene-bound readings.'
+      operator_touchpoints:
+        - Ω
+        - Θ
+        - Φ
+      overlays:
+        - P
+        - MG
+      case_application: '<State whether exposure converts interpretation into pressure or enforcement affordance in this case.>'
+    dignity_collapse:
+      is_operator: false
+      applicability: <active | weak | not_applicable | needs_review>
+      definition: 'Dignity-in-practice constraints fail under load: Χ is delegitimized or priced, Ψ no longer binds restraint, and language drifts
+        toward shaming, ranking, and coercive transfer under Ω/Θ pressure.'
+      operator_touchpoints:
+        - Ω
+        - Θ
+        - Χ
+        - Ψ
+      overlays:
+        - MG
+      case_application: '<State whether Dignity-in-Practice is preserved or risks collapse in this case.>'
+  reduced_signatures:
+    note: 'Reduced signatures are shorthand lenses and threshold markers, not proof chains. They compress dominant operator involvement for scene-bound
+      readings and do not replace PMS dependencies.'
+    CONFLICT_terminal_core:
+      label: CONFLICT terminal core
+      applicability: <active | weak | not_applicable | needs_review>
+      operators:
+        - Σ
+        - Ψ
+        - Ω
+        - Θ
+        - Χ
+      reduced: true
+      note: 'Marks the terminal descriptive regime within PMS-CONFLICT: Σ under load with binding Ψ and priced or asymmetric distance Χ under
+        Ω/Θ.'
+      case_application: '<Apply or reject this reduced signature for the case.>'
+    CONFLICT_stabilized_pattern:
+      label: Stabilized conflict attractor
+      applicability: <active | weak | not_applicable | needs_review>
+      operators:
+        - Α
+        - Ω
+        - Θ
+        - Ψ
+        - Χ
+      reduced: true
+      note: 'Conflict regime stabilized as an attractor; distance remains present but priced or asymmetric, preventing Σ from carrying as reintegration.'
+      case_application: '<Apply or reject this reduced signature for the case.>'
+    DRIFT_binding_collision:
+      label: Binding collision
+      applicability: <active | risk | not_applicable | needs_review>
+      operators:
+        - Ψ
+        - Ω
+        - Θ
+        - Σ
+      reduced: true
+      note: 'Colliding bindings with non-viable joint integration; Σ becomes internally incompatible under shared Θ with asymmetric cost gradients
+        Ω.'
+      case_application: '<Apply or reject this drift signature for the case.>'
+    DRIFT_asymmetry_lock_in:
+      label: Asymmetry lock-in
+      applicability: <active | risk | not_applicable | needs_review>
+      operators:
+        - Ω
+        - Θ
+        - Χ
+      reduced: true
+      note: 'Exit, distance, or reflection becomes asymmetrically priced under Ω/Θ. Χ availability becomes a power gradient rather than shared
+        stabilizing resource.'
+      case_application: '<Apply or reject this drift signature for the case.>'
+    DRIFT_exposure_capture:
+      label: Exposure capture
+      applicability: <active | risk | not_applicable | needs_review>
+      operators:
+        - Ω
+        - Θ
+        - Φ
+      overlays:
+        - P
+        - MG
+      reduced: true
+      note: 'Publicness and transmission risk amplify Ω/Θ while Φ turns interpretation into enforcement affordance or irreversible pressure.'
+      case_application: '<Apply or reject this drift signature for the case.>'
+    DRIFT_dignity_collapse:
+      label: Dignity collapse
+      applicability: <active | risk | not_applicable | needs_review>
+      operators:
+        - Ω
+        - Θ
+        - Χ
+        - Ψ
+      overlays:
+        - MG
+      reduced: true
+      note: 'Dignity-in-Practice constraints fail under Ω/Θ pressure when Χ becomes delegitimized or coercively priced and Ψ no longer binds restraint.'
+      case_application: '<Apply or reject this drift signature for the case.>'
+  drift_catalogue:
+    note: 'CONFLICT drift classes describe structural operator distortions. They are not personal traits, diagnoses, moral verdicts, or enforcement
+      categories. Their structural signatures distinguish operators that are present, missing, failed, priced, under load, or amplified by overlays.'
+    sigma_incompatibility_clash:
+      label: Σ-incompatibility clash
+      applicability: <active | risk | not_applicable | needs_review>
+      structural_signature:
+        present:
+          - Σ_local
+        missing_or_failed:
+          - Σ_shared
+        under_load:
+          - Ψ
+          - Ω
+          - Θ
+        often_present:
+          - Χ_priced_or_asymmetric
+      typical_markers:
+        - local integrations remain coherent but mutually non-integrable
+        - shared continuation cannot be produced without unacceptable cost
+        - conflict is misread as misunderstanding or communication failure
+      guardrail_reminder: 'Do not treat Σ-failure as moral failure, immaturity, or person defect.'
+      case_application: '<State whether this drift is active, a risk, or not applicable.>'
+    binding_collision_drift:
+      label: Binding collision drift
+      applicability: <active | risk | not_applicable | needs_review>
+      structural_signature:
+        present:
+          - Ψ
+        failed_or_conflicted:
+          - Σ
+        under_load:
+          - Ω
+          - Θ
+        often_present:
+          - Χ_priced_or_asymmetric
+      typical_markers:
+        - two or more commitments cannot be jointly carried
+        - shared frame cannot integrate incompatible bindings
+        - repair attempts increase rather than reduce cost
+      guardrail_reminder: 'Do not translate binding collision into guilt, betrayal, or person inadequacy without explicit non-PMS grounds.'
+      case_application: '<State whether binding collision drift is active, a risk, or not applicable.>'
+    asymmetry_lock_in_drift:
+      label: Asymmetry lock-in drift
+      applicability: <active | risk | not_applicable | needs_review>
+      structural_signature:
+        present:
+          - Ω
+          - Θ
+        missing_or_priced:
+          - Χ
+        often_present:
+          - Ψ
+      typical_markers:
+        - exit or delay is cheap for one position and costly for another
+        - reflection or withdrawal becomes a power differential
+        - pseudo-symmetry hides unequal exposure or liability
+      guardrail_reminder: 'Do not treat formal availability of exit or distance as equal availability under Ω/Θ.'
+      case_application: '<State whether asymmetry lock-in is active, a risk, or not applicable.>'
+    exposure_capture_drift:
+      label: Exposure capture drift
+      applicability: <active | risk | not_applicable | needs_review>
+      structural_signature:
+        present:
+          - Ω
+          - Θ
+          - Φ
+        amplified_by_overlays:
+          - P
+          - MG
+        often_present:
+          - Α
+          - Ψ
+        risk_channel:
+          - public_record_hardening
+          - interpretation_to_enforcement_affordance
+          - revision_cost_increase
+      typical_markers:
+        - scene-bound reading hardens into durable record
+        - interpretation becomes enforcement affordance
+        - revision becomes publicly or institutionally costly
+      guardrail_reminder: 'Public or institutional transfer requires explicit mode, publicness, and misuse-gradient declarations.'
+      case_application: '<State whether exposure capture is active, a risk, or not applicable.>'
+    dignity_collapse_drift:
+      label: Dignity collapse drift
+      applicability: <active | risk | not_applicable | needs_review>
+      structural_signature:
+        present:
+          - Ω
+          - Θ
+        compromised_or_missing:
+          - Χ
+          - Ψ
+        amplified_by_overlays:
+          - MG
+        risk_channel:
+          - shaming
+          - ranking
+          - humiliation
+          - person_near_verdict
+      typical_markers:
+        - language drifts toward shaming, ranking, or humiliation
+        - distance is delegitimized or coercively imposed
+        - conflict reading becomes person-near verdict
+      guardrail_reminder: 'Dignity collapse invalidates the PMS application as a PMS application, even if terminology remains structurally correct.'
+      case_application: '<State whether dignity collapse is active, a risk, or not applicable.>'
+  scale_matrices:
+    note: 'Source-derived scale overlays and projections are structural only. They must not become person evaluation, maturity scoring, diagnosis,
+      or enforcement logic.'
+    firewall_matrices:
+      second_firewall_what_conflict_is_not:
+        status: <satisfied | weak | failed | needs_review>
+        note: 'CONFLICT must remain a descriptive structural lens. It must not become a solution manual, diagnostic tool, moral tribunal, personality
+          model, enforcement script, governance authority, or proof of PMS Base.'
+        not_conflict:
+          - diagnosis
+          - personality_typing
+          - moral_verdict
+          - sanction_logic
+          - solution_procedure
+          - governance_authority
+          - pms_base_validation
+        red_zone_prohibited_uses:
+          items:
+            - person-near diagnostics (clinical/therapeutic/forensic/pseudo-clinical)
+            - public pillory and reputational enforcement
+            - selection and sorting (employment/status/inclusion/access decisions)
+            - assessment of children as application domain
+        case_application: '<State how the case satisfies or strains this firewall, which misuse patterns are active or risky, and whether any
+          red-zone prohibited use must be explicitly blocked.>'
+        misuse_patterns_matrix:
+          items:
+            - id: M11-1
+              label: Mediation / resolution / communication training
+              conversion: Recognition grammar → procedure manual (stepwise method promise)
+              typical_structural_carriers:
+                - Φ
+                - Ω
+              invalidation_reason: 'Category error: converts description into intervention authority; reversibility and Χ collapse under implied
+                control promises.'
+              red_zone: true
+              case_relevance: <active | risk | absent | needs_review>
+            - id: M11-2
+              label: Diagnosis / typing / maturity ranking
+              conversion: Structural regime language → person-level attribution
+              typical_structural_carriers:
+                - Ω
+                - Φ
+              invalidation_reason: Violates structure-only discipline; collapses scene-bound readings into global labels; breaches D and 
+                reversibility.
+              red_zone: true
+              case_relevance: <active | risk | absent | needs_review>
+            - id: M11-3
+              label: Selection / sorting (hire/fire/promote/exclude)
+              conversion: Recognition vocabulary → legitimacy handle for irreversible decisions
+              typical_structural_carriers:
+                - Ω
+                - Θ
+              invalidation_reason: Irreversible exposure/liability coupling turns readings into enforcement; reversibility drops out 
+                structurally; high misuse gradient likely.
+              red_zone: true
+              case_relevance: <active | risk | absent | needs_review>
+            - id: M11-4
+              label: Public pillory / reputational enforcement
+              conversion: Structural notation → narrative prosecution / durable verdict
+              typical_structural_carriers:
+                - Ω
+                - Θ
+                - Φ
+              invalidation_reason: Publicness converts interpretive moves into coercive affordances; revision is punished; D fails as a 
+                restraint constraint.
+              red_zone: true
+              case_relevance: <active | risk | absent | needs_review>
+            - id: M11-5
+              label: Child assessment / family evaluation (person-near application)
+              conversion: Conflict lens → assessment domain
+              typical_structural_carriers:
+                - Ω
+                - Θ
+              invalidation_reason: Person-near and low-reversibility contexts create high risk of ranking and coercion and violate the entry
+                condition for PMS application.
+              red_zone: true
+              case_relevance: <active | risk | absent | needs_review>
+            - id: M11-6
+              label: Conflict as moral failure
+              conversion: Constraint regime → moral verdict / virtue sorting
+              typical_structural_carriers:
+                - Φ
+              invalidation_reason: Substitutes evaluation for structure; replaces operator-load description with narrative prosecution; 
+                disallowed within the CONFLICT lens.
+              red_zone: true
+              case_relevance: <active | risk | absent | needs_review>
+            - id: M11-7
+              label: Toolset promise / leverage fantasy
+              conversion: Naming → implied controllability ('apply operator to fix')
+              typical_structural_carriers:
+                - Ω
+                - Χ
+                - Φ
+              invalidation_reason: Treats tool availability as guaranteed; ignores asymmetric access (Ω), priced distance (Χ), and Σ 
+                non-viability in conflict regimes.
+              red_zone: true
+              case_relevance: <active | risk | absent | needs_review>
+        additional_pms_discipline_red_zone_reminders:
+          - conversion of conflict signatures into guilt, competence, maturity, dignity, or risk scores
+          - use of exposure capture or asymmetry lock-in language to justify enforcement
+          - use of terminal-regime language to claim no further analysis, appeal, or repair is possible
+          - excerpting without mode, publicness, misuse-gradient, and boundary declarations
+          - treating downstream governance as if it were still PMS-CONFLICT analysis
+    theta_history_scaling:
+      label: Θ-history scaling / young Α-field
+      applicability: <active | weak | not_applicable | needs_review>
+      scope: regime_description_not_actor_attribute
+      methodological_boundary: 'Θ-history scaling describes regime production conditions. It does not essentialize persons, groups, or roles.'
+      operators_under_load:
+        - Α
+        - Θ
+        - Ω
+        - Φ
+      non_operator_constructs_reference:
+        young_A_field:
+          is_operator: false
+          applicability: <active | weak | not_applicable | needs_review>
+          definition: 'Young Α-field names a regime in which the enabling conditions for attractor stabilization are recent or recently intensified.
+            Patterns appear volatile, rapidly re-labeled, and exposure-sensitive because Θ is compressed and Φ is accelerated faster than Σ can
+            consolidate.'
+          operator_touchpoints:
+            - Α
+            - Θ
+            - Φ
+            - Ω
+            - Λ
+          note: Regime diagnosis only; not a person or group attribute.
+          case_application: '<State whether young Α-field dynamics are relevant to the case.>'
+      scale_axes:
+        theta_pressure:
+          level: <low | mixed | high | not_applicable | needs_review>
+          meaning: How fast trajectories lock in and reversibility windows close.
+          case_application: '<State the Θ-pressure level and markers.>'
+        phi_frequency:
+          level: <low | mixed | high | not_applicable | needs_review>
+          meaning: 'How often structures are re-embedded into new frames such that interpretations mutate faster than consolidation can stabilize.'
+          case_application: '<State the Φ-frequency level and markers.>'
+      composite_regime_bands:
+        selected_band: <C1_extended_stable | C2_compressed_churn | C3_asymmetric_lock | not_applicable | needs_review>
+        C1_extended_stable:
+          label: C1 — Extended & stable
+          condition: low Θ-pressure + low Φ-frequency
+          typical_risks:
+            - 'Complacency: treating slow drift as no drift.'
+            - Under-reading Λ residue because it remains locally containable.
+        C2_compressed_churn:
+          label: C2 — Compressed with churn
+          condition: high Θ-pressure + high Φ-frequency
+          typical_risks:
+            - 'Essence drift: reading regime products as timeless traits.'
+            - 'Narrative prosecution: Φ-substitution becomes mistaken for explanation.'
+            - Irreversibility inflation under Ω/Θ exposure gradients.
+        C3_asymmetric_lock:
+          label: C3 — Compressed with asymmetric exit
+          condition: high Θ-pressure + Ω-amplified Χ_exit
+          typical_risks:
+            - Pseudo-symmetry narratives denying Ω while it governs cost.
+            - Treating imposed continuity costs as choice or preference.
+        case_application: '<State which composite regime band best fits the case, if any.>'
+    institutionalized_distance_scaling:
+      label: Institutionalized Χ scaling
+      applicability: <active | weak | not_applicable | needs_review>
+      description: 'Institutionalized distance scaling tracks whether Χ is personal, informal, explicit, or coercively enforced. It evaluates
+        the structure of distance availability, not persons.'
+      selected_band: <CHI-0 | CHI-1 | CHI-2 | CHI-3 | not_applicable | needs_review>
+      scale_bands:
+        CHI-0:
+          label: No institutionalized Χ / personal steering only
+          chi_level: none
+          expected_drift_tendencies:
+            - Φ-substitution
+            - Α_conflict stabilization
+            - Λ as control channel
+          anti_misuse_note: 'Reading leadership failure as personal defect is invalid; instability is regime-produced by missing distance constraints.'
+        CHI-1:
+          label: Partial institutionalization / informal norms or weak mandates
+          chi_level: partial
+          expected_drift_tendencies:
+            - reduced but persistent Φ-substitution
+            - oscillation between integration attempts and Α_conflict
+          anti_misuse_note: 'Partial Χ reduces volatility but does not eliminate substitution dynamics; stability should not be inferred as integrability.'
+        CHI-2:
+          label: Explicit institutionalized Χ / clear mandates and criteria
+          chi_level: explicit
+          expected_drift_tendencies:
+            - lower Φ-substitution probability
+            - reduced Α_conflict stabilization likelihood
+          anti_misuse_note: 'Explicit Χ stabilizes legibility but does not guarantee integration; tragedy remains possible under binding collisions.'
+        CHI-3:
+          label: Enforced Χ / coercive or exposure-based enforcement
+          chi_level: enforced
+          validity_gate_status: FORMALLY_INVALID
+          expected_drift_tendencies:
+            - immediate stabilization with high downstream costs
+            - dignity collapse and legitimacy erosion
+          anti_misuse_note: 'Coercive enforcement violates Dignity-in-Practice and collapses Χ into domination; such regimes are invalid as PMS
+            application.'
+      recognition_formulas:
+        stable_regime:
+          formula: Ω guided + Χ institutional + Θ explicit → trust possible
+          case_application: '<State whether this stable recognition formula applies.>'
+        unstable_regime:
+          formula: Ω guided − Χ → groups / narratives / Α_conflict
+          case_application: '<State whether this unstable recognition formula applies.>'
+      validity_gate_reminder:
+        applies:
+          - Χ
+          - reversibility
+          - D
+        note: 'Any institutionalization of Χ must preserve reversibility and Dignity-in-Practice. Distance enforced through coercion, exposure,
+          or humiliation invalidates PMS use.'
+      case_application: '<State how institutionalized distance affects the case.>'
+    application_boundary_scaling:
+      label: Application boundary scaling
+      applicability: <active | weak | not_applicable | needs_review>
+      description: 'Application boundary scaling governs transfer of CONFLICT language into private, semi-public, institutional, public, or media-amplified
+        contexts. It is a safety interface, not a theory extension.'
+      classification_axes:
+        mode:
+          value: <DESCRIPTIVE | EVALUATION_OVERLAY | not_applicable | needs_review>
+          allowed_values:
+            - DESCRIPTIVE
+            - EVALUATION_OVERLAY
+          requirement: 'Mode must be explicitly declared whenever analysis leaves purely descriptive circulation.'
+        publicness:
+          value: <PRIVATE | SEMI_PUBLIC | INSTITUTIONAL | PUBLIC | MEDIA_AMPLIFIED | not_applicable | needs_review>
+          allowed_values:
+            - PRIVATE
+            - SEMI_PUBLIC
+            - INSTITUTIONAL
+            - PUBLIC
+            - MEDIA_AMPLIFIED
+        misuse_gradient:
+          value: <MG_LOW | MG_MIXED | MG_HIGH | not_applicable | needs_review>
+          allowed_values:
+            - MG_LOW
+            - MG_MIXED
+            - MG_HIGH
+      red_zone_mapping:
+        status: <active | risk | absent | needs_review>
+        definition: 'Red zones are configurations where transfer of CONFLICT language becomes structurally invalid as PMS application due to irreversibility
+          and coercive affordances.'
+        conditions:
+          - High or media-amplified publicness + MG_HIGH
+          - Low reversibility environments / durable records / liability coupling
+          - Person-near interpretation under asymmetry Ω
+          - Asymmetric exposure where one role controls visibility
+        consequence: 'Transfer is formally invalid; continued use constitutes a breach of the PMS entry condition.'
+        case_application: '<State whether the case enters a red-zone configuration.>'
+      minimal_declaration_block:
+        required_if_application:
+          - Mode declaration
+          - Publicness level
+          - Misuse gradient classification
+        note: 'This block is a structural constraint, not a disclaimer. Absence of the declaration defaults the context to high misuse risk.'
+        case_application: '<Provide the minimal declaration for this case if applicable.>'
+      reuse_protocol:
+        for_excerpts:
+          must_include:
+            - Compressed what this does not do statement
+            - Publicness + reversibility red-zone reminder
+            - Mode / publicness / misuse declaration if governance overlay is invoked
+          failure_effect: 'Without these elements, excerpts predictably drift into pseudo-symmetry, moral substitution, person-labeling, and narrative
+            immunization.'
+      operator_status:
+        operators_under_load:
+          - 'guardrails_only: Χ + reversibility + D'
+          - Ω and Φ as typical misuse carriers under exposure
+        inference_operators: not_permitted_in_this_scaling
+      case_application: '<State the application-boundary status of this case.>'
+    terminal_positioning_projection:
+      label: Terminal regime projection / legibility without reintegration
+      applicability: <active | weak | not_applicable | needs_review>
+      description: 'Projection that fixes the terminal position of PMS-CONFLICT within the PMS-domain stack. It marks the point at which operator-legible
+        description remains possible while internal reintegration grammar is exhausted. Beyond this point, any continuation is structurally downstream.'
+      terminal_stack_claim: 'Within the PMS-domain stack developed here, CONFLICT functions as the terminal domain layer: beyond maximal Δ–Ψ load
+        under Θ/Ω/Χ, the model yields no further internal reintegration grammar — only downstream governance, institutionalization, decision,
+        or evaluation.'
+      structural_full_stop_sentence: 'The CONFLICT source does not continue into solutions. It ends where praxis becomes tragically legible but
+        no longer integrable within this descriptive pathway.'
+      terminality_without_finality: 'The terminal claim concerns the descriptive architecture of PMS-CONFLICT, not the finality of conflict analysis
+        as such. What reaches a limit is this grammar’s capacity to generate a further internal reintegration layer once incompatibility has stabilized
+        under Θ, Ω, Ψ, and costly or asymmetric Χ.'
+      terminal_regime:
+        is_operator: false
+        applicability: <active | weak | not_applicable | needs_review>
+        minimal_operator_touchpoints:
+          - Σ
+          - Θ
+          - Ω
+          - Ψ
+          - Χ
+        note: 'The terminal regime is not a failure state, not a diagnosis, and not a recommendation to act. It is a boundary condition of the
+          descriptive grammar itself.'
+      case_application: '<State whether terminal regime projection applies to the case.>'
+    derived_axes_projection:
+      note: 'Optional structural projection of the CONFLICT configuration onto PMS derived axes. This is not a maturity score and not a person-level
+        evaluation.'
+      axes:
+        Awareness_A:
+          structural_level: <high | mixed | low | not_applicable | needs_review>
+          operator_basis:
+            - Δ
+            - Θ
+            - Ω
+            - Φ
+          structural_reading: 'Awareness tends to increase because constraint regimes become legible. Θ-history is required to prevent essentialization;
+            Φ acceleration raises the need for production-reading over attribute-reading.'
+          case_application: '<State how CONFLICT affects Awareness_A in this case.>'
+        Coherence_C:
+          structural_level: <high | mixed | low | not_applicable | needs_review>
+          operator_basis:
+            - Σ
+            - Φ
+            - Θ
+            - Ω
+            - Ψ
+          structural_reading: 'CONFLICT often exhibits high internal coherence within positions, while joint consolidation fails. Φ may sustain
+            narrative legibility without producing shared Σ.'
+          case_application: '<State how CONFLICT affects Coherence_C in this case.>'
+        Responsibility_R:
+          structural_level: <high | unstable | weak | not_applicable | needs_review>
+          operator_basis:
+            - Ω
+            - Θ
+            - Ψ
+            - Χ
+            - Λ
+          structural_reading: 'Responsibility becomes structurally salient because binding persists under asymmetric exposure and path dependence.
+            Attribution pressure increases while fair comparison may collapse.'
+          case_application: '<State how CONFLICT affects Responsibility_R in this case.>'
+        Action_E:
+          structural_level: <constrained | active | weak | not_applicable | needs_review>
+          operator_basis:
+            - Χ
+            - Θ
+            - Ω
+            - Σ
+            - Φ
+          structural_reading: 'Action is structurally constrained because exit or interruptibility is priced or asymmetric and because Σ-work
+            does not yield shared continuation.'
+          case_application: '<State how CONFLICT affects Action_E in this case.>'
+        Dignity_in_Practice_D:
+          structural_level: <fragile | stabilizing | active | weak | not_applicable | needs_review>
+          operator_basis:
+            - Ω
+            - Θ
+            - Χ
+            - Φ
+            - Ψ
+          structural_reading: 'D is a practice constraint, not an operator. It remains feasible when distance is real and exposure is bounded;
+            it degrades when Ω/Θ amplify vulnerability and Φ converts interpretation into pressure.'
+          case_application: '<State how CONFLICT constrains Dignity_in_Practice_D in this case.>'
+      constraints:
+        no_scoring_rule: 'Do not convert the axis projection into numeric scores, rankings, maturity labels, or person-level typologies. Axis
+          projection is for structural readability only.'
+        validity_gate_reminder: Any application use remains gated by Χ + reversibility + D.
+  conflict_addon_quality_checks:
+    status: <passed | failed | pass_with_minor_notes | needs_review>
+    checks:
+      pms_base_preserved: <true | false>
+      core_case_preserved: <true | false>
+      no_new_pms_operators: <true | false>
+      no_dependency_redefinition: <true | false>
+      reduced_signatures_marked_as_shorthand: <true | false>
+      no_person_level_judgment: <true | false>
+      no_solution_or_intervention_script: <true | false>
+      no_sanction_logic: <true | false>
+      no_diagnosis_or_person_typing: <true | false>
+      conflict_not_treated_as_essence: <true | false>
+      terminality_not_treated_as_finality: <true | false>
+      downstream_docking_marked_as_mode_shift: <true | false>
+      publicness_addon_not_operator: <true | false>
+      misuse_gradient_not_operator: <true | false>
+      conflict_attractor_not_operator: <true | false>
+      dignity_in_practice_preserved: <true | false>
+      reversibility_preserved: <true | false>
+      distance_chi_preserved: <true | false>
+      drift_patterns_not_person_labels: <true | false>
+      scale_matrices_not_scores: <true | false>
+      red_zone_checked: <true | false>
+      non_capture_preserved: <true | false>
+      selected_addon_matches_CONFLICT: <true | false | unclear>
+      conflict_not_applied_from_surface_topic: <true | false>
+      source_status_preserved: <true | false>
+      claim_ceiling_preserved: <true | false>
+      downstream_MIP_AHP_not_authorized: <true | false>
+      addon_application_after_checked_core: <true | false>
+      checked_addon_gate_import_present: <true | false>
+      no_case_record_generated: <true | false | unclear>
+      no_markdown_generated: <true | false | unclear>
+      no_final_decision_executed: <true | false | unclear>
+    issues_found:
+      - <issue or 'none'>
+    correction_required: <true | false>
+    final_addon_judgment: '<bounded judgment>'
+  conflict_addon_synthesis:
+    primary_conflict_reading: '<Concise synthesis of what PMS-CONFLICT makes visible in this case that the PMS Core pass did not fully isolate
+      as a conflict-specific incompatibility, drift, scale, or terminal-regime structure.>'
+    stabilized_incompatibility_result: '<State whether incompatibility is stabilized, weak, absent, or under-specified.>'
+    sigma_result: '<State whether Σ carries, fails, remains local only, or becomes incompatible across bindings.>'
+    binding_result: '<State how Ψ-binding appears and whether binding collision is active.>'
+    asymmetry_result: '<State how Ω distributes exposure, capacity, cost, liability, or exit conditions.>'
+    temporality_result: '<State how Θ hardens trajectories, compresses windows, accumulates cost, or stabilizes conflict patterns.>'
+    distance_exit_result: '<State whether Χ is available, priced, asymmetric, institutionalized, or coercively enforced.>'
+    exposure_publicness_result: '<State whether publicness P and misuse gradient MG amplify exposure or transmission risk.>'
+    dignity_result: '<State whether Dignity-in-Practice is preserved, fragile, or at risk of collapse.>'
+    terminality_result: '<State whether the case reaches terminal regime positioning or remains below that threshold.>'
+    downstream_docking_result: '<State whether governance, institutionalization, decision, or evaluation would be a mode shift rather than continuation
+      of PMS-CONFLICT.>'
+    non_capture_result: '<State what remains outside PMS-CONFLICT capture or open to rival conflict grammars.>'
+    final_conflict_formula_or_signature: '<Use a case-specific CONFLICT signature, e.g. CONFLICT_terminal_core, CONFLICT_stabilized_pattern, DRIFT_binding_collision,
+      DRIFT_asymmetry_lock_in, DRIFT_exposure_capture, or a combined case-specific signature.>'
+    final_claim_boundary: This CONFLICT add-on adds visibility for stabilized incompatibility, binding collision, asymmetry lock-in, 
+      exposure capture, dignity collapse, scale/cost regimes, terminal descriptive positioning, and downstream docking boundaries. It does 
+      not revise PMS Base, rewrite the PMS Core pass, diagnose persons, rank persons, prescribe intervention, generate solution procedures, 
+      validate PMS, or claim final capture of conflict.
+    closing_formula:
+      conflict_visibility: <what CONFLICT makes visible>
+      claim_restraint: <what must remain bounded, weakened, or unclaimed>
+      non_capture: <what remains outside CONFLICT capture>
+  conflict_addon_handoff:
+    handoff_status: <ready_for_conflict_addon_output_check | ready_with_limits | incomplete | unclear>
+    preserves:
+      - PMS Base priority
+      - checked Pre-Analysis constraints
+      - checked Core constraints
+      - checked Add-on Gate limits
+      - source status
+      - claim ceiling
+      - rival pressure and non-capture
+      - correctability and reopening conditions
+      - CONFLICT non-authority boundary
+    does_not_authorize:
+      - MIP_application
+      - AHP_application
+      - Case_Record_generation
+      - Markdown_generation
+      - person_ranking
+      - diagnosis
+      - legal_or_forensic_conclusion
+      - solution_procedure
+      - governance_authority
+      - final_decision_execution
+  conservative_patch_policy_for_conflict_output_check:
+    patch_policy_status: active_for_conflict_addon_output_check_only
+    patch_when:
+      - invalid_yaml
+      - missing_required_field
+      - selected_addon_mismatch
+      - CONFLICT_relevance_treated_as_authorization
+      - ordinary_disagreement_treated_as_conflict_trigger
+      - source_status_laundered
+      - claim_ceiling_exceeded
+      - PMS_Base_redefined
+      - Core_output_overwritten
+      - other_addon_applied
+      - MIP_or_AHP_authorized
+      - case_record_generated
+      - markdown_generated
+      - decision_state_executed
+      - person_judgment_or_diagnosis_introduced
+      - terminality_treated_as_finality
+      - solution_or_intervention_script_generated
+      - unprovided_source_assumed
+    preferred_patch_style:
+      - conservative
+      - bounded
+      - claim_weakening_where_needed
+      - explicit_unclear_or_missing_markers
+      - no_new_layer_creation
+  final_conflict_addon_status:
+    status: <ready_for_addon_output_check | ready_with_limits_for_addon_output_check | requires_revision_before_check | 
+      suspend_addon_application | unclear>
+    selected_addon_confirmed: <true | false | unclear>
+    addon_output_summary: <short bounded summary>
+    claim_ceiling_effect: <no_change | lowered | exceeded_and_corrected | unclear>
+    next_required_step: <conflict_addon_output_check | revise_addon_output | suspend | unclear>
+    final_note: This status governs whether the CONFLICT add-on output is ready to be checked. It is not a conflict verdict, not a solution 
+      procedure, not downstream MIP/AHP authorization, not external release readiness, and not decision-state execution.

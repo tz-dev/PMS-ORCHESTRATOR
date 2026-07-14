@@ -1,0 +1,144 @@
+{
+  "schema_version": "PMS_ORCHESTRATOR_SOURCE_MANIFEST_1.0",
+  "description": "Canonical PMS, MIP/AHP, and PMS-DISCIPLINE YAML source and template locations used by the guided runner.",
+  "sources": [
+    {
+      "id": "pms_base",
+      "label": "PMS Base",
+      "destination": "pms/PMS.yaml",
+      "url": "https://raw.githubusercontent.com/tz-dev/Praxeological-Meta-Structure-Theory/refs/heads/main/model/PMS.yaml"
+    },
+    {
+      "id": "pms_eden",
+      "label": "PMS EDEN",
+      "destination": "pms/PMS-EDEN.yaml",
+      "url": "https://raw.githubusercontent.com/tz-dev/PMS-EDEN/refs/heads/main/model/PMS-EDEN.yaml"
+    },
+    {
+      "id": "pms_sex",
+      "label": "PMS SEX",
+      "destination": "pms/PMS-SEX.yaml",
+      "url": "https://raw.githubusercontent.com/tz-dev/PMS-SEX/refs/heads/main/model/PMS-SEX.yaml"
+    },
+    {
+      "id": "pms_logic",
+      "label": "PMS LOGIC",
+      "destination": "pms/PMS-LOGIC.yaml",
+      "url": "https://raw.githubusercontent.com/tz-dev/PMS-LOGIC/refs/heads/main/model/PMS-LOGIC.yaml"
+    },
+    {
+      "id": "pms_conflict",
+      "label": "PMS CONFLICT",
+      "destination": "pms/PMS-CONFLICT.yaml",
+      "url": "https://raw.githubusercontent.com/tz-dev/PMS-CONFLICT/refs/heads/main/model/PMS-CONFLICT.yaml"
+    },
+    {
+      "id": "pms_critique",
+      "label": "PMS CRITIQUE",
+      "destination": "pms/PMS-CRITIQUE.yaml",
+      "url": "https://raw.githubusercontent.com/tz-dev/PMS-CRITIQUE/refs/heads/main/model/PMS-CRITIQUE.yaml"
+    },
+    {
+      "id": "pms_anticipation",
+      "label": "PMS ANTICIPATION",
+      "destination": "pms/PMS-ANTICIPATION.yaml",
+      "url": "https://raw.githubusercontent.com/tz-dev/PMS-ANTICIPATION/refs/heads/main/model/PMS-ANTICIPATION.yaml"
+    },
+    {
+      "id": "mip",
+      "label": "MIP — Maturity in Practice",
+      "destination": "mip/MIP - Maturity in Practice.yaml",
+      "url": "https://raw.githubusercontent.com/tz-dev/Maturity-in-Practice/refs/heads/main/05_model/MIP%20-%20Maturity%20in%20Practice.yaml"
+    },
+    {
+      "id": "mip_ahp",
+      "label": "MIP AHP Module",
+      "destination": "mip/MIP - Maturity in Practice - AHP Module.yaml",
+      "url": "https://raw.githubusercontent.com/tz-dev/Maturity-in-Practice/refs/heads/main/05_model/MIP%20-%20Maturity%20in%20Practice%20-%20AHP%20Module.yaml"
+    },
+    {
+      "id": "template_core_case_application",
+      "label": "PMS Core Case Application Template",
+      "destination": "templates/pms_core_case_application_template.yaml",
+      "url": "https://raw.githubusercontent.com/tz-dev/PMS-DISCIPLINE/refs/heads/main/templates/pms_core_case_application_template.yaml"
+    },
+    {
+      "id": "template_addon_anticipation",
+      "label": "PMS ANTICIPATION Case Application Template",
+      "destination": "templates/pms_addon_anticipation_case_application_template.yaml",
+      "url": "https://raw.githubusercontent.com/tz-dev/PMS-DISCIPLINE/refs/heads/main/templates/pms_addon_anticipation_case_application_template.yaml"
+    },
+    {
+      "id": "template_addon_conflict",
+      "label": "PMS CONFLICT Case Application Template",
+      "destination": "templates/pms_addon_conflict_case_application_template.yaml",
+      "url": "https://raw.githubusercontent.com/tz-dev/PMS-DISCIPLINE/refs/heads/main/templates/pms_addon_conflict_case_application_template.yaml"
+    },
+    {
+      "id": "template_addon_critique",
+      "label": "PMS CRITIQUE Case Application Template",
+      "destination": "templates/pms_addon_critique_case_application_template.yaml",
+      "url": "https://raw.githubusercontent.com/tz-dev/PMS-DISCIPLINE/refs/heads/main/templates/pms_addon_critique_case_application_template.yaml"
+    },
+    {
+      "id": "template_addon_eden",
+      "label": "PMS EDEN Case Application Template",
+      "destination": "templates/pms_addon_eden_case_application_template.yaml",
+      "url": "https://raw.githubusercontent.com/tz-dev/PMS-DISCIPLINE/refs/heads/main/templates/pms_addon_eden_case_application_template.yaml"
+    },
+    {
+      "id": "template_addon_logic",
+      "label": "PMS LOGIC Case Application Template",
+      "destination": "templates/pms_addon_logic_case_application_template.yaml",
+      "url": "https://raw.githubusercontent.com/tz-dev/PMS-DISCIPLINE/refs/heads/main/templates/pms_addon_logic_case_application_template.yaml"
+    },
+    {
+      "id": "template_addon_sex",
+      "label": "PMS SEX Case Application Template",
+      "destination": "templates/pms_addon_sex_case_application_template.yaml",
+      "url": "https://raw.githubusercontent.com/tz-dev/PMS-DISCIPLINE/refs/heads/main/templates/pms_addon_sex_case_application_template.yaml"
+    },
+    {
+      "id": "template_addon_recommendation_gate",
+      "label": "PMS-DISCIPLINE Add-on Recommendation Gate Template",
+      "destination": "templates/pms_discipline_addon_recommendation_gate_template.yaml",
+      "url": "https://raw.githubusercontent.com/tz-dev/PMS-DISCIPLINE/refs/heads/main/templates/pms_discipline_addon_recommendation_gate_template.yaml"
+    },
+    {
+      "id": "template_mip_gate",
+      "label": "PMS-DISCIPLINE MIP Gate Template",
+      "destination": "templates/pms_discipline_mip_gate_template.yaml",
+      "url": "https://raw.githubusercontent.com/tz-dev/PMS-DISCIPLINE/refs/heads/main/templates/pms_discipline_mip_gate_template.yaml"
+    },
+    {
+      "id": "template_ahp_gate",
+      "label": "PMS-DISCIPLINE AHP Gate Template",
+      "destination": "templates/pms_discipline_ahp_gate_template.yaml",
+      "url": "https://raw.githubusercontent.com/tz-dev/PMS-DISCIPLINE/refs/heads/main/templates/pms_discipline_ahp_gate_template.yaml"
+    },
+    {
+      "id": "template_pre_analysis",
+      "label": "PMS-DISCIPLINE Pre-Analysis Template",
+      "destination": "templates/pms_discipline_pre_analysis_template.yaml",
+      "url": "https://raw.githubusercontent.com/tz-dev/PMS-DISCIPLINE/refs/heads/main/templates/pms_discipline_pre_analysis_template.yaml"
+    },
+    {
+      "id": "template_case_record_stage_1",
+      "label": "PMS-DISCIPLINE Case Record Stage 1 Artifact Index Template",
+      "destination": "templates/pms_case_record_stage_1_artifact_index_template.yaml",
+      "url": "https://raw.githubusercontent.com/tz-dev/PMS-DISCIPLINE/refs/heads/main/templates/pms_case_record_stage_1_artifact_index_template.yaml"
+    },
+    {
+      "id": "template_case_record_stage_2",
+      "label": "PMS-DISCIPLINE Case Record Stage 2 Layer Digest Extraction Template",
+      "destination": "templates/pms_case_record_stage_2_layer_digest_extraction_template.yaml",
+      "url": "https://raw.githubusercontent.com/tz-dev/PMS-DISCIPLINE/refs/heads/main/templates/pms_case_record_stage_2_layer_digest_extraction_template.yaml"
+    },
+    {
+      "id": "template_case_record_stage_3",
+      "label": "PMS-DISCIPLINE Case Record Stage 3 Full Case Record Integration Template",
+      "destination": "templates/pms_case_record_stage_3_full_case_record_integration_template.yaml",
+      "url": "https://raw.githubusercontent.com/tz-dev/PMS-DISCIPLINE/refs/heads/main/templates/pms_case_record_stage_3_full_case_record_integration_template.yaml"
+    }
+  ]
+}

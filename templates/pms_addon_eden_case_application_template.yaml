@@ -1,0 +1,1093 @@
+# ==============================================================================
+#  PMS-DISCIPLINE — EDEN ADD-ON CASE APPLICATION TEMPLATE
+#
+#  Template version:
+#    PMS-DISCIPLINE_EDEN_ADDON_CASE_TEMPLATE_CLEAN_v0.1
+#
+#  Source profiles:
+#    PMS.yaml / schema_version: PMS_1.3
+#    PMS-EDEN.yaml / schema_version: PMS-EDEN_2.0
+#    PMS-EDEN application profile / reusable case overlay template
+#
+#  DISCIPLINE role:
+#    Apply PMS-EDEN as an add-on overlay to an already checked PMS-Core case.
+#    The PMS-Core layer is not regenerated, revised, or overwritten.
+# ==============================================================================
+
+pms_eden_addon_case_application:
+  schema_version: "PMS-DISCIPLINE_EDEN_ADDON_CASE_TEMPLATE_CLEAN_v0.1"
+  case_schema_version: PMS-EDEN_CASE_2.0
+  schema_role: "selected_addon_case_application_template"
+  overlay_model: "PMS-EDEN"
+  overlay_schema_version: "PMS-EDEN_2.0"
+  eden_case_template_source: "PMS-EDEN_CASE_2.0"
+  base_model: "PMS"
+  base_schema_version: "PMS_1.3"
+  discipline_status: "addon_layer_only_after_checked_core_and_checked_addon_gate"
+  template_status: "pms_discipline_aware_selected_addon_case_application_template"
+  discipline_template_name: "pms_addon_eden_case_application_template.yaml"
+  analysis_mode: "selected_eden_addon_application_after_checked_core"
+
+  template_purpose: >-
+    Structure a PMS-DISCIPLINE-compatible PMS-EDEN add-on application for one already checked PMS Core case. The add-on maps scene-bound false-coordinated real asymmetry, responsibility/action-power distribution, Σ/Ψ status, cost distribution, non-action/non-binding relevance, immunization-overexposure and AEP signals, counter-scenes, falsifiers, and description/application firewall status without modifying the checked PMS Core analysis and without converting structural reading into diagnosis, person verdict, action mandate, or closure.
+
+  repository_reference:
+    pms_base_reference_file: PMS.yaml
+    pms_base_reference_status: already_read_base_reference
+    selected_addon_source_file: PMS-EDEN.yaml
+    selected_addon_source_status: already_read_selected_addon_source
+    template_role: eden_addon_case_application_template
+    reference_note: PMS.yaml supplies PMS Base grammar. PMS-EDEN.yaml supplies the selected EDEN add-on source. Checked Pre-Analysis, checked Core, and checked Add-on Gate outputs constrain this application. No unprovided paper, interface YAML, or additional source file is assumed.
+  source_priority:
+    pms_yaml:
+      priority: 1
+      role: PMS Base reference already read before this step
+      may_define:
+      - PMS operator inventory
+      - PMS operator order
+      - PMS dependencies
+      - PMS derived structures
+      - PMS application guardrails
+    case_packet:
+      priority: 2
+      role: Bounded case material supplied for this run
+      may_supply:
+      - case material
+      - source status
+      - intended use
+    checked_pre_analysis_yaml:
+      priority: 3
+      role: Checked Pre-Analysis output constraining boundary, source status, intended use, claim ceiling, person-nearness, publicness, irreversibility, rival pressure, non-capture, correctability, and reopening
+      may_supply:
+      - case boundary
+      - input/source status
+      - claim ceiling
+      - rival and non-capture pressure
+      - falsifier, weakening, and reopening conditions
+    checked_core_case_application_yaml:
+      priority: 4
+      role: Checked Core output constraining PMS operator assignment, derived structures, Core synthesis, and Core handoff
+      may_supply:
+      - Core operator assignments
+      - dependency status
+      - derived structure status
+      - Core claim ceiling
+      - Core rival readings
+      - Core non-capture zones
+    checked_addon_recommendation_gate_yaml:
+      priority: 5
+      role: Checked gate output confirming EDEN as the selected add-on family for this step
+      may_supply:
+      - selected add-on family
+      - recommendation strength
+      - doubts and non-trigger conditions
+      - over-application risk
+    selected_pms_eden_yaml:
+      priority: 6
+      role: Selected EDEN add-on source read in the previous step
+      may_define:
+      - EDEN constructs
+      - EDEN application fields
+      - EDEN-specific guardrails
+      - EDEN falsifier and counter-scene requirements
+    this_eden_case_template:
+      priority: 7
+      role: EDEN case application output structure
+      may_structure:
+      - EDEN add-on case application YAML
+      - EDEN-specific quality checks
+      - EDEN add-on handoff
+  workflow_position:
+    phase: selected_addon_case_application
+    step_id: eden_addon_case_application
+    step_role: Apply the selected EDEN add-on after PMS.yaml, checked Pre-Analysis, checked Core, checked Add-on Gate, and PMS-EDEN.yaml source reading are already available. The output remains subordinate to PMS Base and the checked Core pass.
+    preceded_by_required_steps:
+    - read_pms_yaml
+    - checked_pre_analysis_yaml
+    - checked_core_case_application_yaml
+    - checked_addon_recommendation_gate_yaml
+    - read_selected_pms_eden_yaml
+    next_required_step:
+    - eden_addon_output_check
+    not_permitted_before_this_step:
+    - selected_EDEN_source_read_missing
+    - checked_core_unavailable
+    - checked_gate_unavailable
+    not_permitted_inside_this_step:
+    - rewriting_core_case_yaml
+    - redefining_PMS_operators_or_dependencies
+    - treating_EDEN_constructs_as_PMS_Base
+    - treating_error_or_fall_language_as_diagnosis
+    - treating_false_coordination_as_hidden_motive_proof
+    - treating_EDEN_output_as_action_authority
+    - treating_description_as_binding_application
+    - setting_executed_decision_state
+  template_io_contract:
+    required_inputs:
+    - PMS.yaml_read_completely
+    - case_packet
+    - checked_pre_analysis_yaml
+    - checked_core_case_application_yaml
+    - checked_addon_recommendation_gate_yaml
+    - PMS-EDEN.yaml_read_completely
+    - pms_addon_eden_case_application_template
+    optional_inputs_allowed_only_if_marked:
+    - prior_human_notes
+    - prior_model_output_as_input_not_evidence
+    - source_documents_full_or_excerpted
+    - statistical_material_or_tables
+    - transcripts_or_correspondence
+    - reports_or_institutional_records
+    - counter_scene_material
+    - affected_role_contestation_material
+    excluded_inputs_for_this_step:
+    - unprovided_files
+    - other_addon_sources
+    - other_addon_case_templates
+    - draft_renderings_as_case_evidence
+    - fall_or_error_language_as_diagnosis
+    - sex_category_or_identity_as_EDEN_trigger
+    - public_exposure_as_EDEN_trigger_without_real_omega_mapping
+    - action_request_as_EDEN_authority
+    produced_outputs:
+    - pms_eden_addon_case_application_yaml
+    - eden_construct_mapping
+    - counter_scene_and_falsifier_record
+    - description_application_firewall_record
+    - source_and_claim_burden_record
+    - eden_addon_quality_checks
+    - eden_addon_handoff
+    not_produced_outputs:
+    - PMS_Base_revision
+    - Core_case_rewrite
+    - other_addon_case_application_yaml
+    - diagnostic_verdict
+    - sex_truth
+    - person_status_claim
+    - moral_ranking
+    - action_recommendation_or_intervention_protocol
+    - legal_clinical_forensic_conclusion
+    - later_pipeline_artifacts
+  source_alignment:
+    pms_base:
+      source_file: "PMS.yaml"
+      schema_version: "PMS_1.3"
+      role: "base operator grammar and application guardrails"
+    eden_profile:
+      source_file: "PMS-EDEN.yaml"
+      schema_version: "PMS-EDEN_2.0"
+      role: "current paper-repository EDEN application overlay"
+    eden_repo_case_template:
+      source_file: "PMS-EDEN_CASE_2.0"
+      role: "field structure for scene-bound PMS-EDEN example cases"
+    discipline_policy: >-
+      In this workflow, PMS-EDEN functions as the selected add-on layer over an existing checked PMS-Core case. PMS-Core remains the already checked structural anchor. EDEN supplies case-bound visibility for false coordination, real Ω, action-power/responsibility distribution, counter-scenes, falsifiers, and the description/application firewall.
+
+  overlay_relationship_to_core:
+    status: "subordinate_to_checked_pms_core_case"
+    core_case_status: "already_checked"
+    core_case_source: "<checked PMS-Core case YAML>"
+    core_case_identifier: "<case id>"
+    core_case_title: "<case title>"
+    core_layer_handling:
+      read_core_for_anchor: true
+      rewrite_core: false
+      revise_core_findings: false
+      overwrite_core_formulas: false
+      alter_core_qc: false
+    rule: >
+      The EDEN overlay is appended to or integrated after the already checked PMS-Core case. It may refer to Core operators, Core scene framing, and Core boundary discipline as anchors, but it must not modify the PMS-Core pass, redefine PMS operators, alter PMS dependencies, replace derived PMS axes, or treat PMS-EDEN constructs as PMS Base.
+    preserved_core_elements:
+    - 'PMS operator inventory: Δ, ∇, □, Λ, Α, Ω, Θ, Φ, Χ, Σ, Ψ'
+    - PMS repository operator order and dependency hygiene
+    - PMS derived structures A, C, R, E, D as derived, not primitive
+    - 'PMS application gate: Χ, reversibility, Dignity-in-Practice'
+    - PMS non-diagnostic and non-person-ranking discipline
+    - PMS non-capture and rival-openness discipline
+    - Checked PMS-Core case content unless a separate PMS.yaml inconsistency has been explicitly identified
+  pms_v13_and_eden_conformity:
+    status: "conformant_overlay_required"
+    canonical_operator_spine: "Δ → ∇ → □ → Λ → Α → Ω → Θ → Φ → Χ → Σ → Ψ"
+    repository_dependency_order_preserved: true
+    no_new_pms_base_operators: true
+    no_operator_redefinition: true
+    no_dependency_rewrite: true
+    no_derived_axis_rewrite: true
+    overlay_only: true
+    pms_R_axis_preserved: true
+    pms_D_axis_preserved: true
+    pms_E_strict_action_preserved: true
+    eden_responsibility_principle_is_overlay_attribution_rule: true
+    eden_constructs_are_not_pms_base: true
+    adult_reciprocity_is_not_new_pms_axis: true
+    reciprocity_loss_is_not_new_pms_axis: true
+    correctability_is_not_new_pms_axis: true
+    minimal_recovery_signature_is_not_new_pms_axis: true
+    notes:
+    - Adult Reciprocity is a PMS-EDEN positive baseline / normative benchmark, not a PMS Base operator or axis.
+    - False-Coordinated Real Asymmetry is an EDEN mechanism, not a PMS operator.
+    - Action-Power is an EDEN scene-bound attribution handle, not a PMS operator.
+    - PFO, Eden scene, reciprocity loss, AEP, switch-family, and related labels are overlay constructs or profiles, not PMS Base.
+    - EDEN may sharpen domain visibility but does not prove exhaustive capture.
+    - Description does not authorize binding use; application requires additional gating.
+  operator_reference:
+    source: PMS.yaml
+    schema_version: PMS_1.3
+    fixed_operator_set:
+    - Δ
+    - ∇
+    - □
+    - Λ
+    - Α
+    - Ω
+    - Θ
+    - Φ
+    - Χ
+    - Σ
+    - Ψ
+    dependency_hygiene_note: Reduced EDEN signatures, formulas, or shortcuts do not alter PMS dependencies. In particular, Χ still presupposes Φ, Θ, and □ within PMS; EDEN uses PMS operators as references, not as redefined constructs.
+    no_new_operators: true
+    no_dependency_change: true
+    no_base_revision: true
+  nested_overlay_policy:
+    overlays: {}
+    no_amplification_overlay: true
+    no_base_extension: true
+    rule: PMS-EDEN 2.0 constructs, EDEN-MAP fields, profiles, mechanisms, benchmarks, boundaries, falsifiers, and viability signatures organize existing PMS operators only. They do not become PMS operators, PMS axes, PMS dependencies, additional layers, or independent application authority.
+  eden_overlay_scope:
+    scope_guardrails:
+    - Non-metaphysical, non-theological, non-clinical, non-diagnostic.
+    - No person-level judgment, no group label, no ideology claim, no sex ranking, no sanction logic.
+    - No psychology, motive, intention, trauma, or inner-state inference from EDEN mapping.
+    - No moral verdict logic and no application authority from description.
+    - Description and application remain firewalled by Χ, reversibility, D, contextual responsibility, affected-role contestation, and independent application authority.
+    may_add_visibility_to:
+    - Adult Reciprocity as truthful coordination of real Ω
+    - False-Coordinated Real Asymmetry
+    - real Ω mapping before failure attribution
+    - responsibility and Action-Power distribution
+    - Σ/Ψ blockage, simulation, externalization, or openness
+    - cost distribution under Ω and Θ
+    - non-action and non-binding relevance under □/Λ/Ω/Θ
+    - immunization, overexposure, and AEP as scene-bound profiles
+    - PFO as later regime stabilization where separately supported
+    - Reciprocity Loss as erosion of shared correctability
+    - counter-scenes, falsifiers, rivals, boundaries, and non-capture
+    must_not_do:
+    - treat EDEN as PMS Base
+    - treat Adult Reciprocity, Action-Power, PFO, AEP, correctability, or Reciprocity Loss as PMS operators or axes
+    - start from PFO, Fall, False Comparison, or sex category as master origin
+    - use EDEN-MAP as a coercive map against persons, couples, groups, sexes, institutions, or political positions
+    - treat non-action as praxis by default or non-binding as avoidance by default
+    - treat protection as immunity from R or responsibility as permission to degrade
+    - claim full capture, final verdict, diagnosis, prescription, or PMS-Core correction
+  checked_addon_gate_import:
+    source_record: "checked_addon_recommendation_gate_yaml"
+    source_status: "<available | partial | missing>"
+    import_rule: >-
+      The checked add-on recommendation gate constrains whether EDEN application is reasonable after Core. It records selection context, doubts, non-trigger conditions, and over-application risks. It does not authorize EDEN as a route, verdict, action authority, or closure artifact.
+    selected_addon:
+      expected_value: "EDEN"
+      gate_status: "<selected_addon_recommended | scan_only | not_recommended | rejected_as_over_application | unsafe | unclear>"
+      recommendation_summary: "<why EDEN is or is not selected after checked Core>"
+    non_trigger_conditions_checked:
+    - error_language_not_EDEN_trigger
+    - fall_or_defect_language_not_diagnosis
+    - sex_or_identity_vocabulary_not_EDEN_trigger
+    - asymmetry_not_false_coordination_by_default
+    - non_action_not_responsibility_or_avoidance_by_default
+    - public_exposure_not_correction_by_default
+    - description_not_action_authority
+    doubts_to_preserve:
+    - <doubt from gate or none>
+    required_action_before_or_during_overlay:
+    - <revise_core | downgrade_claim | suspend | redirect | human_review | none | unclear>
+    over_application_warning: "<state specific EDEN over-application risk or none>"
+
+  eden_application_gate:
+    status: "<passed | partial | failed | needs_review | suspended>"
+    gate_type: "PMS_application_plus_EDEN_application_requirements"
+    applies_to: "EDEN_overlay_application_in_PMS-DISCIPLINE"
+    canonical_pms_entry_condition:
+      distance_Chi:
+        id: "Χ"
+        status: "<maintained | partial | compromised | needs_review>"
+        case_application: "<how meta-position, stop-capability, and non-verdictive distance are maintained>"
+      reversibility:
+        id: "reversibility"
+        status: "<maintained | partial | compromised | needs_review>"
+        case_application: "<how the reading remains scene-bound, revisable, and non-final>"
+      dignity_in_practice_D:
+        id: "D"
+        status: "<maintained | partial | compromised | needs_review>"
+        case_application: "<how no shaming, humiliation, person-ranking, sex-ranking, diagnosis, or dignity hierarchy is introduced>"
+    eden_application_requirements:
+      scene_packet:
+        status: "<present | partial | absent | needs_review>"
+        note: "<bounded scene packet; not impression or vibe>"
+      counter_scene_exposure:
+        status: "<present | partial | absent | needs_review>"
+        note: "<strongest materially different organization of evidence>"
+      contextual_responsibility:
+        status: "<present | partial | absent | needs_review>"
+        note: "<R tied to structuring effect, legibility, capacity, alternatives, Θ, and Ω cost/exposure>"
+      evidentiary_answerability:
+        status: "<present | partial | absent | needs_review>"
+        note: "<what evidence could narrow, suspend, revise, or defeat the map>"
+      affected_role_contestation:
+        status: "<available | partial | absent | not_applicable | needs_review>"
+        note: "<how affected roles could contest packet, frame, evidence, R trace, or application>"
+      independent_application_authority:
+        status: "<not_authorized | separately_authorized_and_fully_gated | not_applicable | needs_review>"
+        note: "<EDEN-MAP itself gives no authority to confront, bind, intervene, punish, or enforce>"
+    invalid_if_any:
+    - core_case_rewritten_by_overlay
+    - PMS_operator_redefined
+    - PMS_derived_axis_redefined
+    - EDEN_construct_treated_as_PMS_base
+    - EDEN_by_vibe
+    - PFO_by_vibe
+    - real_Ω_asserted_without_scene_packet
+    - false_coordination_claimed_without_real_Ω_displaced_R_and_blocked_or_weakened_or_simulated_or_avoided_or_externalized_Σ_Ψ
+    - counter_scene_cannot_change_reading
+    - no_falsifier_named
+    - description_converted_directly_into_binding_or_obligation
+    - responsibility_assigned_without_contextual_conditions
+    - non_action_treated_as_praxis_by_default
+    - non_binding_treated_as_avoidance_by_default
+    - sex_or_person_label_substituted_for_scene_analysis
+    - hidden_motive_or_psychology_inferred_from_operator_trace
+    - humiliation_or_exposure_used_as_method
+    - action_recommendation_or_intervention_protocol_added
+    - legal_clinical_forensic_policy_or_HR_conclusion_added
+    - D_suspended_for_truth_clarity_efficiency_punishment_or_resolution
+  case_meta:
+    id: "<eden-addon-case-id>"
+    title: "<case title>"
+    subtitle: "<optional short subtitle>"
+    status: "draft_overlay | final_overlay | needs_review"
+    model: PMS-EDEN
+    model_schema_version: PMS-EDEN_2.0
+    base_schema: PMS_1.3
+    file_name: <eden addon case filename>
+    authorship:
+      originator: T. Zöller
+      formalization_assistant: ChatGPT
+    purpose: Replace or regenerate only the PMS-EDEN add-on layer for an already checked PMS-Core case.
+    source_part_or_chapter: "<Part / chapter if applicable>"
+    base_core_case_ref: "<checked PMS-Core case ref>"
+    addon: "EDEN"
+    output_role: "replace_existing_EDEN_addon_layer_only"
+    case_type: "<minimal_scene | contrast_case | myth_correction | legibility_case | trajectory_case>"
+    eden_overlay_focus: <false_coordination | responsibility_distribution | reciprocity_loss | counter_scene | non_capture | mixed | other>
+    primary_focus:
+      construct: "<primary EDEN construct, mechanism, benchmark, protocol step, or test-scene element>"
+      yaml_home: "<path in PMS-EDEN.yaml>"
+      construct_status: "<eden_mechanism | eden_normative_benchmark | eden_theoretical_compression | overlay_construct | regime_stabilization | application_protocol | boundary_condition | falsifier | scene_bound_profile | viability_signature | paper_internal_shorthand>"
+      secondary_constructs:
+      - none
+      not_a_case_of:
+      - none
+
+  case_guardrails:
+    non_diagnostic: true
+    non_prescriptive: true
+    non_verdictive: true
+    non_person_labeling: true
+    non_sex_ranking: true
+    no_hidden_motive_inference: true
+    no_psychological_diagnosis: true
+    no_therapy_or_intervention_protocol: true
+    no_legal_forensic_clinical_policy_or_HR_conclusion: true
+    no_action_authorization: true
+    no_application_authority_from_description: true
+    no_humiliation_or_public_exposure_as_method: true
+    description_to_action_firewall: "active"
+    validity_gate_reference: "eden_application_gate"
+    required_method_conditions:
+      canonical_pms_entry_condition:
+      - Χ
+      - reversibility
+      - D
+      eden_application_requirements:
+      - scene_packet
+      - counter_scene_exposure
+      - contextual_responsibility
+      - evidentiary_answerability
+      - affected_role_contestation
+      - independent_application_authority
+    core_rule: "Map the scene; do not diagnose persons, prescribe action, rank sexes, authorize intervention, or revise PMS-Core."
+    invalid_if_any:
+    - Χ_suspended_for_clarity_or_urgency
+    - reversibility_suspended_for_verdict
+    - D_suspended_for_truth_or_efficiency
+    - scene_packet_replaced_by_impression
+    - counter_scene_cannot_change_reading
+    - responsibility_without_scene_conditions
+    - description_converted_directly_into_binding
+    - person_or_sex_label_substituted_for_scene_analysis
+    - Core_layer_rewritten_by_EDEN_overlay
+    prohibited_shortcuts:
+    - EDEN-by-vibe
+    - PFO-by-vibe
+    - identity-based_assignment
+    - sex-truth_inference
+    - personality_inference
+    - motive_inference_from_operator_trace
+    - description_converted_into_obligation
+    - PMS-Core-correction-by-overlay
+  example_schema_alignment:
+    required_fields_from_PMS_EDEN_CASE_2_0:
+      case_schema_version: case_schema_version / mapped to pms_discipline_eden_addon_case_application.case_schema_version
+      case_meta: "case_meta"
+      guardrails: "case_guardrails"
+      vignette: "minimal_vignette"
+      scene_packet: "scene_packet"
+      pms_operator_trace: "pms_operator_trace"
+      eden_map: "eden_map"
+      construct_selection: "construct_selection"
+      closure: "readable_structural_closure"
+    required_eden_map_fields:
+    - scene_packet_summary
+    - real_omega_mapping
+    - dominant_false_coordination_frame
+    - responsibility_and_action_power_distribution
+    - sigma_psi_status
+    - cost_distribution
+    - non_action_and_non_binding
+    - immunization_overexposure_AEP
+    - counter_scene_and_falsifier
+    - description_application_status
+    - revision_point_or_open_question
+    discipline_adapter_fields:
+    - overlay_relationship_to_core
+    - core_anchor
+    - eden_application_gate
+    - eden_overlay_integration
+    - eden_overlay_quality_control
+    discipline_adapter_note: >
+      EDEN CASE 2.0 provides the internal field structure. This template adds the checked-Core anchor, replacement-only add-on role, and quality check that the overlay did not become a Core rewrite or standalone application authority.
+
+  example_suite_schema_alignment:
+    status: reference_only_embedded_in_eden_addon_application
+    source: PMS-EDEN_CASE_2.0 reusable case template
+    discipline_case_policy: This template does not generate a standalone PMS-EDEN example-suite artefact unless explicitly requested. The EDEN case template is used as the internal overlay field structure over a checked PMS-Core case.
+  paper_structure_map_alignment:
+    status: reference_only
+    source: PMS-EDEN.yaml.paper_structure_map
+    case_application: <state which PMS-EDEN paper-structure regions are materially relevant to this overlay, if useful; do not reproduce the whole paper map in the case output unless requested>
+  core_anchor:
+    checked_core_case_summary:
+      use: "anchor_only_not_rewrite"
+      core_scene_boundary: "<reuse the already checked PMS-Core scene boundary>"
+      core_primary_operator_profile: "<brief anchor; no new Core derivation>"
+      core_relevant_asymmetries:
+      - none
+      core_relevant_non_events:
+      - none
+      core_relevant_temporalities:
+      - none
+      core_boundary_notes:
+      - none
+    core_to_eden_bridge:
+      eden_relevance_trigger: "<why EDEN overlay is relevant here: real Ω, comparison/parity/protection frame, responsibility distribution, non-action/non-binding, recognition/protection, cost distribution, correctability, etc.>"
+      what_eden_adds_beyond_core_visibility: "<what becomes domain-salient under PMS-EDEN but was not isolated as EDEN structure in PMS-Core>"
+      what_must_remain_core_only: "<Core findings not to be imported as EDEN-specific claims>"
+
+  minimal_vignette:
+    scene: >
+      <One compact paragraph describing the EDEN-relevant scene mechanism, not merely an end-state. Keep it concrete enough to map role-positions, real Ω, costs, timing, responsibility, non-action/non-binding, Σ/Ψ status, correctability, and possible counter-scenes. Do not over-narrate inner motives, psychology, pathology, moral quality, or sex essence.>
+    temporal_boundary: "<where the scene begins, what recurrence/carryover matters, and where the bounded reading ends>"
+    roles:
+    - id: "role_A"
+      label: "<scene-bound role-position, not person type>"
+    - id: "role_B"
+      label: "<scene-bound role-position, not person type>"
+    - id: "field_or_medium"
+      label: "<optional medium/institution/audience/category/language field that stabilizes or distributes the scene>"
+    surface_description: "<how the scene may initially appear before real Ω, R distribution, costs, Σ/Ψ, and counter-scenes are mapped>"
+    eden_question: "<what EDEN-MAP is testing in this case; not advice request>"
+
+  scene_packet:
+    specified_scene: "<bounded scene under analysis>"
+    role_positions:
+      role_A:
+        scene_position: "<position in the scene; no person-typing>"
+        not_identity: true
+      role_B:
+        scene_position: "<position in the scene; no person-typing>"
+        not_identity: true
+      field_or_medium:
+        scene_position: "<optional: what the field/medium/language category stabilizes, hides, amplifies, circulates, or makes costly>"
+        not_identity: true
+        optional: true
+
+    dominant_frame:
+      candidate_frame: "<comparison | protection | parity | superiority | recognition | vulnerability | responsibility | non_action_neutrality | non_binding_autonomy | legitimation | authority | mixed | indeterminate>"
+      frame_description: "<how the scene becomes legible to participants or observers>"
+      frame_status: "<functional | ambiguous | potentially_false_coordination | not_established | indeterminate>"
+      false_coordination_boundary: "No frame family is categorically false; false coordination requires real Ω, displaced R, and blocked/weakened/simulated/avoided/externalized Σ/Ψ."
+
+    real_Ω:
+      present: "<true | false | indeterminate>"
+      summary: "<real asymmetry or reason no consequential Ω is established>"
+      dimensions:
+        capacity: "<none | low | medium | high | mixed | indeterminate>"
+        exposure: "<none | low | medium | high | mixed | indeterminate>"
+        dependency: "<none | low | medium | high | mixed | indeterminate>"
+        protection: "<none | low | medium | high | mixed | indeterminate>"
+        obligation: "<none | low | medium | high | mixed | indeterminate>"
+        access: "<none | low | medium | high | mixed | indeterminate>"
+        timing_control: "<none | low | medium | high | mixed | indeterminate>"
+        frame_control: "<none | low | medium | high | mixed | indeterminate>"
+        recognition_control: "<none | low | medium | high | mixed | indeterminate>"
+        binding_control: "<none | low | medium | high | mixed | indeterminate>"
+        language_access: "<none | low | medium | high | mixed | indeterminate>"
+        explanation_burden: "<none | low | medium | high | mixed | indeterminate>"
+        vulnerability: "<none | low | medium | high | mixed | indeterminate>"
+        action_power: "<none | low | medium | high | mixed | indeterminate>"
+        risk: "<none | low | medium | high | mixed | indeterminate>"
+        cost: "<none | low | medium | high | mixed | indeterminate>"
+        exit_and_waiting_capacity: "<none | low | medium | high | mixed | indeterminate>"
+      mapping_question: "<what each asymmetry changes in options, cost, exposure, responsibility, or correction access>"
+      asymmetry_not_failure_rule: "Asymmetry is not the failure; false coordination of asymmetry is the failure."
+      multidimensional_guardrail: "Keep crossed asymmetries visible; authority, exit power, embodiment, language, timing, protection, and explanation burden may diverge and cannot become one rank."
+
+    relevant_Λ:
+      present: "<true | false | indeterminate>"
+      non_event_or_absence: "<silence | delay | refusal | non-clarification | non-binding | non-response | missing correction | missing integration | restraint | incapacity | boundary | none | other>"
+      scene_structuring_effect: "<what the non-event changes, if anything>"
+      no_passive_praxis_check: "Non-action becomes praxis only when it structures a scene under □/Λ/Ω/Θ."
+
+    non_action_relevance:
+      status: "<mere_absence | structuring_non_event | integrated_abstention | indeterminate | not_relevant>"
+      note: "<why the absence/non-event is or is not scene-relevant under □/Λ/Ω/Θ>"
+      boundary: "Silence, delay, refusal, non-response, or absence is not praxis by default and never proves motive, manipulation, drift, or responsibility."
+
+    non_binding_relevance:
+      status: "<legitimate_openness | Ψ_load_shift | avoidance | indeterminate | not_relevant>"
+      note: "<whether non-binding preserves genuine openness or shifts Ψ-load, cost, exposure, timing, or responsibility>"
+      boundary: "Non-binding may be legitimate where uncertainty, costs, alternatives, and exit/waiting conditions remain legible."
+
+    Θ_trajectory:
+      sequence:
+      - step: 1
+        description: "<initial condition>"
+      - step: 2
+        description: "<change, delay, repetition, breach, escalation, erosion, or correction attempt>"
+      - step: 3
+        description: "<resulting distribution of cost, R, Σ, Ψ, or correctability>"
+      trajectory_status: "<single_event | repeated_pattern | accumulating_effect | unresolved | indeterminate>"
+      trajectory_origin_note: "<if relevant, who/what goes first structurally; not moral rank by default>"
+
+    structuring_effects:
+      role_A_effects:
+      - <effect structured by role_A, if supported>
+      role_B_effects:
+      - <effect structured by role_B, if supported>
+      shared_or_field_effects:
+      - <effects of the scene/frame itself>
+      unsupported_effects:
+      - <claims that must not be inferred>
+    responsibility_distribution:
+      pms_axis: "R"
+      governing_formula: "R follows real structuring effect under available legibility, capacity, alternative possibility, Θ trajectory, and Ω cost/exposure conditions."
+      role_A:
+        structuring_effect: "<supported | weak | indeterminate | not_supported>"
+        legibility: "<available | limited | absent | contested | indeterminate>"
+        capacity: "<available | limited | absent | contested | indeterminate>"
+        alternatives: "<available | limited | absent | contested | indeterminate>"
+        provisional_R_status: "<proportionate | underassigned | overassigned | displaced | indeterminate>"
+      role_B:
+        structuring_effect: "<supported | weak | indeterminate | not_supported>"
+        legibility: "<available | limited | absent | contested | indeterminate>"
+        capacity: "<available | limited | absent | contested | indeterminate>"
+        alternatives: "<available | limited | absent | contested | indeterminate>"
+        provisional_R_status: "<proportionate | underassigned | overassigned | displaced | indeterminate>"
+      blame_guardrail: "R is not blame, guilt, moral worth, person condemnation, or total liability."
+
+    recognition_and_protection:
+      recognition_frame: "<present | absent | mixed | indeterminate>"
+      protection_frame: "<present | absent | mixed | indeterminate>"
+      D_status: "<preserved | strained | damaged | indeterminate>"
+      recognition_structure:
+        role_A: "<how role_A is recognized, misrecognized, made criticizable, or made less criticizable in this scene>"
+        role_B: "<how role_B is recognized, misrecognized, made criticizable, or made less criticizable in this scene>"
+        scene_effect: "<whether recognition remains proportionate, becomes detached from R, or distributes criticizability unevenly>"
+      protection_structure:
+        role_A: "<how protection, immunity, exposure, or criticizability attaches to role_A>"
+        role_B: "<how protection, immunity, exposure, or criticizability attaches to role_B>"
+        scene_effect: "<whether protection preserves D, blocks R, or shifts exposure/cost>"
+      dignity_guardrail: "Responsibility must not degrade; protection must not immunize."
+
+    Σ_Ψ_status:
+      Σ_integration:
+        status: "<open | partially_open | mixed_evidence | simulated | blocked | externalized | indeterminate>"
+        note: "<whether relevant costs/effects can enter one accountable scene account>"
+      Ψ_self_binding:
+        status: "<open | partially_open | mixed_evidence | weakened | avoided | simulated | externalized | blocked | indeterminate>"
+        note: "<whether consequential positions remain bound to what they structure>"
+      load_shift:
+        present: "<true | false | indeterminate>"
+        formula: "low Ψ on one side → increased Ψ-load on the other."
+        shifted_loads:
+        - none
+
+    visible_costs:
+      visibility_cost: "<who becomes visible or scrutinized while another consequential position remains comparatively opaque>"
+      explanation_cost: "<who must explain structure, burden, harmlessness of naming it, or the unresolved scene>"
+      reaction_cost: "<who carries response-form, tone, timing, recognizability, or affect-management cost>"
+      waiting_cost: "<who carries duration, suspended action, anticipation, or option preservation under uncertainty>"
+      binding_cost: "<who absorbs added Ψ-load where another remains less bound to effects>"
+      protection_cost: "<who loses criticizability through protection or carries vigilance, restraint, risk, or exposure required to protect>"
+      speech_cost: "<who risks standing, threat, weakness, hostility, control, or evasion recoding by describing the scene>"
+      repair_cost: "<who restores continuity, reopens communication, supplies language, integrates accounts, or enables correction>"
+      dignity_cost: "<where D is strained, preserved, or put at risk by the scene or by the analysis>"
+      legibility_cost: "<who lacks legitimate language for naming cost, asymmetry, R, or correction access>"
+      option_loss: "<who loses clean alternatives, exit capacity, waiting capacity, or timing control>"
+
+    available_language:
+      dominant_terms:
+      - <language that makes the scene initially legible>
+      reduced_terms:
+      - <language that becomes unavailable, risky, recoded, or weakly legitimate>
+      language_effect: "<whether the available language truthfully coordinates real Ω or weakens cost/R/Σ/Ψ legibility>"
+
+    legitimation_frame:
+      Φ_status: "<present | absent | weak | mixed | indeterminate>"
+      frame: "<how the scene is recontextualized or legitimated, if supported>"
+      effect: "<what the legitimation makes appear natural, fair, protective, equal, autonomous, necessary, or non-threatening>"
+      boundary: "Φ does not establish motive, strategy, manipulation, bad faith, or person type."
+
+    immunization_overexposure_signals:
+      immunization_signals:
+      - <effect without full responsibility, if supported>
+      overexposure_signals:
+      - <responsibility without full legibility/protection, if supported>
+      genuine_case_check: "<how genuine vulnerability, bounded protection, incapacity, restraint, openness, or rival explanation could weaken the reading>"
+      counter_immunity_check: "<how naming overexposure must not make the overexposed role immune from bounded R>"
+
+    AEP_signals:
+      status: "<supported | weak | not_supported | indeterminate>"
+      high_exposure: "<whether high exposure is supported>"
+      low_legitimate_language: "<whether low legitimate language is supported>"
+      critique_to_threat_switch: "<supported | weak | not_supported | indeterminate>"
+      responsibility_overload: "<supported | weak | not_supported | indeterminate>"
+      missing_or_weak_components:
+      - <component that is missing, weak, or contested>
+    action_power_distribution:
+      role_A_vectors:
+      - <direct_action | structuring_non_action | framing | timing | access | recognition_allocation | protection_allocation | withholding | non_binding | legitimation | language_control | cost_distribution | other>
+      role_B_vectors:
+      - <direct_action | structuring_non_action | framing | timing | access | recognition_allocation | protection_allocation | withholding | non_binding | legitimation | language_control | cost_distribution | other>
+      indirect_action_power: "<present | absent | mixed | indeterminate>"
+      action_power_guardrail: "Action-Power is capacity to structure praxis conditions; it is not blame, motive, person type, moral rank, or a PMS operator."
+
+    counter_scene_entry:
+      required: true
+      strongest_counter_scene: "<best plausible non-EDEN or weaker-EDEN reading>"
+      what_would_support_it:
+      - <evidence or condition supporting the counter-scene>
+      what_would_weaken_eden:
+      - <condition that would narrow, suspend, or defeat the EDEN reading>
+      counter_scene_at_entry: "A plausible alternative organization of evidence must enter before EDEN reading formation."
+
+  pms_operator_trace:
+    status: "scene_mapping_not_new_operator_logic"
+    operator_reference: "PMS_1.3 canonical spine"
+    operator_set_fixed:
+    - Δ
+    - ∇
+    - □
+    - Λ
+    - Α
+    - Ω
+    - Θ
+    - Φ
+    - Χ
+    - Σ
+    - Ψ
+    trace:
+      "Δ": "<relevant difference; not rank>"
+      "∇": "<impulse, directionality, pressure, tendency, or initiative, if relevant>"
+      "□": "<frame making the scene legible>"
+      "Λ": "<structuring absence/non-event, if present>"
+      "Α": "<stabilization or attractor, if recurrence is supported>"
+      "Ω": "<real asymmetry>"
+      "Θ": "<temporal trajectory>"
+      "Φ": "<recontextualization/legitimation, if present>"
+      "Χ": "<distance, inhibition, reversibility, correction space>"
+      "Σ": "<integration status>"
+      "Ψ": "<self-binding status>"
+    derived_axes_reference:
+      fixed_axes:
+      - A
+      - C
+      - R
+      - E
+      - D
+      mutation_policy: "No PMS derived axis is added, removed, or redefined."
+    derived_axes:
+      A:
+        name: "Awareness"
+        formula: "Θ ∘ □ ∘ Δ"
+        case_use: "<available legibility / awareness only where relevant; not automatically an R condition>"
+      C:
+        name: "Coherence"
+        formula: "Θ ∘ Λ ∘ □ ∘ ∇"
+        case_use: "<coherence only where relevant; not required for every EDEN-MAP example>"
+      R:
+        name: "Responsibility"
+        formula: "Ψ ∘ Φ ∘ Θ ∘ Ω"
+        case_use: "<how responsibility is traced without redefining R>"
+      E:
+        name: "Strict Action / Enactment"
+        formula: "Σ ∘ Θ ∘ ∇"
+        case_use: "<strict enactment only if supported; praxis may be broader>"
+      D:
+        name: "Dignity-in-Practice"
+        formula: "Ψ ∘ Χ ∘ Ω"
+        case_use: "<dignity-in-practice status>"
+    pms_conformity_note: "No PMS operator, dependency, or derived axis is redefined."
+
+  eden_map:
+    scene_packet_summary:
+      field_id: 1
+      result: "<compact summary of scene, roles, temporal boundary, and evidence limits>"
+
+    real_omega_mapping:
+      field_id: 2
+      result: "<what real Ω is operative, if any>"
+      support: "<strong | weak | mixed | indeterminate | defeated>"
+      asymmetry_is_not_failure: true
+
+    dominant_false_coordination_frame:
+      field_id: 3
+      candidate: "<candidate frame>"
+      result: "<established | weakly_supported | not_established | indeterminate>"
+      test_formula: "real Ω + false coordination frame + displaced R + blocked Σ/Ψ = false-coordinated real Ω"
+      note: "<why the frame does or does not falsely coordinate real Ω>"
+
+    responsibility_and_action_power_distribution:
+      field_id: 4
+      result: "<R and Action-Power distribution under legibility, capacity, alternatives, Θ, and Ω cost/exposure conditions>"
+      role_A: "<summary of what role_A structures and what limits attribution>"
+      role_B: "<summary of what role_B structures and what limits attribution>"
+      action_power_vectors:
+        role_A:
+        - <direct_action | structuring_non_action | framing | timing | access | recognition_allocation | protection_allocation | withholding | non_binding | legitimation | language_control | cost_distribution | other>
+        role_B:
+        - <direct_action | structuring_non_action | framing | timing | access | recognition_allocation | protection_allocation | withholding | non_binding | legitimation | language_control | cost_distribution | other>
+      critique_access_result: "<whether proportionate critique remains available, narrows, is blocked, or is indeterminate>"
+      indirect_action_power: "<present | absent | mixed | indeterminate>"
+      responsibility_result: "<proportionate | displaced | underassigned | overassigned | mixed | indeterminate>"
+      R_guardrail: "This distribution maps scene-bound structuring effect only; it does not assign guilt, hidden motive, moral rank, person type, or total liability."
+
+    sigma_psi_status:
+      field_id: 5
+      Σ: "<open | partially_open | mixed_evidence | simulated | blocked | externalized | indeterminate>"
+      Ψ: "<open | partially_open | mixed_evidence | weakened | avoided | simulated | externalized | blocked | indeterminate>"
+      cost_entry_status: "<integrated | partially_integrated | selectively_excluded | blocked | simulated | externalized | indeterminate>"
+      binding_relation: "<whether consequential role-positions remain attached to what they structure or externalize Ψ-load>"
+      result: "<summary of integration and self-binding relation>"
+
+    cost_distribution:
+      field_id: 6
+      result: "<cost distribution without suffering-rank or equal-R inference>"
+      costs:
+        visibility: "<role_A | role_B | shared | none | indeterminate>"
+        explanation: "<role_A | role_B | shared | none | indeterminate>"
+        reaction: "<role_A | role_B | shared | none | indeterminate>"
+        waiting: "<role_A | role_B | shared | none | indeterminate>"
+        binding: "<role_A | role_B | shared | none | indeterminate>"
+        protection: "<role_A | role_B | shared | none | indeterminate>"
+        speech: "<role_A | role_B | shared | none | indeterminate>"
+        repair: "<role_A | role_B | shared | none | indeterminate>"
+        dignity: "<role_A | role_B | shared | none | indeterminate>"
+        exposure: "<role_A | role_B | shared | none | indeterminate>"
+        recognition: "<role_A | role_B | shared | none | indeterminate>"
+        legibility: "<role_A | role_B | shared | none | indeterminate>"
+        Χ: "<role_A | role_B | shared | none | indeterminate>"
+        option_loss: "<role_A | role_B | shared | none | indeterminate>"
+      bidirectionality_guardrail: "Bidirectionality is not symmetry; shared loss does not imply equal loss, equal R, equal standing loss, or suffering rank."
+
+    non_action_and_non_binding:
+      field_id: 7
+      non_action_classification: "<mere_absence | structuring_non_event | integrated_abstention | indeterminate | not_relevant>"
+      non_binding_classification: "<legitimate_openness | Ψ_load_shift | avoidance | indeterminate | not_relevant>"
+      result: "<summary>"
+      traceability_check: "<what □/Λ/Ω/Θ configuration makes the absence or non-binding scene-relevant, if any>"
+      genuine_case_check: "<whether restraint, incapacity, uncertainty, boundary, non-involvement, or legitimate openness explains better>"
+      coercion_guardrail: "Naming non-binding or shifted Ψ-load does not authorize compelled clarity, commitment, disclosure, reassurance, availability, or continued engagement."
+
+    immunization_overexposure_AEP:
+      field_id: 8
+      immunization:
+        status: "<supported | weak | not_supported | indeterminate>"
+        possible_location: "<role_A | role_B | mixed | none | indeterminate>"
+        note: "<effect without full responsibility, if supported>"
+        genuine_case_check: "<how genuine vulnerability, bounded protection, incapacity, or openness could weaken this reading>"
+      overexposure:
+        status: "<supported | weak | not_supported | indeterminate>"
+        possible_location: "<role_A | role_B | mixed | none | indeterminate>"
+        note: "<responsibility without full legibility/protection, if supported>"
+        counter_immunity_check: "<how naming overexposure must not immunize that role-position from bounded R>"
+      AEP:
+        status: "<supported | weak | not_supported | indeterminate>"
+        possible_location: "<role_A | role_B | mixed | none | indeterminate>"
+        formula: "AEP = high exposure + low legitimate language + critique-to-threat switch + responsibility overload"
+        missing_or_weak_components:
+        - <component that is missing, weak, or contested>
+      profile_guardrail: "Profiles are scene-bound drift patterns, not sex truths; no sex-coded or person-fixed profile is inferred."
+
+    counter_scene_and_falsifier:
+      field_id: 9
+      bounded_eden_reading: "<exact local configuration claimed, if any>"
+      strongest_counter_scene: "<most plausible materially different organization of difficult evidence>"
+      support_for_counter_scene:
+      - <evidence or condition strengthening the counter-scene>
+      principal_falsifiers:
+      - <evidence or condition that would narrow, reverse, suspend, or defeat the EDEN reading>
+      result_effect: "<change to confidence, scope, R, or explanatory priority if the counter-scene is strengthened>"
+      result: "<strongly_supported | weakly_supported | narrowed | secondary | contested | provisional | indeterminate | suspended | defeated_non_capture>"
+      no_model_immunity: "If no falsifier can be named, the EDEN reading is methodologically unsafe."
+      no_proceed_rule: "Do not affirm EDEN if the counter-scene cannot matter or no falsifier can be named."
+
+    description_application_status:
+      field_id: 10
+      mode: "description_only"
+      firewall: "active"
+      firewall_reference: "description_to_action_firewall"
+      permitted_output: "scene-bound structural mapping"
+      application_status: "<not_authorized | separately_authorized_and_fully_gated>"
+      contestation_status: "<not_recorded | available | contested | unresolved | indeterminate>"
+      affected_role_contestation:
+        standing: "Affected roles may contest packet, evidence, frame, R trace, or application without confirming EDEN by disagreement."
+        result_effect: "<whether contestation narrows, suspends, revises, defeats, or leaves the map unchanged>"
+      application_requirements_if_any:
+      - scene_packet
+      - counter_scene_exposure
+      - Χ
+      - reversibility
+      - D
+      - contextual_responsibility
+      - affected_role_contestation_standing
+      - independent_application_authority
+      prohibited_outputs:
+      - diagnosis
+      - person_label
+      - sex_ranking
+      - moral_verdict
+      - recommendation
+      - intervention_protocol
+      - coercive_authorization
+      - punishment
+      - enforcement
+      - binding
+      - obligation
+      application_note: "EDEN-MAP supplies no independent application authority."
+      hard_boundary: "Structural coherence supplies no standing to confront or enforce; humiliation by the analysis is a method failure."
+
+    revision_point_or_open_question:
+      field_id: 11
+      mandatory: true
+      statement: "<one concrete point that could revise, narrow, suspend, or defeat the map>"
+
+  construct_selection:
+    primary_construct:
+      key: "<schema_key_or_case_focus>"
+      label: "<human-readable construct name>"
+      status: "<eden_mechanism | eden_normative_benchmark | eden_theoretical_compression | overlay_construct | regime_stabilization | application_protocol | boundary_condition | falsifier | scene_bound_profile | viability_signature | paper_internal_shorthand>"
+      yaml_home: "<path in PMS-EDEN.yaml>"
+      support: "<strong | weak | mixed | secondary | contested | provisional | indeterminate | suspended | defeated>"
+    secondary_constructs:
+    - key: "<optional secondary construct>"
+      label: "<human-readable construct name>"
+      status: "<eden_mechanism | eden_normative_benchmark | eden_theoretical_compression | overlay_construct | regime_stabilization | application_protocol | boundary_condition | falsifier | scene_bound_profile | viability_signature | paper_internal_shorthand>"
+      yaml_home: "<path in PMS-EDEN.yaml>"
+      support: "<strong | weak | mixed | secondary | contested | provisional | indeterminate | suspended | defeated>"
+    explicitly_not_claimed:
+    - No person diagnosis.
+    - No motive inference.
+    - No sex-truth claim.
+    - No PFO finding unless repeatable regime stabilization is separately shown.
+    - No Reciprocity Loss finding unless correctability erosion is supported.
+    - No EDEN finding if the counter-scene cannot matter.
+    - No sealed output, final verdict, case closure, recommendation, or application authority.
+    - No PMS-Core revision.
+  eden_overlay_integration:
+    placement: "append_after_checked_core_case"
+    keeps_core_layer_unchanged: true
+    expected_output_shape:
+      yaml_block_allowed: true
+      prose_summary_allowed: true
+      no_core_rewrite: true
+    integration_summary: "<how the EDEN overlay should be attached to the existing case>"
+
+  eden_overlay_synthesis:
+    primary_eden_reading: <concise synthesis of what PMS-EDEN 2.0 makes visible beyond the checked PMS-Core layer>
+    adult_reciprocity_result: <truthful coordination of real Ω | strained | simulated | blocked | not_established | indeterminate>
+    real_omega_result: <real Ω status and limits>
+    false_coordination_result: <whether real Ω is falsely coordinated through displaced R and weakened/blocked/simulated/avoided/externalized Σ/Ψ>
+    responsibility_action_power_result: <scene-bound R and Action-Power distribution without guilt, motive, or person claim>
+    sigma_psi_cost_result: <Σ/Ψ and cost-distribution result>
+    non_action_non_binding_result: <whether non-action/non-binding is scene-relevant or better read as openness/restraint/incapacity/non-capture>
+    immunization_overexposure_AEP_result: <supported, weak, indeterminate, or not supported; no sex truth>
+    pfo_or_regime_result: <not claimed unless repeatable regime stabilization is supported; otherwise local drift only or not applicable>
+    reciprocity_loss_result: <whether shared correctability is eroded, intact, contested, or indeterminate>
+    counter_scene_falsifier_result: <strongest counter-scene and principal falsifier status>
+    boundary_non_capture_result: <what narrows, suspends, defeats, or remains outside EDEN capture>
+    bounded_claim_boundary: This EDEN overlay does not revise PMS Base, rewrite PMS-Core, introduce new PMS operators, diagnose persons, rank sexes, prescribe action, authorize intervention, validate PMS, or claim complete capture.
+  readable_structural_closure:
+    summary: >
+      <Short bounded prose summary of the EDEN overlay in 5-7 sentences. It should name the scene structure, real Ω status, candidate false-coordination frame, responsibility/action-power distribution, Σ/Ψ relation, counter-scene/falsifier status, and strength/limits of the reading. It must not tell anyone what to do and must not revise PMS-Core.>
+    main_formula_used: "<central formula or marker for this overlay>"
+    support_level: "<strong | weak | mixed | secondary | contested | provisional | indeterminate | suspended | defeated>"
+    bounded_status: "<description_only | non_capture | narrowed_reading | contested_reading | provisional_reading | suspended_reading | defeated_non_capture>"
+    bounded_guardrail: "This overlay maps a scene. It does not diagnose persons, rank sexes, prescribe action, authorize intervention, or revise the checked PMS-Core case."
+    required_bounded_phrase: "This remains a scene-bound structural EDEN overlay, not a diagnosis, verdict, prescription, application authority, person-status claim, sex truth, or PMS-Core revision."
+
+  eden_overlay_quality_control:
+    status: "<passed | partial | failed | needs_review>"
+    checks:
+      pms_base_preserved: "<pass | fail | needs_review>"
+      checked_core_case_preserved: "<pass | fail | needs_review>"
+      eden_profile_current_used: "<pass | fail | needs_review>"
+      eden_repo_case_template_fields_respected: "<pass | fail | needs_review>"
+      no_new_pms_operators: "<pass | fail | needs_review>"
+      no_dependency_redefinition: "<pass | fail | needs_review>"
+      no_derived_axis_rewrite: "<pass | fail | needs_review>"
+      operator_trace_only: "<pass | fail | needs_review>"
+      real_omega_scene_packet_present_if_EDEN_claim_made: "<pass | fail | needs_review>"
+      false_coordination_not_asserted_by_vibe: "<pass | fail | needs_review>"
+      counter_scene_and_falsifier_present: "<pass | fail | needs_review>"
+      description_to_action_firewall_preserved: "<pass | fail | needs_review>"
+      no_person_label_or_diagnosis: "<pass | fail | needs_review>"
+      no_sex_truth_or_sex_ranking: "<pass | fail | needs_review>"
+      no_motive_inference: "<pass | fail | needs_review>"
+      no_action_authorization_or_intervention_protocol: "<pass | fail | needs_review>"
+      no_legal_clinical_forensic_policy_or_HR_claim: "<pass | fail | needs_review>"
+      dignity_in_practice_preserved: "<pass | fail | needs_review>"
+      distance_chi_preserved: "<pass | fail | needs_review>"
+      reversibility_preserved: "<pass | fail | needs_review>"
+      affected_role_contestation_respected_if_application_language_appears: "<pass | fail | not_applicable | needs_review>"
+      non_capture_preserved: "<pass | fail | needs_review>"
+      later_artifacts_not_generated: <true | false>
+    issues_found:
+    - none
+    correction_required: "<none | specify>"
+    bounded_overlay_judgment: "<valid_EDEN_addon_application | valid_with_limits | provisional | needs_revision | invalid>"
+
+  source_and_claim_burden_discipline:
+    status: "<satisfied | partial | failed | not_applicable | needs_review>"
+    governing_rule: >
+      EDEN overlay claims remain bounded by the source-material inventory, Core claim ceiling, person-nearness burden, publicness, irreversibility, contestability, and operationalization limits. Documents, statistics, institutional records, or reports are inputs with marked source status; they do not by themselves authorize EDEN claims, action, confrontation, intervention, punishment, exposure, or enforcement.
+    source_status_preserved:
+      documents: "<none | full | excerpted | summary_only | contested | unclear>"
+      statistics_or_tables: "<none | method_marked | method_unmarked | contextual_only | unclear>"
+      transcripts_or_correspondence: "<none | full | partial | contested | unclear>"
+      institutional_records: "<none | present_marked | present_underdescribed | contested | unclear>"
+      counter_scene_material: "<present | partial | absent | needs_review>"
+      affected_role_contestation_material: "<available | partial | absent | not_applicable | unclear>"
+    claim_ceiling_effect: "<within_core_ceiling | requires_downgrade | requires_suspension | requires_redirect | unclear>"
+    forbidden_source_moves:
+    - source_presence_as_EDEN_proof
+    - institutional_document_as_action_authority
+    - statistics_as_scene_packet_without_method_status
+    - excerpt_as_full_context
+    - PMS_or_EDEN_coherence_as_resolution_of_source_conflict
+    - counter_scene_absence_as_confirmation
+    required_restraint_language: "<copy-ready statement preserving source limits and claim ceiling>"
+
+  eden_output_check_expectations:
+    required_checks:
+    - valid_yaml
+    - pms_base_preserved
+    - checked_core_case_preserved
+    - addon_recommendation_gate_import_present
+    - EDEN_reference_used_as_overlay_only
+    - no_core_rewrite
+    - no_new_PMS_operators
+    - no_diagnosis_or_person_label
+    - no_sex_truth_or_sex_ranking
+    - no_motive_inference
+    - no_action_authorization_or_intervention_protocol
+    - scene_packet_present_if_EDEN_claim_made
+    - counter_scene_and_falsifier_present
+    - affected_role_contestation_addressed_where_relevant
+    - source_status_and_claim_ceiling_preserved
+    - non_capture_and_rival_pressure_preserved
+    - PMS_Base_preserved
+    - checked_Core_case_preserved
+    - EDEN_used_as_selected_addon_only
+    - recommendation_gate_import_preserved
+    - description_application_firewall_preserved
+    - real_omega_mapped_before_failure_attribution
+    - counter_scene_and_falsifier_review_present
+    - source_material_status_preserved
+    - claim_ceiling_preserved
+    - later_artifacts_not_generated
+    check_role: This block states what the later Add-on Output Check must inspect. It is not the check result and does not convert the EDEN add-on into an executed decision state.
+  conservative_patch_policy_for_eden_output_check:
+    patch_policy_status: active_for_eden_output_check_only
+    patch_when:
+    - invalid_yaml
+    - missing_required_field
+    - selected_addon_mismatch
+    - selected_source_missing_or_mismatch
+    - gate_redecision_performed
+    - core_findings_strengthened_by_addon
+    - claim_ceiling_exceeded
+    - description_converted_into_binding_application
+    - real_omega_not_mapped_before_failure_attribution
+    - false_coordination_claim_made_without_counter_scene_review
+    - action_power_or_responsibility_overstated
+    - EDEN_construct_treated_as_PMS_Base
+    - unprovided_source_assumed
+    - other_addon_applied
+    - later_pipeline_artifact_generated
+    preferred_patch_style:
+    - conservative
+    - bounded
+    - claim_weakening_where_needed
+    - explicit_unclear_or_missing_markers
+    - no_new_layer_creation
+  assistant_test_vectors:
+    should_recognize:
+    - This is an EDEN add-on application over a checked PMS-Core case.
+    - PMS-Core must remain unchanged.
+    - EDEN 2.0 begins positive-first from Adult Reciprocity, not from PFO or Fall as origin.
+    - Real Ω is not itself failure; false coordination of real Ω is the EDEN concern.
+    - Responsibility follows scene-bound structuring effect under legibility, capacity, alternatives, Θ, and Ω cost/exposure conditions.
+    - Non-action and non-binding are not praxis or avoidance by default.
+    - Counter-scene and falsifier are required before affirming an EDEN reading.
+    - Description does not authorize action, intervention, confrontation, binding, punishment, or enforcement.
+    should_not_infer:
+    - hidden motive
+    - personality
+    - pathology
+    - sex essence
+    - moral guilt
+    - sex truth
+    - person status
+    - application authority
+    - action recommendation
+    - Core-layer error unless separately established
+    should_push_back_when:
+    - the user asks for a diagnosis or person label
+    - the user asks what someone should do relationally, sexually, legally, institutionally, or therapeutically
+    - the scene is not bounded enough to map role positions and real Ω
+    - EDEN/PFO is assigned by vibe, identity, or sex category
+    - non-action is treated as responsibility or manipulation by default
+    - counter-scene cannot matter or no falsifier can be named
+    - description is converted into confrontation, obligation, punishment, exposure, or enforcement
+    - humiliation is justified by structural clarity
+    - the overlay starts rewriting PMS-Core
+    required_bounded_phrase: "This remains a scene-bound structural EDEN overlay, not a diagnosis, verdict, prescription, application authority, person-status claim, sex truth, or PMS-Core revision."
+  final_eden_addon_status:
+    status: <ready_for_eden_output_check | ready_with_limits_for_eden_output_check | requires_revision_before_check | suspend_eden_application | unclear>
+    selected_addon_confirmed: <true | false | unclear>
+    eden_output_summary: <short bounded summary>
+    claim_ceiling_effect: <no_change | lowered | exceeded_and_corrected | unclear>
+    next_required_step: <eden_addon_output_check | revise_eden_output | suspend | unclear>
+    status_note: This status governs whether the EDEN add-on output is ready to be checked. It is not a diagnosis, not a person verdict, not an action mandate, and not a closure artifact.

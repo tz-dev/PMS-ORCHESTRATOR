@@ -1,0 +1,985 @@
+# =============================================================================
+#  PMS-DISCIPLINE — CASE RECORD STAGE 2 LAYER DIGEST EXTRACTION TEMPLATE
+#
+#  Template version:
+#    PMS-DISCIPLINE_CASE_RECORD_STAGE_2_LAYER_DIGEST_EXTRACTION_CLEAN_0.3
+#
+#  Source profiles:
+#    Stage 1 artifact index / run manifest
+#    checked PMS-DISCIPLINE layer outputs selected in Stage 1
+#    selected PMS add-on case output, if used
+#    MIP gate, MIP source-read status, MIP output, and MIP output check, if used
+#    AHP gate, AHP source-read status, AHP output, and AHP output check, if used
+#
+#  AUTHORITY ORDER:
+#    exact metadata / provenance:
+#      runner case-record manifest > checked Stage 1 > checked layer artifact
+#      > template default / placeholder > model inference
+#    substantive digest content:
+#      corresponding checked layer artifact > Stage 1 selection metadata
+#      > template structure > bounded model marker
+#
+#  Exact paths must be copied without normalization. session.json is not a
+#  substitute for a selected layer output unless the authoritative manifest or
+#  checked Stage 1 explicitly assigns it. Substantive contradictions remain
+#  contradictions; template hierarchy does not resolve them.
+#
+#  DISCIPLINE role:
+#    Read only artifacts selected by Stage 1 and extract short, bounded layer
+#    digests for Stage 3 integration. Stage 2 performs no case interpretation,
+#    no source reinterpretation, no output checking, no conservative patching,
+#    no claim strengthening, no conflict resolution between artifacts, no
+#    MIP/AHP application, and no decision execution. It preserves findings,
+#    limits, non-claims, unresolved risks, exclusions, non-use, and export
+#    constraints so later integration has less room for drift.
+# =============================================================================
+
+pms_discipline_case_record_stage_2_layer_digest_extraction:
+  schema_version: "PMS-DISCIPLINE_CASE_RECORD_STAGE_2_LAYER_DIGEST_EXTRACTION_CLEAN_0.3"
+  schema_role: "case_record_stage_2_layer_digest_extraction_template"
+  stage_number: 2
+  stage_name: "layer_digest_extraction"
+  required_previous_stage: "stage_1_artifact_index_and_run_manifest"
+  intended_next_stage: "stage_3_full_case_record_integration"
+
+  status:
+    type: "digest_extraction_template"
+    function:
+      - "read_only_stage_1_selected_artifacts"
+      - "extract_relevant_layer_digests"
+      - "preserve_claim_limits_and_non_claims"
+      - "preserve_non_use_rejections_and_not_applicable_layers"
+      - "surface_unresolved_conflicts_or_gaps"
+      - "prepare_stage_3_integration_inputs"
+    excludes:
+      - "case_reanalysis"
+      - "full_yaml_copying"
+      - "source_material_reinterpretation"
+      - "output_checking"
+      - "conservative_patch_step"
+      - "claim_strengthening"
+      - "conflict_resolution_between_artifacts"
+      - "add_on_recommendation"
+      - "MIP_or_AHP_application"
+      - "stage_3_integration"
+      - "public_text_synthesis"
+      - "decision_execution"
+
+  non_authority_notice: >
+    Stage 2 supports controlled extraction from existing workflow artifacts. It
+    does not certify, authorize, interpret beyond selected artifacts, complete,
+    or decide the case. A digest imports only what is explicitly supported by
+    the selected source artifact and must preserve limits, non-claims,
+    unresolved risks, rejected routes, omitted items, and reopening conditions.
+
+  stage_2_principles:
+    read_only_selected_artifacts: true
+    no_untracked_input_use: true
+    no_full_artifact_copying: true
+    no_new_case_analysis: true
+    no_claim_strengthening: true
+    no_boundary_overwrite_by_later_layer: true
+    no_rejected_layer_revival: true
+    no_not_applicable_layer_silent_removal: true
+    pre_analysis_is_boundary_source_not_full_import: true
+    output_check_notes_are_checks_not_truth_certificates: true
+    patch_notes_are_correction_records_not_new_claim_sources: true
+    add_on_outputs_are_overlays_not_core_rewrites: true
+    mip_and_ahp_outputs_remain_their_own_artifacts: true
+    ahp_remains_second_order_analysis_quality_overlay: true
+    missing_or_conflicting_content_must_be_marked: true
+    digest_completion_is_not_case_completion: true
+    runner_manifest_controls_exact_metadata: true
+    stage_1_controls_artifact_selection_and_provenance: true
+    checked_layer_artifact_controls_digest_substance: true
+    template_defaults_are_placeholders_not_evidence: true
+    exact_output_paths_must_not_be_replaced_by_session_record_paths: true
+    workflow_metadata_drift_is_not_case_substance: true
+
+  stage_1_import:
+    artifact_index_source:
+      stage_1_artifact_index_path_or_reference: "TODO"
+      stage_1_schema_version_observed: "TODO"
+      stage_1_ready_for_stage_2: "unknown"
+      stage_1_blocker_notes_imported: []
+    allowed_artifact_ids_from_stage_1:
+      - "TODO"
+    selected_artifacts_to_read:
+      - artifact_id: "TODO"
+        artifact_type: "TODO"
+        path_or_reference: "TODO"
+        stage_1_status: "unknown"
+        read_for_stage_2: "unknown"
+        reason_if_not_read: "TODO"
+
+  digest_status_legend:
+    allowed_values:
+      - "digest_completed"
+      - "digest_not_needed"
+      - "not_applicable"
+      - "source_missing"
+      - "source_rejected_by_gate"
+      - "source_deferred"
+      - "source_superseded"
+      - "source_unreadable"
+      - "human_review_required"
+      - "blocked"
+      - "unknown"
+    rule: >
+      Every expected digest slot receives exactly one status. Missing,
+      rejected, deferred, or not-applicable layers remain visible through an
+      explicit status value.
+
+  generic_layer_digest_shape:
+    instruction: >
+      Use this shape for artifact-specific digests unless a specialized shape
+      below is provided. Extract only short, relevant, integration-ready
+      material. Whole-artifact summaries remain outside Stage 2.
+    fields:
+      digest_id: "TODO"
+      source_artifact_id: "TODO"
+      source_artifact_type: "TODO"
+      source_path_or_reference: "TODO"
+      source_stage_1_status: "unknown"
+      digest_status: "unknown"
+      extraction_scope: "TODO"
+      imported_findings: []
+      imported_limits: []
+      imported_non_claims: []
+      unresolved_risks: []
+      rival_or_non_capture_items: []
+      source_or_input_constraints: []
+      human_review_flags: []
+      items_not_imported:
+        - item: "TODO"
+          reason: "TODO"
+      conflicts_or_tensions_with_other_artifacts:
+        - related_artifact_id: "TODO"
+          tension: "TODO"
+          stage_2_handling: "mark_for_stage_3_or_human_review"
+      stage_3_export:
+        export_allowed: "unknown"
+        export_priority: "normal"
+        export_items: []
+        export_limits: []
+        excluded_export_uses: []
+      digest_notes: []
+
+  extraction_burden_rules:
+    imported_findings:
+      rule: >
+        Import only findings explicitly present in the source artifact, relevant
+        to the integrated record, and still compatible with earlier case
+        boundaries and claim ceilings.
+      excluded_content:
+        - "new_interpretation_added_by_stage_2"
+        - "stronger_claim_than_source_artifact_supports"
+        - "finding_from_unselected_or_unlisted_artifact"
+    imported_limits:
+      rule: >
+        Limits have equal or higher priority than findings. If a source artifact
+        contains a limit, uncertainty, caveat, non-use condition, downgrade
+        pressure, refusal pressure, redirect pressure, or reopening condition
+        relevant to Stage 3, preserve it.
+    imported_non_claims:
+      rule: >
+        Non-claims identify what the artifact explicitly does not license. These
+        remain visible when moving into the integrated record.
+    unresolved_risks:
+      rule: >
+        Risks are not solved by inclusion in a digest. Stage 2 marks them for
+        Stage 3 integration, downgrade, suspension, refusal, redirection, or
+        human review.
+    items_not_imported:
+      rule: >
+        Every relevant source item deliberately not imported receives a reason:
+        superseded, irrelevant to integrated record, rejected by gate, not
+        applicable, unsupported, duplicative, too speculative, or requires human
+        review.
+
+  required_carryover_watchlist:
+    instruction: >
+      These items often fall off the table. Stage 2 either imports them, marks
+      them as not applicable, or flags them as missing or unresolved.
+    from_pre_analysis_or_equivalent:
+      - "case_boundary"
+      - "input_or_source_status"
+      - "intended_use"
+      - "claim_ceiling"
+      - "person_nearness"
+      - "publicness"
+      - "irreversibility_or_follow_up_cost"
+      - "source_material_limitations"
+      - "non_capture_zones"
+      - "rival_pressure"
+      - "falsifier_or_reopening_conditions"
+      - "preliminary_add_on_pressure_if_later_relevant"
+    from_core_case_or_equivalent:
+      - "core_result_summary"
+      - "operator_salience_summary"
+      - "operator_over_assignment_or_omission_warnings"
+      - "core_limits"
+      - "core_non_claims"
+      - "source_status_constraints_preserved_by_core"
+      - "later_layer_review_seed"
+    from_output_checks_or_patch_notes:
+      - "check_failures_or_warnings"
+      - "patches_applied"
+      - "remaining_unpatched_issues"
+      - "claim_weakening_or_downgrade_pressure"
+    from_add_on_gate_or_add_on_outputs:
+      - "add_on_gate_status"
+      - "selected_add_on_family_if_any"
+      - "add_ons_not_recommended"
+      - "add_ons_rejected_or_deferred"
+      - "non_trigger_conditions"
+      - "over_application_risk"
+      - "selected_add_on_overlay_findings"
+      - "selected_add_on_overlay_limits"
+      - "selected_add_on_overlay_non_claims"
+    from_mip_layers_if_used:
+      - "MIP_gate_result"
+      - "MIP_read_status"
+      - "MIP_red_zone_or_limit"
+      - "MIP_output_summary_if_present"
+      - "MIP_non_person_ranking_constraints"
+      - "MIP_output_check_limits"
+    from_ahp_layers_if_used:
+      - "AHP_gate_result"
+      - "AHP_read_status"
+      - "AHP_precision_heuristic_summary_if_present"
+      - "AHP_attack_points_if_present"
+      - "AHP_hardening_backlog_if_present"
+      - "AHP_non_interference_constraints"
+      - "AHP_output_check_limits"
+    from_human_review_if_present:
+      - "human_confirmation_required"
+      - "human_confirmation_status"
+      - "human_review_limits_or_conditions"
+
+  layer_digests:
+    pre_analysis_digest:
+      digest_id: "DIGEST_PRE_ANALYSIS"
+      source_artifact_id: "PRE_ANALYSIS_RECORD"
+      source_artifact_type: "discipline_pre_analysis_record"
+      source_path_or_reference: "TODO"
+      source_stage_1_status: "unknown"
+      digest_status: "unknown"
+      extraction_scope: >
+        Import only boundary and constraint material needed for later record
+        integration. Whole pre-analysis content and early scan pressure remain
+        outside this digest unless directly relevant to later checked outputs.
+      imported_case_boundary:
+        scene_boundary: "TODO"
+        temporal_boundary: "TODO"
+        actor_or_system_boundary: "TODO"
+        excluded_material_or_contexts: []
+      imported_input_and_source_status:
+        source_status_summary: "TODO"
+        material_types: []
+        statistics_or_table_constraints: []
+        model_output_constraints: []
+        source_limitations: []
+      imported_use_and_claim_constraints:
+        intended_use: "TODO"
+        claim_ceiling: "TODO"
+        person_nearness: "unknown"
+        publicness: "unknown"
+        irreversibility_or_follow_up_cost: "unknown"
+      imported_rival_and_non_capture_constraints:
+        rival_pressure_summary: "TODO"
+        non_capture_zones: []
+        falsifier_or_reopening_conditions: []
+      imported_later_layer_pressure:
+        add_on_scan_seed: []
+      imported_limits: []
+      imported_non_claims: []
+      unresolved_risks: []
+      items_not_imported: []
+      stage_3_export:
+        export_allowed: "unknown"
+        export_items:
+          - "case_boundary"
+          - "input_and_source_status"
+          - "intended_use"
+          - "claim_ceiling"
+          - "person_nearness_publicness_irreversibility"
+          - "rival_pressure"
+          - "non_capture_zones"
+          - "reopening_conditions"
+        export_limits: []
+        excluded_export_uses:
+          - "case_analysis"
+          - "add_on_permission"
+          - "MIP_or_AHP_permission"
+          - "evidence_upgrade"
+
+    pre_analysis_output_check_digest:
+      digest_id: "DIGEST_PRE_ANALYSIS_OUTPUT_CHECK"
+      source_artifact_id: "PRE_ANALYSIS_OUTPUT_CHECK"
+      source_artifact_type: "pre_analysis_check_and_patch_record"
+      source_path_or_reference: "TODO"
+      source_stage_1_status: "unknown"
+      digest_status: "unknown"
+      extraction_scope: >
+        Extract only check status, conservative patches, remaining issues, and
+        claim-limiting effects relevant to later integration.
+      check_status_summary: "TODO"
+      check_warnings_or_failures: []
+      patches_applied: []
+      patch_scope_limits: []
+      unresolved_post_patch_issues: []
+      imported_limits: []
+      imported_non_claims: []
+      unresolved_risks: []
+      items_not_imported: []
+      stage_3_export:
+        export_allowed: "unknown"
+        export_items:
+          - "pre_analysis_check_status_summary"
+          - "pre_analysis_patches_applied"
+          - "pre_analysis_unresolved_post_patch_issues"
+        export_limits: []
+        excluded_export_uses:
+          - "truth_certificate"
+          - "new_analysis_layer"
+
+    core_case_digest:
+      digest_id: "DIGEST_CORE_CASE"
+      source_artifact_id: "CORE_CASE_YAML"
+      source_artifact_type: "pms_core_case_yaml"
+      source_path_or_reference: "TODO"
+      source_stage_1_status: "unknown"
+      digest_status: "unknown"
+      extraction_scope: >
+        Extract the bounded Core result, operator salience, limits, non-claims,
+        and later-layer review seed. Core does not overwrite pre-analysis source
+        status or claim ceilings.
+      core_result_summary: "TODO"
+      operator_salience_summary: []
+      operator_omissions_or_over_assignment_warnings: []
+      imported_findings: []
+      imported_limits: []
+      imported_non_claims: []
+      source_or_input_constraints: []
+      rival_or_non_capture_items: []
+      later_layer_review_seed: []
+      unresolved_risks: []
+      items_not_imported: []
+      stage_3_export:
+        export_allowed: "unknown"
+        export_items:
+          - "core_result_summary"
+          - "operator_salience_summary"
+          - "core_limits"
+          - "core_non_claims"
+          - "later_layer_review_seed"
+        export_limits: []
+        excluded_export_uses:
+          - "complete_PMS_application"
+          - "case_verdict"
+          - "source_certification"
+          - "add_on_replacement"
+
+    core_output_check_digest:
+      digest_id: "DIGEST_CORE_OUTPUT_CHECK"
+      source_artifact_id: "CORE_OUTPUT_CHECK"
+      source_artifact_type: "core_check_and_patch_record"
+      source_path_or_reference: "TODO"
+      source_stage_1_status: "unknown"
+      digest_status: "unknown"
+      extraction_scope: >
+        Extract check warnings, failed checks, conservative patches, and
+        unresolved issues. Output checking is not certification, and patching is
+        not a source of new substantive claims.
+      check_status_summary: "TODO"
+      check_warnings_or_failures: []
+      patches_applied: []
+      patch_scope_limits: []
+      unresolved_post_patch_issues: []
+      imported_limits: []
+      imported_non_claims: []
+      unresolved_risks: []
+      items_not_imported: []
+      stage_3_export:
+        export_allowed: "unknown"
+        export_items:
+          - "core_check_status_summary"
+          - "core_patches_applied"
+          - "core_unresolved_post_patch_issues"
+        export_limits: []
+        excluded_export_uses:
+          - "truth_certificate"
+          - "new_analysis_layer"
+
+    add_on_recommendation_gate_digest:
+      digest_id: "DIGEST_ADD_ON_RECOMMENDATION_GATE"
+      source_artifact_id: "ADDON_RECOMMENDATION_GATE_OUTPUT"
+      source_artifact_type: "addon_recommendation_gate_output"
+      source_path_or_reference: "TODO"
+      source_stage_1_status: "unknown"
+      digest_status: "unknown"
+      extraction_scope: >
+        Extract gate status, selected family if any, non-recommended or rejected
+        add-ons, non-trigger conditions, over-application risks, and next-step
+        limits. Recommendations are not permissions.
+      gate_status: "unknown"
+      selected_add_on_family: "unknown"
+      recommended_add_ons: []
+      not_recommended_add_ons: []
+      rejected_or_deferred_add_ons: []
+      scan_only_add_ons: []
+      non_trigger_conditions_preserved: []
+      over_application_risks: []
+      required_human_review_flags: []
+      imported_limits: []
+      imported_non_claims: []
+      unresolved_risks: []
+      items_not_imported: []
+      stage_3_export:
+        export_allowed: "unknown"
+        export_items:
+          - "add_on_recommendation_statuses"
+          - "add_ons_used_not_used_rejected_or_deferred"
+          - "non_trigger_conditions"
+          - "over_application_risk"
+        export_limits: []
+        excluded_export_uses:
+          - "add_on_permission"
+          - "route_permission"
+          - "claim_strengthening"
+
+    add_on_gate_output_check_digest:
+      digest_id: "DIGEST_ADD_ON_GATE_OUTPUT_CHECK"
+      source_artifact_id: "ADDON_GATE_OUTPUT_CHECK"
+      source_artifact_type: "addon_gate_check_and_patch_record"
+      source_path_or_reference: "TODO"
+      source_stage_1_status: "unknown"
+      digest_status: "unknown"
+      check_status_summary: "TODO"
+      check_warnings_or_failures: []
+      patches_applied: []
+      patch_scope_limits: []
+      unresolved_post_patch_issues: []
+      imported_limits: []
+      imported_non_claims: []
+      unresolved_risks: []
+      stage_3_export:
+        export_allowed: "unknown"
+        export_items:
+          - "addon_gate_check_status_summary"
+          - "addon_gate_unresolved_post_patch_issues"
+        export_limits: []
+        excluded_export_uses:
+          - "add_on_permission"
+          - "truth_certificate"
+
+    selected_add_on_source_read_digest:
+      digest_id: "DIGEST_SELECTED_ADD_ON_SOURCE_READ"
+      source_artifact_id: "SELECTED_ADDON_SOURCE_READ_STATUS"
+      source_artifact_type: "selected_addon_source_read_status"
+      selected_add_on_family: "unknown"
+      source_path_or_reference: "TODO"
+      source_stage_1_status: "unknown"
+      digest_status: "unknown"
+      read_status: "unknown"
+      source_family_match_status: "unknown"
+      mismatch_or_missing_source_effect: "TODO"
+      imported_limits: []
+      imported_non_claims: []
+      unresolved_risks: []
+      stage_3_export:
+        export_allowed: "unknown"
+        export_items:
+          - "selected_add_on_source_read_status"
+          - "selected_add_on_family_match_status"
+        export_limits: []
+        excluded_export_uses:
+          - "add_on_output"
+          - "source_adequacy_certificate"
+
+    selected_add_on_case_digest:
+      digest_id: "DIGEST_SELECTED_ADD_ON_CASE_OUTPUT"
+      source_artifact_id: "SELECTED_ADDON_CASE_OUTPUT"
+      source_artifact_type: "selected_addon_case_output"
+      selected_add_on_family: "unknown"
+      source_path_or_reference: "TODO"
+      source_stage_1_status: "unknown"
+      digest_status: "unknown"
+      extraction_scope: >
+        Extract only selected add-on overlay result, limits, non-claims,
+        unresolved risks, and any later-layer pressure. Rejected, deferred,
+        unselected, or not-applicable add-on families remain visible elsewhere.
+      overlay_result_summary: "TODO"
+      imported_findings: []
+      imported_limits: []
+      imported_non_claims: []
+      unresolved_risks: []
+      later_layer_pressure: []
+      items_not_imported: []
+      stage_3_export:
+        export_allowed: "unknown"
+        export_items:
+          - "selected_add_on_family"
+          - "selected_add_on_overlay_summary"
+          - "selected_add_on_limits"
+          - "selected_add_on_non_claims"
+        export_limits: []
+        excluded_export_uses:
+          - "family_label_as_case_verdict"
+          - "action_mandate"
+          - "person_type_claim"
+          - "Core_rewrite"
+
+    selected_add_on_output_check_digest:
+      digest_id: "DIGEST_SELECTED_ADD_ON_OUTPUT_CHECK"
+      source_artifact_id: "SELECTED_ADDON_OUTPUT_CHECK"
+      source_artifact_type: "selected_addon_check_and_patch_record"
+      selected_add_on_family: "unknown"
+      source_path_or_reference: "TODO"
+      source_stage_1_status: "unknown"
+      digest_status: "unknown"
+      check_status_summary: "TODO"
+      check_warnings_or_failures: []
+      patches_applied: []
+      patch_scope_limits: []
+      unresolved_post_patch_issues: []
+      imported_limits: []
+      imported_non_claims: []
+      unresolved_risks: []
+      stage_3_export:
+        export_allowed: "unknown"
+        export_items:
+          - "selected_add_on_check_status_summary"
+          - "selected_add_on_patches_applied"
+          - "selected_add_on_unresolved_post_patch_issues"
+        export_limits: []
+        excluded_export_uses:
+          - "proof_of_add_on_correctness"
+          - "claim_upgrade"
+
+    unselected_add_on_visibility_digest:
+      digest_id: "DIGEST_UNSELECTED_ADD_ON_VISIBILITY"
+      source_artifact_id: "ADDON_RECOMMENDATION_GATE_OUTPUT"
+      source_artifact_type: "addon_non_use_visibility_record"
+      source_path_or_reference: "TODO"
+      source_stage_1_status: "unknown"
+      digest_status: "unknown"
+      instruction: >
+        Preserve add-on families not selected, rejected, deferred, scan-only, or
+        not applicable so Stage 3 does not imply unexamined completion.
+      family_statuses:
+        ANTICIPATION: "unknown"
+        CONFLICT: "unknown"
+        CRITIQUE: "unknown"
+        EDEN: "unknown"
+        LOGIC: "unknown"
+        SEX: "unknown"
+      non_use_reasons: []
+      over_application_warnings: []
+      stage_3_export:
+        export_allowed: "unknown"
+        export_items:
+          - "unselected_add_on_family_statuses"
+          - "non_use_reasons"
+        export_limits: []
+        excluded_export_uses:
+          - "all_addons_checked_claim"
+          - "add_on_completion_claim"
+
+    mip_gate_digest:
+      digest_id: "DIGEST_MIP_GATE"
+      source_artifact_id: "MIP_GATE_OUTPUT"
+      source_artifact_type: "mip_gate_output"
+      source_path_or_reference: "TODO"
+      source_stage_1_status: "unknown"
+      digest_status: "unknown"
+      extraction_scope: >
+        Extract whether MIP source reading was recommended, limited, refused,
+        deferred, marked unsafe, or routed to human review. MIP application is
+        outside this gate digest.
+      mip_gate_status: "unknown"
+      mip_recommendation_pressure: []
+      mip_limits_or_red_zones: []
+      dignity_in_practice_sensitivity: []
+      human_review_flags: []
+      imported_limits: []
+      imported_non_claims: []
+      unresolved_risks: []
+      items_not_imported: []
+      stage_3_export:
+        export_allowed: "unknown"
+        export_items:
+          - "MIP_gate_status"
+          - "MIP_used_not_used_rejected_or_deferred_basis"
+          - "MIP_limits_or_red_zones"
+        export_limits: []
+        excluded_export_uses:
+          - "MIP_permission"
+          - "MIP_application"
+          - "person_ranking"
+
+    mip_gate_output_check_digest:
+      digest_id: "DIGEST_MIP_GATE_OUTPUT_CHECK"
+      source_artifact_id: "MIP_GATE_OUTPUT_CHECK"
+      source_artifact_type: "mip_gate_check_and_patch_record"
+      source_path_or_reference: "TODO"
+      source_stage_1_status: "unknown"
+      digest_status: "unknown"
+      check_status_summary: "TODO"
+      check_warnings_or_failures: []
+      patches_applied: []
+      patch_scope_limits: []
+      unresolved_post_patch_issues: []
+      imported_limits: []
+      imported_non_claims: []
+      unresolved_risks: []
+      stage_3_export:
+        export_allowed: "unknown"
+        export_items:
+          - "MIP_gate_check_status_summary"
+          - "MIP_gate_unresolved_post_patch_issues"
+        export_limits: []
+        excluded_export_uses:
+          - "MIP_permission"
+          - "truth_certificate"
+
+    mip_source_read_digest:
+      digest_id: "DIGEST_MIP_SOURCE_READ"
+      source_artifact_id: "MIP_SOURCE_READ_STATUS"
+      source_artifact_type: "mip_source_read_status"
+      source_path_or_reference: "TODO"
+      source_stage_1_status: "unknown"
+      digest_status: "unknown"
+      read_status: "unknown"
+      source_match_status: "unknown"
+      mismatch_or_missing_source_effect: "TODO"
+      imported_limits: []
+      imported_non_claims: []
+      unresolved_risks: []
+      stage_3_export:
+        export_allowed: "unknown"
+        export_items:
+          - "MIP_source_read_status"
+          - "MIP_source_match_status"
+        export_limits: []
+        excluded_export_uses:
+          - "MIP_output"
+          - "source_adequacy_certificate"
+
+    mip_output_digest:
+      digest_id: "DIGEST_MIP_OUTPUT"
+      source_artifact_id: "MIP_OUTPUT"
+      source_artifact_type: "MIP_output_from_MIP_structure"
+      source_path_or_reference: "TODO"
+      source_stage_1_status: "unknown"
+      digest_status: "unknown"
+      extraction_scope: >
+        Extract only record-relevant MIP output summary, limits, qualitative
+        band handling if present, IA-box handling if present, D-module handling
+        if present, and dignity-in-practice constraints. MIP output is not a
+        person score, person verdict, or Core revision.
+      mip_output_summary: "TODO"
+      A_score_or_band_summary_if_present: []
+      M_score_or_band_summary_if_present: []
+      IA_box_review_summary_if_present: []
+      D_module_review_summary_if_present: []
+      red_zone_or_non_use_constraints: []
+      dignity_in_practice_constraints: []
+      trajectory_or_developmental_notes: []
+      imported_limits: []
+      imported_non_claims: []
+      unresolved_risks: []
+      items_not_imported: []
+      stage_3_export:
+        export_allowed: "unknown"
+        export_items:
+          - "MIP_output_summary"
+          - "MIP_limits"
+          - "MIP_non_person_ranking_constraints"
+          - "MIP_red_zone_or_non_use_constraints"
+        export_limits: []
+        excluded_export_uses:
+          - "person_score"
+          - "dignity_score"
+          - "hard_MIP_verdict"
+          - "Core_rewrite"
+
+    mip_output_check_digest:
+      digest_id: "DIGEST_MIP_OUTPUT_CHECK"
+      source_artifact_id: "MIP_OUTPUT_CHECK"
+      source_artifact_type: "mip_check_and_patch_record"
+      source_path_or_reference: "TODO"
+      source_stage_1_status: "unknown"
+      digest_status: "unknown"
+      check_status_summary: "TODO"
+      check_warnings_or_failures: []
+      patches_applied: []
+      patch_scope_limits: []
+      unresolved_post_patch_issues: []
+      score_or_module_non_interference_notes: []
+      imported_limits: []
+      imported_non_claims: []
+      unresolved_risks: []
+      stage_3_export:
+        export_allowed: "unknown"
+        export_items:
+          - "MIP_output_check_status_summary"
+          - "MIP_output_unresolved_post_patch_issues"
+          - "MIP_score_or_module_non_interference_notes"
+        export_limits: []
+        excluded_export_uses:
+          - "MIP_rescore"
+          - "truth_certificate"
+
+    ahp_gate_digest:
+      digest_id: "DIGEST_AHP_GATE"
+      source_artifact_id: "AHP_GATE_OUTPUT"
+      source_artifact_type: "ahp_gate_output"
+      source_path_or_reference: "TODO"
+      source_stage_1_status: "unknown"
+      digest_status: "unknown"
+      extraction_scope: >
+        Extract whether AHP source reading was recommended, not recommended,
+        scan-only, deferred, refused, redirected, or routed to human review.
+        AHP application is outside this gate digest.
+      ahp_gate_status: "unknown"
+      existing_mip_analysis_requirement_status: "unknown"
+      structured_case_fields_requirement_status: "unknown"
+      precision_need_pressure: []
+      attack_surface_need_pressure: []
+      hardening_need_pressure: []
+      transmission_or_reuse_pressure: []
+      score_hygiene_or_D_language_pressure: []
+      non_interference_constraints: []
+      human_review_flags: []
+      imported_limits: []
+      imported_non_claims: []
+      unresolved_risks: []
+      items_not_imported: []
+      stage_3_export:
+        export_allowed: "unknown"
+        export_items:
+          - "AHP_gate_status"
+          - "AHP_used_not_used_rejected_or_deferred_basis"
+          - "AHP_non_interference_constraints"
+        export_limits: []
+        excluded_export_uses:
+          - "AHP_permission"
+          - "AHP_output"
+          - "MIP_rescore"
+          - "public_release_permission"
+
+    ahp_gate_output_check_digest:
+      digest_id: "DIGEST_AHP_GATE_OUTPUT_CHECK"
+      source_artifact_id: "AHP_GATE_OUTPUT_CHECK"
+      source_artifact_type: "ahp_gate_check_and_patch_record"
+      source_path_or_reference: "TODO"
+      source_stage_1_status: "unknown"
+      digest_status: "unknown"
+      check_status_summary: "TODO"
+      check_warnings_or_failures: []
+      patches_applied: []
+      patch_scope_limits: []
+      unresolved_post_patch_issues: []
+      imported_limits: []
+      imported_non_claims: []
+      unresolved_risks: []
+      stage_3_export:
+        export_allowed: "unknown"
+        export_items:
+          - "AHP_gate_check_status_summary"
+          - "AHP_gate_unresolved_post_patch_issues"
+        export_limits: []
+        excluded_export_uses:
+          - "AHP_permission"
+          - "truth_certificate"
+
+    ahp_source_read_digest:
+      digest_id: "DIGEST_AHP_SOURCE_READ"
+      source_artifact_id: "AHP_SOURCE_READ_STATUS"
+      source_artifact_type: "ahp_source_read_status"
+      source_path_or_reference: "TODO"
+      source_stage_1_status: "unknown"
+      digest_status: "unknown"
+      read_status: "unknown"
+      source_match_status: "unknown"
+      mismatch_or_missing_source_effect: "TODO"
+      imported_limits: []
+      imported_non_claims: []
+      unresolved_risks: []
+      stage_3_export:
+        export_allowed: "unknown"
+        export_items:
+          - "AHP_source_read_status"
+          - "AHP_source_match_status"
+        export_limits: []
+        excluded_export_uses:
+          - "AHP_output"
+          - "source_adequacy_certificate"
+
+    ahp_output_digest:
+      digest_id: "DIGEST_AHP_OUTPUT"
+      source_artifact_id: "AHP_OUTPUT"
+      source_artifact_type: "AHP_output_from_AHP_module_structure"
+      source_path_or_reference: "TODO"
+      source_stage_1_status: "unknown"
+      digest_status: "unknown"
+      extraction_scope: >
+        Extract only record-relevant AHP overlay material: Precision Heuristic
+        Summary, Attack Points, Hardening Backlog, misreadability, scope leakage,
+        evidence linkage, transmission status, score hygiene, D-language risk,
+        reversibility, and non-interference. AHP output is analysis-quality
+        support, not case judgment or MIP rescore.
+      precision_heuristic_summary: "TODO"
+      attack_points: []
+      hardening_backlog: []
+      misreadability_constraints: []
+      scope_leakage_constraints: []
+      evidence_linkage_constraints: []
+      transmission_status_constraints: []
+      score_hygiene_constraints: []
+      D_language_constraints: []
+      reversibility_or_iteration_constraints: []
+      non_interference_confirmation: "unknown"
+      imported_limits: []
+      imported_non_claims: []
+      unresolved_risks: []
+      items_not_imported: []
+      stage_3_export:
+        export_allowed: "unknown"
+        export_items:
+          - "AHP_precision_heuristic_summary"
+          - "AHP_attack_points"
+          - "AHP_hardening_backlog"
+          - "AHP_non_interference_constraints"
+        export_limits: []
+        excluded_export_uses:
+          - "public_release_permission"
+          - "institutional_authority"
+          - "compliance_certificate"
+          - "MIP_rescore"
+          - "case_verdict"
+
+    ahp_output_check_digest:
+      digest_id: "DIGEST_AHP_OUTPUT_CHECK"
+      source_artifact_id: "AHP_OUTPUT_CHECK"
+      source_artifact_type: "ahp_check_and_patch_record"
+      source_path_or_reference: "TODO"
+      source_stage_1_status: "unknown"
+      digest_status: "unknown"
+      check_status_summary: "TODO"
+      check_warnings_or_failures: []
+      patches_applied: []
+      patch_scope_limits: []
+      unresolved_post_patch_issues: []
+      non_interference_notes: []
+      imported_limits: []
+      imported_non_claims: []
+      unresolved_risks: []
+      stage_3_export:
+        export_allowed: "unknown"
+        export_items:
+          - "AHP_output_check_status_summary"
+          - "AHP_output_unresolved_post_patch_issues"
+          - "AHP_non_interference_notes"
+        export_limits: []
+        excluded_export_uses:
+          - "AHP_authority_claim"
+          - "MIP_rescore"
+          - "truth_certificate"
+
+    human_review_digest:
+      digest_id: "DIGEST_HUMAN_REVIEW"
+      source_artifact_id: "HUMAN_REVIEW_OR_CONFIRMATION"
+      source_artifact_type: "human_review_or_confirmation_artifact"
+      source_path_or_reference: "TODO"
+      source_stage_1_status: "unknown"
+      digest_status: "unknown"
+      human_confirmation_required_by_prior_artifacts: "unknown"
+      human_confirmation_present: "unknown"
+      confirmed_outcome_state_if_present: "TODO"
+      reviewer_or_responsible_person: "TODO"
+      confirmation_limits_or_conditions: []
+      missing_confirmation_effect: "TODO"
+      imported_limits: []
+      imported_non_claims: []
+      unresolved_risks: []
+      stage_3_export:
+        export_allowed: "unknown"
+        export_items:
+          - "human_confirmation_status"
+          - "confirmed_outcome_state_if_present"
+          - "confirmation_limits_or_conditions"
+        export_limits: []
+        excluded_export_uses:
+          - "automated_decision"
+          - "template_decision"
+
+  cross_artifact_tension_register:
+    instruction: >
+      Stage 2 marks tensions so Stage 3 cannot hide them or accidentally choose
+      the stronger-looking artifact. Resolution belongs to Stage 3 or human
+      review when allowed by the checked artifact stack.
+    tensions:
+      - tension_id: "TENSION_001"
+        artifact_ids_involved: []
+        issue: "TODO"
+        possible_effect_on_integrated_record: "TODO"
+        handling_required_in_stage_3: "unknown"
+        human_review_required: "unknown"
+
+  missing_or_unimported_register:
+    instruction: >
+      Record relevant items that are missing, unreadable, deliberately not
+      imported, superseded, rejected by gate, not applicable, or deferred.
+    missing_required_items: []
+    unreadable_selected_artifacts: []
+    deliberately_not_imported_items: []
+    rejected_by_gate_but_visible_layers: []
+    not_applicable_but_visible_layers: []
+    deferred_layers: []
+    human_review_required_before_stage_3: []
+
+  stage_2_completion_check:
+    stage_1_index_read: "unknown"
+    only_stage_1_selected_artifacts_read: "unknown"
+    every_expected_digest_slot_status_marked: "unknown"
+    required_carryover_watchlist_reviewed: "unknown"
+    all_imported_findings_have_source_artifact: "unknown"
+    all_imported_limits_preserved: "unknown"
+    all_imported_non_claims_preserved: "unknown"
+    all_not_imported_items_have_reason: "unknown"
+    rejected_and_not_applicable_layers_remain_visible: "unknown"
+    cross_artifact_tensions_marked: "unknown"
+    no_new_case_analysis_added_by_stage_2: "unknown"
+    ready_for_stage_3: "unknown"
+    blocker_notes: []
+
+  stage_2_output:
+    exports_to_stage_3:
+      - "layer_digests"
+      - "required_carryover_status"
+      - "cross_artifact_tension_register"
+      - "missing_or_unimported_register"
+      - "stage_3_export_items_and_limits"
+    excluded_exports:
+      - "full_source_artifacts"
+      - "new_case_analysis"
+      - "new_claim_boundary_decision"
+      - "truth_certificate"
+      - "add_on_permission"
+      - "MIP_or_AHP_permission"
+      - "decision_state_execution"
+      - "public_text_synthesis"
+
+  next_step:
+    name: "stage_3_full_case_record_integration"
+    purpose: >
+      Integrate only approved digest exports into a bounded full record while
+      preserving missing items, tensions, limits, non-claims, rejected layers,
+      not-applicable layers, and human-review requirements.
+    warning: >
+      Use Stage 2 digests as integration inputs only. They are not evidence and
+      not substitutes for selected source artifacts. Digest extraction supports
+      integration; it does not certify or settle the case.

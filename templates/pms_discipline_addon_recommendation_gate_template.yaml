@@ -1,0 +1,568 @@
+# =============================================================================
+#  PMS-DISCIPLINE — ADD-ON RECOMMENDATION GATE TEMPLATE
+#
+#  Template version:
+#    PMS-DISCIPLINE_ADDON_RECOMMENDATION_GATE_CLEAN_v0.1
+#
+#  Role:
+#    Post-Core PMS-DISCIPLINE gate for deciding whether the checked Core output
+#    should remain Core-only or whether exactly one supported add-on family
+#    should be recommended as the next reading step.
+#
+#  Available before this step:
+#    - PMS.yaml has been read as PMS Base reference.
+#    - CASE PACKET has been supplied.
+#    - A checked PMS-DISCIPLINE Pre-Analysis YAML exists from an earlier step.
+#    - A checked PMS Core Case Application YAML exists from the previous step.
+#    - This gate template is being applied.
+#
+#  Not available inside this step:
+#    - No add-on source YAML.
+#    - No add-on case-application template.
+#    - No selected add-on output.
+#    - No later non-add-on layer output.
+#    - No Case Record output.
+#    - No Markdown article output.
+#
+#  Boundary:
+#    This gate recommends Core-only continuation or exactly one supported
+#    add-on family for the next reading step. It does not read or apply an
+#    add-on, does not authorize add-on use, does not strengthen claims, does
+#    not generate a Case Record, does not render Markdown, and does not execute
+#    a final decision state.
+# =============================================================================
+
+schema_version: "PMS-DISCIPLINE_ADDON_RECOMMENDATION_GATE_CLEAN_v0.1"
+schema_role: "pms_discipline_addon_recommendation_gate_template"
+analysis_mode: "post_checked_core_pre_addon_recommendation_gate"
+template_status: "clean_pipeline_ready_draft"
+
+template_purpose: >
+  Produce a bounded Add-on Recommendation Gate record after a checked PMS Core
+  Case Application YAML. The record checks whether the case should remain
+  Core-only or whether exactly one supported add-on family should be
+  recommended as the next reading step. The gate records structural trigger
+  status, operator-load pressure, risk-shape pressure, claim-shape pressure,
+  false triggers, add-on non-use, rival pressure, non-capture, correctability,
+  and conservative next-step limits. This template does not apply an add-on,
+  does not read add-on source files, does not produce an add-on output, does not
+  decide any later non-add-on layer, does not generate a Case Record, does not
+  render Markdown, does not validate truth, does not authorize claims, and does
+  not execute a final decision state.
+
+repository_reference:
+  pms_base_reference_file: "PMS.yaml"
+  pms_base_reference_status: "already_read_base_reference"
+  gate_template_role: "addon_recommendation_gate_after_checked_core"
+  supported_addon_families:
+    - "ANTICIPATION"
+    - "CRITIQUE"
+    - "CONFLICT"
+    - "LOGIC"
+    - "EDEN"
+    - "SEX"
+  reference_note: >
+    PMS.yaml supplies PMS Base grammar. The checked Pre-Analysis YAML and the
+    checked Core Case Application YAML constrain this gate. This gate assumes no
+    additional discipline reference file, no add-on source YAML, no add-on case
+    template, no later non-add-on layer output, no Case Record, and no Markdown
+    artefact inside this step.
+
+source_priority:
+  pms_yaml:
+    priority: 1
+    role: "PMS Base reference already read before this step"
+    may_supply:
+      - "PMS operator inventory"
+      - "PMS operator order"
+      - "PMS dependency path"
+      - "PMS derived structures"
+      - "PMS application guardrails"
+    must_not_be_overridden_by:
+      - "addon_gate_output"
+      - "case_packet"
+      - "checked_pre_analysis_yaml"
+      - "checked_core_case_application_yaml"
+      - "model_output"
+  case_packet:
+    priority: 2
+    role: "Bounded case material supplied for this run"
+    expected_fields:
+      - "case_title"
+      - "case_material"
+      - "source_status"
+      - "intended_use"
+  checked_pre_analysis_yaml:
+    priority: 3
+    role: "Checked pre-Core use-discipline record"
+    may_supply:
+      - "case boundary"
+      - "source status"
+      - "input status"
+      - "intended use"
+      - "claim ceiling"
+      - "person-nearness, publicness, and irreversibility burden"
+      - "rival pressure"
+      - "non-capture zones"
+      - "falsifier and reopening conditions"
+      - "correctability requirements"
+      - "preliminary add-on scan pressure"
+    may_not_supply:
+      - "PMS Base revision"
+      - "Core analysis result"
+      - "add-on selection"
+      - "add-on authorization"
+      - "final decision execution"
+  checked_core_case_application_yaml:
+    priority: 4
+    role: "Checked PMS Core Case Application output"
+    may_supply:
+      - "Core sufficiency status"
+      - "operator analysis status"
+      - "derived structure status"
+      - "Core pressure markers"
+      - "Core limits"
+      - "Core handoff"
+      - "Case Record handoff, if present"
+    may_not_supply:
+      - "add-on application"
+      - "add-on source content"
+      - "later layer decision"
+      - "final decision execution"
+  this_addon_gate_template:
+    priority: 5
+    role: "Add-on recommendation gate output structure"
+
+workflow_position:
+  phase: "addon_recommendation_gate"
+  step_id: "pms_discipline_addon_recommendation_gate"
+  step_role: >
+    This step occurs after checked Pre-Analysis and checked PMS Core Case
+    Application. It checks whether Core-only continuation is sufficient or
+    whether exactly one supported add-on family should be recommended for the
+    next reading step.
+  preceded_by_required_steps:
+    - "read_pms_yaml"
+    - "checked_pre_analysis_yaml"
+    - "checked_core_case_application_yaml"
+  next_required_step: "addon_gate_output_check"
+  later_possible_steps_after_checked_gate:
+    - "core_only_continuation"
+    - "read_selected_addon_source_if_one_addon_is_checked_and_confirmed"
+    - "apply_selected_addon_case_template_if_one_addon_is_checked_and_confirmed"
+  not_permitted_inside_this_step:
+    - "addon_source_yaml_reading"
+    - "addon_case_template_application"
+    - "addon_output_generation"
+    - "multiple_addon_recommendation"
+    - "later_non_addon_layer_decision"
+    - "case_record_generation"
+    - "markdown_article_generation"
+    - "truth_validation"
+    - "claim_authorization"
+    - "final_decision_execution"
+
+non_authority_boundary:
+  this_gate_is:
+    - "addon_recommendation_gate"
+    - "core_only_sufficiency_review"
+    - "single_supported_addon_family_scan"
+    - "false_trigger_and_non_use_record"
+    - "bounded_next_step_recommendation_record"
+  this_gate_is_not:
+    - "PMS_Base"
+    - "PMS_Base_revision"
+    - "Core_case_analysis"
+    - "add_on_application"
+    - "add_on_source_reader"
+    - "add_on_authorization"
+    - "claim_authorization"
+    - "truth_certificate"
+    - "case_verdict"
+    - "case_record_generator"
+    - "markdown_generator"
+    - "final_decision_state"
+  applies_globally: true
+
+template_io_contract:
+  required_inputs:
+    - "PMS.yaml_read_completely"
+    - "case_packet"
+    - "checked_pre_analysis_yaml"
+    - "checked_core_case_application_yaml"
+    - "pms_discipline_addon_recommendation_gate_template"
+  optional_inputs_allowed_only_if_marked:
+    - "explicit_user_constraint_on_addon_use"
+  forbidden_inputs_for_this_step:
+    - "unprovided_files"
+    - "addon_source_yaml"
+    - "addon_case_application_template"
+    - "addon_output"
+    - "later_non_addon_layer_output"
+    - "case_record"
+    - "markdown_article"
+    - "final_decision_execution"
+  produced_outputs:
+    - "addon_gate_record"
+    - "supported_addon_scan_results"
+    - "core_only_or_single_addon_recommendation"
+    - "false_trigger_record"
+    - "non_use_record"
+    - "addon_gate_handoff"
+  not_produced_outputs:
+    - "addon_case_application_yaml"
+    - "selected_addon_output"
+    - "later_non_addon_layer_output"
+    - "case_record"
+    - "markdown_article"
+    - "final_decision_execution"
+
+case_and_claim_boundary:
+  case_title: "<from CASE PACKET>"
+  source_status_summary: "<from CASE PACKET and checked Pre-Analysis>"
+  intended_use_summary: "<from CASE PACKET and checked Pre-Analysis>"
+  claim_ceiling: "<imported from checked Pre-Analysis and checked Core>"
+  case_boundary_status: "<preserved | narrowed | underdescribed | contested | unclear>"
+  gate_scope_note: >
+    This gate only checks Core-only sufficiency and possible single add-on
+    recommendation. It must not expand the case boundary, strengthen the claim
+    ceiling, or convert a Core reading into add-on application.
+
+checked_prior_outputs_import:
+  checked_pre_analysis_import:
+    status: "<available | partial | missing | unclear>"
+    case_boundary_status: "<declared | underdescribed | missing | contested | mixed | unclear>"
+    input_status: "<marked | mixed_but_marked | underdescribed | insufficient | unclear>"
+    intended_use_status: "<explicit | inferred | unclear | missing>"
+    claim_ceiling: "<orientation | structural_sketch | hypothesis | bounded_reconstruction | evaluation | recommendation | intervention | technical_implementation | institutional_uptake | public_synthesis | unclear>"
+    person_nearness_level: "<none | low | medium | high | severe | unclear>"
+    publicness_level: "<private | limited_internal | public | institutional | technical | automated | article_level | unclear>"
+    irreversibility_level: "<low | medium | high | severe | unclear>"
+    rival_pressure_status: "<none_identified | present | required_but_missing | unresolved | rival_currently_stronger | unclear>"
+    non_capture_status: "<preserved | weak | missing | contested | unclear>"
+    falsifier_conditions_status: "<present | partial | missing | not_applicable | unclear>"
+    correctability_status: "<preserved | weak | missing | symbolic_only | unclear>"
+    preliminary_addon_scan_pressure: "<none | weak | moderate | strong | mixed | unclear>"
+  checked_core_import:
+    status: "<available | partial | missing | unclear>"
+    core_sufficiency_status: "<sufficient | sufficient_with_limits | unstable | insufficient | unclear>"
+    operator_analysis_status: "<usable | usable_with_limits | over_assigned | under_assigned | unclear>"
+    derived_structure_status: "<usable | usable_with_limits | overextended | not_relevant | unclear>"
+    preliminary_pressure_markers_status: "<none | present | unclear>"
+    rival_pressure_status: "<none_identified | present | required_but_missing | rival_discriminates_better | unresolved | unclear>"
+    non_capture_status: "<preserved | weak | missing | contested | unclear>"
+    correctability_status: "<preserved | partial | symbolic_only | absent | unclear>"
+    core_handoff_status: "<ready | ready_with_limits | incomplete | blocked | unclear>"
+  import_quality:
+    result: "<usable | usable_with_limits | insufficient | requires_revision | blocked | unclear>"
+    required_response: "<continue_gate | revise_prior_output | suspend_gate | refuse_gate | redirect_gate | unclear>"
+
+recommendation_boundary:
+  recommendation_means: >
+    A bounded suggestion that exactly one supported add-on family should be
+    read next, after this gate output has been checked and accepted.
+  recommendation_does_not_mean:
+    - "authorization"
+    - "application"
+    - "route execution"
+    - "claim strengthening"
+    - "classification"
+    - "final decision"
+    - "truth certification"
+  recommendation_requires_later_user_confirmation: "<yes | no | conditional | unclear>"
+
+core_only_sufficiency_review:
+  status: "<sufficient | sufficient_with_limits | unstable | insufficient | unclear>"
+  core_only_is_valid_result: true
+  non_use_not_failure: true
+  reason: "<why Core-only is or is not sufficient>"
+  conditions_for_core_only:
+    - "no supported add-on trigger structurally met"
+    - "add-on would create false precision"
+    - "claim ceiling does not require specialized lens"
+    - "Core already preserves sufficient boundedness"
+    - "input does not support specialized next-step recommendation"
+  core_only_limits:
+    - "<limit or none_marked>"
+
+supported_addon_scan:
+  scan_status: "<not_needed | performed | incomplete | blocked | unclear>"
+  scan_rule: >
+    Surface cues may justify a scan, but only structural trigger status,
+    operator-load pressure, risk-shape pressure, and claim-shape pressure can
+    justify recommending one supported add-on family as the next reading step.
+  supported_addon_families_considered:
+    - "ANTICIPATION"
+    - "CRITIQUE"
+    - "CONFLICT"
+    - "LOGIC"
+    - "EDEN"
+    - "SEX"
+  unsupported_addon_reference_detected:
+    status: "<yes | no | unclear>"
+    response_required: "<ignore_for_this_gate | mark_as_unsupported | revise_gate_output | unclear>"
+
+candidate_scan_records:
+  - addon: "ANTICIPATION"
+    surface_cue_status: "<none | weak | present | strong | unclear>"
+    structural_trigger_status: "<not_met | partially_met | met | unclear>"
+    operator_load_status: "<none | weak | moderate | strong | unclear>"
+    risk_shape_status: "<none | weak | moderate | strong | unclear>"
+    claim_shape_status: "<none | weak | moderate | strong | unclear>"
+    non_trigger_conditions:
+      - "Future reference alone is not enough."
+    false_trigger_risk: "<none | low | medium | high | unclear>"
+    recommendation_status: "<not_recommended | possible_but_not_selected | recommended | reject_as_false_trigger | unclear>"
+    reason: "<bounded reason>"
+  - addon: "CRITIQUE"
+    surface_cue_status: "<none | weak | present | strong | unclear>"
+    structural_trigger_status: "<not_met | partially_met | met | unclear>"
+    operator_load_status: "<none | weak | moderate | strong | unclear>"
+    risk_shape_status: "<none | weak | moderate | strong | unclear>"
+    claim_shape_status: "<none | weak | moderate | strong | unclear>"
+    non_trigger_conditions:
+      - "Complaint, negativity, or interruption alone is not enough."
+    false_trigger_risk: "<none | low | medium | high | unclear>"
+    recommendation_status: "<not_recommended | possible_but_not_selected | recommended | reject_as_false_trigger | unclear>"
+    reason: "<bounded reason>"
+  - addon: "CONFLICT"
+    surface_cue_status: "<none | weak | present | strong | unclear>"
+    structural_trigger_status: "<not_met | partially_met | met | unclear>"
+    operator_load_status: "<none | weak | moderate | strong | unclear>"
+    risk_shape_status: "<none | weak | moderate | strong | unclear>"
+    claim_shape_status: "<none | weak | moderate | strong | unclear>"
+    non_trigger_conditions:
+      - "Disagreement, tension, or opposition alone is not enough."
+    false_trigger_risk: "<none | low | medium | high | unclear>"
+    recommendation_status: "<not_recommended | possible_but_not_selected | recommended | reject_as_false_trigger | unclear>"
+    reason: "<bounded reason>"
+  - addon: "LOGIC"
+    surface_cue_status: "<none | weak | present | strong | unclear>"
+    structural_trigger_status: "<not_met | partially_met | met | unclear>"
+    operator_load_status: "<none | weak | moderate | strong | unclear>"
+    risk_shape_status: "<none | weak | moderate | strong | unclear>"
+    claim_shape_status: "<none | weak | moderate | strong | unclear>"
+    non_trigger_conditions:
+      - "Reasoning vocabulary, argument language, or formal tone alone is not enough."
+    false_trigger_risk: "<none | low | medium | high | unclear>"
+    recommendation_status: "<not_recommended | possible_but_not_selected | recommended | reject_as_false_trigger | unclear>"
+    reason: "<bounded reason>"
+  - addon: "EDEN"
+    surface_cue_status: "<none | weak | present | strong | unclear>"
+    structural_trigger_status: "<not_met | partially_met | met | unclear>"
+    operator_load_status: "<none | weak | moderate | strong | unclear>"
+    risk_shape_status: "<none | weak | moderate | strong | unclear>"
+    claim_shape_status: "<none | weak | moderate | strong | unclear>"
+    non_trigger_conditions:
+      - "Error, origin-language, loss, comparison, or reciprocity vocabulary alone is not enough."
+    false_trigger_risk: "<none | low | medium | high | unclear>"
+    recommendation_status: "<not_recommended | possible_but_not_selected | recommended | reject_as_false_trigger | unclear>"
+    reason: "<bounded reason>"
+  - addon: "SEX"
+    surface_cue_status: "<none | weak | present | strong | unclear>"
+    structural_trigger_status: "<not_met | partially_met | met | unclear>"
+    operator_load_status: "<none | weak | moderate | strong | unclear>"
+    risk_shape_status: "<none | weak | moderate | strong | unclear>"
+    claim_shape_status: "<none | weak | moderate | strong | unclear>"
+    non_trigger_conditions:
+      - "Sexual metaphor, gender vocabulary, intimacy language, or relationship language alone is not enough."
+    false_trigger_risk: "<none | low | medium | high | unclear>"
+    recommendation_status: "<not_recommended | possible_but_not_selected | recommended | reject_as_false_trigger | unclear>"
+    reason: "<bounded reason>"
+
+multiple_candidate_pressure_review:
+  status: "<none | present | strong | unresolved | unclear>"
+  candidate_count_with_partial_or_met_triggers: "<0 | 1 | 2_or_more | unclear>"
+  decomposition_needed: "<yes | no | unclear>"
+  gate_response: "<core_only | select_one_addon | revise_before_addon | suspend_before_addon | redirect_before_addon | unclear>"
+  note: >
+    Multiple candidate pressure does not authorize multiple add-on use inside
+    this gate. If decomposition appears necessary, mark the issue for human
+    review or revision rather than recommending multiple add-ons.
+
+single_addon_rule:
+  default: "core_only_or_exactly_one_supported_addon"
+  rule: >
+    This gate may recommend at most one supported add-on family as the next
+    reading step. Multiple add-on pressure does not authorize multiple add-on
+    recommendation or add-on application.
+  if_multiple_candidates_present:
+    required_response: "<core_only | select_strongest_single_candidate | revise_before_addon | suspend_before_addon | unclear>"
+    selection_basis: "<operator_load | risk_shape | claim_shape | claim_ceiling | person_nearness | rival_pressure | correctability | unclear>"
+    rejected_candidates_preserved_as_non_use:
+      - "<addon or none>"
+  no_multi_addon_recommendation_inside_this_gate: true
+
+false_trigger_and_non_use_record:
+  false_trigger_status: "<none | present | multiple | unclear>"
+  false_trigger_records:
+    - addon: "<ANTICIPATION | CRITIQUE | CONFLICT | LOGIC | EDEN | SEX | none>"
+      false_trigger_reason: "<surface cue without structural trigger or none>"
+      required_response: "<do_not_recommend | preserve_core_only | revise_before_addon | unclear>"
+  addon_non_use_records:
+    - addon: "<ANTICIPATION | CRITIQUE | CONFLICT | LOGIC | EDEN | SEX>"
+      non_use_reason: "<not_triggered | false_trigger | over_application_risk | input_too_weak | rival_pressure | claim_ceiling | correctability | other | unclear>"
+      non_use_is_disciplined: "<true | false | unclear>"
+
+discipline_constraints_review:
+  input_status_effect:
+    status: "<preserved | weak | insufficient | unclear>"
+    effect_on_gate: "<no_change | weaken_recommendation | core_only | revise_before_addon | suspend_before_addon | refuse_before_addon | unclear>"
+  claim_ceiling_effect:
+    status: "<within_ceiling | recommendation_too_strong | lowered | unclear>"
+    effect_on_gate: "<no_change | weaken_recommendation | core_only | downgrade_before_addon | suspend_before_addon | unclear>"
+  person_nearness_publicness_irreversibility_effect:
+    person_nearness_level: "<none | low | medium | high | severe | unclear>"
+    publicness_level: "<private | limited_internal | public | institutional | technical | automated | article_level | unclear>"
+    irreversibility_level: "<low | medium | high | severe | unclear>"
+    effect_on_gate: "<no_change | weaken_recommendation | core_only | revise_before_addon | downgrade_before_addon | suspend_before_addon | refuse_before_addon | unclear>"
+  rival_pressure_effect:
+    status: "<none_identified | present | unresolved | rival_discriminates_better | unclear>"
+    effect_on_gate: "<no_change | weaken_recommendation | core_only | revise_before_addon | suspend_before_addon | redirect_before_addon | unclear>"
+  non_capture_effect:
+    status: "<preserved | weak | missing | contested | unclear>"
+    effect_on_gate: "<no_change | weaken_recommendation | core_only | revise_before_addon | suspend_before_addon | unclear>"
+  correctability_effect:
+    status: "<preserved | weak | missing | symbolic_only | unclear>"
+    effect_on_gate: "<no_change | weaken_recommendation | core_only | revise_before_addon | suspend_before_addon | refuse_before_addon | unclear>"
+
+selected_addon_next_step:
+  addon_family: "<ANTICIPATION | CRITIQUE | CONFLICT | LOGIC | EDEN | SEX | none | unclear>"
+  source_read_required_next: "<yes | no | unclear>"
+  source_file_assumed_by_gate: false
+  case_template_assumed_by_gate: false
+  note: >
+    This gate names only the supported add-on family, not a file path. The
+    selected add-on source and case template must be provided/read in the next
+    step only if the checked gate result is accepted and the user confirms the
+    next step.
+
+gate_result:
+  gate_status: "<core_only | selected_addon_recommended | scan_only | no_addon_recommended | rejected_as_over_application | revise_before_addon | downgrade_before_addon | suspend_before_addon | refuse_before_addon | redirect_before_addon | unclear>"
+  selected_addon: "<ANTICIPATION | CRITIQUE | CONFLICT | LOGIC | EDEN | SEX | none | unclear>"
+  recommendation_strength: "<none | weak | moderate | strong | unclear>"
+  reason: "<bounded reason>"
+  claim_ceiling_effect: "<no_change | weaken | downgrade | suspend | refuse | redirect | unclear>"
+  next_allowed_step: "<addon_gate_output_check | revise_core_or_pre_analysis | stop_before_addon | unclear>"
+
+selection_consistency_rules:
+  if_gate_status_core_only:
+    required_selected_addon: "none"
+    required_source_read_next: "no"
+  if_gate_status_no_addon_recommended:
+    required_selected_addon: "none"
+    required_source_read_next: "no"
+  if_gate_status_selected_addon_recommended:
+    required_selected_addon: "<exactly_one_of: ANTICIPATION | CRITIQUE | CONFLICT | LOGIC | EDEN | SEX>"
+    required_source_read_next: "yes"
+  if_gate_status_scan_only:
+    required_selected_addon: "none_or_unclear"
+    required_source_read_next: "no"
+  if_gate_status_revise_or_suspend_or_refuse_or_redirect:
+    required_selected_addon: "none_or_unclear"
+    required_source_read_next: "no"
+  if_multiple_candidate_records_are_recommended:
+    gate_output_valid: false
+    required_response: "revise_gate_output_or_select_exactly_one"
+  if_selected_addon_not_in_supported_families:
+    gate_output_valid: false
+    required_response: "revise_gate_output"
+
+authorization_boundary:
+  selected_addon_recommendation_is_authorization: false
+  addon_application_performed_here: false
+  selected_addon_source_read_here: false
+  selected_addon_case_template_applied_here: false
+  claim_strengthened_by_recommendation: false
+  final_decision_executed_here: false
+
+addon_gate_handoff:
+  export_status: "<ready | ready_with_limits | not_applicable | incomplete | unclear>"
+  use_constraint: >
+    May be used later only as one checked gate artefact. This gate does not
+    apply an add-on, authorize add-on use, generate a Case Record, render
+    Markdown, or execute a final decision state.
+  fields_to_preserve:
+    - "gate_result"
+    - "selection_consistency_rules"
+    - "core_only_sufficiency_review"
+    - "candidate_scan_records"
+    - "multiple_candidate_pressure_review"
+    - "single_addon_rule"
+    - "false_trigger_and_non_use_record"
+    - "discipline_constraints_review"
+    - "selected_addon_next_step"
+  claims_not_licensed_by_export:
+    - "add-on application"
+    - "truth certification"
+    - "claim authorization"
+    - "final decision execution"
+    - "Case Record generation"
+    - "Markdown publication"
+
+quality_checks:
+  addon_gate_valid_yaml: "<true | false | unchecked>"
+  required_inputs_marked: "<true | false | unclear>"
+  pms_yaml_not_redefined: "<true | false | unclear>"
+  checked_pre_analysis_respected: "<true | false | unclear>"
+  checked_core_respected: "<true | false | unclear>"
+  no_addon_source_read: "<true | false | unclear>"
+  no_addon_application_performed: "<true | false | unclear>"
+  no_later_non_addon_layer_decision: "<true | false | unclear>"
+  no_case_record_generated: "<true | false | unclear>"
+  no_markdown_generated: "<true | false | unclear>"
+  no_final_decision_executed: "<true | false | unclear>"
+  at_most_one_addon_recommended: "<true | false | unclear>"
+  false_triggers_checked: "<true | false | unclear>"
+  core_only_allowed_as_disciplined_result: "<true | false | unclear>"
+  recommendation_not_authorization: "<true | false | unclear>"
+  selection_consistency_checked: "<true | false | unclear>"
+  gate_status_matches_selected_addon: "<true | false | unclear>"
+  gate_status_matches_next_step: "<true | false | unclear>"
+  no_false_file_assumptions: "<true | false | unclear>"
+  no_unsupported_addon_family_selected: "<true | false | unclear>"
+
+conservative_patch_policy_for_addon_gate:
+  patch_policy_status: "active_for_addon_gate_check_only"
+  patch_when:
+    - "invalid_yaml"
+    - "missing_required_field"
+    - "claim_too_strong"
+    - "addon_recommendation_treated_as_authorization"
+    - "addon_application_performed_inside_gate"
+    - "addon_source_file_assumed"
+    - "multiple_addons_recommended"
+    - "selected_addon_inconsistent_with_gate_status"
+    - "selected_addon_next_step_inconsistent_with_gate_result"
+    - "later_non_addon_layer_decision_made"
+    - "case_record_generated"
+    - "markdown_generated"
+    - "final_decision_executed"
+    - "false_trigger_not_checked"
+    - "core_only_sufficiency_not_considered"
+    - "unsupported_addon_family_selected"
+  do_not_patch_by:
+    - "inventing_addon_source_files"
+    - "reading_unprovided_addon_sources"
+    - "applying_addons"
+    - "adding_later_non_addon_layer_review"
+    - "generating_case_record"
+    - "executing_final_decision_state"
+    - "strengthening_claims"
+  preferred_patch_style:
+    - "conservative"
+    - "bounded"
+    - "claim_weakening_where_needed"
+    - "explicit_unclear_or_missing_markers"
+    - "no_new_layer_creation"
+
+final_addon_gate_status:
+  status: "<ready_for_gate_check | ready_with_limits_for_gate_check | requires_revision_before_gate_check | suspend_before_addon | refuse_before_addon | redirect_before_addon | unclear>"
+  gate_result_summary: "<short bounded summary>"
+  selected_addon_if_any: "<ANTICIPATION | CRITIQUE | CONFLICT | LOGIC | EDEN | SEX | none | unclear>"
+  next_allowed_step: "<addon_gate_output_check | revise_gate_output | revise_core_or_pre_analysis | suspend | refuse | redirect | unclear>"
+  final_note: >
+    This status governs whether the Add-on Recommendation Gate output is ready
+    to be checked. It is not an add-on application, not add-on authorization,
+    not a final decision state, not Case Record readiness, and not Markdown
+    readiness.

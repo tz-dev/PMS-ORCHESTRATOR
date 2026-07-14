@@ -1,0 +1,691 @@
+# =============================================================================
+#  PMS-DISCIPLINE — CASE RECORD STAGE 1 ARTIFACT INDEX TEMPLATE
+#
+#  Template version:
+#    PMS-DISCIPLINE_CASE_RECORD_STAGE_1_ARTIFACT_INDEX_CLEAN_0.3
+#
+#  Source profiles:
+#    PMS.yaml / schema_version: PMS_1.3
+#    PMS-DISCIPLINE workflow templates
+#    checked PMS-DISCIPLINE layer outputs
+#    selected PMS add-on source and output, if used
+#    MIP source and output, if used
+#    AHP source and output, if used
+#    case material supplied for the run
+#
+#  METADATA AUTHORITY ORDER:
+#    runner manifest > checked upstream artifact > generated downstream artifact
+#    > template default / placeholder > model inference
+#
+#  A template value is never evidence. Exact runner paths, route states, branch
+#  states, step states, and file-existence values must be copied without
+#  normalization. session.json is not a substitute for a produced output path.
+#
+#  DISCIPLINE role:
+#    Create a run-level artifact index before digest extraction or full record
+#    integration. This stage records what artifacts exist, which versions are
+#    selected, which artifacts are missing, superseded, rejected, deferred, or
+#    not applicable, and which artifacts may be read by Stage 2. It performs no
+#    case interpretation, no digest extraction, no claim-boundary decision, no
+#    add-on recommendation, no MIP/AHP application, and no decision execution.
+# =============================================================================
+
+pms_discipline_case_record_stage_1_artifact_index:
+  schema_version: "PMS-DISCIPLINE_CASE_RECORD_STAGE_1_ARTIFACT_INDEX_CLEAN_0.3"
+  schema_role: "case_record_stage_1_artifact_index_template"
+  stage_number: 1
+  stage_name: "artifact_index_and_run_manifest"
+  intended_next_stage: "stage_2_layer_digest_extraction"
+
+  status:
+    type: "run_manifest_and_artifact_index"
+    function:
+      - "list_available_artifacts"
+      - "select_current_versions"
+      - "mark_missing_deferred_rejected_or_not_applicable_artifacts"
+      - "prevent_untracked_inputs_from_entering_case_record"
+      - "define_stage_2_allowed_inputs"
+      - "preserve_checked_output_chain_visibility"
+    excludes:
+      - "case_analysis"
+      - "content_digest"
+      - "output_check_result"
+      - "claim_boundary_decision"
+      - "add_on_recommendation"
+      - "MIP_or_AHP_application"
+      - "case_record_stage_2_digest"
+      - "case_record_stage_3_integration"
+      - "decision_execution"
+
+  non_authority_notice: >
+    This artifact index supports traceability for a PMS-DISCIPLINE case record.
+    It does not certify, authorize, interpret, complete, or decide the case.
+    Presence of an artifact means only that it is available for possible later
+    extraction. Absence, rejection, deferral, supersession, or non-applicability
+    remains visible.
+
+  stage_1_principles:
+    no_content_integration: true
+    no_reanalysis: true
+    no_claim_strengthening: true
+    no_unlisted_artifact_use: true
+    missing_items_must_be_marked: true
+    superseded_versions_must_be_marked: true
+    rejected_or_not_applicable_layers_must_remain_visible: true
+    earlier_boundaries_must_not_be_overwritten_by_later_artifacts: true
+    file_presence_is_not_content_adequacy: true
+    template_completion_is_not_output_check: true
+    checked_status_must_remain_artifact_status_only: true
+    source_reading_status_is_not_application_status: true
+    runner_manifest_controls_exact_metadata: true
+    checked_upstream_artifact_precedes_generated_downstream_metadata: true
+    template_defaults_are_placeholders_not_evidence: true
+    model_inference_cannot_override_recorded_metadata: true
+    exact_output_paths_must_not_be_replaced_by_session_record_paths: true
+
+  artifact_status_legend:
+    allowed_values:
+      - "present_selected"
+      - "present_not_selected"
+      - "missing"
+      - "not_applicable"
+      - "expected_but_missing"
+      - "superseded"
+      - "rejected_by_gate"
+      - "deferred"
+      - "human_review_required"
+      - "unknown"
+    rule: >
+      Every expected or relevant artifact receives exactly one status value.
+      Absence is marked with an explicit status rather than an empty field.
+
+  run_metadata:
+    case_id: "TODO"
+    run_id: "TODO"
+    record_stage_id: "stage_1_artifact_index"
+    prepared_by: "TODO"
+    prepared_at: "TODO"
+    workflow_profile: "TODO"
+    intended_use_of_full_record: "TODO"
+    case_title_or_short_label: "TODO"
+    language: "TODO"
+    notes: []
+
+  current_reference_template_set:
+    instruction: >
+      List the current template files used for this run. These are references
+      for workflow shape only; their presence does not certify later outputs.
+    templates:
+      pre_analysis_template:
+        expected_file_name: "pms_discipline_pre_analysis_template.yaml"
+        status: "unknown"
+        selected_path_or_reference: "TODO"
+        schema_version_observed: "TODO"
+        sha256_if_available: "TODO"
+        notes: []
+      core_case_application_template:
+        expected_file_name: "pms_core_case_application_template.yaml"
+        status: "unknown"
+        selected_path_or_reference: "TODO"
+        schema_version_observed: "TODO"
+        sha256_if_available: "TODO"
+        notes: []
+      addon_recommendation_gate_template:
+        expected_file_name: "pms_discipline_addon_recommendation_gate_template.yaml"
+        status: "unknown"
+        selected_path_or_reference: "TODO"
+        schema_version_observed: "TODO"
+        sha256_if_available: "TODO"
+        notes: []
+      selected_addon_case_application_template:
+        expected_file_name: "pms_addon_{SELECTED_ADDON}_case_application_template.yaml"
+        status: "unknown"
+        selected_path_or_reference: "TODO"
+        schema_version_observed: "TODO"
+        sha256_if_available: "TODO"
+        selected_addon_family: "unknown"
+        notes: []
+      mip_gate_template:
+        expected_file_name: "pms_discipline_mip_gate_template.yaml"
+        status: "unknown"
+        selected_path_or_reference: "TODO"
+        schema_version_observed: "TODO"
+        sha256_if_available: "TODO"
+        notes: []
+      ahp_gate_template:
+        expected_file_name: "pms_discipline_ahp_gate_template.yaml"
+        status: "unknown"
+        selected_path_or_reference: "TODO"
+        schema_version_observed: "TODO"
+        sha256_if_available: "TODO"
+        notes: []
+      case_record_stage_1_template:
+        expected_file_name: "pms_case_record_stage_1_artifact_index_template.yaml"
+        status: "unknown"
+        selected_path_or_reference: "TODO"
+        schema_version_observed: "TODO"
+        sha256_if_available: "TODO"
+        notes: []
+      case_record_stage_2_template:
+        expected_file_name: "pms_case_record_stage_2_layer_digest_extraction_template.yaml"
+        status: "deferred"
+        selected_path_or_reference: "templates/pms_case_record_stage_2_layer_digest_extraction_template.yaml"
+        schema_version_observed: "unknown"
+        sha256_if_available: "unknown"
+        notes:
+          - "Future-step runner resource; uploaded at step #22 and not a Stage 1 readiness blocker."
+      case_record_stage_3_template:
+        expected_file_name: "pms_case_record_stage_3_full_case_record_integration_template.yaml"
+        status: "deferred"
+        selected_path_or_reference: "templates/pms_case_record_stage_3_full_case_record_integration_template.yaml"
+        schema_version_observed: "unknown"
+        sha256_if_available: "unknown"
+        notes:
+          - "Future-step runner resource; uploaded at step #24 and not a Stage 1 readiness blocker."
+      optional_addon_case_application_templates:
+        anticipation:
+          expected_file_name: "pms_addon_anticipation_case_application_template.yaml"
+          status: "unknown"
+          selected_path_or_reference: "TODO"
+          schema_version_observed: "TODO"
+          sha256_if_available: "TODO"
+          notes: []
+        conflict:
+          expected_file_name: "pms_addon_conflict_case_application_template.yaml"
+          status: "unknown"
+          selected_path_or_reference: "TODO"
+          schema_version_observed: "TODO"
+          sha256_if_available: "TODO"
+          notes: []
+        critique:
+          expected_file_name: "pms_addon_critique_case_application_template.yaml"
+          status: "unknown"
+          selected_path_or_reference: "TODO"
+          schema_version_observed: "TODO"
+          sha256_if_available: "TODO"
+          notes: []
+        eden:
+          expected_file_name: "pms_addon_eden_case_application_template.yaml"
+          status: "unknown"
+          selected_path_or_reference: "TODO"
+          schema_version_observed: "TODO"
+          sha256_if_available: "TODO"
+          notes: []
+        logic:
+          expected_file_name: "pms_addon_logic_case_application_template.yaml"
+          status: "unknown"
+          selected_path_or_reference: "TODO"
+          schema_version_observed: "TODO"
+          sha256_if_available: "TODO"
+          notes: []
+        sex:
+          expected_file_name: "pms_addon_sex_case_application_template.yaml"
+          status: "unknown"
+          selected_path_or_reference: "TODO"
+          schema_version_observed: "TODO"
+          sha256_if_available: "TODO"
+          notes: []
+
+  base_and_overlay_reference_files:
+    instruction: >
+      List model reference files that were read or made available in the run.
+      A file listed here is not automatically evidence for the case.
+    pms_base:
+      file_name: "PMS.yaml"
+      status: "unknown"
+      selected_path_or_reference: "TODO"
+      schema_version_observed: "TODO"
+      sha256_if_available: "TODO"
+      read_status: "unknown"
+      notes: []
+    selected_addon_reference_file:
+      family: "unknown"
+      expected_file_name: "PMS-{SELECTED_ADDON}.yaml"
+      status: "unknown"
+      selected_path_or_reference: "TODO"
+      schema_version_observed: "TODO"
+      read_status: "unknown"
+      notes: []
+    optional_addon_reference_files:
+      anticipation:
+        file_name: "PMS-ANTICIPATION.yaml"
+        status: "unknown"
+        selected_path_or_reference: "TODO"
+        schema_version_observed: "TODO"
+        read_status: "unknown"
+        notes: []
+      conflict:
+        file_name: "PMS-CONFLICT.yaml"
+        status: "unknown"
+        selected_path_or_reference: "TODO"
+        schema_version_observed: "TODO"
+        read_status: "unknown"
+        notes: []
+      critique:
+        file_name: "PMS-CRITIQUE.yaml"
+        status: "unknown"
+        selected_path_or_reference: "TODO"
+        schema_version_observed: "TODO"
+        read_status: "unknown"
+        notes: []
+      eden:
+        file_name: "PMS-EDEN.yaml"
+        status: "unknown"
+        selected_path_or_reference: "TODO"
+        schema_version_observed: "TODO"
+        read_status: "unknown"
+        notes: []
+      logic:
+        file_name: "PMS-LOGIC.yaml"
+        status: "unknown"
+        selected_path_or_reference: "TODO"
+        schema_version_observed: "TODO"
+        read_status: "unknown"
+        notes: []
+      sex:
+        file_name: "PMS-SEX.yaml"
+        status: "unknown"
+        selected_path_or_reference: "TODO"
+        schema_version_observed: "TODO"
+        read_status: "unknown"
+        notes: []
+    mip_and_ahp_reference_files:
+      mip_reference:
+        file_name: "MIP - Maturity in Practice.yaml"
+        status: "unknown"
+        selected_path_or_reference: "TODO"
+        schema_version_observed: "TODO"
+        sha256_if_available: "TODO"
+        read_status: "unknown"
+        notes: []
+      ahp_module_reference:
+        file_name: "MIP - Maturity in Practice - AHP Module.yaml"
+        status: "unknown"
+        selected_path_or_reference: "TODO"
+        schema_version_observed: "TODO"
+        sha256_if_available: "TODO"
+        read_status: "unknown"
+        notes: []
+
+  case_material_index:
+    instruction: >
+      List case materials available to the run. Material presence is not
+      evidence strength. Source status and limitations are handled by earlier
+      checked artifacts and later digests; this index records availability and
+      selected use.
+    materials:
+      - material_id: "MATERIAL_001"
+        title_or_label: "TODO"
+        path_or_reference: "TODO"
+        material_type: "TODO"
+        supplied_by: "TODO"
+        date_or_version: "TODO"
+        selected_for_run: "unknown"
+        known_source_status: "unknown"
+        contains_person_near_content: "unknown"
+        contains_public_or_institutional_content: "unknown"
+        contains_statistics_or_tables: "unknown"
+        privacy_or_redaction_notes: []
+        notes: []
+
+  produced_workflow_artifacts:
+    instruction: >
+      List outputs produced by the workflow. Stage 1 records availability,
+      selected version, and checked/patch status only. Content extraction belongs
+      to Stage 2.
+    pre_analysis_record:
+      status: "unknown"
+      artifact_id: "PRE_ANALYSIS_RECORD"
+      selected_path_or_reference: "TODO"
+      produced_at: "TODO"
+      checked_status: "unknown"
+      patch_record_available: "unknown"
+      notes: []
+    pre_analysis_output_check:
+      status: "unknown"
+      artifact_id: "PRE_ANALYSIS_OUTPUT_CHECK"
+      selected_path_or_reference: "TODO"
+      produced_at: "TODO"
+      check_result: "unknown"
+      notes: []
+    core_case_yaml:
+      status: "unknown"
+      artifact_id: "CORE_CASE_YAML"
+      selected_path_or_reference: "TODO"
+      produced_at: "TODO"
+      checked_status: "unknown"
+      patch_record_available: "unknown"
+      notes: []
+    core_output_check:
+      status: "unknown"
+      artifact_id: "CORE_OUTPUT_CHECK"
+      selected_path_or_reference: "TODO"
+      produced_at: "TODO"
+      check_result: "unknown"
+      notes: []
+    addon_recommendation_gate_output:
+      status: "unknown"
+      artifact_id: "ADDON_RECOMMENDATION_GATE_OUTPUT"
+      selected_path_or_reference: "TODO"
+      produced_at: "TODO"
+      checked_status: "unknown"
+      patch_record_available: "unknown"
+      selected_addon_family: "unknown"
+      notes: []
+    addon_recommendation_gate_output_check:
+      status: "unknown"
+      artifact_id: "ADDON_RECOMMENDATION_GATE_OUTPUT_CHECK"
+      selected_path_or_reference: "TODO"
+      produced_at: "TODO"
+      check_result: "unknown"
+      notes: []
+    selected_addon_source_read_record:
+      status: "unknown"
+      artifact_id: "SELECTED_ADDON_SOURCE_READ_RECORD"
+      selected_path_or_reference: "TODO"
+      produced_at: "TODO"
+      selected_addon_family: "unknown"
+      source_read_status: "unknown"
+      notes: []
+    selected_addon_case_output:
+      status: "unknown"
+      artifact_id: "SELECTED_ADDON_CASE_OUTPUT"
+      selected_path_or_reference: "TODO"
+      produced_at: "TODO"
+      selected_addon_family: "unknown"
+      checked_status: "unknown"
+      patch_record_available: "unknown"
+      notes: []
+    selected_addon_output_check:
+      status: "unknown"
+      artifact_id: "SELECTED_ADDON_OUTPUT_CHECK"
+      selected_path_or_reference: "TODO"
+      produced_at: "TODO"
+      selected_addon_family: "unknown"
+      check_result: "unknown"
+      notes: []
+    optional_addon_case_outputs:
+      anticipation:
+        status: "unknown"
+        artifact_id: "ADDON_ANTICIPATION_CASE_OUTPUT"
+        selected_path_or_reference: "TODO"
+        produced_at: "TODO"
+        checked_status: "unknown"
+        patch_record_available: "unknown"
+        notes: []
+      conflict:
+        status: "unknown"
+        artifact_id: "ADDON_CONFLICT_CASE_OUTPUT"
+        selected_path_or_reference: "TODO"
+        produced_at: "TODO"
+        checked_status: "unknown"
+        patch_record_available: "unknown"
+        notes: []
+      critique:
+        status: "unknown"
+        artifact_id: "ADDON_CRITIQUE_CASE_OUTPUT"
+        selected_path_or_reference: "TODO"
+        produced_at: "TODO"
+        checked_status: "unknown"
+        patch_record_available: "unknown"
+        notes: []
+      eden:
+        status: "unknown"
+        artifact_id: "ADDON_EDEN_CASE_OUTPUT"
+        selected_path_or_reference: "TODO"
+        produced_at: "TODO"
+        checked_status: "unknown"
+        patch_record_available: "unknown"
+        notes: []
+      logic:
+        status: "unknown"
+        artifact_id: "ADDON_LOGIC_CASE_OUTPUT"
+        selected_path_or_reference: "TODO"
+        produced_at: "TODO"
+        checked_status: "unknown"
+        patch_record_available: "unknown"
+        notes: []
+      sex:
+        status: "unknown"
+        artifact_id: "ADDON_SEX_CASE_OUTPUT"
+        selected_path_or_reference: "TODO"
+        produced_at: "TODO"
+        checked_status: "unknown"
+        patch_record_available: "unknown"
+        notes: []
+    mip_gate_output:
+      status: "unknown"
+      artifact_id: "MIP_GATE_OUTPUT"
+      selected_path_or_reference: "TODO"
+      produced_at: "TODO"
+      checked_status: "unknown"
+      patch_record_available: "unknown"
+      notes: []
+    mip_gate_output_check:
+      status: "unknown"
+      artifact_id: "MIP_GATE_OUTPUT_CHECK"
+      selected_path_or_reference: "TODO"
+      produced_at: "TODO"
+      check_result: "unknown"
+      notes: []
+    mip_source_read_record:
+      status: "unknown"
+      artifact_id: "MIP_SOURCE_READ_RECORD"
+      selected_path_or_reference: "TODO"
+      produced_at: "TODO"
+      source_read_status: "unknown"
+      notes: []
+    mip_case_application_output:
+      status: "unknown"
+      artifact_id: "MIP_CASE_APPLICATION_OUTPUT"
+      selected_path_or_reference: "TODO"
+      produced_at: "TODO"
+      produced_by_own_mip_structure: "unknown"
+      checked_status: "unknown"
+      patch_record_available: "unknown"
+      notes: []
+    mip_output_check:
+      status: "unknown"
+      artifact_id: "MIP_OUTPUT_CHECK"
+      selected_path_or_reference: "TODO"
+      produced_at: "TODO"
+      check_result: "unknown"
+      notes: []
+    ahp_gate_output:
+      status: "unknown"
+      artifact_id: "AHP_GATE_OUTPUT"
+      selected_path_or_reference: "TODO"
+      produced_at: "TODO"
+      checked_status: "unknown"
+      patch_record_available: "unknown"
+      notes: []
+    ahp_gate_output_check:
+      status: "unknown"
+      artifact_id: "AHP_GATE_OUTPUT_CHECK"
+      selected_path_or_reference: "TODO"
+      produced_at: "TODO"
+      check_result: "unknown"
+      notes: []
+    ahp_source_read_record:
+      status: "unknown"
+      artifact_id: "AHP_SOURCE_READ_RECORD"
+      selected_path_or_reference: "TODO"
+      produced_at: "TODO"
+      source_read_status: "unknown"
+      notes: []
+    ahp_module_output:
+      status: "unknown"
+      artifact_id: "AHP_MODULE_OUTPUT"
+      selected_path_or_reference: "TODO"
+      produced_at: "TODO"
+      produced_by_own_ahp_structure: "unknown"
+      checked_status: "unknown"
+      patch_record_available: "unknown"
+      notes: []
+    ahp_output_check:
+      status: "unknown"
+      artifact_id: "AHP_OUTPUT_CHECK"
+      selected_path_or_reference: "TODO"
+      produced_at: "TODO"
+      check_result: "unknown"
+      notes: []
+    human_review_or_use_boundary_artifacts:
+      use_boundary_confirmation:
+        status: "unknown"
+        artifact_id: "USE_BOUNDARY_CONFIRMATION"
+        selected_path_or_reference: "TODO"
+        confirmed_by: "TODO"
+        confirmed_at: "TODO"
+        notes: []
+      additional_human_review_notes:
+        - status: "unknown"
+          artifact_id: "TODO"
+          selected_path_or_reference: "TODO"
+          reviewer: "TODO"
+          reviewed_at: "TODO"
+          notes: []
+
+  artifact_selection_rules:
+    current_version_selection_required: true
+    duplicates_must_be_resolved: true
+    superseded_artifacts_must_remain_listed: true
+    selected_artifact_must_have_path_or_reference: true
+    unselected_artifact_must_have_reason: true
+    missing_expected_artifact_must_have_effect_on_stage_2: true
+    rejected_layer_must_remain_visible: true
+    deferred_layer_must_remain_visible: true
+    not_applicable_layer_must_remain_visible: true
+    checked_output_chain_must_remain_traceable: true
+
+  minimum_stage_2_input_conditions:
+    instruction: >
+      These are routing conditions for Stage 2, not adequacy criteria for the
+      full record. If a required input is missing, Stage 2 may stop, proceed
+      with a marked gap, or require human review according to the workflow
+      context.
+    normally_required:
+      - "case_material_index_completed"
+      - "current_reference_template_set_listed"
+      - "pre_analysis_record_status_marked"
+      - "pre_analysis_output_check_status_marked"
+      - "core_case_yaml_status_marked"
+      - "core_output_check_status_marked"
+      - "addon_recommendation_gate_output_status_marked"
+      - "addon_recommendation_gate_output_check_status_marked"
+      - "mip_gate_output_status_marked_if_MIP_review_was_relevant"
+      - "mip_gate_output_check_status_marked_if_MIP_review_was_relevant"
+      - "ahp_gate_output_status_marked_if_AHP_review_was_relevant"
+      - "ahp_gate_output_check_status_marked_if_AHP_review_was_relevant"
+    may_be_not_applicable:
+      - "selected_addon_source_read_record"
+      - "selected_addon_case_output"
+      - "selected_addon_output_check"
+      - "optional_addon_case_outputs_not_selected"
+      - "mip_source_read_record"
+      - "mip_case_application_output"
+      - "mip_output_check"
+      - "ahp_source_read_record"
+      - "ahp_module_output"
+      - "ahp_output_check"
+      - "human_review_or_use_boundary_artifacts"
+
+  stage_2_allowed_inputs:
+    instruction: >
+      Stage 2 may read only selected artifacts listed here. Add or remove items
+      after completing the artifact index.
+    allowed_artifact_ids:
+      - "CASE_MATERIAL_INDEX"
+      - "PMS_BASE_REFERENCE"
+      - "PRE_ANALYSIS_RECORD"
+      - "PRE_ANALYSIS_OUTPUT_CHECK"
+      - "CORE_CASE_YAML"
+      - "CORE_OUTPUT_CHECK"
+      - "ADDON_RECOMMENDATION_GATE_OUTPUT"
+      - "ADDON_RECOMMENDATION_GATE_OUTPUT_CHECK"
+      - "SELECTED_ADDON_SOURCE_READ_RECORD"
+      - "SELECTED_ADDON_CASE_OUTPUT"
+      - "SELECTED_ADDON_OUTPUT_CHECK"
+      - "ADDON_ANTICIPATION_CASE_OUTPUT"
+      - "ADDON_CONFLICT_CASE_OUTPUT"
+      - "ADDON_CRITIQUE_CASE_OUTPUT"
+      - "ADDON_EDEN_CASE_OUTPUT"
+      - "ADDON_LOGIC_CASE_OUTPUT"
+      - "ADDON_SEX_CASE_OUTPUT"
+      - "MIP_GATE_OUTPUT"
+      - "MIP_GATE_OUTPUT_CHECK"
+      - "MIP_SOURCE_READ_RECORD"
+      - "MIP_CASE_APPLICATION_OUTPUT"
+      - "MIP_OUTPUT_CHECK"
+      - "AHP_GATE_OUTPUT"
+      - "AHP_GATE_OUTPUT_CHECK"
+      - "AHP_SOURCE_READ_RECORD"
+      - "AHP_MODULE_OUTPUT"
+      - "AHP_OUTPUT_CHECK"
+      - "USE_BOUNDARY_CONFIRMATION"
+    disallowed_unless_listed_and_selected:
+      - "untracked_notes"
+      - "superseded_outputs"
+      - "draft_outputs_not_selected"
+      - "model_outputs_without_artifact_id"
+      - "source_material_not_listed_in_case_material_index"
+      - "later_public_output_drafts"
+
+  missing_or_unintegrated_visibility_seed:
+    instruction: >
+      Seed fields for later stages. Stage 1 lists possible gaps; Stage 2 and
+      Stage 3 decide whether they remain missing, unresolved, excluded, or
+      imported into the full record.
+    missing_expected_artifacts: []
+    superseded_artifacts: []
+    artifacts_present_but_not_selected: []
+    artifacts_rejected_by_gate: []
+    artifacts_deferred_by_gate: []
+    artifacts_marked_not_applicable: []
+    artifacts_requiring_human_review_before_stage_2: []
+    known_conflicts_between_artifacts: []
+    known_untracked_material_excluded_from_stage_2: []
+
+  stage_1_completion_check:
+    all_case_materials_listed: "unknown"
+    all_reference_templates_listed: "unknown"
+    all_model_reference_files_status_marked: "unknown"
+    all_produced_workflow_artifacts_status_marked: "unknown"
+    all_available_output_checks_status_marked: "unknown"
+    all_selected_artifacts_have_path_or_reference: "unknown"
+    all_missing_expected_artifacts_are_visible: "unknown"
+    all_superseded_versions_are_visible: "unknown"
+    all_rejected_deferred_or_not_applicable_layers_are_visible: "unknown"
+    stage_2_allowed_inputs_reviewed: "unknown"
+    ready_for_stage_2: "unknown"
+    blocker_notes: []
+
+  stage_1_output:
+    exports_to_stage_2:
+      - "selected_artifact_inventory"
+      - "case_material_index"
+      - "available_reference_templates"
+      - "available_model_reference_files"
+      - "available_workflow_outputs"
+      - "available_output_checks"
+      - "missing_expected_artifacts"
+      - "superseded_or_unselected_artifacts"
+      - "rejected_deferred_or_not_applicable_layers"
+      - "stage_2_allowed_inputs"
+    does_not_export:
+      - "case_findings"
+      - "claim_boundary"
+      - "digest_summaries"
+      - "case_record_stage_3_integration"
+      - "public_output_readiness"
+      - "decision_execution"
+
+  next_step:
+    name: "stage_2_layer_digest_extraction"
+    purpose: >
+      Read only selected Stage 1 artifacts and extract short layer digests:
+      imported findings, imported limits, non-claims, unresolved risks, and
+      items deliberately not imported.
+    warning: >
+      Stage 1 routes to Stage 2. A direct jump from Stage 1 to the full record
+      is allowed only when the run explicitly documents why digest extraction is
+      unnecessary.
