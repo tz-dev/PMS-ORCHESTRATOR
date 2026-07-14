@@ -48,6 +48,10 @@ The runner supports:
 
 ---
 
+![PMS-ORCHESTRATOR](img/screenshot.png)
+
+---
+
 ## Design Principles
 
 ### Human control
