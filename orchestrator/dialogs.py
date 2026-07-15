@@ -705,7 +705,11 @@ class ArticleRouteDialog(tk.Toplevel):
         existing = existing or {}
 
         default_route = str(existing.get("route_type") or "no_article")
+        default_profile = str(existing.get("article_profile") or "full_analysis_article")
+        if default_profile not in {"case_article", "full_analysis_article"}:
+            default_profile = "full_analysis_article"
         self.route_var = tk.StringVar(value=default_route)
+        self.profile_var = tk.StringVar(value=default_profile)
 
         details = ttk.LabelFrame(self, text="Article decision", padding=10)
         details.pack(fill="x", padx=14, pady=(14, 8))
@@ -721,16 +725,25 @@ class ArticleRouteDialog(tk.Toplevel):
                 if ai_review_steps_enabled
                 else "Article generation is optional and begins after the unchecked Stage 3 output. Semantic AI review was disabled by case setting."
             ),
-            wraplength=570,
+            wraplength=610,
         ).pack(anchor="w", pady=(4, 0))
         if existing:
-            ttk.Label(details, text=f"Current saved route: {existing.get('route_type')}").pack(anchor="w", pady=(6, 0))
+            profile_label = (
+                str(existing.get("article_profile") or "full_analysis_article").replace("_", " ")
+                if existing.get("route_type") == "generate_article"
+                else "not applicable"
+            )
+            ttk.Label(
+                details,
+                text=f"Current saved route: {existing.get('route_type')} · profile: {profile_label}",
+            ).pack(anchor="w", pady=(6, 0))
 
         ttk.Radiobutton(
             self,
             text="Finish the run without a Markdown article",
             variable=self.route_var,
             value="no_article",
+            command=self._sync_profile_state,
         ).pack(anchor="w", padx=14, pady=4)
         ttk.Radiobutton(
             self,
@@ -741,27 +754,77 @@ class ArticleRouteDialog(tk.Toplevel):
             ),
             variable=self.route_var,
             value="generate_article",
+            command=self._sync_profile_state,
         ).pack(anchor="w", padx=14, pady=4)
+
+        profile_frame = ttk.LabelFrame(self, text="Article profile", padding=10)
+        profile_frame.pack(fill="x", padx=14, pady=(8, 4))
+
+        self.case_profile_button = ttk.Radiobutton(
+            profile_frame,
+            text="Case article",
+            variable=self.profile_var,
+            value="case_article",
+        )
+        self.case_profile_button.pack(anchor="w")
+        ttk.Label(
+            profile_frame,
+            text=(
+                "Focused case-specific prose. Workflow history, generic boundaries, "
+                "and inactive-layer inventories are condensed."
+            ),
+            wraplength=590,
+        ).pack(anchor="w", padx=(24, 0), pady=(0, 8))
+
+        self.full_profile_button = ttk.Radiobutton(
+            profile_frame,
+            text="Full analysis article",
+            variable=self.profile_var,
+            value="full_analysis_article",
+        )
+        self.full_profile_button.pack(anchor="w")
+        ttk.Label(
+            profile_frame,
+            text=(
+                "Detailed, audit-rich narrative of the checked case record, "
+                "including provenance, layer decisions, and bounded non-use records."
+            ),
+            wraplength=590,
+        ).pack(anchor="w", padx=(24, 0))
 
         ttk.Label(
             self,
-            text="Changing this decision resets only article-generation steps. Existing article files are archived before reset.",
-            wraplength=570,
+            text=(
+                "Changing the article decision or profile resets only steps #26–#30. "
+                "Existing article files are archived before reset."
+            ),
+            wraplength=610,
         ).pack(anchor="w", padx=14, pady=8)
 
         buttons = ttk.Frame(self)
         buttons.pack(fill="x", padx=14, pady=(12, 14))
         ttk.Button(buttons, text="Cancel", command=self.destroy).pack(side="right", padx=(6, 0))
         ttk.Button(buttons, text="Save article decision", command=self._save).pack(side="right")
+        self.bind("<Escape>", lambda _event: self.destroy())
         self.protocol("WM_DELETE_WINDOW", self.destroy)
         self.resizable(False, False)
+        self._sync_profile_state()
         self.after_idle(lambda: finalize_dialog(self, parent))
 
+    def _sync_profile_state(self) -> None:
+        state = "normal" if self.route_var.get() == "generate_article" else "disabled"
+        self.case_profile_button.configure(state=state)
+        self.full_profile_button.configure(state=state)
+
     def _save(self) -> None:
-        self.result = {
-            "route_type": self.route_var.get(),
+        route_type = self.route_var.get()
+        result: dict[str, Any] = {
+            "route_type": route_type,
             "selection_basis": "user_confirmed",
         }
+        if route_type == "generate_article":
+            result["article_profile"] = self.profile_var.get()
+        self.result = result
         self.destroy()
 
 

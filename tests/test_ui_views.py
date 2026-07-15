@@ -23,7 +23,9 @@ class AppMetadataTests(unittest.TestCase):
     def test_license_file_is_read_verbatim(self) -> None:
         metadata = AppMetadata.load(PROJECT_ROOT / "app_metadata.json")
         content = metadata.read_license(PROJECT_ROOT)
-        self.assertIn("License status", content)
+        self.assertIn("LICENSE SCOPE NOTICE", content)
+        self.assertIn("Apache License, Version 2.0", content)
+        self.assertIn("Creative Commons Attribution-NonCommercial-ShareAlike 4.0", content)
         self.assertEqual(content, (PROJECT_ROOT / "LICENSE").read_text(encoding="utf-8").strip())
 
     def test_invalid_metadata_falls_back_safely(self) -> None:

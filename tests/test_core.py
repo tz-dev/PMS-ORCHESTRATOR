@@ -5,6 +5,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
+from orchestrator.app import OrchestratorApp
 from orchestrator.case_materials import (
     CaseMaterialError,
     CaseMaterialStore,
@@ -20,7 +21,7 @@ from orchestrator.gate_reader import (
 from orchestrator.prompt_source import PromptSource
 from orchestrator.registry import AHP_SOURCE_FILENAME, MIP_SOURCE_FILENAME, STEPS, get_step, resolve_upload_files
 from orchestrator.source_manager import SourceDownloadError, SourceManifest
-from orchestrator.storage import CaseStore, StorageError
+from orchestrator.storage import ARTICLE_PROFILE_CASE, ARTICLE_PROFILE_FULL, CaseStore, StorageError
 
 
 CASE_VALUES = {
@@ -38,6 +39,7 @@ class PromptSourceTests(unittest.TestCase):
         for number in range(1, 31):
             self.assertIn(number, source.available_prompt_numbers())
             raw = source.get(number)
+            self.assertFalse(raw.startswith("\n"))
             self.assertFalse(raw.endswith("---"))
             self.assertEqual(raw, raw.rstrip())
 
@@ -73,13 +75,15 @@ class PromptSourceTests(unittest.TestCase):
         self.assertIn(AHP_SOURCE_FILENAME, ahp_rendered)
 
         article_rendered = source.render(27, CASE_VALUES)
-        self.assertIn("Create a chapter-ready, analytically substantial Markdown case article draft", article_rendered)
+        self.assertIn("Create the base Markdown article draft for the selected article profile", article_rendered)
+        self.assertIn("selected_profile: full_analysis_article", article_rendered)
+        self.assertIn("For `case_article`", article_rendered)
         self.assertIn("A Case", article_rendered)
 
         stage1_manifest = "RUNNER-GENERATED STAGE 1 MANIFEST\nstep_01: status=completed"
         stage1_rendered = source.render(20, CASE_VALUES, runtime_values={"RUNNER_STAGE_1_MANIFEST": stage1_manifest})
         self.assertIn(stage1_manifest, stage1_rendered)
-        self.assertIn("future-step runner resources", stage1_rendered)
+        self.assertIn("CURRENT-STEP SELF-REFERENCE RULE", stage1_rendered)
         self.assertIn("must not be set to no solely", stage1_rendered)
         self.assertNotIn("{RUNNER_STAGE_1_MANIFEST}", stage1_rendered)
 
@@ -110,9 +114,217 @@ class PromptSourceTests(unittest.TestCase):
             runtime_values={"RUNNER_CASE_RECORD_MANIFEST": case_record_manifest},
         ))
 
+        stage2_prompt = source.render(
+            22,
+            CASE_VALUES,
+            runtime_values={"RUNNER_CASE_RECORD_MANIFEST": case_record_manifest},
+        )
+        self.assertIn("preserve each operator's canonical identity", stage2_prompt)
+        self.assertIn("`Λ` remains `Non-Event`", stage2_prompt)
+        self.assertIn("must not be redefined as continuity", stage2_prompt)
+
+        stage2_check_prompt = source.render(
+            23,
+            CASE_VALUES,
+            runtime_values={"RUNNER_CASE_RECORD_MANIFEST": case_record_manifest},
+        )
+        self.assertIn("PMS operator identity or function changed during digest compression", stage2_check_prompt)
+        self.assertIn("without renaming, repurposing, merging, or substitution", stage2_check_prompt)
+
+        stage3_prompt = source.render(
+            24,
+            CASE_VALUES,
+            runtime_values={"RUNNER_CASE_RECORD_MANIFEST": case_record_manifest},
+        )
+        self.assertIn("Preserve canonical PMS operator identities and functions exactly", stage3_prompt)
+
+        stage3_check_prompt = source.render(
+            25,
+            CASE_VALUES,
+            runtime_values={"RUNNER_CASE_RECORD_MANIFEST": case_record_manifest},
+        )
+        self.assertIn("canonical PMS operator identities, functions, and checked case-specific roles remain unchanged", stage3_check_prompt)
+
         for number in (26, 27, 28, 29, 30):
             article_prompt = source.render(number, CASE_VALUES)
-            self.assertIn("workflow", article_prompt.lower())
+            self.assertIn("selected_profile: full_analysis_article", article_prompt)
+            case_contract = (
+                "ARTICLE PROFILE — RUNNER-GENERATED\n"
+                "selected_profile: case_article\n"
+                "CASE ARTICLE CONTRACT"
+            )
+            case_prompt = source.render(
+                number,
+                CASE_VALUES,
+                runtime_values={"RUNNER_ARTICLE_PROFILE_CONTRACT": case_contract},
+            )
+            self.assertIn("selected_profile: case_article", case_prompt)
+            self.assertNotIn("{RUNNER_ARTICLE_PROFILE_CONTRACT}", case_prompt)
+
+
+        default_article_prompt = source.render(27, CASE_VALUES)
+        self.assertIn("CANONICAL PMS OPERATOR NAMING RULE", default_article_prompt)
+        self.assertIn("Δ (Difference)", default_article_prompt)
+        self.assertIn("first occurrence of each operator in every paragraph", default_article_prompt)
+        self.assertIn("`**Δ** (Difference)`", default_article_prompt)
+
+        self.assertIn(
+            "Normally place them in no more than one compact calibration paragraph",
+            default_article_prompt,
+        )
+        self.assertIn(
+            "Normally select the two to four risks nearest to the case material",
+            default_article_prompt,
+        )
+        self.assertIn(
+            "remote legal, clinical, forensic, HR, automated-decision",
+            default_article_prompt,
+        )
+
+        final_article_prompt = source.render(29, CASE_VALUES)
+        self.assertIn("In every rewritten or newly inserted paragraph", final_article_prompt)
+        self.assertIn("Do not replace canonical operator names with case-specific descriptions", final_article_prompt)
+
+        self.assertIn(
+            "Do not unpack grouped operators into separate paragraphs",
+            final_article_prompt,
+        )
+        self.assertIn(
+            "Keep the case-specific boundary focused on the risks nearest",
+            final_article_prompt,
+        )
+
+        article_check_prompt = source.render(30, CASE_VALUES)
+        self.assertIn("Every paragraph containing PMS operator prose", article_check_prompt)
+        self.assertIn("Canonical operator names are not replaced by case-specific glosses or functions", article_check_prompt)
+
+        self.assertIn(
+            "should normally be grouped by shared calibration function",
+            article_check_prompt,
+        )
+        self.assertIn(
+            "prioritize the two to four misuse or escalation risks",
+            article_check_prompt,
+        )
+        self.assertIn(
+            "repeated calibration points",
+            article_check_prompt,
+        )
+
+
+class ArticleProfileContractTests(unittest.TestCase):
+    def test_runtime_contract_contains_canonical_operator_naming_rule(self) -> None:
+        class SessionStub:
+            article_profile = ARTICLE_PROFILE_CASE
+
+        app = OrchestratorApp.__new__(OrchestratorApp)
+        app.session = SessionStub()
+
+        contract = app._article_profile_contract(27)
+
+        self.assertIn("CANONICAL PMS OPERATOR NAMING RULE", contract)
+        self.assertIn("Δ (Difference)", contract)
+        self.assertIn("Λ (Non-Event)", contract)
+        self.assertIn("Ψ (Self-Binding)", contract)
+        self.assertIn("first occurrence of each operator in every paragraph", contract)
+        self.assertIn("`**Δ** (Difference)`", contract)
+        self.assertIn("Do not replace a canonical operator name with a case-specific gloss", contract)
+        self.assertIn(
+            "Group weak, conditional, dependency-limited, inactive, or analytic-only operators",
+            contract,
+        )
+        self.assertIn(
+            "two to four misuse or escalation risks nearest",
+            contract,
+        )
+        self.assertIn(
+            "concrete proximity to that misuse",
+            contract,
+        )
+
+class RunnerManifestTests(unittest.TestCase):
+    def _app_for_session(self, session, project_root: Path) -> OrchestratorApp:
+        app = OrchestratorApp.__new__(OrchestratorApp)
+        app.project_root = project_root
+        app.session = session
+        app._material_manifest_entries = lambda: []
+        return app
+
+    def _core_only_stage_1_session(self, project_root: Path):
+        session = CaseStore(project_root).create_case(CASE_VALUES)
+        for step_id in range(1, 8):
+            session.write_output(step_id, f"output {step_id}", complete=True)
+        session.set_route({
+            "route_type": "core_only",
+            "selected_addon": None,
+            "selection_basis": "manual_user_route",
+        })
+        session.write_output(11, "output 11", complete=True)
+        session.write_output(12, "output 12", complete=True)
+        session.set_mip_route({
+            "route_type": "no_mip",
+            "selection_basis": "manual_user_route",
+        })
+        return session
+
+    def test_stage_1_manifest_uses_selected_run_resources_without_self_index(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            project_root = Path(temp_dir)
+            for relative in (
+                "pms/PMS.yaml",
+                "templates/pms_discipline_pre_analysis_template.yaml",
+                "templates/pms_core_case_application_template.yaml",
+                "templates/pms_discipline_addon_recommendation_gate_template.yaml",
+                "templates/pms_discipline_mip_gate_template.yaml",
+                "templates/pms_case_record_stage_1_artifact_index_template.yaml",
+            ):
+                path = project_root / relative
+                path.parent.mkdir(parents=True, exist_ok=True)
+                path.write_text("x", encoding="utf-8")
+            session = self._core_only_stage_1_session(project_root)
+            app = self._app_for_session(session, project_root)
+
+            manifest = app._stage_1_runner_manifest()
+
+            self.assertIn("SELECTED RUN RESOURCES", manifest)
+            self.assertNotIn("LOCAL SOURCE AND TEMPLATE INVENTORY", manifest)
+            self.assertNotIn("pms/PMS-ANTICIPATION.yaml", manifest)
+            self.assertIn("CURRENT STEP EXECUTION METADATA", manifest)
+            self.assertIn("The Stage 1 output must not index its own current production path", manifest)
+            upstream = manifest.split("CURRENT STEP EXECUTION METADATA", 1)[0]
+            self.assertNotIn("step_20", upstream)
+
+    def test_stage_1_check_does_not_require_step_20_self_reference(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            project_root = Path(temp_dir)
+            session = self._core_only_stage_1_session(project_root)
+            session.write_output(20, "stage 1", complete=True)
+            app = self._app_for_session(session, project_root)
+
+            manifest = app._stage_1_check_runner_manifest()
+
+            upstream = manifest.split("current_stage_1_output_under_review:", 1)[0]
+            self.assertNotIn("step_20", upstream)
+            self.assertIn("self_index_required: false", manifest)
+            self.assertIn("outputs/step_20_stage_1_artifact_index.yaml", manifest)
+
+    def test_case_record_manifest_separates_current_output_from_upstream(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            project_root = Path(temp_dir)
+            session = self._core_only_stage_1_session(project_root)
+            session.write_output(20, "stage 1", complete=True)
+            session.write_output(21, "stage 1 check", complete=True)
+            app = self._app_for_session(session, project_root)
+
+            manifest = app._case_record_runner_manifest(22)
+
+            upstream = manifest.split("CURRENT STEP EXECUTION METADATA", 1)[0]
+            self.assertNotIn("step_22", upstream)
+            self.assertIn("expected_output: outputs/step_22_stage_2_layer_digests.yaml", manifest)
+            self.assertIn("current_output_is_upstream_input: false", manifest)
+            self.assertIn("Do not import current-step execution state", manifest)
+
+
 
 
 class SourceManifestTests(unittest.TestCase):
@@ -561,6 +773,62 @@ class CaseStoreTests(unittest.TestCase):
             for step_id in range(13, 20):
                 self.assertEqual(session.step_state(step_id)["status"], "skipped")
             self.assertFalse((session.case_dir / "article_route.json").exists())
+
+    def test_article_profile_is_persisted_and_profile_change_resets_only_article_steps(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            session = CaseStore(Path(temp_dir)).create_case(CASE_VALUES)
+            self._complete_through_step_12_core_only(session)
+            session.set_mip_route({"route_type": "no_mip", "selection_basis": "manual_user_route"})
+            self._complete_case_record(session)
+
+            session.set_article_route({
+                "route_type": "generate_article",
+                "article_profile": ARTICLE_PROFILE_CASE,
+                "selection_basis": "user_confirmed",
+            })
+            self.assertEqual(session.article_profile, ARTICLE_PROFILE_CASE)
+            for step_id in (26, 27, 28):
+                session.write_output(step_id, f"article {step_id}", complete=True)
+            self.assertTrue(session.output_path(25).is_file())
+
+            changed = session.set_article_route({
+                "route_type": "generate_article",
+                "article_profile": ARTICLE_PROFILE_FULL,
+                "selection_basis": "user_confirmed",
+            })
+
+            self.assertTrue(changed)
+            self.assertEqual(session.article_profile, ARTICLE_PROFILE_FULL)
+            self.assertEqual(session.current_step_id(), 26)
+            self.assertTrue(session.output_path(25).is_file())
+            for step_id in range(26, 31):
+                self.assertFalse(session.output_path(step_id).is_file())
+            saved = json.loads((session.case_dir / "article_route.json").read_text(encoding="utf-8"))
+            self.assertEqual(saved["article_profile"], ARTICLE_PROFILE_FULL)
+
+    def test_legacy_generated_article_route_defaults_to_full_analysis_profile(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            store = CaseStore(Path(temp_dir))
+            session = store.create_case(CASE_VALUES)
+            session.session_data["article_route"] = {
+                "route_type": "generate_article",
+                "selection_basis": "user_confirmed",
+            }
+            session.save()
+            (session.case_dir / "article_route.json").write_text(
+                json.dumps(session.session_data["article_route"]),
+                encoding="utf-8",
+            )
+
+            loaded = store.load_case(session.case_dir)
+
+            self.assertEqual(loaded.article_profile, ARTICLE_PROFILE_FULL)
+            self.assertEqual(
+                loaded.session_data["article_route"]["article_profile"],
+                ARTICLE_PROFILE_FULL,
+            )
+            route_file = json.loads((loaded.case_dir / "article_route.json").read_text(encoding="utf-8"))
+            self.assertEqual(route_file["article_profile"], ARTICLE_PROFILE_FULL)
 
     def test_skipped_step_cannot_be_reset(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:

@@ -30,6 +30,9 @@ DEFAULT_LOCAL_YAML_VALIDATION_ENABLED = True
 DEFAULT_YAML_VALIDATION_BEHAVIOR = "warn"
 VALID_YAML_VALIDATION_BEHAVIORS = {"warn", "block"}
 YAML_VALIDATION_REPORT_SCHEMA = "PMS_ORCHESTRATOR_YAML_VALIDATION_1.3"
+ARTICLE_PROFILE_CASE = "case_article"
+ARTICLE_PROFILE_FULL = "full_analysis_article"
+VALID_ARTICLE_PROFILES = {ARTICLE_PROFILE_CASE, ARTICLE_PROFILE_FULL}
 
 
 def utc_now() -> str:
@@ -90,6 +93,18 @@ def _route_signature(route: dict[str, Any] | None, fields: Iterable[str]) -> tup
     return tuple(route.get(field) for field in fields)
 
 
+def _article_route_signature(route: dict[str, Any] | None) -> tuple[Any, ...] | None:
+    if not route:
+        return None
+    route_type = route.get("route_type")
+    profile = route.get("article_profile")
+    if route_type == "generate_article" and profile not in VALID_ARTICLE_PROFILES:
+        profile = ARTICLE_PROFILE_FULL
+    if route_type != "generate_article":
+        profile = None
+    return route_type, profile
+
+
 @dataclass
 class CaseSession:
     project_root: Path
@@ -106,6 +121,14 @@ class CaseSession:
         route = self.session_data.get("route") or {}
         value = route.get("selected_addon")
         return str(value) if value else None
+
+    @property
+    def article_profile(self) -> str:
+        route = self.session_data.get("article_route") or {}
+        if route.get("route_type") != "generate_article":
+            return ARTICLE_PROFILE_FULL
+        value = str(route.get("article_profile") or ARTICLE_PROFILE_FULL)
+        return value if value in VALID_ARTICLE_PROFILES else ARTICLE_PROFILE_FULL
 
     @property
     def ai_review_steps_enabled(self) -> bool:
@@ -822,8 +845,20 @@ class CaseSession:
             required = self.required_route_step("article")
             raise StorageError(f"Step #{required} must be completed before setting the article route.")
 
+        route = dict(route)
+        route_type = route.get("route_type")
+        if route_type == "generate_article":
+            profile = str(route.get("article_profile") or ARTICLE_PROFILE_FULL)
+            if profile not in VALID_ARTICLE_PROFILES:
+                raise StorageError(f"Unsupported article profile: {profile}")
+            route["article_profile"] = profile
+        elif route_type == "no_article":
+            route.pop("article_profile", None)
+        else:
+            raise StorageError(f"Unsupported article route type: {route_type}")
+
         old_route = self.session_data.get("article_route")
-        changed = _route_signature(old_route, ("route_type",)) != _route_signature(route, ("route_type",))
+        changed = _article_route_signature(old_route) != _article_route_signature(route)
         if old_route and changed:
             self._archive_and_clear(
                 "article-route",
@@ -831,7 +866,6 @@ class CaseSession:
                 (self.case_dir / "article_route.json",),
             )
 
-        route = dict(route)
         route["recorded_at"] = utc_now()
         _write_json(self.case_dir / "article_route.json", route)
         self.session_data["article_route"] = route
@@ -840,17 +874,14 @@ class CaseSession:
             self.save()
             return False
 
-        route_type = route.get("route_type")
         if route_type == "generate_article":
             self._set_statuses({26: "current", 27: "open", 28: "open", 29: "open", 30: "open" if self.ai_review_steps_enabled else "skipped"})
             self.session_data["current_step"] = 26
             self.session_data["run_status"] = "active"
-        elif route_type == "no_article":
+        else:
             self._set_statuses({step_id: "skipped" for step_id in range(26, 31)})
             self.session_data["current_step"] = None
             self.session_data["run_status"] = "pipeline_complete_without_article"
-        else:
-            raise StorageError(f"Unsupported article route type: {route_type}")
         self.save()
         return changed
 
@@ -1061,6 +1092,14 @@ class CaseStore:
         session_data.setdefault("mip_route", None)
         session_data.setdefault("ahp_route", None)
         session_data.setdefault("article_route", None)
+        existing_article_route = session_data.get("article_route")
+        if (
+            isinstance(existing_article_route, dict)
+            and existing_article_route.get("route_type") == "generate_article"
+            and existing_article_route.get("article_profile") not in VALID_ARTICLE_PROFILES
+        ):
+            existing_article_route["article_profile"] = ARTICLE_PROFILE_FULL
+            changed = True
         mip_route = session_data.get("mip_route") or {}
 
         # Extend earlier runs without disturbing an active or awaiting route position.
@@ -1196,6 +1235,10 @@ class CaseStore:
         session.validation_dir.mkdir(parents=True, exist_ok=True)
         if self._migrate_case(case_data, session_data):
             session.save()
+            article_route = session_data.get("article_route")
+            article_route_path = case_dir / "article_route.json"
+            if isinstance(article_route, dict) and article_route_path.is_file():
+                _write_json(article_route_path, article_route)
         return session
 
     def list_cases(self) -> list[Path]:

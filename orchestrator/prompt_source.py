@@ -14,14 +14,20 @@ class PromptSourceError(RuntimeError):
 
 
 def normalize_prompt_text(text: str) -> str:
-    """Remove trailing whitespace, blank lines, and one terminal Markdown rule."""
+    """Remove surrounding blank lines, trailing whitespace, and one terminal Markdown rule."""
     lines = [line.rstrip() for line in text.splitlines()]
+
+    while lines and not lines[0].strip():
+        lines.pop(0)
+
     while lines and not lines[-1].strip():
         lines.pop()
+
     if lines and lines[-1].strip() == "---":
         lines.pop()
         while lines and not lines[-1].strip():
             lines.pop()
+
     return "\n".join(lines)
 
 
@@ -81,6 +87,18 @@ class PromptSource:
                 "material_count: 0\n"
                 "No additional case-material files are configured. Read PMS.yaml only.\n"
                 "END CASE MATERIAL PACKAGE"
+            )
+        if 26 <= prompt_number <= 30 and "RUNNER_ARTICLE_PROFILE_CONTRACT" not in runtime and "{RUNNER_ARTICLE_PROFILE_CONTRACT}" not in runtime:
+            runtime["RUNNER_ARTICLE_PROFILE_CONTRACT"] = (
+                "ARTICLE PROFILE — RUNNER-GENERATED\n"
+                "selected_profile: full_analysis_article\n"
+                "The selected profile controls presentation depth only and does not change the checked analysis.\n"
+                "CANONICAL PMS OPERATOR NAMING RULE\n"
+                "Use the canonical PMS operator names exactly: Δ (Difference), ∇ (Impulse), □ (Frame), "
+                "Λ (Non-Event), Α (Attractor), Ω (Asymmetry), Θ (Temporality), "
+                "Φ (Recontextualization), Χ (Distance), Σ (Integration), Ψ (Self-Binding).\n"
+                "In article prose, the first occurrence of each operator in every paragraph must use SYMBOL (Canonical Name).\n"
+                "END ARTICLE PROFILE"
             )
         for marker, value in runtime.items():
             token = marker if marker.startswith("{") else "{" + marker + "}"

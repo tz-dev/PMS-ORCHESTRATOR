@@ -1959,6 +1959,14 @@ INTENDED USE:
 AUTHORITATIVE RUNNER MANIFEST:
 {RUNNER_STAGE_1_MANIFEST}
 
+CURRENT-STEP SELF-REFERENCE RULE:
+
+* Stage 1 indexes upstream run artifacts from steps #1–#19 only.
+* The current Stage 1 output path is runner execution metadata, not an upstream artifact.
+* Do not list the current Stage 1 output as produced, missing, deferred, selected, excluded, superseded, or deliberately not imported.
+* The current output does not need to exist before generation.
+* Do not infer or enumerate unselected local source and template files. Preserve their route status using not_selected, not_applicable, skipped, or another template-allowed bounded marker, with no invented path or presence claim.
+
 SOURCE AUTHORITY HIERARCHY:
 For run metadata, file existence, exact paths, route state, branch state, and step status, use this order:
 
@@ -2080,6 +2088,14 @@ INTENDED USE:
 AUTHORITATIVE RUNNER MANIFEST:
 {RUNNER_STAGE_1_MANIFEST}
 
+STAGE-1 SELF-REFERENCE CHECK RULE:
+
+* The Stage 1 YAML under review indexes upstream run artifacts from steps #1–#19.
+* Step #20 is the artifact under review and is not required to index its own output path.
+* Absence of `outputs/step_20_stage_1_artifact_index.yaml` from the Stage 1 inventory is not a defect.
+* A Stage 1 YAML that imports its own current production status as an upstream artifact should be conservatively corrected by removing that self-reference.
+* Do not require a complete installation inventory. Unselected local sources and templates may remain not_selected or not_applicable without a path or local-presence assertion.
+
 SOURCE AUTHORITY HIERARCHY:
 For run metadata, file existence, exact paths, route state, branch state, and step status, use this order:
 
@@ -2151,8 +2167,8 @@ MANDATORY CRITERIA LEDGER:
 Evaluate every criterion separately and mark it PASS or FAIL. A general statement such as “coherent,” “complete,” or “ready” is not sufficient.
 
 1. YAML parses and preserves the Stage 1 root, required sections, required fields, and field order as far as possible.
-2. Every completed step output listed by the runner manifest appears with the exact case-relative output path from that manifest.
-3. No completed output is represented only by session.json unless the runner manifest explicitly assigns session.json to that artifact field.
+2. Every completed upstream step output from steps #1–#19 that is relevant to the selected route appears with the exact case-relative output path from the runner manifest; the Stage 1 output under review is not required to index itself.
+3. No completed upstream output is represented only by session.json unless the runner manifest explicitly assigns session.json to that artifact field.
 4. Route, selected add-on, MIP, AHP, skipped-branch, and produced-output states match the runner manifest exactly.
 5. Every configured case material is represented in case_material_index with the exact runner path, description, purpose, file-presence status, and supplied hash; no material is treated as a model source, template, or evidence merely because present.
 6. Stage 2 and Stage 3 templates are marked deferred future-step resources, not missing or expected_but_missing.
@@ -2162,7 +2178,7 @@ Evaluate every criterion separately and mark it PASS or FAIL. A general statemen
 10. Skipped MIP or AHP branches remain visible and are not treated as missing-artifact defects.
 11. Source status and intended use match the CASE PACKET exactly.
 12. ready_for_stage_2 and blocker_notes follow the actual current-run artifacts; future-template upload state is not a blocker.
-13. Stage 1 contains no layer digest, Stage 3 integration, new case analysis, or later-pipeline content.
+13. Stage 1 contains no layer digest, Stage 3 integration, new case analysis, later-pipeline content, or self-reference that treats step #20 as its own upstream artifact.
 
 READINESS RULE:
 The output may be declared ready only if every criterion is PASS after any correction. Any FAIL must be corrected inside Stage 1 or reported as blocking.
@@ -2241,6 +2257,14 @@ INTENDED USE:
 AUTHORITATIVE RUNNER CASE-RECORD MANIFEST:
 {RUNNER_CASE_RECORD_MANIFEST}
 
+CURRENT-STEP OUTPUT RULE:
+
+* The current step's expected output path, current status, and temporary output-existence value are runner execution metadata only.
+* Do not copy current-step execution metadata into the generated or reviewed YAML.
+* Do not place the current step's own output status in notes, missing-item registers, deliberately-not-imported items, workflow findings, tensions, blockers, readiness fields, or case findings.
+* The current output does not need to exist before generation and must not be classified as missing, deferred, excluded, unresolved, or deliberately not imported.
+* Preserve genuine substantive contradictions, but do not convert temporary runner metadata into case substance.
+
 SOURCE AUTHORITY HIERARCHY:
 
 For exact metadata and provenance:
@@ -2277,6 +2301,11 @@ TECHNICAL INSTRUCTIONS:
 * Fill fields precisely from checked artifacts only.
 * Use not_applicable, skipped, absent, unknown, unclear, unresolved, under_specified, insufficient, none, or another field-allowed bounded marker where the input does not license a stronger value.
 * Extract only digest-level content from checked artifacts.
+* For PMS Core digests, preserve each operator's canonical identity, canonical name, definition-level function, dependency status, analytic weight, and checked case-specific role.
+* Do not rename, repurpose, merge, or substitute PMS operators during compression.
+* A case-specific gloss may explain an operator's role, but it must not replace the canonical operator meaning.
+* For example, `Λ` remains `Non-Event` and may represent a structured absence or expected occurrence that fails, remains delayed, or remains unresolved within a frame. It must not be redefined as continuity merely because continuity is present elsewhere in the case.
+* When a compact digest cannot preserve an operator distinction safely, use a more general description without assigning that description to the wrong operator.
 * Preserve each layer’s claim ceiling, non-use, skipped-branch status, uncertainty, correctability, rival pressure, and handoff.
 * Keep selected add-on, MIP, and AHP digests separate.
 * Keep AHP as optional second-order analysis-quality overlay where present.
@@ -2364,6 +2393,14 @@ INTENDED USE:
 AUTHORITATIVE RUNNER CASE-RECORD MANIFEST:
 {RUNNER_CASE_RECORD_MANIFEST}
 
+CURRENT-STEP OUTPUT RULE:
+
+* The current step's expected output path, current status, and temporary output-existence value are runner execution metadata only.
+* Do not copy current-step execution metadata into the generated or reviewed YAML.
+* Do not place the current step's own output status in notes, missing-item registers, deliberately-not-imported items, workflow findings, tensions, blockers, readiness fields, or case findings.
+* The current output does not need to exist before generation and must not be classified as missing, deferred, excluded, unresolved, or deliberately not imported.
+* Preserve genuine substantive contradictions, but do not convert temporary runner metadata into case substance.
+
 SOURCE AUTHORITY HIERARCHY:
 
 For exact metadata and provenance:
@@ -2413,6 +2450,7 @@ The check may identify and, where safely possible, correct:
 * unresolved required placeholders
 * unsupported source or file assumptions
 * digest content not grounded in checked artifacts
+* PMS operator identity or function changed during digest compression
 * compression that strengthens claims
 * compression that erases uncertainty or source limits
 * skipped branches omitted or misrepresented
@@ -2431,10 +2469,10 @@ MANDATORY CRITERIA LEDGER:
 Evaluate every criterion separately and mark it PASS or FAIL. A general statement such as “coherent,” “faithful,” or “ready” is not sufficient.
 
 1. YAML parses and preserves the Stage 2 root, required sections, required fields, and field order as far as possible.
-2. The imported Stage 1 reference and every case-record output path match the runner manifest exactly.
+2. The imported Stage 1 reference and every upstream case-record output path match the runner manifest exactly; current-step execution metadata is not imported into Stage 2.
 3. selected_artifacts_to_read matches checked Stage 1 exactly; no unselected, skipped, absent, or unavailable artifact is silently read.
 4. Every digest identifies the exact selected source artifact path; session.json is not used as a substitute unless explicitly assigned by the runner manifest or checked Stage 1.
-5. Each substantive digest is grounded in its corresponding checked layer artifact and contains no new analysis.
+5. Each substantive digest is grounded in its corresponding checked layer artifact and contains no new analysis; every PMS operator preserves its canonical identity, canonical function, and checked case-specific role without renaming, repurposing, merging, or substitution.
 6. Route, branch, skipped, rejected, non-use, and not_applicable states are preserved exactly.
 7. Digest compression does not strengthen claims, erase uncertainty, erase source limits, or turn contradictions into resolved findings.
 8. Core, selected add-on, MIP, and AHP remain separate; AHP does not rescore or correct MIP.
@@ -2521,6 +2559,14 @@ INTENDED USE:
 AUTHORITATIVE RUNNER CASE-RECORD MANIFEST:
 {RUNNER_CASE_RECORD_MANIFEST}
 
+CURRENT-STEP OUTPUT RULE:
+
+* The current step's expected output path, current status, and temporary output-existence value are runner execution metadata only.
+* Do not copy current-step execution metadata into the generated or reviewed YAML.
+* Do not place the current step's own output status in notes, missing-item registers, deliberately-not-imported items, workflow findings, tensions, blockers, readiness fields, or case findings.
+* The current output does not need to exist before generation and must not be classified as missing, deferred, excluded, unresolved, or deliberately not imported.
+* Preserve genuine substantive contradictions, but do not convert temporary runner metadata into case substance.
+
 SOURCE AUTHORITY HIERARCHY:
 
 For exact metadata and provenance:
@@ -2557,6 +2603,8 @@ TECHNICAL INSTRUCTIONS:
 * Fill fields precisely from checked Stage 1 and checked Stage 2.
 * Use not_applicable, skipped, absent, unknown, unclear, unresolved, under_specified, insufficient, none, or another field-allowed bounded marker where the input does not license a stronger value.
 * Integrate only what Stage 1 and Stage 2 already establish.
+* Preserve canonical PMS operator identities and functions exactly as established by the checked Core and preserved by checked Stage 2.
+* Do not use integration prose to rename, repurpose, merge, or substitute an operator.
 * Preserve layer separation inside the integrated record.
 * Preserve selected add-on, MIP, and AHP branch status.
 * Preserve AHP as optional second-order analysis-quality overlay where present.
@@ -2645,6 +2693,14 @@ INTENDED USE:
 AUTHORITATIVE RUNNER CASE-RECORD MANIFEST:
 {RUNNER_CASE_RECORD_MANIFEST}
 
+CURRENT-STEP OUTPUT RULE:
+
+* The current step's expected output path, current status, and temporary output-existence value are runner execution metadata only.
+* Do not copy current-step execution metadata into the generated or reviewed YAML.
+* Do not place the current step's own output status in notes, missing-item registers, deliberately-not-imported items, workflow findings, tensions, blockers, readiness fields, or case findings.
+* The current output does not need to exist before generation and must not be classified as missing, deferred, excluded, unresolved, or deliberately not imported.
+* Preserve genuine substantive contradictions, but do not convert temporary runner metadata into case substance.
+
 SOURCE AUTHORITY HIERARCHY:
 
 For exact metadata and provenance:
@@ -2718,7 +2774,7 @@ Evaluate every criterion separately and mark it PASS or FAIL. A general statemen
 1. YAML parses and preserves the Stage 3 root, required sections, required fields, and field order as far as possible.
 2. generated_from and all case-record provenance paths match the runner manifest exactly, including the exact Step #20 and Step #22 output paths.
 3. Stage 1 controls artifact, route, branch, skipped, and non-use metadata; Stage 2 controls substantive digest content.
-4. Integrated content is grounded in checked Stage 1 and checked Stage 2 and introduces no new analysis.
+4. Integrated content is grounded in checked Stage 1 and checked Stage 2 and introduces no new analysis; canonical PMS operator identities, functions, and checked case-specific roles remain unchanged.
 5. Source status, intended use, claim ceiling, person-nearness, publicness, and irreversibility do not drift from controlling checked sources.
 6. Selected add-on, MIP, and AHP remain separate; AHP does not rescore, correct, or authorize MIP.
 7. Skipped, rejected, absent, not_applicable, and non-used layers remain visible and are not converted into deficiencies.
@@ -2771,22 +2827,14 @@ Do not declare ready while any criterion remains FAIL.
 
 You are continuing a PMS-DISCIPLINE pipeline run.
 
-This step establishes the source hierarchy and article-generation contract for rendering a completed PMS-DISCIPLINE case-record chain into Markdown prose.
+This step establishes the source hierarchy and selected article-profile contract for rendering the completed case-record chain into Markdown prose.
 
 AVAILABLE CONTEXT:
 
-* PMS.yaml was read earlier and remains the PMS Base reference.
-* Checked Pre-Analysis YAML is present in this conversation/session.
-* Checked Core Case Application YAML is present in this conversation/session.
-* Checked Add-on Recommendation Gate YAML is present in this conversation/session.
-* Checked selected PMS add-on case application YAML is present if an add-on was applied.
-* Checked PMS-DISCIPLINE MIP Gate YAML is present if MIP routing occurred.
-* Checked MIP Case Application YAML is present if MIP was applied.
-* Checked PMS-DISCIPLINE AHP Gate YAML is present if AHP routing occurred.
-* Checked AHP Module Output YAML is present if AHP was applied.
 * Checked Stage 1 Artifact Index YAML is present in this conversation/session.
 * Checked Stage 2 Layer Digest Extraction YAML is present in this conversation/session.
 * Checked Stage 3 Full Record Integration YAML is present in this conversation/session.
+* Checked prior PMS-DISCIPLINE artifacts are present where applicable.
 * The CASE PACKET remains the bounded source material for this run.
 
 CASE PACKET:
@@ -2802,119 +2850,52 @@ SOURCE STATUS:
 INTENDED USE:
 {INTENDED_USE}
 
-TASK:
-Establish the article-generation source hierarchy and rendering contract for the PMS-DISCIPLINE Markdown case article.
+{RUNNER_ARTICLE_PROFILE_CONTRACT}
 
-PURPOSE:
-Prepare the article-generation step by fixing which checked artifacts control the article, what the article may render, what it may not claim, and how unresolved or missing items must be preserved.
+TASK:
+Establish the source hierarchy and rendering contract for the selected article profile.
 
 SOURCE HIERARCHY:
-Use the following hierarchy for all later Markdown article generation:
 
-1. Primary source for article rendering:
-   Checked Stage 3 Full Record Integration YAML.
+1. Checked Stage 3 Full Record Integration YAML controls the article's substantive integrated record, title, claim boundary, final posture, unresolved items, and permitted use.
+2. Checked Stage 2 Layer Digest Extraction YAML supplies layer-level analytical depth without overriding Stage 3.
+3. Checked Stage 1 Artifact Index YAML supplies provenance and artifact status. It is not a source of new case findings.
+4. Underlying checked artifacts may be consulted only where Stage 2 or Stage 3 explicitly identifies a gap, contradiction, unresolved item, or need for layer-specific verification.
+5. The CASE PACKET remains bounded source material only where the checked record chain licenses reference to it.
 
-2. Secondary source for analytical depth:
-   Checked Stage 2 Layer Digest Extraction YAML.
+COMMON RENDERING DISCIPLINE:
 
-3. Provenance and artifact-trace source:
-   Checked Stage 1 Artifact Index YAML.
+* Do not re-run analysis.
+* Do not strengthen claims.
+* Do not treat YAML, workflow completion, or AI-generated prose as evidence.
+* Preserve material unresolved items, source limits, rival pressure, weakening conditions, reopening conditions, and distinctive misuse risks.
+* Keep workflow QA separate from case substance.
+* Mention an internal workflow issue only when checked Stage 3 states that it materially limits record reliability or interpretation.
+* Do not import temporary runner execution metadata, local installation inventory, attachment names, drafting metadata, or profile-selection metadata into article prose.
+* State each provenance fact, route decision, claim boundary, non-use result, and non-authority warning once at the point where it contributes most.
 
-4. Underlying checked artifacts:
-   Read only where checked Stage 2 or checked Stage 3 explicitly marks a gap, contradiction, unresolved item, missing detail, or need to verify a layer-specific boundary.
+PROFILE APPLICATION:
 
-SOURCE DISCIPLINE:
+For `case_article`:
 
-* Stage 3 controls the article’s case title, claim boundary, final posture, unresolved items, branch status, non-use, human-confirmation status, and permitted article-use boundary.
-* Stage 2 supplies layer-level analytical depth but must not override Stage 3.
-* Stage 1 supplies provenance, artifact status, branch status, and source-chain visibility.
-* Underlying checked artifacts may verify a marked gap, but they may not introduce new article claims absent from Stage 2 or Stage 3.
-* CASE PACKET supplies bounded source material only where the checked record chain already licenses reference to it.
+* Stage 1 controls provenance silently unless a material record limitation must be disclosed.
+* Preserve the case-specific analysis rather than narrating the complete workflow.
+* Do not require an audit capsule, full source-chain section, generic boundary catalogue, full inactive-layer inventory, report-readiness section, or examples-policy section.
+* Mention inactive layers only when their non-use prevents a case-specific false trigger or materially explains the result.
 
-NON-AUTHORITY CONTRACT:
-The Markdown article is a rendering of the checked case-record chain.
+For `full_analysis_article`:
 
-It is not:
-
-* a re-analysis
-* a YAML output
-* a verdict
-* a truth certificate
-* a PMS Base validation
-* an add-on validation
-* MIP or AHP authority
-* publication permission
-* implementation permission
-* automated finality
-* evidence by itself
-
-The article may render:
-
-* what the checked record permits the article to say
-* what the checked record does not permit the article to say
-* which artifacts were used, skipped, rejected, unavailable, or not applicable
-* which layers were used, not used, rejected, scan-only, unsafe, unresolved, or human-review-required
-* what remains unresolved, non-captured, weak, conditional, rival-pressured, or reopenable
-* what would weaken, falsify, downgrade, suspend, refuse, redirect, or reopen the result
-
-The article must preserve:
-
-* source status
-* intended use
-* claim ceiling
-* person-nearness limits
-* publicness limits
-* irreversibility limits
-* non-capture
-* rival pressure
-* correctability
-* reopening conditions
-* stop-capability
-* human-confirmation requirements where present
-
-CASE CONTENT / WORKFLOW QA SEPARATION:
-
-* Substantive case findings, substantive uncertainties, rival readings, claim limits, and reopening conditions belong to the article where the checked record supports them.
-* Internal runner-path discrepancies, template-status drift, attachment-name drift, file-provenance inconsistencies, and workflow QA notes are not substantive findings about the case.
-* Mention a workflow QA issue only when checked Stage 3 explicitly states that it materially limits the reliability or interpretation of the case record.
-* When such a material limitation exists, describe it briefly as a record limitation, never as a fact about the case, a person, or a PMS operator.
-* Do not let workflow metadata dominate the article’s case analysis or conclusion.
-
-SOURCE-LOSS RULE:
-Before drafting, inspect checked Stage 3 for missing, unresolved, contradictory, unintegrated, skipped, rejected, unsafe, unavailable, or human-review-required items.
-
-If such items exist, later article prose must preserve them visibly.
-
-The article must not silently smooth away:
-
-* unresolved items
-* missing details
-* contradictions
-* unintegrated material
-* skipped branches
-* add-on non-use
-* MIP non-use or limits
-* AHP non-use or limits
-* human-review requirements
-* source-status weakness
-* claim-boundary restrictions
-* correctability or reopening conditions
+* Preserve detailed provenance, layer decisions, relevant non-use, claim boundaries, and reopening conditions.
+* Detailed does not mean repetitive.
+* Do not turn the article into a raw file inventory or a transcript of every pipeline step.
 
 TITLE RULE:
-The article must begin with the exact case title from checked Stage 3 as an H2 heading.
-
-If checked Stage 3 does not contain an exact case title, use the title from checked Stage 2.
-
-If checked Stage 2 also lacks a title, use the title from the checked Core output only if checked Stage 1 selected that artifact as current.
-
-Do not invent a title.
-
-Do not use a topic label, add-on label, working title, filename, or paper-section label as the article title unless the checked case record itself uses it as the exact case title.
+The final article begins with the exact case title from checked Stage 3 as an H2 heading. Fall back to checked Stage 2, then to the checked Core title only when Stage 1 selected that artifact as current. Do not invent a title.
 
 OUTPUT:
 Respond only:
 
-Article-generation source hierarchy and rendering contract established.
+Article-generation source hierarchy and selected profile contract established.
 
 ---
 
@@ -2922,23 +2903,15 @@ Article-generation source hierarchy and rendering contract established.
 
 You are continuing a PMS-DISCIPLINE pipeline run.
 
-The article-generation source hierarchy and rendering contract were established in the previous step.
+The source hierarchy and selected article-profile contract were established in the previous step.
 
 AVAILABLE CONTEXT:
 
-* PMS.yaml was read earlier and remains the PMS Base reference.
-* Checked Pre-Analysis YAML is present in this conversation/session.
-* Checked Core Case Application YAML is present in this conversation/session.
-* Checked Add-on Recommendation Gate YAML is present in this conversation/session.
-* Checked selected PMS add-on case application YAML is present if an add-on was applied.
-* Checked PMS-DISCIPLINE MIP Gate YAML is present if MIP routing occurred.
-* Checked MIP Case Application YAML is present if MIP was applied.
-* Checked PMS-DISCIPLINE AHP Gate YAML is present if AHP routing occurred.
-* Checked AHP Module Output YAML is present if AHP was applied.
-* Checked Stage 1 Artifact Index YAML is present in this conversation/session.
-* Checked Stage 2 Layer Digest Extraction YAML is present in this conversation/session.
-* Checked Stage 3 Full Record Integration YAML is present in this conversation/session.
-* The CASE PACKET remains the bounded source material for this run.
+* Checked Stage 1 Artifact Index YAML is present.
+* Checked Stage 2 Layer Digest Extraction YAML is present.
+* Checked Stage 3 Full Record Integration YAML is present.
+* Checked prior PMS-DISCIPLINE artifacts are present where applicable.
+* The CASE PACKET remains the bounded source material.
 
 CASE PACKET:
 CASE TITLE:
@@ -2953,400 +2926,111 @@ SOURCE STATUS:
 INTENDED USE:
 {INTENDED_USE}
 
-TASK:
-Create a chapter-ready, analytically substantial Markdown case article draft from the checked PMS-DISCIPLINE case-record chain.
+{RUNNER_ARTICLE_PROFILE_CONTRACT}
 
-PURPOSE:
-Render checked Stage 3 into polished Markdown prose, using checked Stage 2 for analytical depth and checked Stage 1 for provenance, without re-running analysis, strengthening claims, or treating the case record as a verdict.
+TASK:
+Create the base Markdown article draft for the selected article profile.
 
 SOURCE HIERARCHY:
-Use:
 
-1. Checked Stage 3 Full Record Integration YAML as the primary article source.
-2. Checked Stage 2 Layer Digest Extraction YAML for layer-level analytical depth.
-3. Checked Stage 1 Artifact Index YAML for provenance and artifact status.
-4. Underlying checked artifacts only where checked Stage 2 or checked Stage 3 explicitly marks a gap, contradiction, unresolved item, missing detail, or need for layer-specific verification.
+1. Checked Stage 3 is the primary article source.
+2. Checked Stage 2 supplies analytical depth.
+3. Checked Stage 1 supplies provenance and branch status only.
+4. Underlying checked artifacts may verify an explicitly marked gap but may not introduce new claims.
 
-CASE CONTENT / WORKFLOW QA SEPARATION:
-
-* Render substantive case content from checked Stage 3 and checked Stage 2.
-* Use Stage 1 for provenance and branch status, not as a source of substantive case findings.
-* Internal path discrepancies, template-status drift, attachment-name drift, file-provenance inconsistencies, and workflow QA notes are not case findings.
-* Mention such a workflow issue only if checked Stage 3 explicitly marks it as materially limiting record reliability or interpretation; then present it briefly as a record limitation.
-* Do not convert workflow metadata drift into uncertainty about the persons, scene, operators, or case substance.
-
-TECHNICAL INSTRUCTIONS:
+COMMON TECHNICAL RULES:
 
 * Output Markdown only.
-* Do not output YAML.
-* Do not use code blocks.
+* Do not output YAML or code blocks.
 * Do not add meta-commentary outside the article.
-* Do not redo the YAML analysis.
-* Do not re-run Core, add-on, MIP, AHP, or Case Record stages.
-* Do not strengthen claims beyond checked Stage 3.
-* Do not resolve contradictions by interpretation.
-* Do not introduce new source material, files, inferred facts, or unavailable context.
-* Do not treat YAML outputs as evidence.
-* Do not treat AI-generated material as source evidence.
-* Do not treat article readiness as truth, publication permission, implementation permission, or authority.
-* Preserve unresolved, missing, contradictory, unintegrated, skipped, rejected, unsafe, unavailable, or human-review-required items where the checked record contains them.
+* Begin with `## [EXACT CASE TITLE]`.
+* Do not re-run Core, add-on, MIP, AHP, or Case Record analysis.
+* Do not resolve contradictions through interpretation.
+* Do not introduce new facts, files, source material, or context.
+* Preserve the controlling source status, claim ceiling, unresolved conditions, rival pressure, correctability, and reopening conditions.
+* Preserve case-specific operator calibration and layer separation.
+* Keep add-on handles distinct from PMS operators.
+* Keep MIP and AHP results distinct and include them only where active or case-specifically relevant.
+* Keep workflow QA metadata out of case findings.
+* Do not generate examples in this step.
+* Do not repeat the same boundary or non-use statement in multiple sections.
 
-MANDATORY TITLE RULE:
-Begin with the exact case title from checked Stage 3 as an H2 heading:
+PROFILE-SPECIFIC STRUCTURE:
 
-## [EXACT CASE TITLE]
-
-If checked Stage 3 lacks an exact title, use checked Stage 2. If checked Stage 2 also lacks a title, use the checked Core title only if checked Stage 1 selected that artifact as current.
-
-REQUIRED STRUCTURE:
+For `case_article`, use this structure unless a section is genuinely not applicable:
 
 ## [EXACT CASE TITLE]
-
-### Case capsule
-
-Include where present in checked Stage 3:
-
-* Case file(s)
-* Record chain status
-* Stack
-* Case type
-* Concrete-scene status
-* Output type
-* Core status
-* Add-on status
-* MIP / AHP status
-* Claim boundary
-* Final status or decision posture
-* Human confirmation status
-
-If a field is absent, do not invent it. Mark it as absent, unresolved, or not supplied only where the checked record supports that.
 
 ### Why this case matters
 
-Explain why the case matters according to checked Stage 3 and checked Stage 2.
+Explain the case-specific closure pressure, structural tension, and why the case is mapped rather than solved.
 
-Include where supported:
+### Structural reading
 
-* why the case requires disciplined PMS use
-* what readability-to-use pressure it creates
-* what makes it structurally difficult
-* why Core-only may or may not be sufficient
-* why add-ons, MIP, or AHP were used, not used, rejected, scan-only, unsafe, unresolved, or left for human review
-* why the case is not being solved metaphysically, empirically, clinically, legally, diagnostically, technically, or operationally unless checked Stage 3 explicitly licenses such a claim
+Render the main PMS Core movement in compact but substantial prose. Apply the runner-generated canonical PMS operator naming rule throughout the article: at the first occurrence of each operator in every paragraph, write the symbol followed by its canonical English name in parentheses, for example `**Δ** (Difference)`. Later occurrences of the same operator within that paragraph may use the symbol alone. Symbol-only formulas remain permitted. Preserve important dependencies and calibrations, and include an active add-on, MIP, or AHP contribution only where it adds a case-specific result.
 
-### Source chain and integration status
+Center the structural reading on the operators that carry the case's main movement. Do not produce a mandatory operator-by-operator catalogue.
 
-Render the checked Stage 1 / Stage 2 / Stage 3 chain in readable prose.
+Group weak, conditional, dependency-limited, inactive, or analytic-only operators by shared calibration function. Normally place them in no more than one compact calibration paragraph unless an individual operator contributes a distinct case-specific result that cannot be preserved by grouping.
 
-Include where supported:
+Do not create a separate paragraph or subsection for an operator merely to show that it was considered. Do not repeat the same calibration point in different operator-specific wording.
 
-* which artifacts were selected as current
-* which artifacts were unavailable, superseded, rejected, skipped, or not applicable
-* which artifacts were integrated through digests
-* whether underlying artifacts were consulted for any marked gap
-* what was intentionally not imported
-* whether any relevant item remains unresolved
+### What the analysis shows
 
-This section should prevent source loss. It should not become a long file inventory unless the checked record requires it.
+State the central structural movement or formula, what the active layers make visible, and where residue, non-capture, or unresolved structure remains.
 
-### Claim status and scope discipline
+### Rival reading and reopening conditions
 
-Render the checked Stage 3 claim boundary in prose.
+Preserve the strongest case-specific rival reading, relevant weakening or falsifier conditions, operationalization limits where material, and conditions that would reopen the result.
 
-Include where present:
+### Case-specific boundary
 
-* case type
-* claim status
-* concrete-scene status
-* input/source status
-* empirical boundary
-* metaphysical boundary
-* diagnostic boundary
-* legal/forensic boundary
-* implementation boundary
-* PMS Base boundary
-* operationalization status
-* article-use boundary
-* publicness limits
-* person-nearness limits
-* irreversibility limits
-* correctability limits
+State only the distinctive misuse or escalation risks created by this case. Normally select the two to four risks nearest to the case material and actual analysis.
 
-Do not reduce this to one paragraph if the checked record contains more distinctions.
+Do not repeat a generic catalogue of every PMS-DISCIPLINE prohibition. Mention broader legal, clinical, forensic, HR, automated-decision, publication, implementation, or institutional-use boundaries only when the case, intended use, active layer, or checked record creates concrete proximity to that misuse.
 
-### Scene and frame structure
+### Case takeaway
 
-Render the case boundary and scene/frame structure from checked Stage 3 and checked Stage 2.
+Give a concise synthesis of what the case shows and what remains open.
 
-Include where present:
+For `case_article`, do not require or recreate:
 
-* scene boundary
-* frame □
-* what is inside the frame
-* what is outside the frame
-* protected constraints
-* roles
-* temporality Θ
-* reversibility window
-* exposure and asymmetry conditions
-* non-capture zones
+* an audit-style case capsule;
+* a full source-chain and integration-status section;
+* workflow correction history;
+* a complete claim-boundary catalogue;
+* a complete list of inactive operators;
+* individual subsections for every unused add-on;
+* generic MIP or AHP non-use exposition;
+* a layer-interaction section when no later layer contributes;
+* report-readiness or examples-policy planning;
+* a generic misuse-boundary catalogue;
+* remote legal, clinical, forensic, HR, automated-decision, publication, implementation, or institutional-use prohibitions without concrete case proximity.
 
-If the case is not a concrete scene, explain precisely what follows from that.
+For `full_analysis_article`, use a detailed structure appropriate to the checked record. It may include:
 
-### PMS Core structural reading
+* case capsule;
+* why the case matters;
+* source chain and integration status;
+* claim status and scope discipline;
+* scene and frame structure;
+* substantial PMS Core reading;
+* dependency and calibration discipline;
+* derived structures and drift status where present;
+* active and materially relevant inactive-layer decisions;
+* layer interaction;
+* MIP/AHP record where applicable;
+* rival and non-capture readings;
+* weakening, falsifier, operationalization, and reopening conditions;
+* misuse boundary;
+* report readiness.
 
-Give a substantial PMS Core reading based on the checked Core digest and checked Stage 3 integration.
+For `full_analysis_article`, do not repeat identical provenance, route, boundary, or non-authority statements across multiple sections. Local availability of an unused file is not an analytical result.
 
-Do not only list operators. Transform the operator analysis into prose.
+LENGTH GUIDANCE:
 
-Render relevant PMS operators in repository order where they are active, weak, conditional, not applicable, analytic-only, or explicitly constrained:
-
-Δ, ∇, □, Λ, Α, Ω, Θ, Φ, Χ, Σ, Ψ.
-
-For each operator included by the checked record:
-
-* explain its case-specific role
-* mark active, weak, conditional, not applicable, or analytic-only status where relevant
-* explain calibration issues
-* explain dependency risks
-* explain what would be overclaim if the operator were pushed too far
-
-Do not invent operator assignments absent from checked Stage 2 or checked Stage 3.
-
-Preserve special calibration for:
-Χ, Φ, Σ, Ψ, Ω, Θ, and Λ.
-
-### PMS dependency and calibration discipline
-
-Explain:
-
-* why later operators cannot be used cheaply
-* where Σ or Ψ remain conditional
-* why coherence is not proof
-* why non-capture is not failure
-* why PMS must not become a closure machine
-* what dependency shortcuts would be invalid
-* where the Core record refused over-assignment or marked omission risk
-
-### Derived structures
-
-Use this section only if checked Stage 2 or checked Stage 3 includes derived-structure material.
-
-Render any included:
-
-* Awareness_A
-* Coherence_C
-* Responsibility_R
-* Action_E
-* Dignity_in_Practice_D
-* SELF_FIXPOINT
-
-For each included structure:
-
-* state whether it is active, weak, conditional, not applicable, or analytic-only
-* explain why
-* preserve that derived structures are formula-derived PMS projections, not primitives, scores, rankings, or person-level verdicts
-
-If derived structures are absent or not relevant, say so briefly and do not fabricate a full derived-structure analysis.
-
-### PMS drift-pattern status
-
-Use this section only if checked Stage 2 or checked Stage 3 includes PMS drift-pattern material or explicitly marks it as not applicable.
-
-Render where supported:
-
-* AD_A>>E
-* AD_Sigma_low
-* related coherence, under-integration, or under-discrimination risks
-
-Preserve:
-
-* risk is not finding
-* under-specification is not failure
-* non-assignment is not low score
-* non-use is not omission failure
-
-### Add-on record and overlay reading
-
-Use this section if any add-on was used, recommended, rejected, scan-only, not recommended, unsafe, human-review-required, unresolved, skipped, or otherwise relevant in the checked record.
-
-Do not restrict this section only to add-ons that were applied. Non-use, rejection, scan-only, and skipped-branch records may matter.
-
-For each relevant add-on:
-
-* name the add-on explicitly
-* state checked status
-* explain why Core alone was or was not sufficient
-* explain what the add-on makes visible if applied
-* explain which add-on constructs are overlay handles, not PMS operators
-* explain which add-on risks are risks, not findings
-* explain how the add-on remains subordinate to PMS Base
-* explain what the add-on must not redefine
-* explain why rejected, skipped, or unused add-ons were not applied
-
-For PMS-ANTICIPATION, preserve future-pressure and prediction/action-boundary discipline.
-
-For PMS-CONFLICT, preserve conflict-threshold discipline and avoid disagreement-to-conflict overtriggering.
-
-For PMS-CRITIQUE, preserve correction/critique boundaries and avoid complaint-to-verdict overtriggering.
-
-For PMS-EDEN, preserve description/application firewall, no person-status claim, no diagnosis, no sex-truth claim, and no action authority.
-
-For PMS-LOGIC, preserve logical-boundary discipline, non-closure, non-innocence if applicable, responsibility-without-ought if applicable, and no guilt/blame verdict.
-
-For PMS-SEX, preserve sex-trigger discipline, no person ranking, no normality verdict, no exposure license, no adultness/maturity verdict, and no body/genital meaning as person truth.
-
-### Layer interaction
-
-Use this section if an add-on, MIP, AHP, or other later layer exists, was recommended, rejected, skipped, scan-only, unsafe, or remains unresolved.
-
-Explain:
-
-* what remains PMS Core
-* what each layer sharpens
-* what each layer must not redefine
-* where overlay language could overreach
-* where MIP/AHP language could over-evaluate
-* where non-closure remains visible
-* which layer boundaries checked Stage 3 preserves
-
-### MIP / AHP record
-
-Use this section if MIP or AHP was used, recommended, rejected, scan-only, not recommended, unsafe, human-review-required, unresolved, or skipped.
-
-For MIP:
-
-* state checked MIP status
-* preserve that MIP output is produced by MIP’s own structure, not by PMS-DISCIPLINE
-* preserve no person-ranking, no dignity score, no maturity verdict, no diagnostic use
-* preserve A/M bands as qualitative bands if present, not hard scores
-* preserve IA-box as asymmetry check, not verdict
-* preserve Dignity-in-Practice as praxeological, not ontological
-
-For AHP:
-
-* state checked AHP status
-* preserve that AHP is an optional second-order analysis-quality overlay
-* preserve that AHP does not rescore, govern, certify, authorize, or finalize the case
-* explain Precision Heuristic, Attack Points, and Hardening Backlog only where checked AHP output supports them
-* mark Attack Points as review surfaces, not proven defects
-* mark Hardening Backlog as next-iteration support, not mandate
-* preserve AHP non-interference with MIP
-
-### Non-capture and rival readings
-
-Render all rival and non-capture material from checked Stage 3 and checked Stage 2.
-
-Include where present:
-
-* epistemological rival readings
-* phenomenological rival readings
-* language-practice rival readings
-* ethical rival readings
-* empirical rival readings
-* institutional or technical rival readings
-* anti-capture readings
-* case-specific rival frames
-
-Explain what each rival reading preserves that PMS, add-ons, MIP, or AHP may not fully capture.
-
-Do not treat rival readings as defects.
-
-A rival may weaken, redirect, or currently outperform the PMS reading if the checked record says so.
-
-### Weakening, falsifier, and operationalization conditions
-
-Render checked weakening, falsifier, reopening, and operationalization logic.
-
-Include where present:
-
-* what would weaken the Core reading
-* what would weaken any add-on reading
-* what would weaken MIP/AHP use
-* what would make the reading under-discriminating
-* what would make the reading over-assimilative
-* what evidence, source material, scene data, or human review would be required for stronger claims
-* what operationalization remains unfulfilled
-* what reopening conditions remain active
-
-### Misuse boundary
-
-Give a substantial misuse-boundary section.
-
-Include all boundaries relevant to the checked record:
-
-* no diagnosis
-* no person ranking
-* no legal/forensic conclusion
-* no metaphysical proof
-* no empirical proof unless explicitly warranted
-* no implementation validation
-* no PMS Base validation
-* no add-on-as-operator
-* no drift-as-verdict
-* no MIP maturity verdict
-* no AHP authority layer
-* no YAML-as-evidence
-* no AI-output-as-evidence
-* no closure-by-authority
-
-### Report readiness and examples policy
-
-Render the checked Stage 3 report-readiness and examples policy.
-
-Do not automatically generate examples in this step.
-
-Explain:
-
-* whether examples are recommended, optional, not applicable, unsafe, or not needed
-* what kinds of examples would fit if any
-* what examples must avoid
-* recommended example depth if supplied: micro, compact, worked, or flagship
-* where examples should be inserted later if recommended
-* when examples should be omitted entirely
-
-If checked Stage 3 marks examples as not applicable or unsafe, do not propose example content.
-
-LENGTH AND DEPTH:
-Normal case target: 3,500–6,000 words.
-Flagship or multi-layer case target: 6,000–9,000 words.
-
-Do not compress below the analytical density of checked Stage 2 and checked Stage 3.
-
-SPLIT RULE:
-If the answer would be too long, split into exactly two parts.
-
-Part 1 must include:
-
-* title
-* case capsule
-* why this case matters
-* source chain and integration status
-* claim status and scope discipline
-* scene and frame structure
-* PMS Core structural reading
-* PMS dependency and calibration discipline
-* derived structures if present
-
-End Part 1 with:
-
-Ready for Part 2.
-
-Do not continue into PMS drift-pattern status.
-
-Part 2 must begin with:
-
-### PMS drift-pattern status
-
-or, if drift-pattern status is not present:
-
-### Add-on record and overlay reading
-
-Continue through:
-
-### Report readiness and examples policy
-
-Do not repeat Part 1.
+* `case_article`: normally about 1,500–3,500 words. There is no minimum. Preserve analytical sufficiency without restoring audit structure.
+* `full_analysis_article`: normally about 5,000–8,000 words, with additional length only where an actual multi-layer record requires it. There is no artificial minimum.
 
 OUTPUT:
 Return Markdown only.
@@ -3360,17 +3044,13 @@ No meta-commentary outside the article.
 
 You are continuing a PMS-DISCIPLINE pipeline run.
 
-The article-generation source hierarchy and rendering contract were established earlier.
-The Base Markdown Case Article Draft was generated in the previous step.
+The base Markdown article draft exists for the selected profile.
 
 AVAILABLE CONTEXT:
 
-* Checked Stage 1 Artifact Index YAML is present in this conversation/session.
-* Checked Stage 2 Layer Digest Extraction YAML is present in this conversation/session.
-* Checked Stage 3 Full Record Integration YAML is present in this conversation/session.
-* Base Markdown Case Article Draft is present in this conversation/session.
-* Checked prior PMS-DISCIPLINE artifacts are present where applicable.
-* The CASE PACKET remains the bounded source material for this run.
+* Checked Stage 1, Stage 2, and Stage 3 outputs are present.
+* The Base Markdown Case Article Draft is present.
+* The CASE PACKET remains the bounded source material.
 
 CASE PACKET:
 CASE TITLE:
@@ -3385,112 +3065,61 @@ SOURCE STATUS:
 INTENDED USE:
 {INTENDED_USE}
 
+{RUNNER_ARTICLE_PROFILE_CONTRACT}
+
 TASK:
-Review the checked Stage 3 examples policy and the Base Markdown Case Article Draft. Decide whether examples should be generated for the final article.
+Decide whether an additional illustrative example is permitted and useful, and generate it only when warranted.
 
-PURPOSE:
-Determine whether examples are needed, allowed, unsafe, unnecessary, or useful for readability, while preserving the claim boundary and preventing examples from becoming evidence, verdicts, or new analysis.
-
-SOURCE HIERARCHY:
-Use:
-
-1. Checked Stage 3 Full Record Integration YAML as controlling source.
-2. Checked Stage 2 Layer Digest Extraction YAML for layer-level depth.
-3. Checked Stage 1 Artifact Index YAML for provenance and branch status.
-4. Base Markdown Case Article Draft for article continuity.
-
-EXAMPLE DECISION STATES:
+DECISION STATES:
 Use exactly one:
 
 * examples_not_applicable
 * examples_unsafe
 * examples_not_needed
-* no_examples
 * examples_optional
 * examples_recommended
 * examples_required_for_readability
+* no_examples
 
-DECISION RULE:
-Examples are optional and case-dependent. They must not be generated automatically.
+COMMON RULES:
 
-If checked Stage 3 marks examples as not applicable or unsafe, generate no examples. Output only a short Markdown note explaining why examples are omitted.
+* Examples are illustrative, not evidentiary.
+* Do not add new case claims, new source material, new operator assignments, new layer triggers, scores, verdicts, diagnoses, legal conclusions, or implementation authority.
+* Preserve the article's claim ceiling and case-specific boundaries.
+* Do not dramatize uncertainty, conflict, person-nearness, harm, or institutional consequence beyond the checked record.
+* Drafting metadata belongs only in this step and must not appear in the final article.
 
-If examples are not needed, or if the compatibility decision `no_examples` is used, generate no examples. Output only a short Markdown note explaining why the article can remain example-free.
+PROFILE RULES:
 
-If examples are optional, recommended, or required for readability, generate only the number and depth justified by checked Stage 3 and the Base Draft.
+For `case_article`:
 
-Allowed number of examples:
+* Default to no additional example when the case scene already makes the structural movement readable.
+* Generate at most one additional example.
+* Prefer a micro or compact vignette.
+* Generate a longer worked example only when checked Stage 3 or the base draft shows that readability otherwise fails.
+* Do not use an example merely to increase article length.
 
-* 0 if not applicable, unsafe, not needed, or `no_examples`
-* 1 if one bounded illustration is sufficient
-* 2 if contrast is needed
-* 3 only if checked Stage 3 or the article structure benefits from three distinct examples
+For `full_analysis_article`:
 
-Do not default to three examples.
+* One or more examples may be generated where the checked examples policy supports them.
+* Preserve substantial examples without thinning their internal analysis.
+* Do not create examples simply to mirror every layer or every unused branch.
 
-EXAMPLE STRUCTURE:
-For each generated example, use:
+OUTPUT FORMAT:
 
-### Example [number] — [example title]
+### Example decision
 
-**Type:** micro | compact | worked | flagship
-**Recommended insertion point:** ...
-**Example status:** illustrative only, not evidence
+[exactly one decision state]
 
-Then write the example as polished Markdown prose.
+### Reason
 
-Each example must include:
+[brief source-grounded reason]
 
-* a bounded vignette or abstract illustration
-* what the example demonstrates
-* PMS Core hooks
-* add-on hooks if relevant
-* MIP / AHP status if relevant
-* forbidden claims
-* non-capture note
-* article takeaway
+### Generated example
 
-Write readable prose. Avoid label-only examples.
+Write `none` when no example is generated.
 
-STEP BOUNDARIES:
-This step excludes:
-
-* YAML output
-* full case YAMLs
-* re-running prior analysis
-* changing checked Stage 1, Stage 2, or Stage 3
-* adding new source material, facts, files, or unavailable context
-* assigning scores unless explicitly warranted by checked source records
-* converting risks into findings
-* converting examples into verdicts
-* diagnosing, ranking persons, or making legal/forensic, clinical, metaphysical, empirical, implementation, or PMS Base claims
-* writing the final article conclusion
-
-CLAIM DISCIPLINE:
-
-* Examples are illustrative only.
-* Do not generate an example from an internal runner-path discrepancy, template-status drift, attachment-name drift, file-provenance inconsistency, or workflow QA note.
-* Workflow QA metadata is not case substance and must not be dramatized as a scene, person attribute, or PMS finding.
-* Examples are not evidence.
-* Examples must clarify the article’s claim boundary rather than dramatize the case.
-* High-risk cases should use abstract, structural, or guardrail-only examples.
-* Generated examples must remain bounded by checked Stage 3.
-
-RECOMMENDED DEPTH:
-Use the depth recommended in checked Stage 3 unless it conflicts with case boundaries.
-
-Default depth guide:
-
-* micro: 250–400 words each
-* compact: 400–700 words each
-* worked: 800–1,200 words each
-* flagship: 1,200–1,800 words each
-
-OUTPUT:
-Return Markdown only.
-No YAML.
-No code blocks.
-No meta-commentary outside the example decision and optional example prose.
+When an example is generated, provide the complete Markdown example body. Do not include drafting labels such as `Type`, `Recommended insertion point`, or generation metadata inside the example body.
 
 ---
 
@@ -3498,19 +3127,14 @@ No meta-commentary outside the example decision and optional example prose.
 
 You are continuing a PMS-DISCIPLINE pipeline run.
 
-The article-generation source hierarchy and rendering contract were established earlier.
-The Base Markdown Case Article Draft is present.
-The Example Decision and optional examples from the previous step are present.
+The Base Markdown Case Article Draft and the Example Decision are present.
 
 AVAILABLE CONTEXT:
 
-* Checked Stage 1 Artifact Index YAML is present in this conversation/session.
-* Checked Stage 2 Layer Digest Extraction YAML is present in this conversation/session.
-* Checked Stage 3 Full Record Integration YAML is present in this conversation/session.
-* Base Markdown Case Article Draft is present in this conversation/session.
-* Example Decision and optional examples are present in this conversation/session.
-* Checked prior PMS-DISCIPLINE artifacts are present where applicable.
-* The CASE PACKET remains the bounded source material for this run.
+* Checked Stage 1, Stage 2, and Stage 3 outputs are present.
+* The Base Markdown Case Article Draft is present.
+* The Example Decision and any generated example are present.
+* The CASE PACKET remains the bounded source material.
 
 CASE PACKET:
 CASE TITLE:
@@ -3525,191 +3149,56 @@ SOURCE STATUS:
 INTENDED USE:
 {INTENDED_USE}
 
-TASK:
-Produce the final integrated Markdown case article.
+{RUNNER_ARTICLE_PROFILE_CONTRACT}
 
-PURPOSE:
-Integrate the Base Markdown Case Article Draft and the Example Decision into a final chapter-ready article while preserving checked Stage 3 as primary source, checked Stage 2 depth, checked Stage 1 provenance, and all claim boundaries.
+TASK:
+Produce the final Markdown article for the selected profile.
 
 SOURCE HIERARCHY:
-Use:
 
-1. Checked Stage 3 Full Record Integration YAML as primary source.
-2. Checked Stage 2 Layer Digest Extraction YAML for analytical depth.
-3. Checked Stage 1 Artifact Index YAML for provenance and artifact status.
-4. Base Markdown Case Article Draft from Prompt #27.
-5. Optional examples from Prompt #28, if examples were generated.
+1. Checked Stage 3 controls the integrated record and claim boundary.
+2. Checked Stage 2 supplies analytical depth.
+3. Checked Stage 1 supplies provenance only.
+4. The Base Draft controls the article's profile-specific structure unless it conflicts with the checked record.
+5. Generated examples may be inserted only when the Example Decision permits them.
 
-CASE CONTENT / WORKFLOW QA SEPARATION:
+COMMON INTEGRATION RULES:
 
-* Substantive case prose follows checked Stage 3 and checked Stage 2.
-* Stage 1 provenance does not become a case finding.
-* Internal path discrepancies, template-status drift, attachment-name drift, file-provenance inconsistencies, and workflow QA notes remain outside the case analysis unless checked Stage 3 explicitly marks a material reliability limitation.
-* A material workflow limitation, if present, receives one bounded record-limitation statement and must not be repeated as substantive uncertainty or conclusion.
+* Output Markdown only.
+* Begin with the exact case title as an H2 heading.
+* Preserve supported case-specific analysis, active-layer results, rival pressure, unresolved items, weakening conditions, and reopening conditions.
+* Preserve canonical PMS operator naming. In every rewritten or newly inserted paragraph, the first occurrence of each operator must use `SYMBOL (Canonical Name)` according to the runner-generated naming rule.
+* Do not replace canonical operator names with case-specific descriptions. A description may follow the canonical name.
+* Do not introduce new analysis or strengthen claims.
+* Do not import workflow history, local file inventory, temporary runner metadata, prompt instructions, example-generation metadata, or audit-planning language into article prose.
+* Remove drafting labels such as `Type`, `Recommended insertion point`, `Example decision`, and generation metadata from inserted examples.
+* State each boundary, provenance fact, route decision, and non-use result once.
+* Do not treat article readiness as truth, publication permission, implementation permission, or authority.
 
-STEP BOUNDARIES:
-This step excludes:
+PROFILE INTEGRATION:
 
-* redoing YAML analysis
-* re-reading underlying artifacts unless the Base Draft or checked Stage 3 identifies a marked gap requiring resolution
-* adding new case claims
-* making the conclusion more certain than checked Stage 3 allows
-* introducing new examples beyond Prompt #28
-* converting examples into evidence
-* producing YAML
-* using code blocks
-* adding meta-commentary outside the article
+For `case_article`:
 
-MANDATORY TITLE RULE:
-Begin with the exact case title from checked Stage 3 as an H2 heading:
+* Preserve the analytical substance of the Base Draft without restoring omitted audit structure.
+* Do not expand the article merely to reproduce the length, section count, operator inventory, branch inventory, or boundary catalogue of Stage 1, Stage 2, Stage 3, or the full-analysis profile.
+* Preserve compact grouping of weak, conditional, dependency-limited, inactive, or analytic-only operators.
+* Do not unpack grouped operators into separate paragraphs or subsections merely because the checked record lists them separately.
+* Give an individual weak or inactive operator separate treatment only when it contributes a distinct case-specific result that would otherwise be lost.
+* Do not repeat the same calibration limit in multiple operator-specific formulations.
+* Omission of generic workflow history, inactive-layer inventories, repeated non-authority language, report-readiness planning, and non-material provenance detail is intentional and is not source loss.
+* Mention inactive add-ons, MIP, or AHP only where their non-use prevents a case-specific false trigger or materially explains the result.
+* Keep the case-specific boundary focused on the risks nearest to the actual material and analysis.
+* Do not restore remote legal, clinical, forensic, HR, automated-decision, publication, implementation, or institutional-use prohibitions unless the checked record establishes concrete proximity to that misuse.
+* Insert no more than one generated example.
 
-## [EXACT CASE TITLE]
+For `full_analysis_article`:
 
-If checked Stage 3 lacks an exact title, use checked Stage 2. If checked Stage 2 also lacks a title, use the checked Core title only if checked Stage 1 selected that artifact as current.
+* Preserve detailed record depth where the checked source supports it.
+* Do not repeat the same provenance fact, branch decision, claim boundary, non-use statement, or non-authority warning across the case capsule, layer sections, misuse section, and conclusion.
+* Do not mistake a full analysis article for a file inventory or chronological transcript of the runner.
 
-REQUIRED FINAL STRUCTURE:
-
-## [EXACT CASE TITLE]
-
-### Case capsule
-
-### Why this case matters
-
-### Source chain and integration status
-
-### Claim status and scope discipline
-
-### Scene and frame structure
-
-### PMS Core structural reading
-
-### PMS dependency and calibration discipline
-
-### Derived structures
-
-Use only if present.
-
-### PMS drift-pattern status
-
-Use only if present or explicitly marked not applicable.
-
-### Add-on record and overlay reading
-
-Use if any add-on was used, rejected, recommended, scan-only, unresolved, explicitly skipped, or explicitly not recommended.
-
-### Layer interaction
-
-Use if an add-on, MIP, AHP, or other later layer exists, was rejected, was skipped, or remains unresolved.
-
-### MIP / AHP record
-
-Use if MIP or AHP was used, rejected, recommended, scan-only, unresolved, explicitly skipped, or explicitly not recommended.
-
-### Example 1 — [title]
-
-Use only if examples were generated.
-
-### Example 2 — [title]
-
-Use only if examples were generated.
-
-### Example 3 — [title]
-
-Use only if examples were generated.
-
-If only one or two examples were generated, include only those.
-If no examples were generated, omit all example sections and preserve the examples-policy explanation elsewhere if useful.
-
-### Non-capture and rival readings
-
-### Weakening, falsifier, and operationalization conditions
-
-### Misuse boundary
-
-### Case conclusion
-
-CONCLUSION REQUIREMENTS:
-The conclusion must include:
-
-1. Integrative result
-2. What examples contribute, if examples were used
-3. Why examples were omitted, if no examples were used and omission matters
-4. What remains unclaimed
-5. Boundary discipline
-6. Final status / decision posture and human confirmation status, if available
-7. Final methodological takeaway
-
-The conclusion must stay within the checked record. It must not convert unresolved items into resolved findings, treat final status as automated, treat examples as evidence, or treat YAML completion as validation.
-
-PRESERVATION RULE:
-Preserve:
-
-* operator-by-operator reading where checked Stage 2 or Stage 3 supports it
-* derived-structure analysis where checked Stage 2 or Stage 3 includes it
-* add-on signatures, risks, non-use, skipped status, rejection records, or unresolved status where relevant
-* MIP/AHP boundary language where relevant
-* falsifier, weakening, reopening, and operationalization conditions
-* non-capture and rival readings
-* claim boundaries
-* missing or unintegrated items where they matter to article use
-
-BOUNDARY RULES:
-The article must preserve:
-
-* no empirical proof unless explicitly warranted
-* no diagnosis
-* no person ranking
-* no legal/forensic conclusion
-* no metaphysical proof
-* no implementation validation
-* no PMS Base validation
-* no drift finding unless explicitly warranted
-* risk is not finding
-* coherence is not proof
-* non-assignment is not low score
-* non-use is not omission failure
-* non-capture remains possible
-* resistance, refusal, non-fit, disagreement, rupture, or absence are not automatically drift
-* Dignity-in-Practice remains praxeological, not ontological
-* add-on terms remain overlay handles, not PMS operators
-* MIP output remains MIP’s own output, not PMS-DISCIPLINE output
-* AHP hardens artifact discipline only where warranted; it does not rescore, certify, govern, authorize, or finalize the case
-* YAML output is not evidence
-* AI output is not source evidence
-
-LENGTH AND DEPTH:
-Normal final case article target: 5,000–8,000 words.
-Flagship or multi-layer final case article target: 8,000–12,000 words.
-
-Do not compress below the depth of the Base Draft and source records.
-
-SPLIT RULE:
-If the final article is too long, split into exactly two parts.
-
-Part 1 must include:
-
-* title
-* case capsule
-* why this case matters
-* source chain and integration status
-* claim status and scope discipline
-* scene and frame structure
-* PMS Core structural reading
-* PMS dependency and calibration discipline
-* derived structures if present
-* PMS drift-pattern status if present
-
-End Part 1 with:
-
-Part 1 finished. Ready to go for Part 2.
-
-Part 2 must begin with:
-
-### Add-on record and overlay reading
-
-If there is no add-on section, begin with the next applicable required section.
-
-Do not repeat Part 1.
+NO-EXAMPLE RULE:
+When the decision state unambiguously indicates no example, preserve the Base Draft as the final article except for necessary cleanup. Do not rewrite or expand it merely because this integration step exists.
 
 OUTPUT:
 Return Markdown only.
@@ -3723,18 +3212,16 @@ No meta-commentary outside the article.
 
 You are continuing a PMS-DISCIPLINE pipeline run.
 
-The final integrated Markdown case article was generated in the previous step.
+The final Markdown article was generated for the selected profile.
 
 AVAILABLE CONTEXT:
 
-* Checked Stage 1 Artifact Index YAML is present in this conversation/session.
-* Checked Stage 2 Layer Digest Extraction YAML is present in this conversation/session.
-* Checked Stage 3 Full Record Integration YAML is present in this conversation/session.
-* Base Markdown Case Article Draft is present in this conversation/session.
-* Example Decision and optional examples are present in this conversation/session.
-* Final Integrated Markdown Case Article is present in this conversation/session.
+* Checked Stage 1, Stage 2, and Stage 3 outputs are present.
+* The Base Markdown Case Article Draft is present.
+* The Example Decision and any generated example are present.
+* The Final Integrated Markdown Case Article is present.
 * Checked prior PMS-DISCIPLINE artifacts are present where applicable.
-* The CASE PACKET remains the bounded source material for this run.
+* The CASE PACKET remains the bounded source material.
 
 CASE PACKET:
 CASE TITLE:
@@ -3749,173 +3236,73 @@ SOURCE STATUS:
 INTENDED USE:
 {INTENDED_USE}
 
+{RUNNER_ARTICLE_PROFILE_CONTRACT}
+
 TASK:
-Review the final Markdown case article against the checked PMS-DISCIPLINE record chain and conservatively patch only where needed.
+Review the final Markdown article against the checked record and the selected article profile. Patch only concrete defects.
 
-PURPOSE:
-Determine whether anything in the final article needs to be updated, expanded, weakened, removed, clarified, or restored so that the article remains faithful to checked Stage 3, preserves Stage 2 depth, preserves Stage 1 provenance, and stays within PMS-DISCIPLINE article boundaries.
-
-SOURCE HIERARCHY:
-Use:
-
-1. Checked Stage 3 Full Record Integration YAML.
-2. Checked Stage 2 Layer Digest Extraction YAML.
-3. Checked Stage 1 Artifact Index YAML.
-4. Base Markdown Case Article Draft.
-5. Generated examples, if any.
-6. Final Integrated Markdown Case Article.
-
-CHECK DISCIPLINE:
-
-* Keep the check strict and conservative.
-* Preserve faithful article content.
-* Patch only concrete defects.
-* Prefer exact find/replace or insertion patches.
-* Full rewrite is allowed only if the article is structurally unusable.
-* Keep patches claim-weakening where needed.
-* Preserve Markdown format.
-* Keep the exact case title rule.
-* Preserve unresolved, missing, contradictory, unintegrated, skipped, non-used, rejected, unsafe, or human-review-required items where the checked record contains them.
-
-STEP BOUNDARIES:
-This check excludes:
-
-* re-running prior YAML stages
-* changing checked YAML artifacts
-* adding new source material, files, inferred facts, or unavailable context
-* producing new analysis
-* strengthening claims beyond checked Stage 3
-* resolving contradictions by interpretation
-* generating new examples unless existing examples require bounded correction
-* turning article readiness into truth, validation, authority, implementation permission, or publication approval
-
-CHECK DIMENSIONS:
+COMMON CHECKS:
 
 1. Source fidelity
-   Check whether the article:
+   * Stage 3 remains primary.
+   * Stage 2 depth is preserved where needed.
+   * Stage 1 is used for provenance, not new case findings.
+   * No new analysis or source material appears.
 
-* follows checked Stage 3 as primary source
-* preserves checked Stage 2 depth where needed
-* uses checked Stage 1 only for provenance and artifact status
-* avoids re-analysis
-* avoids claims not present in the checked record chain
+2. Claim boundary
+   * Source status, claim ceiling, material unresolved items, rival pressure, and reopening conditions remain intact.
+   * No unlicensed diagnosis, person ranking, legal/forensic conclusion, metaphysical proof, empirical proof, implementation validation, PMS Base validation, maturity verdict, dignity score, or authority claim appears.
 
-2. Source-loss and omission
-   Check whether the article preserves:
+3. Structural fidelity
+   * Core calibration and dependencies remain understandable.
+   * Every paragraph containing PMS operator prose uses the canonical English name in parentheses at the first occurrence of each operator in that paragraph.
+   * Symbol-only formulas are permitted, but they do not satisfy the naming requirement for later prose in the same paragraph.
+   * Canonical operator names are not replaced by case-specific glosses or functions.
+   * Active add-on, MIP, and AHP results remain separate.
+   * Inactive layers are not presented as findings.
+   * Workflow QA metadata is not converted into case substance.
 
-* unresolved items
-* missing items
-* contradictory items
-* unintegrated items
-* skipped branches
-* non-use records
-* rejected layer records
-* human-review requirements
-* source limitations
-* checked output status
+4. Examples
+   * Any example is permitted by the recorded decision.
+   * It remains illustrative only.
+   * Drafting labels and insertion metadata are absent from the final article.
 
-3. Claim boundary
-   Check whether the article avoids unlicensed:
+5. Conclusion
+   * The conclusion stays within the checked record.
+   * It preserves the controlling posture and does not create publication or implementation authority.
 
-* empirical proof
-* diagnosis
-* legal or forensic conclusion
-* metaphysical proof
-* implementation validation
-* PMS Base validation
-* maturity verdict
-* dignity score
-* person-level ranking
-* publication permission
-* automated finality
+PROFILE CHECKS:
 
-4. Core preservation
-   Check whether the article:
+For `case_article`:
 
-* preserves the Core reading without total capture
-* preserves operator calibration
-* preserves dependency discipline
-* avoids cheap Σ or Ψ closure
-* avoids operator over-assignment
-* preserves omitted, weak, conditional, or analytic-only operators where relevant
+* The article remains a focused case article rather than a narrative audit dossier.
+* Absence of a case capsule, full source-chain inventory, workflow correction history, inactive-layer catalogue, generic misuse catalogue, report-readiness section, or examples-policy section is not a defect.
+* Omission of generic workflow history, repeated boundary language, and non-material provenance detail is not source loss.
+* Do not restore material merely because it exists in Stage 1, Stage 2, or Stage 3.
+* Restore omitted material only when its absence changes the case-specific structural analysis, controlling claim boundary, active-layer result, material unresolved tension, rival reading, weakening condition, reopening condition, or distinctive misuse risk.
+* Weak, conditional, dependency-limited, inactive, or analytic-only operators should normally be grouped by shared calibration function.
+* Separate treatment of such an operator is justified only when it contributes a distinct case-specific result that would be lost through grouping.
+* Flag separate operator paragraphs that merely repeat the same limitation in different wording as removable excess.
+* The case-specific boundary should normally prioritize the two to four misuse or escalation risks nearest to the material and actual analysis.
+* Flag remote legal, clinical, forensic, HR, automated-decision, publication, implementation, or institutional-use prohibitions as removable excess unless the checked record establishes concrete proximity to them.
+* Flag unnecessary internal workflow narration, repeated inactive-layer notes, repeated calibration points, or generic boundary repetition as removable excess.
 
-5. Add-on boundary
-   Check whether the article:
+For `full_analysis_article`:
 
-* treats add-ons as overlays, not PMS Base
-* preserves add-on non-use and rejection records
-* avoids add-on overdetermination
-* preserves subordination to PMS Base
-* avoids redefining PMS operators through add-on language
-
-6. MIP / AHP boundary
-   Check whether the article:
-
-* uses MIP only where the checked record supports MIP
-* treats MIP output as MIP’s own output
-* avoids person-ranking, dignity scoring, maturity verdicts, hard A/M scoring, and IA-box verdicts
-* treats AHP only as optional second-order analysis-quality overlay where checked AHP output exists
-* preserves AHP non-interference with MIP
-* keeps Precision Heuristic from becoming authority
-* keeps Attack Points from becoming proven defects
-* keeps Hardening Backlog from becoming mandate
-
-7. Examples
-   Check whether examples:
-
-* were generated only if allowed, recommended, or required by checked Stage 3
-* remain illustrative only
-* avoid evidence status
-* avoid verdict status
-* avoid unlicensed scores, diagnoses, rankings, legal/forensic claims, metaphysical claims, implementation claims, or PMS Base claims
-* clarify the article boundary rather than dramatize or overstate the case
-
-8. Rival and non-capture discipline
-   Check whether the article:
-
-* preserves rival readings
-* preserves non-capture
-* allows rivals to weaken or redirect the reading where the checked record supports that
-* avoids treating rival readings as defects
-
-9. Weakening, falsifier, operationalization, and reopening
-   Check whether the article preserves:
-
-* weakening conditions
-* falsifier conditions
-* operationalization limits
-* reopening conditions
-* correctability
-* stop-capability
-
-10. Workflow QA separation
-    Check whether the article:
-
-* distinguishes substantive case uncertainty from internal workflow metadata drift
-* avoids presenting runner-path discrepancies, template-status drift, attachment-name drift, file-provenance inconsistencies, or workflow QA notes as case findings
-* mentions workflow QA only where checked Stage 3 marks a material reliability limitation
-* presents any such limitation briefly as a record limitation, not as a person, scene, operator, or case conclusion
-
-11. Conclusion discipline
-    Check whether the conclusion:
-
-* stays within the checked record
-* avoids greater certainty than checked Stage 3 allows
-* distinguishes article readiness from truth, validation, authority, implementation permission, or publication approval
-* preserves final status / decision posture and human-confirmation status where available
+* Detailed provenance and layer decisions may remain.
+* Flag repeated provenance, route, boundary, and non-authority language when it adds no new case-specific function.
+* Flag local installation inventory, temporary runner state, or drafting metadata as removable excess.
+* Do not reduce supported analytical depth merely to make the article shorter.
 
 PATCH DISCIPLINE:
-If correction is needed:
 
 * Patch only the Markdown article.
-* Use exact find/replace or insertion instructions where possible.
-* Keep existing article structure unless the structure itself causes the defect.
-* Preserve supported analytical depth.
-* Restore missing boundary language rather than deleting analysis.
+* Prefer exact find/replace or insertion patches.
+* Full rewrite is allowed only when the article is structurally unusable.
+* Keep supported content.
 * Weaken overclaims rather than replacing them with silence.
-* Remove or revise only the smallest necessary text.
-* Patch examples only to restore boundary discipline, source fidelity, or illustrative-only status.
-* The corrected article remains a Markdown rendering of the checked record chain only.
+* Remove only the smallest unnecessary or unsupported text.
+* Do not use the check to convert one profile into the other.
 
 OUTPUT FORMAT:
 
@@ -3931,17 +3318,13 @@ Use one:
 
 ### Main issues
 
-List only actual issues.
-
-If no issues exist, write:
-none
+List only actual issues. Write `none` when there are none.
 
 ### Exact patches
 
-If no patch is needed, write:
-none
+Write `none` when no patch is needed.
 
-For each patch, use:
+For each patch:
 
 **Patch [number] — [short title]**
 
@@ -3961,11 +3344,7 @@ Insert after:
 
 Insert:
 
-[new text]
+[text]
 
-### Do not patch
+---
 
-List tempting changes that should remain untouched because they would strengthen claims, add new analysis, delete boundary discipline, erase unresolved items, remove non-use records, or over-smooth the article.
-
-If no such tempting changes are relevant, write:
-none

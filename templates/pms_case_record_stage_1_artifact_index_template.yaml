@@ -113,8 +113,10 @@ pms_discipline_case_record_stage_1_artifact_index:
 
   current_reference_template_set:
     instruction: >
-      List the current template files used for this run. These are references
-      for workflow shape only; their presence does not certify later outputs.
+      List templates selected, used, or route-required for this run. Do not
+      reconstruct a complete local installation inventory. Optional template
+      fields remain visible for route transparency, but unselected templates
+      may be marked not_applicable with no path or local-presence claim.
     templates:
       pre_analysis_template:
         expected_file_name: "pms_discipline_pre_analysis_template.yaml"
@@ -228,8 +230,10 @@ pms_discipline_case_record_stage_1_artifact_index:
 
   base_and_overlay_reference_files:
     instruction: >
-      List model reference files that were read or made available in the run.
-      A file listed here is not automatically evidence for the case.
+      List model reference files selected or read in this run. Do not enumerate
+      unselected files merely because they exist in the local installation.
+      Optional reference fields remain visible for route transparency and may
+      be marked not_applicable with no path. A listed file is not evidence.
     pms_base:
       file_name: "PMS.yaml"
       status: "unknown"

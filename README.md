@@ -217,13 +217,28 @@ AHP is available only after an actual checked MIP branch. It is a second-order a
 
 The Case Record pipeline separates:
 
-- artifact inventory;
+- upstream artifact and route inventory;
 - layer-level digest extraction;
 - full-record integration.
 
-Stage 1 also receives a runner-generated case-material inventory with exact case-relative paths, descriptions, purposes, hashes, sizes, and presence status.
+Stage 1 receives a runner-generated manifest containing the resources selected or used for the current run, the produced or skipped upstream artifacts, the confirmed routes, and the case-material inventory.
 
-Stage 3 integrates checked or explicitly unchecked prior artifacts without creating new substantive analysis.
+It does not reproduce the complete local source installation merely because files are present. Unselected add-ons, MIP, and AHP remain visible through their route state without being represented as selected, read, applied, or produced.
+
+Stage 1 indexes upstream workflow artifacts only. Its own current output is runner execution metadata and is not required to appear inside its own artifact inventory.
+
+The same current-step boundary applies to Stages 2 and 3. A step must not convert its own temporary output-existence state into:
+
+- a missing artifact;
+- a deferred artifact;
+- a deliberately excluded item;
+- a workflow tension;
+- a case finding;
+- a readiness blocker.
+
+Stage 2 extracts compact layer digests without changing the checked analysis. PMS operator identity, canonical name, definition-level function, dependency status, analytic weight, and checked case-specific role must remain stable during compression.
+
+Stage 3 integrates the checked Stage 1 and Stage 2 records without creating new substantive analysis or repurposing PMS operators.
 
 ### Optional Markdown article
 
@@ -235,7 +250,65 @@ Stage 3 integrates checked or explicitly unchecked prior artifacts without creat
 #30 Final Article Check and Conservative Patch
 ```
 
-When step #28 returns an unambiguous no-example decision, the runner copies the base article to the final-article path without an unnecessary rewrite. The final conservative review remains available when semantic review steps are enabled.
+When article generation is selected, the user chooses one of two presentation profiles.
+
+#### Case article
+
+A focused, standalone article centered on the case-specific analysis.
+
+This profile:
+
+- preserves the main structural movement;
+- preserves active-layer contributions;
+- preserves relevant rivals, limits, weakening conditions, and reopening conditions;
+- uses Stage 1 primarily for provenance control rather than visible audit narration;
+- groups weak, conditional, dependency-limited, inactive, or analytic-only operators where possible;
+- avoids separate operator sections merely to show that every operator was considered;
+- mentions inactive add-ons, MIP, or AHP only when their non-use prevents a case-specific false trigger or materially explains the result;
+- normally limits the case-specific boundary to the misuse or escalation risks nearest to the material and actual analysis;
+- omits generic workflow history, repeated non-authority language, inactive-layer inventories, and remote boundary catalogues.
+
+#### Full analysis article
+
+A detailed, audit-rich narrative rendering of the complete checked analysis record.
+
+This profile may preserve:
+
+- provenance and source-chain detail;
+- route and branch decisions;
+- fuller operator calibration;
+- layer interaction;
+- checked non-use records;
+- extended claim and misuse boundaries;
+- unresolved tensions;
+- weakening and reopening conditions;
+- report-readiness context.
+
+The full profile remains subject to the same non-authority and anti-repetition rules. A detailed article must not repeat the same provenance fact, route decision, claim boundary, or warning across several sections merely because it appears in several source artifacts.
+
+### Operator fidelity in articles
+
+Article prompts preserve the canonical PMS operator names:
+
+```text
+Δ (Difference)
+∇ (Impulse)
+□ (Frame)
+Λ (Non-Event)
+Α (Attractor)
+Ω (Asymmetry)
+Θ (Temporality)
+Φ (Recontextualization)
+Χ (Distance)
+Σ (Integration)
+Ψ (Self-Binding)
+```
+
+In article prose, the first occurrence of an operator in each paragraph is followed by its canonical English name in parentheses. Later occurrences in the same paragraph may use the symbol alone. Symbolic formulas may remain symbol-only.
+
+A case-specific explanation may follow the canonical name, but it must not replace or redefine the operator.
+
+When step #28 returns an unambiguous no-example decision, the runner copies the base article to the final-article path without an unnecessary rewrite. The final conservative review remains available when semantic review steps are enabled and applies the selected article profile as part of its review contract.
 
 ---
 
@@ -423,7 +496,7 @@ When corrected YAML validates cleanly, the original report remains in the histor
 
 ---
 
-## Route Handling
+## Route and Article-Profile Handling
 
 Routes are saved independently for:
 
@@ -432,15 +505,37 @@ Routes are saved independently for:
 - AHP;
 - article generation.
 
-Changing a saved route archives and resets only dependent work.
+The article route also records the selected presentation profile:
 
-Archived route revisions are stored under:
+```text
+case_article
+full_analysis_article
+```
+
+The interface displays these as:
+
+```text
+Case article
+Full analysis article
+```
+
+Existing cases without a stored article profile retain the previous detailed behavior through the `full_analysis_article` default.
+
+Changing a saved analytical route archives and resets only the work that depends on that route. Upstream work remains preserved unless the changed route makes it dependent.
+
+Changing only the article profile does not alter the checked analysis, Case Record, source status, claim ceiling, or Add-on/MIP/AHP route. It archives and resets only the article pipeline:
+
+```text
+#26–#30
+```
+
+Archived revisions are stored under:
 
 ```text
 cases/<case-id>/history/route_revisions/
 ```
 
-Upstream work remains preserved unless the changed route makes it dependent.
+A manual reset from a selected step archives the affected active prompts, outputs, validation reports, route records, and session state before clearing the active dependent files and step statuses. Old artifacts therefore remain available as history and should not be deleted manually.
 
 Skipped branches remain visible in later Case Record stages as skipped, not applicable, rejected, not recommended, scan-only, unsafe, unresolved, or otherwise bounded by the recorded route.
 
@@ -602,15 +697,33 @@ resources/Prompts and Instructions.md
 
 This file is required by the application.
 
-It is not identical to the manual PMS-DISCIPLINE prompt document. The app-specific resource contains runner-only instructions such as:
+It is not identical to the manual PMS-DISCIPLINE prompt document. The app-specific resource contains runner-only instructions and contracts such as:
 
-- dynamic manifests;
+- selected-run resource manifests;
 - exact case-relative output paths;
+- current-step self-reference exclusions;
 - case-material reading instructions;
 - Fast Mode overrides;
 - local validation handoffs;
-- structural/semantic responsibility separation;
+- structural and semantic responsibility separation;
+- source-authority ordering;
+- Stage 1–3 artifact and integration boundaries;
+- canonical PMS operator-fidelity rules;
+- article-profile rendering contracts;
+- profile-aware final article checks;
 - runner-managed article shortcuts.
+
+Runner metadata is authoritative for local paths, file existence, route state, branch state, and step status. It does not become case evidence or substantive analysis.
+
+The Case Record prompts distinguish between:
+
+```text
+case substance
+analytical boundaries
+workflow telemetry
+```
+
+Workflow telemetry remains available for traceability but is not automatically imported into visible case analysis or article prose.
 
 The manual PMS-DISCIPLINE prompt set and the application prompt resource serve different execution environments and should remain separate.
 
@@ -671,8 +784,17 @@ The application can start without PyYAML, but local YAML validation remains unav
 11. Paste or import the AI response.
 12. Review validation findings.
 13. Save or complete the step.
-14. Confirm routes when prompted.
-15. Resume later by reopening the case folder.
+14. Confirm Add-on, MIP, and AHP routes when prompted.
+15. Complete the three Case Record stages.
+16. Choose whether to generate an article.
+17. When generating an article, select:
+    - `Case article` for a focused case-specific rendering;
+    - `Full analysis article` for a detailed, audit-rich rendering.
+18. Complete or skip the optional example branch.
+19. Review and complete the final article check.
+20. Resume later by reopening the case folder.
+
+Changing only the article profile resets steps #26–#30. Earlier checked analysis and Case Record artifacts remain preserved.
 
 ---
 

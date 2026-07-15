@@ -362,6 +362,63 @@ class OrchestratorApp(tk.Tk):
             self.prompt_preview.pack_forget()
             self.prompt_text.pack(fill="both", expand=True)
 
+    def _article_profile_contract(self, step_id: int) -> str:
+        assert self.session is not None
+        profile = self.session.article_profile
+        common = [
+            "ARTICLE PROFILE — RUNNER-GENERATED",
+            f"selected_profile: {profile}",
+            "The selected profile controls presentation depth and section structure only.",
+            "It does not change the checked analysis, route state, source status, claim ceiling, unresolved items, or authority boundary.",
+            "",
+            "CANONICAL PMS OPERATOR NAMING RULE",
+            "- Use the canonical PMS operator names exactly:",
+            "  Δ (Difference), ∇ (Impulse), □ (Frame), Λ (Non-Event),",
+            "  Α (Attractor), Ω (Asymmetry), Θ (Temporality),",
+            "  Φ (Recontextualization), Χ (Distance), Σ (Integration),",
+            "  Ψ (Self-Binding).",
+            "- In article prose, the first occurrence of each operator in every paragraph must be followed by its canonical English name in parentheses.",
+            "- When the symbol is emphasized, emphasize the symbol only, for example: `**Δ** (Difference)`.",
+            "- Later occurrences of the same operator within that paragraph may use the symbol alone.",
+            "- When several operators first occur in the same paragraph, label every one of them.",
+            "- Symbolic formulas may remain symbol-only. The first prose occurrence in the paragraph must still use the canonical name.",
+            "- Do not replace a canonical operator name with a case-specific gloss. Place the case-specific explanation after the canonical name.",
+            "",
+        ]
+        if profile == "case_article":
+            common.extend([
+                "CASE ARTICLE CONTRACT",
+                "- Produce a focused, readable, standalone case article.",
+                "- Preserve the case-specific structural movement, active-layer contribution, controlling boundary, rival pressure, weakening conditions, and reopening conditions.",
+                "- Use Stage 1 for provenance control, not as a visible audit narrative unless a provenance issue materially limits reliability.",
+                "- Do not include an audit-style case capsule, full source-chain inventory, workflow correction history, report-readiness planning, examples-policy planning, or a generic misuse catalogue.",
+                "- Center the structural reading on the operators that carry the case's main movement.",
+                "- Group weak, conditional, dependency-limited, inactive, or analytic-only operators by shared calibration function unless one contributes a distinct case-specific result.",
+                "- Do not create a separate paragraph or subsection for an operator merely to show that it was considered.",
+                "- Do not narrate every inactive add-on, MIP, or AHP branch. Mention non-use only when it prevents a case-specific false trigger or materially explains the result.",
+                "- Keep the case-specific boundary normally to the two to four misuse or escalation risks nearest to the material and actual analysis.",
+                "- Mention broader legal, clinical, forensic, HR, automated-decision, publication, or institutional-use boundaries only when the case, intended use, active layer, or checked record creates concrete proximity to that misuse.",
+                "- Do not restore generic boundary language already expressed elsewhere in the article. State each relevant limit once.",
+                "- Omission of generic workflow history, inactive-layer inventories, repeated non-authority language, and non-material provenance detail is intentional compression, not source loss.",
+                "- Normal guidance is approximately 1,500–3,500 words, but analytical sufficiency controls; there is no minimum length.",
+                "- This profile-specific contract overrides any generic long-form structure or minimum-depth wording elsewhere in the prompt.",
+            ])
+        else:
+            common.extend([
+                "FULL ANALYSIS ARTICLE CONTRACT",
+                "- Produce a detailed, audit-rich narrative rendering of the checked case-record chain.",
+                "- Preserve provenance, branch decisions, layer status, claim boundaries, non-use records, rival pressure, weakening conditions, and reopening conditions where they matter.",
+                "- Detailed does not mean repetitive. State each provenance fact, route decision, boundary, non-use result, and non-authority warning once at the point where it contributes most.",
+                "- Do not import temporary runner execution metadata, local installation inventory, or drafting metadata into article prose.",
+                "- Normal guidance is approximately 5,000–8,000 words; multi-layer cases may be longer when the checked record requires it. There is no artificial minimum.",
+            ])
+        common.extend([
+            "",
+            f"CURRENT ARTICLE STEP: {step_id}",
+            "END ARTICLE PROFILE",
+        ])
+        return "\n".join(common)
+
     def _render_prompt_preview(self) -> None:
         if not hasattr(self, "prompt_preview"):
             return
@@ -502,11 +559,11 @@ Use **Add materials** to copy case-specific files into the active case. ZIP is r
 
 ## Case Record
 
-Stages 1–3 preserve the actual artifact chain, layer digests, route non-use, limits, correctability, and full-record integration.
+Stages 1–3 preserve the actual artifact chain, layer digests, route non-use, limits, correctability, and full-record integration. Stage 1 lists selected run resources rather than reproducing the complete local installation inventory. Current production outputs are not treated as their own upstream inputs.
 
 ## Article workflow
 
-Article generation is optional after Stage 3. Markdown outputs open in Preview by default. When no examples are needed, the runner copies the base article to the final-article step without an unnecessary model rewrite.
+Article generation is optional after Stage 3. Choose **Case article** for focused case-specific prose or **Full analysis article** for a detailed, audit-rich rendering. The profile changes only steps #26–#30 and does not change the checked analysis. Markdown outputs open in Preview by default. When no examples are needed, the runner copies the base article to the final-article step without an unnecessary model rewrite.
 
 ## Non-authority
 
@@ -1211,7 +1268,7 @@ The runner does not validate truth, authorize claims, make route decisions autom
         addon = route.get("selected_addon") or "none"
         mip = "use" if mip_route.get("route_type") == "use_mip" else ("none" if mip_route.get("route_type") == "no_mip" else "not set")
         ahp = "use" if ahp_route.get("route_type") == "use_ahp" else ("none" if ahp_route.get("route_type") == "no_ahp" else "not set")
-        article = "yes" if article_route.get("route_type") == "generate_article" else ("no" if article_route.get("route_type") == "no_article" else "not set")
+        article = (self.session.article_profile.replace("_", " ") if article_route.get("route_type") == "generate_article" else ("no" if article_route.get("route_type") == "no_article" else "not set"))
         case_title = self._shorten(self.session.case_data.get("title"), 24)
         source_status = self._shorten(self.session.case_data.get("source_status"), 18)
         addon = self._shorten(addon, 14)
@@ -1262,16 +1319,147 @@ The runner does not validate truth, authorize claims, make route decisions autom
             return
         self._show_step(self.selected_step_id)
 
+    def _selected_run_resources_block(self) -> str:
+        assert self.session is not None
+
+        route = self.session.session_data.get("route") or {}
+        mip_route = self.session.session_data.get("mip_route") or {}
+        ahp_route = self.session.session_data.get("ahp_route") or {}
+        selected_addon = str(route.get("selected_addon") or "none")
+
+        def presence(relative: str) -> str:
+            return "present" if (self.project_root / relative).is_file() else "missing"
+
+        lines = [
+            "SELECTED RUN RESOURCES",
+            "This is run provenance, not a complete installation inventory.",
+            "Only resources selected, read, applied, or required by the current run are listed.",
+            "Unselected local files are represented by route state and must not be expanded from disk availability.",
+            "",
+            "pms_base:",
+            "  path: pms/PMS.yaml",
+            f"  local_presence: {presence('pms/PMS.yaml')}",
+            "  selected: yes",
+            f"  read_status: {'completed' if is_completed_step_status(self.session.step_state(1).get('status')) else self.session.step_state(1).get('status', 'unknown')}",
+            "",
+            "used_templates:",
+        ]
+
+        template_steps: list[tuple[int, str]] = [
+            (2, "templates/pms_discipline_pre_analysis_template.yaml"),
+            (4, "templates/pms_core_case_application_template.yaml"),
+            (6, "templates/pms_discipline_addon_recommendation_gate_template.yaml"),
+            (11, "templates/pms_discipline_mip_gate_template.yaml"),
+            (16, "templates/pms_discipline_ahp_gate_template.yaml"),
+            (20, "templates/pms_case_record_stage_1_artifact_index_template.yaml"),
+        ]
+        if route.get("route_type") == "selected_addon" and selected_addon != "none":
+            template_steps.insert(
+                3,
+                (9, f"templates/pms_addon_{selected_addon.lower()}_case_application_template.yaml"),
+            )
+
+        used_template_count = 0
+        for step_id, relative in template_steps:
+            status = str(self.session.step_state(step_id).get("status") or "unknown")
+            if step_id == 20 or status in {"current", "draft"} or is_completed_step_status(status):
+                lines.append(
+                    f"  - path: {relative}; local_presence={presence(relative)}; "
+                    f"selected=yes; used_at_step={step_id:02d}; step_status={status}"
+                )
+                used_template_count += 1
+        if not used_template_count:
+            lines.append("  - none")
+
+        addon_route = str(route.get("route_type") or "not_set")
+        lines.extend([
+            "",
+            "selected_addon:",
+            f"  route: {addon_route}",
+            f"  family: {selected_addon}",
+        ])
+        if addon_route == "selected_addon" and selected_addon != "none":
+            addon_source = f"pms/PMS-{selected_addon}.yaml"
+            addon_template = f"templates/pms_addon_{selected_addon.lower()}_case_application_template.yaml"
+            lines.extend([
+                f"  source_path: {addon_source}",
+                f"  source_local_presence: {presence(addon_source)}",
+                f"  source_read_status: {self.session.step_state(8).get('status', 'unknown')}",
+                f"  application_template_path: {addon_template}",
+                f"  application_template_local_presence: {presence(addon_template)}",
+            ])
+        else:
+            lines.extend([
+                "  source_path: not_applicable",
+                "  source_local_presence: not_checked_for_run",
+                "  source_read_status: not_applicable",
+                "  application_template_path: not_applicable",
+                "  application_template_local_presence: not_checked_for_run",
+            ])
+
+        mip_type = str(mip_route.get("route_type") or "not_set")
+        mip_source = "mip/MIP - Maturity in Practice.yaml"
+        lines.extend([
+            "",
+            "mip:",
+            f"  route: {mip_type}",
+        ])
+        if mip_type == "use_mip":
+            lines.extend([
+                f"  source_path: {mip_source}",
+                f"  source_local_presence: {presence(mip_source)}",
+                f"  source_read_status: {self.session.step_state(13).get('status', 'unknown')}",
+            ])
+        else:
+            lines.extend([
+                "  source_path: not_selected",
+                "  source_local_presence: not_checked_for_run",
+                "  source_read_status: not_applicable",
+            ])
+
+        ahp_type = str(ahp_route.get("route_type") or "not_set")
+        ahp_source = "mip/MIP - Maturity in Practice - AHP Module.yaml"
+        lines.extend([
+            "",
+            "ahp:",
+            f"  route: {ahp_type}",
+        ])
+        if ahp_type == "use_ahp":
+            lines.extend([
+                f"  source_path: {ahp_source}",
+                f"  source_local_presence: {presence(ahp_source)}",
+                f"  source_read_or_application_status: {self.session.step_state(18).get('status', 'unknown')}",
+            ])
+        else:
+            lines.extend([
+                "  source_path: not_selected",
+                "  source_local_presence: not_checked_for_run",
+                "  source_read_or_application_status: not_applicable",
+            ])
+
+        lines.extend([
+            "",
+            "future_templates:",
+            "  - path: templates/pms_case_record_stage_2_layer_digest_extraction_template.yaml",
+            "    status: deferred_future_step",
+            "    blocks_stage_1_readiness: false",
+            "  - path: templates/pms_case_record_stage_3_full_case_record_integration_template.yaml",
+            "    status: deferred_future_step",
+            "    blocks_stage_1_readiness: false",
+        ])
+        return "\n".join(lines)
+
     def _stage_1_runner_manifest(self, through_step: int = 19) -> str:
         assert self.session is not None
 
         route = self.session.session_data.get("route") or {}
         mip_route = self.session.session_data.get("mip_route") or {}
         ahp_route = self.session.session_data.get("ahp_route") or {}
+        current_output = self.session.output_path(20).relative_to(self.session.case_dir).as_posix()
 
         lines = [
             "RUNNER-GENERATED STAGE 1 MANIFEST",
-            "This block is authoritative for local file availability, route status, exact paths, and produced run artifacts.",
+            "This block is authoritative for selected run resources, route status, exact paths, and upstream run artifacts.",
             "Metadata authority order: runner manifest > checked upstream artifact > generated downstream artifact > template default > model inference.",
             "When values conflict, copy the runner-manifest value exactly. Do not normalize paths or substitute session.json.",
             "Do not replace it with AI-service attachment names, temporary paths, inferred hashes, or chat-sandbox state.",
@@ -1292,7 +1480,7 @@ The runner does not validate truth, authorize claims, make route decisions autom
             f"ahp_route: {ahp_route.get('route_type') or 'not_set'}",
             f"ahp_selection_basis: {ahp_route.get('selection_basis') or 'unknown'}",
             "",
-            f"PRODUCED OR SKIPPED STEP ARTIFACTS (STEPS 1-{through_step})",
+            f"UPSTREAM PRODUCED OR SKIPPED STEP ARTIFACTS (STEPS 1-{through_step})",
         ]
 
         for step in STEPS:
@@ -1313,60 +1501,29 @@ The runner does not validate truth, authorize claims, make route decisions autom
 
         lines.extend([
             "",
-            "LOCAL SOURCE AND TEMPLATE INVENTORY",
-            "Paths below are project-relative. Presence on disk does not mean a source or optional branch was selected, read, or applied.",
-        ])
-
-        source_paths = [
-            "pms/PMS.yaml",
-            "pms/PMS-ANTICIPATION.yaml",
-            "pms/PMS-CRITIQUE.yaml",
-            "pms/PMS-CONFLICT.yaml",
-            "pms/PMS-LOGIC.yaml",
-            "pms/PMS-EDEN.yaml",
-            "pms/PMS-SEX.yaml",
-            "mip/MIP - Maturity in Practice.yaml",
-            "mip/MIP - Maturity in Practice - AHP Module.yaml",
-        ]
-        template_paths = [
-            "templates/pms_discipline_pre_analysis_template.yaml",
-            "templates/pms_core_case_application_template.yaml",
-            "templates/pms_discipline_addon_recommendation_gate_template.yaml",
-            "templates/pms_addon_anticipation_case_application_template.yaml",
-            "templates/pms_addon_critique_case_application_template.yaml",
-            "templates/pms_addon_conflict_case_application_template.yaml",
-            "templates/pms_addon_logic_case_application_template.yaml",
-            "templates/pms_addon_eden_case_application_template.yaml",
-            "templates/pms_addon_sex_case_application_template.yaml",
-            "templates/pms_discipline_mip_gate_template.yaml",
-            "templates/pms_discipline_ahp_gate_template.yaml",
-            "templates/pms_case_record_stage_1_artifact_index_template.yaml",
-        ]
-        for relative in source_paths + template_paths:
-            lines.append(f"{relative}: present={'yes' if (self.project_root / relative).is_file() else 'no'}")
-
-        material_entries = self._material_manifest_entries()
-        lines.extend([
+            "CURRENT STEP EXECUTION METADATA",
+            "This block describes the output currently being produced. It is not an upstream artifact and must not be copied into the Stage 1 YAML.",
+            "step: 20",
+            f"expected_output: {current_output}",
+            f"status: {self.session.step_state(20).get('status', 'unknown')}",
+            f"output_exists_before_generation: {'yes' if self.session.output_path(20).is_file() else 'no'}",
+            "",
+            self._selected_run_resources_block(),
             "",
             render_case_material_manifest_block(
-                material_entries,
+                self._material_manifest_entries(),
                 step_1_status=str(self.session.step_state(1).get("status") or "unknown"),
             ),
             "",
-            "FUTURE-STEP RUNNER RESOURCES",
-            "templates/pms_case_record_stage_2_layer_digest_extraction_template.yaml: deferred_future_step",
-            "templates/pms_case_record_stage_3_full_case_record_integration_template.yaml: deferred_future_step",
-            "These Stage 2 and Stage 3 templates are intentionally uploaded only in steps #22 and #24.",
-            "Their non-upload during Stage 1 is not a missing-artifact condition and must not block ready_for_stage_2.",
-            "",
             "NORMALIZATION RULES",
-            "- Use only the project-relative source/template paths, case-relative material paths, and case-relative output paths listed above.",
+            "- Use only the selected project-relative source/template paths, case-relative material paths, and upstream case-relative output paths listed above.",
             "- Ignore /mnt/data paths, AI-service sandbox paths, renamed uploads, duplicate attachment names, and helper scripts.",
             "- Do not invent SHA-256 values. Set sha256_if_available to unknown unless a hash is explicitly supplied by this manifest.",
-            "- Unselected add-on source/template files may be locally present but remain not selected, not read, and not applied.",
-            "- Unselected add-on outputs are not_applicable, with no output path.",
+            "- Do not infer local presence for unselected add-on, MIP, or AHP files from installation state.",
+            "- Unselected add-on sources and templates are not_applicable or not_selected for this run; unselected outputs receive no output path.",
             "- A skipped MIP or AHP branch is not a missing-artifact defect.",
-            "- Stage 1 readiness depends on accurately marked current run artifacts and branches, not on future-step template upload state.",
+            "- Stage 1 readiness depends on actual upstream artifacts and route states, not on current-output existence or future-template upload state.",
+            "- The Stage 1 output must not index its own current production path as an upstream artifact.",
         ])
         return "\n".join(lines)
 
@@ -1375,6 +1532,7 @@ The runner does not validate truth, authorize claims, make route decisions autom
         route = self.session.session_data.get("route") or {}
         mip_route = self.session.session_data.get("mip_route") or {}
         ahp_route = self.session.session_data.get("ahp_route") or {}
+        step_20_path = self.session.output_path(20)
         lines = [
             "RUNNER-GENERATED STAGE 1 CHECK MANIFEST",
             "Authority hierarchy: runner manifest > checked upstream artifact > Stage 1 output > template default > model inference.",
@@ -1387,10 +1545,10 @@ The runner does not validate truth, authorize claims, make route decisions autom
             f"  selected_add_on: {route.get('selected_addon') or 'none'}",
             f"  mip_route: {mip_route.get('route_type') or 'not_set'}",
             f"  ahp_route: {ahp_route.get('route_type') or 'not_set'}",
-            "produced_or_skipped_artifacts:",
+            "upstream_produced_or_skipped_artifacts:",
         ]
         for step in STEPS:
-            if step.step_id > 20:
+            if step.step_id > 19:
                 break
             state = self.session.step_state(step.step_id).get("status", "unknown")
             path = self.session.output_path(step.step_id)
@@ -1400,46 +1558,19 @@ The runner does not validate truth, authorize claims, make route decisions autom
                 f"output_exists={'yes' if path.is_file() else 'no'}"
             )
 
-        inventory = [
-            "pms/PMS.yaml",
-            "pms/PMS-ANTICIPATION.yaml",
-            "pms/PMS-CRITIQUE.yaml",
-            "pms/PMS-CONFLICT.yaml",
-            "pms/PMS-LOGIC.yaml",
-            "pms/PMS-EDEN.yaml",
-            "pms/PMS-SEX.yaml",
-            "mip/MIP - Maturity in Practice.yaml",
-            "mip/MIP - Maturity in Practice - AHP Module.yaml",
-            "templates/pms_discipline_pre_analysis_template.yaml",
-            "templates/pms_core_case_application_template.yaml",
-            "templates/pms_discipline_addon_recommendation_gate_template.yaml",
-            "templates/pms_addon_anticipation_case_application_template.yaml",
-            "templates/pms_addon_critique_case_application_template.yaml",
-            "templates/pms_addon_conflict_case_application_template.yaml",
-            "templates/pms_addon_logic_case_application_template.yaml",
-            "templates/pms_addon_eden_case_application_template.yaml",
-            "templates/pms_addon_sex_case_application_template.yaml",
-            "templates/pms_discipline_mip_gate_template.yaml",
-            "templates/pms_discipline_ahp_gate_template.yaml",
-            "templates/pms_case_record_stage_1_artifact_index_template.yaml",
-        ]
-        lines.append("expected_local_inventory:")
-        for relative in inventory:
-            lines.append(f"  {relative!r}: {'present' if (self.project_root / relative).is_file() else 'missing'}")
         lines.extend([
+            "current_stage_1_output_under_review:",
+            "  step: 20",
+            f"  path: {step_20_path.relative_to(self.session.case_dir).as_posix()}",
+            f"  status: {self.session.step_state(20).get('status', 'unknown')}",
+            f"  output_exists: {'yes' if step_20_path.is_file() else 'no'}",
+            "  self_index_required: false",
+            "  rule: The Stage 1 output is the artifact under review, not an upstream artifact that must appear in its own inventory.",
+            self._selected_run_resources_block(),
             render_case_material_manifest_block(
                 self._material_manifest_entries(),
                 step_1_status=str(self.session.step_state(1).get("status") or "unknown"),
             ),
-            "deferred_resources:",
-            "  stage_2_template:",
-            "    path: templates/pms_case_record_stage_2_layer_digest_extraction_template.yaml",
-            "    status: deferred_future_step",
-            "    blocks_stage_1_readiness: false",
-            "  stage_3_template:",
-            "    path: templates/pms_case_record_stage_3_full_case_record_integration_template.yaml",
-            "    status: deferred_future_step",
-            "    blocks_stage_1_readiness: false",
         ])
         return "\n".join(lines)
 
@@ -1449,10 +1580,11 @@ The runner does not validate truth, authorize claims, make route decisions autom
         route = self.session.session_data.get("route") or {}
         mip_route = self.session.session_data.get("mip_route") or {}
         ahp_route = self.session.session_data.get("ahp_route") or {}
+        current_path = self.session.output_path(current_step_id)
 
         lines = [
             "RUNNER-GENERATED CASE-RECORD MANIFEST",
-            "This block is authoritative for exact run metadata, route state, step state, file existence, and output paths.",
+            "This block is authoritative for exact run metadata, route state, step state, file existence, and upstream output paths.",
             "Metadata authority order: runner manifest > checked upstream artifact > generated downstream artifact > template default > model inference.",
             "When values conflict, copy this manifest exactly. Do not normalize paths and do not substitute session.json unless this manifest explicitly names session.json.",
             "Template defaults are placeholders, not evidence. Model inference is never allowed to override recorded metadata.",
@@ -1460,7 +1592,6 @@ The runner does not validate truth, authorize claims, make route decisions autom
             f"case_id: {self.session.case_id}",
             f"run_id: {self.session.case_id}",
             f"current_step: {current_step_id}",
-            f"current_step_expected_output: {self.session.output_path(current_step_id).relative_to(self.session.case_dir).as_posix()}",
             f"semantic_ai_review_steps: {'enabled' if self.session.ai_review_steps_enabled else 'disabled'}",
             f"review_status: {'checked_pipeline' if self.session.ai_review_steps_enabled else 'unchecked_by_user_choice'}",
             "",
@@ -1473,17 +1604,42 @@ The runner does not validate truth, authorize claims, make route decisions autom
             f"ahp_route: {ahp_route.get('route_type') or 'not_set'}",
             f"ahp_selection_basis: {ahp_route.get('selection_basis') or 'unknown'}",
             "",
-            "CASE-RECORD OUTPUT CONTRACT",
+            "UPSTREAM CASE-RECORD OUTPUTS",
         ]
 
-        for step_id in range(20, 26):
-            step = get_step(step_id)
-            state = self.session.step_state(step_id).get("status", "unknown")
+        upstream_case_record_steps = range(20, min(current_step_id, 26))
+        if not list(upstream_case_record_steps):
+            lines.append("none")
+        else:
+            for step_id in range(20, min(current_step_id, 26)):
+                state = self.session.step_state(step_id).get("status", "unknown")
+                path = self.session.output_path(step_id)
+                path_ref = path.relative_to(self.session.case_dir).as_posix() if path.is_file() else "none"
+                lines.append(
+                    f"step_{step_id:02d}: status={state}; output={path_ref}; "
+                    f"output_exists={'yes' if path.is_file() else 'no'}"
+                )
+
+        lines.extend([
+            "",
+            "CURRENT STEP EXECUTION METADATA",
+            "This block is runner execution metadata only. Do not copy it into the generated or reviewed case-record YAML.",
+            f"step: {current_step_id}",
+            f"expected_output: {current_path.relative_to(self.session.case_dir).as_posix()}",
+            f"status: {self.session.step_state(current_step_id).get('status', 'unknown')}",
+            f"output_exists_before_or_during_current_step: {'yes' if current_path.is_file() else 'no'}",
+            "current_output_is_upstream_input: false",
+            "",
+            "FUTURE CASE-RECORD STEPS",
+        ])
+        future_ids = list(range(current_step_id + 1, 26))
+        if not future_ids:
+            lines.append("none")
+        for step_id in future_ids:
             path = self.session.output_path(step_id)
-            path_ref = path.relative_to(self.session.case_dir).as_posix()
             lines.append(
-                f"step_{step_id:02d}: status={state}; expected_output={path_ref}; "
-                f"output_exists={'yes' if path.is_file() else 'no'}"
+                f"step_{step_id:02d}: status=future_step; expected_output={path.relative_to(self.session.case_dir).as_posix()}; "
+                "output_exists_not_relevant_to_current_step=true"
             )
 
         lines.extend([
@@ -1507,13 +1663,16 @@ The runner does not validate truth, authorize claims, make route decisions autom
         upstream_label = "checked upstream values" if self.session.ai_review_steps_enabled else "available upstream values"
         lines.extend([
             "",
-            "CONFLICT RULES",
-            "- Exact path, file-existence, route, branch, and step-status conflicts are resolved by this runner manifest.",
+            "CONFLICT AND CURRENT-STEP RULES",
+            "- Exact upstream path, file-existence, route, branch, and step-status conflicts are resolved by this runner manifest.",
             f"- {stage_1_label} controls artifact selection and provenance imported into Stage 2 and Stage 3.",
             f"- {layer_label} control substantive case content for their own layer.",
             f"- {stage_2_label} controls digest substance imported into Stage 3.",
             f"- Template defaults never override {upstream_label}.",
-            "- Preserve genuine substantive contradictions; do not turn workflow metadata drift into a case finding.",
+            "- Preserve genuine substantive contradictions.",
+            "- Do not import current-step execution state, temporary output-existence metadata, or future-step output state into notes, missing-item registers, deliberately-not-imported items, tensions, blockers, readiness fields, or case findings.",
+            "- The current output does not need to exist before generation and must not be classified as missing, deferred, excluded, unresolved, or deliberately not imported.",
+            "- Workflow metadata drift is not case substance and must not be turned into a case finding.",
             "- When semantic AI reviews are disabled, never relabel an unchecked direct output as checked, corrected, validated, or certified.",
         ])
         return "\n".join(lines)
@@ -1658,6 +1817,8 @@ The runner does not validate truth, authorize claims, make route decisions autom
             runtime_values["RUNNER_STAGE_1_MANIFEST"] = self._stage_1_check_runner_manifest()
         if step.prompt_number in {22, 23, 24, 25}:
             runtime_values["RUNNER_CASE_RECORD_MANIFEST"] = self._case_record_runner_manifest(step.step_id)
+        if step.prompt_number in {26, 27, 28, 29, 30}:
+            runtime_values["RUNNER_ARTICLE_PROFILE_CONTRACT"] = self._article_profile_contract(step.step_id)
         rendered = self.prompt_source.render(
             step.prompt_number,
             self.session.case_data,
@@ -2140,7 +2301,7 @@ The runner does not validate truth, authorize claims, make route decisions autom
         self.wait_window(dialog)
         if dialog.result is None:
             return
-        if not self._confirm_route_change("article", existing, dialog.result, ("route_type",)):
+        if not self._confirm_route_change("article", existing, dialog.result, ("route_type", "article_profile")):
             return
         try:
             changed = self.session.set_article_route(dialog.result)
@@ -2151,7 +2312,7 @@ The runner does not validate truth, authorize claims, make route decisions autom
         if changed or not existing:
             if dialog.result["route_type"] == "generate_article":
                 self.selected_step_id = 26
-                message = "Article generation selected. Continue with step #26."
+                message = f"Article generation selected: {dialog.result.get('article_profile', 'full_analysis_article').replace('_', ' ')}. Continue with step #26."
             else:
                 self.selected_step_id = 25
                 message = ("No article selected. The guided pipeline is complete through " + ("checked Stage 3." if self.session.ai_review_steps_enabled else "the Stage 3 output (AI review skipped)."))
