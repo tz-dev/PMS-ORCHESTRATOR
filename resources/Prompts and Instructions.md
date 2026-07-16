@@ -2861,11 +2861,27 @@ Produce a lightweight Iteration Handoff YAML that gives a model preselection for
 
 SOURCE HIERARCHY:
 
-1. Checked Stage 3 controls the current integrated result, claim ceiling, limits, unresolved items, rivals, and final posture.
-2. Checked Stage 2 supplies layer-specific treatment depth, compression, selective shallowness, and unresolved layer-level limits.
-3. Checked Stage 1 supplies provenance, actual artifact availability, branch state, non-use state, and eligible carry-forward references.
-4. Runner metadata controls exact paths and file availability.
-5. Article drafts, final article prose, example outputs, prompt history, validation history, route revision history, and current-step execution metadata are not analytical sources for this step.
+1. Checked Stage 3 Full Record Integration YAML controls the current integrated result, claim ceiling, unresolved items, rival pressure, limits, final posture, and reopening conditions.
+2. Checked Stage 2 Layer Digest Extraction YAML supplies layer-specific depth, selective shallowness, non-use, and uncertainty.
+3. Checked Stage 1 Artifact Index YAML supplies provenance, actual artifacts, branch state, and eligible carry-forward references.
+4. Underlying checked artifacts may be consulted only where Stage 1, Stage 2, or Stage 3 explicitly identifies a gap, contradiction, unresolved item, or need for layer-specific verification.
+5. The CASE PACKET remains bounded source material only where the checked record chain licenses reference to it.
+6. Optional article outputs, examples, final article prose, article checks, drafting notes, and article wording are not sources for this handoff.
+
+MIP AND AHP HANDOFF RULE:
+
+If MIP or AHP was used, recommended, rejected, skipped, unresolved, or preserved as non-use in checked Stage 1–3, include its handoff-relevant status only through the checked Case Record.
+
+For MIP, preserve only checked MIP status, source burden, qualitative A/M or IA/D handling where present, red-zone or non-use conditions, and claim-boundary effects already preserved by Stage 3.
+
+For AHP, preserve only checked analysis-quality implications such as precision pressure, attack-surface visibility, hardening backlog, misreadability, transmission risk, score-language hygiene, D-language caution, reversibility, and iteration support.
+
+AHP-derived items may justify follow-up questions or required new material, but they must remain review surfaces, not proven defects or mandates.
+
+Do not rescore MIP, activate D, upgrade evidence, authorize stronger claims, or preselect MIP/AHP for a future follow-up case.
+
+SOURCE EXCLUSION RULE:
+Do not derive any Iteration Handoff finding, urgency, target, follow-up question, or material requirement from:
 
 ASSESS:
 
