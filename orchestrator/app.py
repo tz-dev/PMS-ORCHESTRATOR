@@ -166,7 +166,8 @@ class OrchestratorApp(tk.Tk):
             pady=2,
         )
 
-        ttk.Button(toolbar, text="Current step", command=self.select_current_step).pack(side="left")
+        self.iteration_handoff_review_button = ttk.Button(toolbar, text="Review Hand-off", command=self.review_iteration_handoff)
+        self.iteration_handoff_review_button.pack(side="left")
         ttk.Separator(toolbar, orient="vertical").pack(side="left", fill="y", padx=10, pady=2)
 
         self.mip_review_button = ttk.Button(toolbar, text="Review MIP route", command=self.set_mip_route)
@@ -593,6 +594,8 @@ Stages 1–3 preserve the actual artifact chain, layer digests, route non-use, l
 
 After Case Record Stages 1–3, step #26 prepares an optional Iteration Handoff. The user reviews the model preselection, urgency, targets, and notes before it can feed an article outlook or a separately bounded follow-up case. The handoff is not Case Record Stage 4 and does not change the checked analysis.
 
+Use **Review Hand-off** after step #26 has completed to reopen the contextual handoff-action dialog without resetting the step or pasting the YAML again. This can create an approved follow-up case, continue to the article decision, finish without article, or defer the decision.
+
 Article generation is optional after the Iteration Handoff. Choose **Case article** for focused case-specific prose or **Full analysis article** for a detailed, audit-rich rendering. The profile changes only steps #27–#31 and does not change the checked analysis or approved handoff. Markdown outputs open in Preview by default. When no examples are needed, the runner copies the base article to the final-article step without an unnecessary model rewrite.
 
 ## Non-authority
@@ -1001,6 +1004,7 @@ The runner does not validate truth, authorize claims, make route decisions autom
         self.yaml_validation_details_button.configure(state="disabled")
         if self.yaml_validate_corrected_button.winfo_manager():
             self.yaml_validate_corrected_button.pack_forget()
+        self.iteration_handoff_review_button.configure(state="disabled")
         self.mip_review_button.configure(state="disabled")
         self.ahp_review_button.configure(state="disabled")
         self.article_review_button.configure(state="disabled")
@@ -1131,6 +1135,35 @@ The runner does not validate truth, authorize claims, make route decisions autom
         ]
         return len(self._pending_new_case_materials)
 
+
+    def _iteration_handoff_review_available(self) -> bool:
+        if self.session is None:
+            return False
+        try:
+            return self.session.route_ready("article") and self.session.output_path(26).is_file()
+        except StorageError:
+            return False
+
+    def review_iteration_handoff(self) -> None:
+        if self.session is None:
+            messagebox.showinfo("No case loaded", "Open or create a case first.", parent=self)
+            return
+        required = self.session.required_route_step("article")
+        if not self.session.route_ready("article"):
+            messagebox.showinfo(
+                "Iteration Handoff not ready",
+                f"Complete step #{required} before reviewing the Iteration Handoff actions.",
+                parent=self,
+            )
+            return
+        if not self.session.output_path(26).is_file():
+            messagebox.showinfo(
+                "Iteration Handoff not available",
+                "Step #26 is marked complete, but the Iteration Handoff output file is missing.",
+                parent=self,
+            )
+            return
+        self._handle_iteration_handoff_next_action()
 
     def _load_approved_iteration_handoff(self) -> tuple[dict[str, object] | None, str]:
         if self.session is None:
@@ -1501,6 +1534,7 @@ The runner does not validate truth, authorize claims, make route decisions autom
         self._refresh_case_summary()
         self._refresh_step_list()
         self._show_step(self.selected_step_id)
+        self.iteration_handoff_review_button.configure(state="normal" if self._iteration_handoff_review_available() else "disabled")
         self.mip_review_button.configure(state="normal" if self.session.route_ready("mip") else "disabled")
         self.ahp_review_button.configure(state="normal" if self.session.route_ready("ahp") else "disabled")
         self.article_review_button.configure(state="normal" if self.session.route_ready("article") else "disabled")

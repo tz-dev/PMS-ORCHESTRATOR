@@ -162,6 +162,8 @@ Finish without article
 Decide later
 ```
 
+The same contextual action dialog can be reopened later with **Review Hand-off** in the toolbar. This allows a follow-up case to be created from an already completed handoff without resetting step #26 or pasting the handoff YAML again.
+
 A follow-up case can be created only when the confirmed Iteration Handoff contains approved effective targets. The new case starts again at step #1 and must confirm its own boundary, source status, intended use, and material roles. It inherits context and lineage, not findings, routes, evidence status, claim ceiling, or claim authority.
 
 ---
@@ -288,7 +290,7 @@ A completed pipeline is a structured and reviewable record, not a truth certific
 
 Suggested software citation:
 
-> T. Zöller (2026): *PMS-ORCHESTRATOR — A Human-Guided Runner for PMS-DISCIPLINE Case Work*. Version 1.8.1. https://github.com/tz-dev/PMS-ORCHESTRATOR
+> T. Zöller (2026): *PMS-ORCHESTRATOR — A Human-Guided Runner for PMS-DISCIPLINE Case Work*. Version 1.8.3. https://github.com/tz-dev/PMS-ORCHESTRATOR
 
 Replace this entry with an archival citation or DOI when one becomes available.
 

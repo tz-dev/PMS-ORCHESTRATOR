@@ -97,7 +97,7 @@ pms_discipline_iteration_handoff:
     rejected_targets: []
     effective_targets:
       - target_id: "<stable short id>"
-        source_target_id: "<stable short id | null>"
+        source_target_id: "<stable short id or null>"
         origin: "<model_preselection_accepted | model_proposal_accepted | user_refinement_of_model_proposal | user_replacement_of_model_proposal | user_split_of_model_proposal | user_merge_of_model_proposals | user_added_followup_question>"
         status: "<approved | declined | requires_regeneration>"
         question: "<text>"

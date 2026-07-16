@@ -270,7 +270,7 @@ User notes guide future follow-up preparation but do not become verified facts, 
 A confirmed Iteration Handoff may be used in two controlled ways:
 
 1. The article prompts may render a bounded `Iteration outlook` section when the handoff explicitly permits it. The section remains prospective and must not change the current case result, claim ceiling, operator status, route state, source status, or sufficiency assessment. Raw user notes appear only when their per-target article visibility is `summarize` or `include`; the default is `exclude`.
-2. The user may create a separately bounded follow-up case from the handoff through the contextual action dialog shown after step #26 completes. The new case receives parent-case lineage, the approved effective targets, required-material notes, and selected prior artifacts as analytical context. The new case starts again at step #1 and must confirm its own boundary, source status, intended use, and material roles. It does not inherit findings, routes, evidence status, or claim authority.
+2. The user may create a separately bounded follow-up case from the handoff through the contextual action dialog shown after step #26 completes. The same dialog can be reopened later through the toolbar **Review Hand-off** action without resetting step #26 or replacing the saved YAML. The new case receives parent-case lineage, the approved effective targets, required-material notes, and selected prior artifacts as analytical context. The new case starts again at step #1 and must confirm its own boundary, source status, intended use, and material roles. It does not inherit findings, routes, evidence status, or claim authority.
 
 When article generation is selected, the user chooses one of two presentation profiles.
 
@@ -815,7 +815,7 @@ The application can start without PyYAML, but local YAML validation remains unav
 14. Confirm Add-on, MIP, and AHP routes when prompted.
 15. Complete the three Case Record stages.
 16. Complete the Iteration Handoff preselection and confirm, revise, or skip it in the user-review window.
-17. In the contextual post-handoff action dialog, create a follow-up case from an approved Iteration Handoff, continue to article generation, finish without article, or decide later.
+17. In the contextual post-handoff action dialog, create a follow-up case from an approved Iteration Handoff, continue to article generation, finish without article, or decide later. Reopen that dialog later with **Review Hand-off** when needed.
 18. Choose whether to generate an article.
 19. When generating an article, select:
     - `Case article` for a focused case-specific rendering;

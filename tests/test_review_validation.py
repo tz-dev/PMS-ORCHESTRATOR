@@ -204,6 +204,39 @@ class LocalYamlValidatorTests(unittest.TestCase):
             self.assertIn("unexpected_key", categories)
             self.assertEqual(categories.count("invalid_value"), 2)
 
+
+    def test_dynamic_identifier_placeholders_do_not_become_enums(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root = Path(temp_dir)
+            (root / "templates").mkdir()
+            (root / "templates" / "reference.yaml").write_text(
+                "root:\n  source_target_id: \"<stable short id or null>\"\n  status: \"<approved | declined>\"\n",
+                encoding="utf-8",
+            )
+            manifest = {
+                "schema_version": "TEST",
+                "steps": {
+                    "26": {
+                        "reference": "templates/reference.yaml",
+                        "compare_keys": True,
+                        "allow_extra_keys": False,
+                        "extract_placeholder_enums": True,
+                    }
+                },
+            }
+            (root / "yaml_validation_manifest.json").write_text(json.dumps(manifest), encoding="utf-8")
+            validator = LocalYamlValidator(root, root / "yaml_validation_manifest.json")
+
+            result = validator.validate(
+                step_id=26,
+                text="root:\n  source_target_id: detail_materiality\n  status: approved\n",
+                expects_yaml=True,
+                enabled=True,
+                selected_addon=None,
+            )
+
+            self.assertEqual(result.issues, [])
+
     def test_invalid_yaml_reports_line_and_column(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             _, validator = self._fixture(temp_dir)

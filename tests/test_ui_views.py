@@ -16,7 +16,7 @@ class AppMetadataTests(unittest.TestCase):
     def test_packaged_metadata_contains_repository_and_version(self) -> None:
         metadata = AppMetadata.load(PROJECT_ROOT / "app_metadata.json")
         self.assertEqual(metadata.name, "PMS-ORCHESTRATOR")
-        self.assertEqual(metadata.version, "1.8.1")
+        self.assertEqual(metadata.version, "1.8.3")
         self.assertEqual(metadata.repository_url, "https://github.com/tz-dev/PMS-ORCHESTRATOR")
         self.assertEqual(metadata.license_file, "LICENSE")
 
@@ -43,6 +43,20 @@ class MarkdownOutputTests(unittest.TestCase):
         self.assertTrue(is_markdown_filename("ARTICLE.MARKDOWN"))
         self.assertFalse(is_markdown_filename("record.yaml"))
         self.assertFalse(is_markdown_filename("check.txt"))
+
+
+class ToolbarActionTests(unittest.TestCase):
+    def test_toolbar_uses_contextual_handoff_action_not_current_step_button(self) -> None:
+        app_source = (PROJECT_ROOT / "orchestrator" / "app.py").read_text(encoding="utf-8")
+        self.assertIn('text="Review Hand-off"', app_source)
+        self.assertIn('command=self.review_iteration_handoff', app_source)
+        self.assertNotIn('text="Current step"', app_source)
+
+    def test_review_handoff_reuses_post_completion_action_dialog(self) -> None:
+        app_source = (PROJECT_ROOT / "orchestrator" / "app.py").read_text(encoding="utf-8")
+        self.assertIn('def review_iteration_handoff(self) -> None:', app_source)
+        self.assertIn('self._handle_iteration_handoff_next_action()', app_source)
+        self.assertIn('self.iteration_handoff_review_button.configure(state="normal" if self._iteration_handoff_review_available() else "disabled")', app_source)
 
 
 if __name__ == "__main__":
