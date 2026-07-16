@@ -270,7 +270,7 @@ User notes guide future follow-up preparation but do not become verified facts, 
 A confirmed Iteration Handoff may be used in two controlled ways:
 
 1. The article prompts may render a bounded `Iteration outlook` section when the handoff explicitly permits it. The section remains prospective and must not change the current case result, claim ceiling, operator status, route state, source status, or sufficiency assessment. Raw user notes appear only when their per-target article visibility is `summarize` or `include`; the default is `exclude`.
-2. The user may create a separately bounded follow-up case from the handoff through the contextual action dialog shown after step #26 completes. The same dialog can be reopened later through the toolbar **Review Hand-off** action without resetting step #26 or replacing the saved YAML. The new case receives parent-case lineage, the approved effective targets, required-material notes, and selected prior artifacts as analytical context. The new case starts again at step #1 and must confirm its own boundary, source status, intended use, and material roles. It does not inherit findings, routes, evidence status, or claim authority.
+2. The user may create a separately bounded follow-up case from the handoff through the contextual action dialog shown after step #26 completes. The same dialog can be reopened later through the toolbar or Routes-menu **Review Hand-off** action without resetting step #26 or replacing the saved YAML. The new case receives parent-case lineage, the approved effective targets, required-material notes, and selected prior artifacts as analytical context. The new case starts again at step #1 and must confirm its own boundary, source status, intended use, and material roles. It does not inherit findings, routes, evidence status, or claim authority.
 
 When article generation is selected, the user chooses one of two presentation profiles.
 
@@ -482,7 +482,7 @@ Structural findings must be corrected before the step can be completed.
 
 A semantic review step may return a complete corrected YAML document.
 
-When the entire review output is one parseable YAML mapping or sequence, the runner can validate it against the reviewed source step's profile.
+When the entire review output is one parseable YAML mapping or sequence and its top-level root key exactly matches the reviewed source step's configured output root, the runner can validate it against the reviewed source step's profile.
 
 Examples:
 
@@ -495,7 +495,7 @@ Examples:
 
 The same inheritance applies through MIP, AHP, and the Case Record stages.
 
-Mixed prose plus YAML is not treated as corrected YAML.
+Mixed prose plus YAML is not treated as corrected YAML. Colon-heavy semantic review reports are also ignored by local YAML validation unless they carry the expected corrected-YAML root key.
 
 ### Persisted findings and handoff
 
@@ -815,7 +815,7 @@ The application can start without PyYAML, but local YAML validation remains unav
 14. Confirm Add-on, MIP, and AHP routes when prompted.
 15. Complete the three Case Record stages.
 16. Complete the Iteration Handoff preselection and confirm, revise, or skip it in the user-review window.
-17. In the contextual post-handoff action dialog, create a follow-up case from an approved Iteration Handoff, continue to article generation, finish without article, or decide later. Reopen that dialog later with **Review Hand-off** when needed.
+17. In the contextual post-handoff action dialog, create a follow-up case from an approved Iteration Handoff, continue to article generation, finish without article, or decide later. Reopen that dialog later with **Review Hand-off** from the toolbar or Routes menu when needed.
 18. Choose whether to generate an article.
 19. When generating an article, select:
     - `Case article` for a focused case-specific rendering;

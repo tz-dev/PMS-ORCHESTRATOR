@@ -94,8 +94,68 @@ class OrchestratorApp(tk.Tk):
         self._apply_theme()
         self._set_no_case_state()
         self._center_on_screen(1420, 920)
-        self.deiconify()
         self.protocol("WM_DELETE_WINDOW", self.exit_app)
+        self._show_startup_splash_or_deiconify()
+
+    def _show_startup_splash_or_deiconify(self) -> None:
+        splash_path = self.project_root / "resources" / "splash.png"
+        if not splash_path.is_file():
+            self.deiconify()
+            return
+        try:
+            image = tk.PhotoImage(file=str(splash_path))
+        except tk.TclError:
+            self.deiconify()
+            return
+
+        splash = tk.Toplevel(self)
+        splash.overrideredirect(True)
+        splash.configure(background="#000000")
+        splash.image = image  # type: ignore[attr-defined]
+        label = tk.Label(splash, image=image, borderwidth=0, highlightthickness=0)
+        label.pack()
+
+        splash.update_idletasks()
+        width = max(image.width(), splash.winfo_reqwidth())
+        height = max(image.height(), splash.winfo_reqheight())
+        x = max(0, (splash.winfo_screenwidth() - width) // 2)
+        y = max(0, (splash.winfo_screenheight() - height) // 2)
+        splash.geometry(f"{width}x{height}+{x}+{y}")
+        splash.lift()
+        try:
+            splash.focus_force()
+        except tk.TclError:
+            pass
+
+        closed = {"value": False}
+        close_job: dict[str, str | None] = {"id": None}
+
+        def close_splash(_event: object | None = None) -> str:
+            if closed["value"]:
+                return "break"
+            closed["value"] = True
+            job = close_job.get("id")
+            if job is not None:
+                try:
+                    splash.after_cancel(job)
+                except tk.TclError:
+                    pass
+            try:
+                if splash.winfo_exists():
+                    splash.destroy()
+            except tk.TclError:
+                pass
+            self.deiconify()
+            self.lift()
+            try:
+                self.focus_force()
+            except tk.TclError:
+                pass
+            return "break"
+
+        splash.bind("<Button-1>", close_splash)
+        splash.bind("<Escape>", close_splash)
+        close_job["id"] = splash.after(5000, close_splash)
 
     def _build_menu(self) -> None:
         menu = tk.Menu(self)
@@ -115,6 +175,7 @@ class OrchestratorApp(tk.Tk):
         routes_menu.add_command(label="Review Add-on route…", command=self.set_addon_route)
         routes_menu.add_command(label="Review MIP route…", command=self.set_mip_route)
         routes_menu.add_command(label="Review AHP route…", command=self.set_ahp_route)
+        routes_menu.add_command(label="Review Hand-off…", command=self.review_iteration_handoff)
         routes_menu.add_command(label="Review article decision…", command=self.set_article_route)
         menu.add_cascade(label="Routes", menu=routes_menu)
 
@@ -222,7 +283,7 @@ class OrchestratorApp(tk.Tk):
         self.step_tree.heading("title", text="Title")
         self.step_tree.column("mark", width=42, minwidth=42, stretch=False, anchor="center")
         self.step_tree.column("step", width=58, minwidth=58, stretch=False, anchor="center")
-        self.step_tree.column("title", width=285, minwidth=180, stretch=False, anchor="w")
+        self.step_tree.column("title", width=285, minwidth=180, stretch=True, anchor="w")
         step_scrollbar = ttk.Scrollbar(left, orient="vertical", command=self.step_tree.yview)
         self.step_tree.configure(yscrollcommand=step_scrollbar.set)
         self.step_tree.pack(side="left", fill="both", expand=True)
@@ -603,7 +664,7 @@ Stages 1–3 preserve the actual artifact chain, layer digests, route non-use, l
 
 After Case Record Stages 1–3, step #26 prepares an optional Iteration Handoff. The user reviews the model preselection, urgency, targets, and notes before it can feed an article outlook or a separately bounded follow-up case. The handoff is not Case Record Stage 4 and does not change the checked analysis.
 
-Use **Review Hand-off** after step #26 has completed to reopen the contextual handoff-action dialog without resetting the step or pasting the YAML again. This can create an approved follow-up case, continue to the article decision, finish without article, or defer the decision.
+Use **Review Hand-off** after step #26 has completed to reopen the contextual handoff-action dialog without resetting the step or pasting the YAML again. The action is available in the toolbar and the Routes menu. This can create an approved follow-up case, continue to the article decision, finish without article, or defer the decision.
 
 Article generation is optional after the Iteration Handoff. Choose **Case article** for focused case-specific prose or **Full analysis article** for a detailed, audit-rich rendering. The profile changes only steps #27–#31 and does not change the checked analysis or approved handoff. Markdown outputs open in Preview by default. When no examples are needed, the runner copies the base article to the final-article step without an unnecessary model rewrite.
 
@@ -624,7 +685,7 @@ The runner does not validate truth, authorize claims, make route decisions autom
 ## Output reader
 
 - **F11:** enter or leave full-screen mode.
-- **Esc:** leave full-screen mode; when not full-screen, close the reader.
+- **Esc:** close focused dialogs; in the output reader, leave full-screen mode first and close the reader when not full-screen.
 - **Ctrl+A:** select all displayed text.
 - **Find:** highlight every case-insensitive match in the displayed reader content.
 - **Wrap:** toggle line wrapping.
@@ -689,7 +750,8 @@ The runner does not validate truth, authorize claims, make route decisions autom
         if source_step_id is None:
             return False, None, False
         candidate = self.output_text.get("1.0", "end-1c") if text is None and hasattr(self, "output_text") else (text or "")
-        if self.yaml_validator.is_complete_yaml_mapping_or_sequence(candidate):
+        selected_addon = self.session.selected_addon if self.session else None
+        if self.yaml_validator.output_matches_profile_root(candidate, source_step_id, selected_addon):
             return True, source_step_id, True
         return False, source_step_id, True
 
@@ -808,11 +870,11 @@ The runner does not validate truth, authorize claims, make route decisions autom
             profile_step_id=profile_step_id,
         )
         if self._review_yaml_profile_step() is not None and not applicable:
-            result.note = "The entire check output must be one parseable YAML mapping or sequence before corrected-YAML validation applies."
+            result.note = "Semantic review report or no complete corrected YAML with the expected root key detected."
         self.last_yaml_validation = result
         if hasattr(self, "yaml_validation_var"):
             if self._review_yaml_profile_step() is not None and not applicable:
-                self.yaml_validation_var.set("YAML validation: Waiting for a complete corrected YAML document.")
+                self.yaml_validation_var.set("YAML validation: Not applicable — no corrected YAML detected.")
             else:
                 self.yaml_validation_var.set(result.short_summary())
             details_available = result.applicable and result.enabled
@@ -899,7 +961,7 @@ The runner does not validate truth, authorize claims, make route decisions autom
             "dark": {
                 "bg": "#202124",
                 "panel": "#292a2d",
-                "field": "#171717",
+                "field": "#111214",
                 "fg": "#f1f3f4",
                 "muted": "#bdc1c6",
                 "select": "#3f5f85",
@@ -2178,7 +2240,8 @@ The runner does not validate truth, authorize claims, make route decisions autom
                 "YAML VALIDATION / SEMANTIC REVIEW SEPARATION — RUNNER-GENERATED\n"
                 "The runner-generated local validation result and any LOCAL YAML VALIDATION HANDOFF are authoritative for YAML syntax, duplicate keys, missing keys, unexpected keys, type mismatches, and explicitly allowed values.\n"
                 "Do not independently re-audit the complete YAML key tree. This instruction overrides generic full-structure or full-key-audit wording elsewhere in this prompt.\n"
-                "Check semantic field use, claim boundaries, source and route consistency, contradictions, over-triggering, and whether every listed local finding was safely resolved.\n"
+                "Do not return corrected YAML merely to restate a structurally clean source artifact. Return a complete corrected YAML artifact only when a concrete semantic or boundary correction is actually necessary.\n"
+                "When the local validation handoff is clean or absent, perform semantic review only: check field use, claim boundaries, source and route consistency, contradictions, over-triggering, and misuse of local validation status.\n"
                 "A locally clean YAML structure is not evidence and does not establish semantic adequacy.\n"
                 "END YAML VALIDATION / SEMANTIC REVIEW SEPARATION\n\n"
             )

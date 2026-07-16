@@ -41,6 +41,11 @@ def finalize_dialog(window: tk.Toplevel, parent: tk.Misc) -> None:
             break
         theme_owner = getattr(theme_owner, "master", None)
     center_on_screen(window)
+    window.bind("<Escape>", lambda _event: (window.destroy(), "break")[-1])
+    try:
+        window.focus_force()
+    except tk.TclError:
+        pass
 
 
 class ConfirmationDialog(tk.Toplevel):

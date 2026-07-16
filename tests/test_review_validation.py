@@ -237,6 +237,32 @@ class LocalYamlValidatorTests(unittest.TestCase):
 
             self.assertEqual(result.issues, [])
 
+
+    def test_corrected_yaml_detection_requires_expected_profile_root(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            _, validator = self._fixture(temp_dir)
+            self.assertTrue(
+                validator.output_matches_profile_root(
+                    "root:\n  flag: true\n  status: active\n  child:\n    required: value\n  mode: safe\n",
+                    2,
+                    None,
+                )
+            )
+            self.assertFalse(
+                validator.output_matches_profile_root(
+                    "CHECK STATUS: ready\nFINAL RESULT: no correction needed\n",
+                    2,
+                    None,
+                )
+            )
+            self.assertFalse(
+                validator.output_matches_profile_root(
+                    "semantic_review:\n  status: ready\n",
+                    2,
+                    None,
+                )
+            )
+
     def test_invalid_yaml_reports_line_and_column(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             _, validator = self._fixture(temp_dir)

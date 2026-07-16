@@ -329,6 +329,10 @@ class OutputReader(tk.Toplevel):
             height = self.winfo_screenheight()
             self.geometry(f"{width}x{height}+0+0")
         self.lift()
+        try:
+            self.focus_force()
+        except tk.TclError:
+            pass
 
     def render(self) -> None:
         if self.content_kind == "markdown" and self.view_var.get() == "preview":

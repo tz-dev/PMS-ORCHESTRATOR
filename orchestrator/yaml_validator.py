@@ -248,14 +248,62 @@ class LocalYamlValidator:
 
     def is_complete_yaml_mapping_or_sequence(self, text: str) -> bool:
         """Return True only for one complete YAML mapping or sequence document."""
-        if yaml is None or not text.strip():
-            return False
-        normalized_text = self._unwrap_single_code_fence(text)
-        try:
-            value = yaml.load(normalized_text, Loader=_UniqueKeyLoader)
-        except yaml.YAMLError:  # type: ignore[union-attr]
-            return False
+        value = self._load_yaml_document_or_none(text)
         return isinstance(value, (dict, list))
+
+    def output_matches_profile_root(self, text: str, profile_step_id: int, selected_addon: str | None) -> bool:
+        """Return True when text is a complete YAML document with the expected profile root.
+
+        Review steps may return prose reports. Some reports can be parsed by YAML
+        because they contain colon-heavy headings. Those must not be treated as
+        corrected YAML unless their top-level root key matches the source step's
+        configured output structure.
+        """
+        output_data = self._load_yaml_document_or_none(text)
+        if not isinstance(output_data, dict):
+            return False
+        expected = self.expected_root_keys(profile_step_id, selected_addon)
+        if not expected:
+            return False
+        return tuple(output_data.keys()) == expected
+
+    def expected_root_keys(self, profile_step_id: int, selected_addon: str | None) -> tuple[str, ...]:
+        if self._manifest is None:
+            return ()
+        config = self._manifest.step_config(profile_step_id, selected_addon)
+        if not config:
+            return ()
+        reference_root_key = str(config.get("reference_root_key") or "").strip()
+        if reference_root_key:
+            return (reference_root_key,)
+        reference_value = config.get("reference")
+        if not reference_value:
+            return ()
+        reference_path = self.project_root / str(reference_value)
+        if not reference_path.is_file() or yaml is None:
+            return ()
+        try:
+            reference_data = yaml.load(reference_path.read_text(encoding="utf-8-sig"), Loader=_UniqueKeyLoader)
+        except (OSError, yaml.YAMLError):  # type: ignore[union-attr]
+            return ()
+        reference_subpath = str(config.get("reference_subpath") or "").strip()
+        if reference_subpath:
+            found, reference_data = self._value_at_exact_path(reference_data, reference_subpath)
+            if not found:
+                return ()
+        if isinstance(reference_data, dict):
+            return tuple(str(key) for key in reference_data.keys())
+        return ()
+
+    @staticmethod
+    def _load_yaml_document_or_none(text: str) -> Any | None:
+        if yaml is None or not text.strip():
+            return None
+        normalized_text = LocalYamlValidator._unwrap_single_code_fence(text)
+        try:
+            return yaml.load(normalized_text, Loader=_UniqueKeyLoader)
+        except yaml.YAMLError:  # type: ignore[union-attr]
+            return None
 
     def validate(
         self,

@@ -47,6 +47,11 @@ intended use
 
 Optional case materials can be attached, described, and assigned a purpose. Their presence does not upgrade them into evidence. Step #1 reads `PMS.yaml` first, then the configured case materials where accessible.
 
+
+### Startup splash
+
+At startup the runner shows `resources/splash.png` for five seconds. Click the splash to continue immediately. If the file is absent or cannot be loaded, the main window opens normally.
+
 ### Review mode
 
 A case can run in **Full Review** or **Fast Mode**.
@@ -61,7 +66,7 @@ Fast Mode skips unfinished semantic review steps, forwards the direct output, an
 
 ### Local YAML validation
 
-Local YAML validation is structural, not semantic. It can warn or block on malformed YAML, duplicate keys, missing keys, unexpected keys, shape mismatches, type mismatches, or invalid configured values. It does not decide whether a claim, route, interpretation, or conclusion is correct.
+Local YAML validation is structural, not semantic. It can warn or block on malformed YAML, duplicate keys, missing keys, unexpected keys, shape mismatches, type mismatches, or invalid configured values. It does not decide whether a claim, route, interpretation, or conclusion is correct. In semantic review steps, ordinary ready/check reports are not treated as corrected YAML unless the whole output is a corrected YAML document with the expected source-step root key.
 
 ### Add-on route
 
@@ -162,7 +167,7 @@ Finish without article
 Decide later
 ```
 
-The same contextual action dialog can be reopened later with **Review Hand-off** in the toolbar. This allows a follow-up case to be created from an already completed handoff without resetting step #26 or pasting the handoff YAML again.
+The same contextual action dialog can be reopened later with **Review Hand-off** in the toolbar or in the **Routes** menu. This allows a follow-up case to be created from an already completed handoff without resetting step #26 or pasting the handoff YAML again.
 
 A follow-up case can be created only when the confirmed Iteration Handoff contains approved effective targets. The new case starts again at step #1 and must confirm its own boundary, source status, intended use, and material roles. It inherits context and lineage, not findings, routes, evidence status, claim ceiling, or claim authority.
 
@@ -290,7 +295,7 @@ A completed pipeline is a structured and reviewable record, not a truth certific
 
 Suggested software citation:
 
-> T. Zöller (2026): *PMS-ORCHESTRATOR — A Human-Guided Runner for PMS-DISCIPLINE Case Work*. Version 1.8.3. https://github.com/tz-dev/PMS-ORCHESTRATOR
+> T. Zöller (2026): *PMS-ORCHESTRATOR — A Human-Guided Runner for PMS-DISCIPLINE Case Work*. Version 1.8.4. https://github.com/tz-dev/PMS-ORCHESTRATOR
 
 Replace this entry with an archival citation or DOI when one becomes available.
 
