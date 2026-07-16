@@ -166,15 +166,24 @@ class OrchestratorApp(tk.Tk):
             pady=2,
         )
 
-        self.iteration_handoff_review_button = ttk.Button(toolbar, text="Review Hand-off", command=self.review_iteration_handoff)
-        self.iteration_handoff_review_button.pack(side="left")
-        ttk.Separator(toolbar, orient="vertical").pack(side="left", fill="y", padx=10, pady=2)
-
         self.mip_review_button = ttk.Button(toolbar, text="Review MIP route", command=self.set_mip_route)
         self.mip_review_button.pack(side="left")
+
         self.ahp_review_button = ttk.Button(toolbar, text="Review AHP route", command=self.set_ahp_route)
         self.ahp_review_button.pack(side="left", padx=(6, 0))
-        self.article_review_button = ttk.Button(toolbar, text="Review article decision", command=self.set_article_route)
+
+        self.iteration_handoff_review_button = ttk.Button(
+            toolbar,
+            text="Review Hand-off",
+            command=self.review_iteration_handoff,
+        )
+        self.iteration_handoff_review_button.pack(side="left", padx=(6, 0))
+
+        self.article_review_button = ttk.Button(
+            toolbar,
+            text="Review article decision",
+            command=self.set_article_route,
+        )
         self.article_review_button.pack(side="left", padx=(6, 0))
 
         self.case_summary = ttk.Label(self, text="No case loaded", padding=(10, 4), anchor="w")
@@ -1140,7 +1149,10 @@ The runner does not validate truth, authorize claims, make route decisions autom
         if self.session is None:
             return False
         try:
-            return self.session.route_ready("article") and self.session.output_path(26).is_file()
+            return (
+                is_completed_step_status(self.session.step_state(26).get("status"))
+                and self.session.output_path(26).is_file()
+            )
         except StorageError:
             return False
 
@@ -1148,21 +1160,69 @@ The runner does not validate truth, authorize claims, make route decisions autom
         if self.session is None:
             messagebox.showinfo("No case loaded", "Open or create a case first.", parent=self)
             return
-        required = self.session.required_route_step("article")
-        if not self.session.route_ready("article"):
+
+        if not is_completed_step_status(self.session.step_state(26).get("status")):
             messagebox.showinfo(
                 "Iteration Handoff not ready",
-                f"Complete step #{required} before reviewing the Iteration Handoff actions.",
+                "Complete step #26 before reviewing the Iteration Handoff.",
                 parent=self,
             )
             return
-        if not self.session.output_path(26).is_file():
+
+        path = self.session.output_path(26)
+        if not path.is_file():
             messagebox.showinfo(
                 "Iteration Handoff not available",
                 "Step #26 is marked complete, but the Iteration Handoff output file is missing.",
                 parent=self,
             )
             return
+
+        try:
+            text = path.read_text(encoding="utf-8-sig", errors="replace")
+        except OSError as exc:
+            messagebox.showerror(
+                "Could not read Iteration Handoff",
+                str(exc),
+                parent=self,
+            )
+            return
+
+        reviewed_text = self._review_iteration_handoff_before_completion(text)
+        if reviewed_text is None:
+            return
+
+        try:
+            path.write_text(reviewed_text, encoding="utf-8")
+        except OSError as exc:
+            messagebox.showerror(
+                "Could not save Iteration Handoff review",
+                str(exc),
+                parent=self,
+            )
+            return
+
+        if self.selected_step_id == 26:
+            self.output_text.delete("1.0", "end")
+            self.output_text.insert("1.0", reviewed_text)
+            self.output_text.edit_modified(False)
+            self._apply_yaml_highlighting()
+            validation = self._validate_output()
+            self._persist_yaml_validation(validation, completion_state="completed")
+        else:
+            validation = self.yaml_validator.validate(
+                step_id=26,
+                text=reviewed_text,
+                expects_yaml=True,
+                enabled=bool(self.session.local_yaml_validation_enabled),
+                selected_addon=self.session.selected_addon,
+                profile_step_id=26,
+            )
+            self._persist_yaml_validation(validation, completion_state="completed")
+
+        self._refresh_all()
+        self._set_status("Iteration Handoff reviewed and saved.")
+
         self._handle_iteration_handoff_next_action()
 
     def _load_approved_iteration_handoff(self) -> tuple[dict[str, object] | None, str]:
@@ -1965,6 +2025,54 @@ The runner does not validate truth, authorize claims, make route decisions autom
         ])
         return "\n".join(lines)
 
+    def _mip_ahp_handoff_context(self) -> str:
+        assert self.session is not None
+
+        mip_route = self.session.session_data.get("mip_route") or {}
+        ahp_route = self.session.session_data.get("ahp_route") or {}
+
+        def step_ref(step_id: int) -> str:
+            state = self.session.step_state(step_id).get("status", "unknown")
+            path = self.session.output_path(step_id)
+            output_ref = path.relative_to(self.session.case_dir).as_posix() if path.is_file() else "none"
+            return (
+                f"step_{step_id:02d}: "
+                f"status={state}; "
+                f"output={output_ref}; "
+                f"output_exists={'yes' if path.is_file() else 'no'}"
+            )
+
+        lines = [
+            "MIP AND AHP HANDOFF CONTEXT",
+            "This block exposes only route state, checked output availability, and handoff-relevant layer status.",
+            "It does not authorize MIP/AHP inheritance into a follow-up case.",
+            "",
+            "mip:",
+            f"  route_type: {mip_route.get('route_type') or 'not_set'}",
+            f"  selection_basis: {mip_route.get('selection_basis') or 'unknown'}",
+            f"  gate_step_11: {step_ref(11)}",
+            f"  gate_check_step_12: {step_ref(12)}",
+            f"  source_read_step_13: {step_ref(13)}",
+            f"  application_step_14: {step_ref(14)}",
+            f"  application_check_step_15: {step_ref(15)}",
+            "",
+            "ahp:",
+            f"  route_type: {ahp_route.get('route_type') or 'not_set'}",
+            f"  selection_basis: {ahp_route.get('selection_basis') or 'unknown'}",
+            f"  gate_step_16: {step_ref(16)}",
+            f"  gate_check_step_17: {step_ref(17)}",
+            f"  module_application_step_18: {step_ref(18)}",
+            f"  module_check_step_19: {step_ref(19)}",
+            "",
+            "handoff_rules:",
+            "  - MIP/AHP may be referenced only through checked Stage 1-3 or checked layer outputs named there.",
+            "  - MIP may contribute source burden, red-zone, non-use, claim-boundary, or qualitative maturity-handling context where checked.",
+            "  - AHP may contribute precision, attack-surface, hardening, misreadability, transmission, score-language, D-language, and reversibility context where checked.",
+            "  - AHP items remain review surfaces, not proven defects or mandates.",
+            "  - No MIP score, AHP status, route decision, D activation, claim ceiling, or layer authorization is inherited into a follow-up case.",
+        ]
+        return "\n".join(lines)
+
     def _iteration_handoff_runner_manifest(self) -> str:
         assert self.session is not None
         current_path = self.session.output_path(26)
@@ -1998,6 +2106,8 @@ The runner does not validate truth, authorize claims, make route decisions autom
             step_ref(stage_2),
             step_ref(stage_3),
             "",
+            self._mip_ahp_handoff_context(),
+            "",
             "CURRENT STEP EXECUTION METADATA",
             "This block describes the output currently being produced. It is not an upstream artifact and must not be copied as a case finding.",
             "step: 26",
@@ -2009,6 +2119,9 @@ The runner does not validate truth, authorize claims, make route decisions autom
             "SOURCE ROLE RULES",
             "- Checked Stage 3 controls current integrated result, claim ceiling, limits, unresolved items, rivals, and final posture.",
             "- Checked Stage 2 supplies layer-specific depth and selective shallowness.",
+            "- If MIP or AHP was used, skipped, rejected, or preserved as non-use, its handoff relevance must be read through checked Stage 1-3 and the MIP/AHP handoff context above.",
+            "- AHP contributes only analysis-quality implications such as precision pressure, attack-surface visibility, hardening backlog, misreadability, transmission risk, score-language hygiene, D-language caution, reversibility, and iteration support.",
+            "- AHP-derived handoff items are review surfaces only, not proven defects, mandates, MIP corrections, or authorization for stronger future claims.",
             "- Checked Stage 1 supplies provenance, actual artifacts, branch state, and eligible carry-forward references.",
             "- Runner metadata controls exact paths and file availability.",
             "- Article outputs are presentation artifacts and are not sources for the Iteration Handoff.",
