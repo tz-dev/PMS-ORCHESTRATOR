@@ -19,6 +19,8 @@ from .dialogs import (
     ArticleRouteDialog,
     CaseDialog,
     MaterialManagerDialog,
+    IterationHandoffDialog,
+    IterationHandoffNextActionDialog,
     MipRouteDialog,
     RouteDialog,
     SourceCheckDialog,
@@ -41,6 +43,11 @@ from .source_manager import SourceDownloadError, SourceManifest, SourceManifestE
 from .storage import CaseSession, CaseStore, StorageError
 from .ui_views import HelpDocumentDialog, OutputReader, is_markdown_filename, render_markdown
 from .yaml_validator import LocalYamlValidator, YamlValidationResult
+from .iteration_handoff import (
+    IterationHandoffError,
+    parse_handoff_text,
+    render_article_outlook_handoff,
+)
 
 
 STATUS_MARKS = {
@@ -192,7 +199,7 @@ class OrchestratorApp(tk.Tk):
         paned.add(left, weight=1)
         paned.add(right, weight=4)
 
-        ttk.Label(left, text="Pipeline — Guided Session through Step #30").pack(anchor="w", pady=(0, 6))
+        ttk.Label(left, text="Pipeline — Guided Session through Step #31").pack(anchor="w", pady=(0, 6))
         self.step_tree = ttk.Treeview(
             left,
             columns=("mark", "step", "title"),
@@ -362,6 +369,25 @@ class OrchestratorApp(tk.Tk):
             self.prompt_preview.pack_forget()
             self.prompt_text.pack(fill="both", expand=True)
 
+
+    def _iteration_outlook_article_handoff(self) -> str:
+        assert self.session is not None
+        if not hasattr(self.session, "output_path"):
+            return "ITERATION OUTLOOK HANDOFF — RUNNER-GENERATED\nrender_iteration_outlook: no\nreason: no runtime case session is available for step #26 lookup.\nEND ITERATION OUTLOOK HANDOFF"
+        path = self.session.output_path(26)
+        if not path.is_file():
+            return "ITERATION OUTLOOK HANDOFF — RUNNER-GENERATED\nrender_iteration_outlook: no\nreason: step #26 Iteration Handoff output is absent.\nEND ITERATION OUTLOOK HANDOFF"
+        try:
+            return render_article_outlook_handoff(path.read_text(encoding="utf-8-sig", errors="replace"), profile=self.session.article_profile)
+        except (IterationHandoffError, OSError) as exc:
+            return (
+                "ITERATION OUTLOOK HANDOFF — RUNNER-GENERATED\n"
+                "render_iteration_outlook: no\n"
+                f"reason: step #26 Iteration Handoff could not be parsed safely: {exc}\n"
+                "Article prompts must ignore Iteration Handoff content when this block is unsafe.\n"
+                "END ITERATION OUTLOOK HANDOFF"
+            )
+
     def _article_profile_contract(self, step_id: int) -> str:
         assert self.session is not None
         profile = self.session.article_profile
@@ -413,6 +439,8 @@ class OrchestratorApp(tk.Tk):
                 "- Normal guidance is approximately 5,000–8,000 words; multi-layer cases may be longer when the checked record requires it. There is no artificial minimum.",
             ])
         common.extend([
+            "",
+            self._iteration_outlook_article_handoff(),
             "",
             f"CURRENT ARTICLE STEP: {step_id}",
             "END ARTICLE PROFILE",
@@ -561,9 +589,11 @@ Use **Add materials** to copy case-specific files into the active case. ZIP is r
 
 Stages 1–3 preserve the actual artifact chain, layer digests, route non-use, limits, correctability, and full-record integration. Stage 1 lists selected run resources rather than reproducing the complete local installation inventory. Current production outputs are not treated as their own upstream inputs.
 
-## Article workflow
+## Iteration Handoff and article workflow
 
-Article generation is optional after Stage 3. Choose **Case article** for focused case-specific prose or **Full analysis article** for a detailed, audit-rich rendering. The profile changes only steps #26–#30 and does not change the checked analysis. Markdown outputs open in Preview by default. When no examples are needed, the runner copies the base article to the final-article step without an unnecessary model rewrite.
+After Case Record Stages 1–3, step #26 prepares an optional Iteration Handoff. The user reviews the model preselection, urgency, targets, and notes before it can feed an article outlook or a separately bounded follow-up case. The handoff is not Case Record Stage 4 and does not change the checked analysis.
+
+Article generation is optional after the Iteration Handoff. Choose **Case article** for focused case-specific prose or **Full analysis article** for a detailed, audit-rich rendering. The profile changes only steps #27–#31 and does not change the checked analysis or approved handoff. Markdown outputs open in Preview by default. When no examples are needed, the runner copies the base article to the final-article step without an unnecessary model rewrite.
 
 ## Non-authority
 
@@ -1002,7 +1032,7 @@ The runner does not validate truth, authorize claims, make route decisions autom
         current = self.session.current_step_id()
         if current is None or current != 1:
             return True
-        for step_id in range(2, 31):
+        for step_id in range(2, 32):
             state = self.session.step_state(step_id)
             if is_completed_step_status(state.get("status")) or state.get("status") in {"current", "draft"}:
                 return True
@@ -1100,6 +1130,230 @@ The runner does not validate truth, authorize claims, make route decisions autom
             if isinstance(item, dict)
         ]
         return len(self._pending_new_case_materials)
+
+
+    def _load_approved_iteration_handoff(self) -> tuple[dict[str, object] | None, str]:
+        if self.session is None:
+            return None, "No case is loaded."
+        path = self.session.output_path(26)
+        if not path.is_file():
+            return None, "Step #26 Iteration Handoff has not been completed."
+        try:
+            data = parse_handoff_text(path.read_text(encoding="utf-8-sig", errors="replace"))
+        except (IterationHandoffError, OSError) as exc:
+            return None, f"Step #26 Iteration Handoff could not be parsed: {exc}"
+        root = data.get("pms_discipline_iteration_handoff")
+        if not isinstance(root, dict):
+            return None, "Step #26 Iteration Handoff has no valid root."
+        effective = root.get("effective_followup_preparation") if isinstance(root.get("effective_followup_preparation"), dict) else {}
+        status = str(effective.get("status") or "")
+        if status != "approved":
+            return None, f"Step #26 Iteration Handoff is not approved for follow-up creation (status: {status or 'unknown'})."
+        targets = effective.get("effective_targets") if isinstance(effective.get("effective_targets"), list) else []
+        if not targets:
+            return None, "Step #26 Iteration Handoff has no approved effective targets."
+        return data, ""
+
+    def _can_create_followup_case(self) -> bool:
+        data, _reason = self._load_approved_iteration_handoff()
+        return data is not None
+
+    @staticmethod
+    def _lines_from_yaml_list(value: object) -> list[str]:
+        if isinstance(value, list):
+            return [str(item).strip() for item in value if str(item).strip()]
+        text = str(value or "").strip()
+        if not text:
+            return []
+        return [line.strip(" -\t") for line in text.splitlines() if line.strip(" -\t")]
+
+    def _followup_case_defaults_from_handoff(self, handoff: dict[str, object]) -> dict[str, object]:
+        assert self.session is not None
+        root = handoff["pms_discipline_iteration_handoff"]
+        assert isinstance(root, dict)
+        effective = root.get("effective_followup_preparation") if isinstance(root.get("effective_followup_preparation"), dict) else {}
+        seed = effective.get("followup_case_seed") if isinstance(effective.get("followup_case_seed"), dict) else {}
+        targets = effective.get("effective_targets") if isinstance(effective.get("effective_targets"), list) else []
+        urgency = root.get("iteration_urgency") if isinstance(root.get("iteration_urgency"), dict) else {}
+        depth = root.get("current_depth_assessment") if isinstance(root.get("current_depth_assessment"), dict) else {}
+        model = root.get("model_preselection") if isinstance(root.get("model_preselection"), dict) else {}
+
+        title = str(seed.get("working_title") or "").strip()
+        if not title or title.lower() in {"optional or pending", "pending", "unknown"}:
+            title = f"Follow-up — {self.session.case_data.get('title', 'Untitled case')}"
+
+        question_lines: list[str] = []
+        material_lines: list[str] = []
+        for index, target in enumerate(targets, start=1):
+            if not isinstance(target, dict):
+                continue
+            question = str(target.get("question") or "").strip()
+            if question:
+                question_lines.append(f"{index}. {question}")
+            basis = str(target.get("basis_in_checked_record") or "").strip()
+            value = str(target.get("expected_discriminative_value") or "").strip()
+            if basis:
+                question_lines.append(f"   Prior-record basis: {basis}")
+            if value:
+                question_lines.append(f"   Expected discriminative value: {value}")
+            for material in self._lines_from_yaml_list(target.get("required_new_material")):
+                material_lines.append(f"- {material}")
+
+        primary = str(seed.get("primary_question") or "").strip()
+        if not primary or primary.lower() in {"optional or pending", "pending", "unknown"}:
+            primary = str((targets[0] if targets and isinstance(targets[0], dict) else {}).get("question") or "").strip()
+
+        boundary = str(seed.get("proposed_case_boundary") or "").strip()
+        if not boundary or boundary.lower() in {"optional or pending", "pending", "unknown"}:
+            boundary = "A separately bounded follow-up case defined by the approved Iteration Handoff targets below. The analyst must confirm or narrow this boundary before using the case for stronger claims."
+
+        description = (
+            "FOLLOW-UP CASE CREATED FROM APPROVED ITERATION HANDOFF\n\n"
+            f"Parent case: {self.session.case_id}\n"
+            f"Parent title: {self.session.case_data.get('title', '')}\n\n"
+            "Boundary proposal:\n"
+            f"{boundary}\n\n"
+            "Primary follow-up question:\n"
+            f"{primary or 'requires human confirmation'}\n\n"
+            "Approved effective follow-up targets:\n"
+            + ("\n".join(question_lines) if question_lines else "requires human confirmation")
+            + "\n\nRequired new or comparison material named by the handoff:\n"
+            + ("\n".join(dict.fromkeys(material_lines)) if material_lines else "- requires human confirmation")
+            + "\n\nSource-role warning:\n"
+            "The prior checked Stage 1–3 artifacts and the Iteration Handoff provide bounded analytical context only. "
+            "They are not evidence for this follow-up case and must not be used to confirm their own prior findings. "
+            "Inherited original materials retain their original source status. Newly supplied materials require explicit source-status confirmation."
+        )
+        source_status = (
+            "Follow-up case seeded from an approved PMS-DISCIPLINE Iteration Handoff. "
+            "Prior checked analysis artifacts are analytical context only, not evidence. "
+            "User notes in the handoff are planning/context notes unless explicitly reclassified as new user-supplied case material. "
+            "Inherited original materials retain their original source status; newly supplied materials require confirmation."
+        )
+        intended_use = (
+            "Run a separately bounded PMS-DISCIPLINE follow-up analysis to test, weaken, differentiate, or redirect the approved follow-up questions. "
+            "No finding, route, operator status, add-on selection, MIP/AHP status, or claim ceiling is inherited from the parent case."
+        )
+        return {
+            "title": title,
+            "description": description,
+            "source_status": source_status,
+            "intended_use": intended_use,
+            "ai_review_steps_enabled": self.session.ai_review_steps_enabled,
+            "local_yaml_validation_enabled": self.session.local_yaml_validation_enabled,
+            "yaml_validation_behavior": self.session.yaml_validation_behavior,
+            "parent_case_id": self.session.case_id,
+            "parent_case_title": self.session.case_data.get("title", ""),
+            "parent_case_dir": str(self.session.case_dir),
+            "created_from_iteration_handoff": True,
+            "followup_lineage": {
+                "schema_version": "PMS_ORCHESTRATOR_FOLLOWUP_LINEAGE_1.0",
+                "parent_case_id": self.session.case_id,
+                "parent_case_title": self.session.case_data.get("title", ""),
+                "parent_case_dir": str(self.session.case_dir),
+                "iteration_handoff_output": str(self.session.output_path(26).relative_to(self.session.case_dir)),
+                "current_depth_status": str(depth.get("status") or "unknown"),
+                "sufficient_for_original_intended_use": str(depth.get("sufficient_for_original_intended_use") or "unknown"),
+                "model_recommendation": str(model.get("recommendation") or "unknown"),
+                "iteration_urgency_level": str(urgency.get("level") or "unknown"),
+                "effective_targets": targets,
+                "required_new_material": self._lines_from_yaml_list(effective.get("required_new_material")),
+                "boundary_rules": {
+                    "prior_analysis_is_not_evidence": True,
+                    "no_route_inheritance": True,
+                    "no_claim_ceiling_inheritance": True,
+                    "user_notes_are_not_verified_facts": True,
+                },
+            },
+        }
+
+    def _followup_materials_from_current_case(self) -> list[dict[str, object]]:
+        assert self.session is not None
+        entries: list[dict[str, object]] = []
+        def add(path: Path, description: str, purpose: str) -> None:
+            if path.is_file():
+                entries.append({
+                    "source_path": str(path),
+                    "description": description,
+                    "purpose": purpose,
+                })
+        add(
+            self.session.output_path(26),
+            "Approved Iteration Handoff YAML from the parent case.",
+            "Planning record for the follow-up case; not evidence and not a current-case finding.",
+        )
+        for step_id, label in ((20, "Stage 1 artifact index"), (21, "Stage 1 check"), (22, "Stage 2 layer digests"), (23, "Stage 2 check"), (24, "Stage 3 full record"), (25, "Stage 3 check")):
+            add(
+                self.session.output_path(step_id),
+                f"Parent-case {label} output.",
+                "Prior analytical context only; not evidence for the follow-up case and not inherited claim authority.",
+            )
+        try:
+            material_store = self._material_store()
+            for material in material_store.entries():
+                path = material_store.path_for(material)
+                add(
+                    path,
+                    f"Inherited original case material from parent case: {material.get('description') or material.get('original_filename') or path.name}",
+                    "Inherited source material. Preserve its original source status and re-confirm relevance to the follow-up case.",
+                )
+        except CaseMaterialError:
+            pass
+        return entries
+
+    def create_followup_case_from_handoff(self) -> None:
+        if self.session is None:
+            messagebox.showinfo("No case loaded", "Open or create a case first.", parent=self)
+            return
+        handoff, reason = self._load_approved_iteration_handoff()
+        if handoff is None:
+            messagebox.showinfo("Follow-up case unavailable", reason, parent=self)
+            self._set_status(f"Follow-up case skipped: {reason}")
+            return
+        defaults = self._followup_case_defaults_from_handoff(handoff)
+        self._pending_new_case_materials = self._followup_materials_from_current_case()
+        dialog = CaseDialog(
+            self,
+            "Create follow-up PMS-DISCIPLINE case",
+            initial=defaults,
+            materials_count=len(self._pending_new_case_materials),
+            materials_command=self._manage_pending_new_case_materials,
+        )
+        self.wait_window(dialog)
+        if dialog.result is None:
+            self._pending_new_case_materials = []
+            self._set_status("Follow-up case creation cancelled.")
+            return
+        pending_materials = [dict(item) for item in self._pending_new_case_materials]
+        self._pending_new_case_materials = []
+        values = dict(dialog.result)
+        for key in ("parent_case_id", "parent_case_title", "parent_case_dir", "created_from_iteration_handoff", "followup_lineage"):
+            if key in defaults:
+                values[key] = defaults[key]
+        try:
+            self.session = self.store.create_case(values)
+        except StorageError as exc:
+            messagebox.showerror("Could not create follow-up case", str(exc), parent=self)
+            return
+        material_count = 0
+        if pending_materials:
+            try:
+                store = CaseMaterialStore(self.session.case_dir, self.session.case_id)
+                material_count = len(store.replace(pending_materials))
+            except (CaseMaterialError, OSError) as exc:
+                messagebox.showerror(
+                    "Follow-up case created, but materials were not saved",
+                    f"The follow-up case was created successfully, but its materials could not be copied.\n\n{exc}\n\nUse Add materials to add them again.",
+                    parent=self,
+                )
+        self.selected_step_id = 1
+        self._refresh_all()
+        self._set_status(f"Follow-up case created with {material_count} inherited/context material file(s).")
+        messagebox.showinfo(
+            "Follow-up case created",
+            "The follow-up case was created. Confirm the case boundary, source status, intended use, and material roles before completing step #1.",
+            parent=self,
+        )
 
     def new_case(self) -> None:
         self._pending_new_case_materials = []
@@ -1677,6 +1931,57 @@ The runner does not validate truth, authorize claims, make route decisions autom
         ])
         return "\n".join(lines)
 
+    def _iteration_handoff_runner_manifest(self) -> str:
+        assert self.session is not None
+        current_path = self.session.output_path(26)
+
+        def step_ref(step_id: int) -> str:
+            state = self.session.step_state(step_id).get("status", "unknown")
+            path = self.session.output_path(step_id)
+            output_ref = path.relative_to(self.session.case_dir).as_posix() if path.is_file() else "none"
+            return f"step_{step_id:02d}: status={state}; output={output_ref}; output_exists={'yes' if path.is_file() else 'no'}"
+
+        stage_1 = 21 if self.session.ai_review_steps_enabled else 20
+        stage_2 = 23 if self.session.ai_review_steps_enabled else 22
+        stage_3 = 25 if self.session.ai_review_steps_enabled else 24
+        lines = [
+            "RUNNER-GENERATED ITERATION HANDOFF MANIFEST",
+            "This block is authoritative for the Iteration Handoff source basis, exact paths, and current-step boundary.",
+            "The Iteration Handoff is not Case Record Stage 4. It is a prospective handoff for possible follow-up work after Stages 1–3.",
+            "Derive only from checked Case Record Stages 1–3 when semantic reviews are enabled, or from the corresponding unchecked direct outputs when reviews are disabled.",
+            "Do not derive from article drafts, final article prose, example outputs, old prompts, validation history, route revision history, or current-step output state.",
+            "Prior checked analysis artifacts provide bounded analytical context for a future case; they are not evidence for the future case and must not confirm their own findings.",
+            "",
+            f"case_id: {self.session.case_id}",
+            f"semantic_ai_review_steps: {'enabled' if self.session.ai_review_steps_enabled else 'disabled'}",
+            f"review_status: {'checked_pipeline' if self.session.ai_review_steps_enabled else 'unchecked_by_user_choice'}",
+            "",
+            "CONTROLLING CASE-RECORD SOURCES",
+            f"stage_1_source_step: {stage_1}",
+            f"stage_2_source_step: {stage_2}",
+            f"stage_3_source_step: {stage_3}",
+            step_ref(stage_1),
+            step_ref(stage_2),
+            step_ref(stage_3),
+            "",
+            "CURRENT STEP EXECUTION METADATA",
+            "This block describes the output currently being produced. It is not an upstream artifact and must not be copied as a case finding.",
+            "step: 26",
+            f"expected_output: {current_path.relative_to(self.session.case_dir).as_posix()}",
+            f"status: {self.session.step_state(26).get('status', 'unknown')}",
+            f"output_exists_before_generation: {'yes' if current_path.is_file() else 'no'}",
+            "current_output_is_upstream_input: false",
+            "",
+            "SOURCE ROLE RULES",
+            "- Checked Stage 3 controls current integrated result, claim ceiling, limits, unresolved items, rivals, and final posture.",
+            "- Checked Stage 2 supplies layer-specific depth and selective shallowness.",
+            "- Checked Stage 1 supplies provenance, actual artifacts, branch state, and eligible carry-forward references.",
+            "- Runner metadata controls exact paths and file availability.",
+            "- Article outputs are presentation artifacts and are not sources for the Iteration Handoff.",
+            "- User notes and future follow-up questions are not verified facts, evidence, operator findings, or route authorization.",
+        ]
+        return "\n".join(lines)
+
     @staticmethod
     def _fast_mode_prompt_text(text: str) -> str:
         text = re.sub(r"\bChecked\b", "Unchecked", text)
@@ -1817,7 +2122,9 @@ The runner does not validate truth, authorize claims, make route decisions autom
             runtime_values["RUNNER_STAGE_1_MANIFEST"] = self._stage_1_check_runner_manifest()
         if step.prompt_number in {22, 23, 24, 25}:
             runtime_values["RUNNER_CASE_RECORD_MANIFEST"] = self._case_record_runner_manifest(step.step_id)
-        if step.prompt_number in {26, 27, 28, 29, 30}:
+        if step.prompt_number == 26:
+            runtime_values["RUNNER_ITERATION_HANDOFF_MANIFEST"] = self._iteration_handoff_runner_manifest()
+        if step.prompt_number in {27, 28, 29, 30, 31}:
             runtime_values["RUNNER_ARTICLE_PROFILE_CONTRACT"] = self._article_profile_contract(step.step_id)
         rendered = self.prompt_source.render(
             step.prompt_number,
@@ -1860,7 +2167,7 @@ The runner does not validate truth, authorize claims, make route decisions autom
             and step_id in AI_REVIEW_STEP_IDS
             and state.get("status") == "skipped"
         )
-        prompt_is_dynamic = (step.prompt_number == 1 or step.prompt_number in set(range(20, 31))) and not is_completed_step_status(state.get("status"))
+        prompt_is_dynamic = (step.prompt_number == 1 or step.prompt_number in set(range(20, 32))) and not is_completed_step_status(state.get("status"))
         prompt = "" if prompt_is_dynamic else self.session.load_prompt(step_id)
         if review_disabled_here:
             source_step = REVIEW_SOURCE_STEP[step_id]
@@ -2065,6 +2372,65 @@ The runner does not validate truth, authorize claims, make route decisions autom
         except StorageError as exc:
             messagebox.showerror("Save failed", str(exc), parent=self)
 
+
+    def _review_iteration_handoff_before_completion(self, text: str) -> str | None:
+        try:
+            dialog = IterationHandoffDialog(self, text)
+        except Exception as exc:  # noqa: BLE001
+            messagebox.showerror(
+                "Iteration Handoff review unavailable",
+                f"The Iteration Handoff YAML could not be opened for user review.\n\n{exc}",
+                parent=self,
+            )
+            self._set_status("Step #26 completion cancelled: Iteration Handoff review could not open.")
+            return None
+        self.wait_window(dialog)
+        if dialog.result_text is None:
+            self._set_status("Step #26 completion cancelled before confirming Iteration Handoff user response.")
+            return None
+        return dialog.result_text
+
+    def _finish_without_article_after_handoff(self) -> None:
+        assert self.session is not None
+        route = {"route_type": "no_article"}
+        existing = self.session.session_data.get("article_route")
+        if not self._confirm_route_change("article", existing, route, ("route_type", "article_profile")):
+            self._set_status("No-article decision cancelled; article route remains pending.")
+            return
+        try:
+            self.session.set_article_route(route)
+        except StorageError as exc:
+            messagebox.showerror("Could not save article decision", str(exc), parent=self)
+            return
+        self.selected_step_id = 26
+        self._refresh_all()
+        message = "No article selected. The guided pipeline is complete through the confirmed Iteration Handoff."
+        self._set_status(message)
+        messagebox.showinfo("Article decision saved", message, parent=self)
+
+    def _handle_iteration_handoff_next_action(self) -> bool:
+        if self.session is None:
+            return False
+        handoff, reason = self._load_approved_iteration_handoff()
+        dialog = IterationHandoffNextActionDialog(
+            self,
+            followup_available=handoff is not None,
+            reason=reason,
+        )
+        self.wait_window(dialog)
+        action = dialog.result or "decide_later"
+        if action == "create_followup":
+            self.create_followup_case_from_handoff()
+            return True
+        if action == "continue_article":
+            self.set_article_route()
+            return True
+        if action == "finish_without_article":
+            self._finish_without_article_after_handoff()
+            return True
+        self._set_status("Step #26 completed; follow-up and article decisions can be made later from the current case state.")
+        return True
+
     def complete_step(self) -> None:
         if self.session is None:
             return
@@ -2080,10 +2446,28 @@ The runner does not validate truth, authorize claims, make route decisions autom
             return
         if not self._yaml_completion_allowed():
             return
+        if current == 26:
+            reviewed_text = self._review_iteration_handoff_before_completion(text)
+            if reviewed_text is None:
+                return
+            text = reviewed_text
+            self.output_text.delete("1.0", "end")
+            self.output_text.insert("1.0", text)
+            self.output_text.edit_modified(True)
+            self._apply_yaml_highlighting()
+            validation = self._validate_output()
+            if validation.has_blocking_syntax_error:
+                messagebox.showerror(
+                    "Invalid annotated handoff",
+                    validation.short_summary(),
+                    parent=self,
+                )
+                return
         if not ask_centered_yes_no(self, "Complete step", "Save the current output and complete this step?"):
             self._set_status(f"Step #{current} completion cancelled.")
             return
         try:
+            post_completion_action_handled = False
             validation = self._validate_output()
             self.session.write_output(current, text, complete=False)
             self._persist_yaml_validation(validation, completion_state="draft")
@@ -2105,7 +2489,11 @@ The runner does not validate truth, authorize claims, make route decisions autom
             elif run_status == "awaiting_article_route":
                 self.selected_step_id = self.session.required_route_step("article")
                 self._refresh_all()
-                self.set_article_route()
+                if current == 26:
+                    post_completion_action_handled = self._handle_iteration_handoff_next_action()
+                else:
+                    self.set_article_route()
+                    post_completion_action_handled = True
             elif run_status == "pipeline_complete_with_article":
                 self.selected_step_id = current
                 self._refresh_all()
@@ -2119,13 +2507,14 @@ The runner does not validate truth, authorize claims, make route decisions autom
                 if next_step is not None:
                     self.selected_step_id = next_step
                 self._refresh_all()
-            if validation.issues:
-                self._set_status(
-                    f"Step #{current} completed with {len(validation.issues)} unresolved local YAML finding"
-                    f"{'s' if len(validation.issues) != 1 else ''}."
-                )
-            else:
-                self._set_status(f"Step #{current} completed.")
+            if not post_completion_action_handled:
+                if validation.issues:
+                    self._set_status(
+                        f"Step #{current} completed with {len(validation.issues)} unresolved local YAML finding"
+                        f"{'s' if len(validation.issues) != 1 else ''}."
+                    )
+                else:
+                    self._set_status(f"Step #{current} completed.")
         except StorageError as exc:
             messagebox.showerror("Could not complete step", str(exc), parent=self)
 
@@ -2311,11 +2700,11 @@ The runner does not validate truth, authorize claims, make route decisions autom
 
         if changed or not existing:
             if dialog.result["route_type"] == "generate_article":
-                self.selected_step_id = 26
-                message = f"Article generation selected: {dialog.result.get('article_profile', 'full_analysis_article').replace('_', ' ')}. Continue with step #26."
+                self.selected_step_id = 27
+                message = f"Article generation selected: {dialog.result.get('article_profile', 'full_analysis_article').replace('_', ' ')}. Continue with step #27."
             else:
-                self.selected_step_id = 25
-                message = ("No article selected. The guided pipeline is complete through " + ("checked Stage 3." if self.session.ai_review_steps_enabled else "the Stage 3 output (AI review skipped)."))
+                self.selected_step_id = 26
+                message = "No article selected. The guided pipeline is complete through the Iteration Handoff."
         else:
             message = "Article decision metadata refreshed; the active pipeline position was preserved."
         self._refresh_all()

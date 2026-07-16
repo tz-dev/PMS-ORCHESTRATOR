@@ -43,15 +43,16 @@ STEPS: tuple[StepDefinition, ...] = (
     StepDefinition(23, "Check PMS-DISCIPLINE Case Record Stage 2 Layer Digest Extraction", 23, (), tuple(range(1, 23)), "step_23_stage_2_check.txt", "Stage 2 check response", branch="case_record"),
     StepDefinition(24, "Apply PMS-DISCIPLINE Case Record Stage 3 Full Record Integration", 24, ("templates/pms_case_record_stage_3_full_case_record_integration_template.yaml",), tuple(range(1, 24)), "step_24_stage_3_full_record.yaml", "Stage 3 Full Record output", branch="case_record"),
     StepDefinition(25, "Check PMS-DISCIPLINE Case Record Stage 3 Full Record Integration", 25, (), tuple(range(1, 25)), "step_25_stage_3_check.txt", "Stage 3 check response", branch="case_record"),
-    StepDefinition(26, "Article Source Setup and Rendering Contract", 26, (), (1, 3, 5, 7, 10, 12, 15, 17, 19, 21, 23, 25), "step_26_article_rendering_contract.txt", "Article rendering contract confirmation", branch="article"),
-    StepDefinition(27, "Base Markdown Case Article Draft", 27, (), (21, 23, 25, 26), "step_27_base_markdown_case_article.md", "Base Markdown article draft", branch="article"),
-    StepDefinition(28, "Example Decision and Optional Example Generation", 28, (), (21, 23, 25, 27), "step_28_example_decision_and_examples.md", "Example decision and optional examples", branch="article"),
-    StepDefinition(29, "Final Integrated Markdown Case Article", 29, (), (21, 23, 25, 27, 28), "step_29_final_markdown_case_article.md", "Final integrated Markdown article", branch="article"),
-    StepDefinition(30, "Final Article Check and Conservative Patch", 30, (), (21, 23, 25, 27, 28, 29), "step_30_final_article_check.md", "Final article check response", branch="article"),
+    StepDefinition(26, "Iteration Handoff and Follow-up Preparation", 26, ("templates/pms_discipline_iteration_handoff_template.yaml",), (21, 23, 25), "step_26_iteration_handoff.yaml", "Iteration Handoff output", branch="iteration"),
+    StepDefinition(27, "Article Source Setup and Rendering Contract", 27, (), (1, 3, 5, 7, 10, 12, 15, 17, 19, 21, 23, 25, 26), "step_27_article_rendering_contract.txt", "Article rendering contract confirmation", branch="article"),
+    StepDefinition(28, "Base Markdown Case Article Draft", 28, (), (21, 23, 25, 26, 27), "step_28_base_markdown_case_article.md", "Base Markdown article draft", branch="article"),
+    StepDefinition(29, "Example Decision and Optional Example Generation", 29, (), (21, 23, 25, 26, 28), "step_29_example_decision_and_examples.md", "Example decision and optional examples", branch="article"),
+    StepDefinition(30, "Final Integrated Markdown Case Article", 30, (), (21, 23, 25, 26, 28, 29), "step_30_final_markdown_case_article.md", "Final integrated Markdown article", branch="article"),
+    StepDefinition(31, "Final Article Check and Conservative Patch", 31, (), (21, 23, 25, 26, 28, 29, 30), "step_31_final_article_check.md", "Final article check response", branch="article"),
 )
 
 
-AI_REVIEW_STEP_IDS: tuple[int, ...] = (3, 5, 7, 10, 12, 15, 17, 19, 21, 23, 25, 30)
+AI_REVIEW_STEP_IDS: tuple[int, ...] = (3, 5, 7, 10, 12, 15, 17, 19, 21, 23, 25, 31)
 
 
 COMPLETED_STEP_STATUSES: tuple[str, ...] = (
@@ -92,7 +93,7 @@ REVIEW_SOURCE_STEP: dict[int, int] = {
     21: 20,
     23: 22,
     25: 24,
-    30: 29,
+    31: 30,
 }
 
 

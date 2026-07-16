@@ -7,6 +7,18 @@ from typing import Any, Callable
 
 from .gate_reader import GateValue
 from .registry import SUPPORTED_ADDONS
+from .iteration_handoff import (
+    ARTICLE_VISIBILITY_VALUES,
+    OVERALL_ACTIONS,
+    USER_ACTIONS,
+    apply_user_response,
+    dump_handoff_yaml,
+    handoff_root,
+    parse_handoff_text,
+    proposed_targets,
+    target_summary,
+    validate_effective_coverage,
+)
 
 
 def center_on_screen(window: tk.Toplevel) -> None:
@@ -721,9 +733,9 @@ class ArticleRouteDialog(tk.Toplevel):
         ttk.Label(
             details,
             text=(
-                "Article generation is optional and begins only after checked Case Record Stage 3."
+                "Article generation is optional and begins only after the Iteration Handoff step (#26)."
                 if ai_review_steps_enabled
-                else "Article generation is optional and begins after the unchecked Stage 3 output. Semantic AI review was disabled by case setting."
+                else "Article generation is optional and begins after the Iteration Handoff step (#26). Semantic AI review was disabled by case setting."
             ),
             wraplength=610,
         ).pack(anchor="w", pady=(4, 0))
@@ -748,9 +760,9 @@ class ArticleRouteDialog(tk.Toplevel):
         ttk.Radiobutton(
             self,
             text=(
-                "Generate the optional Markdown article (steps #26–#30)"
+                "Generate the optional Markdown article (steps #27–#31)"
                 if ai_review_steps_enabled
-                else "Generate the optional Markdown article (steps #26–#29; final AI review skipped)"
+                else "Generate the optional Markdown article (steps #27–#30; final AI review skipped)"
             ),
             variable=self.route_var,
             value="generate_article",
@@ -795,7 +807,7 @@ class ArticleRouteDialog(tk.Toplevel):
         ttk.Label(
             self,
             text=(
-                "Changing the article decision or profile resets only steps #26–#30. "
+                "Changing the article decision or profile resets only steps #27–#31. "
                 "Existing article files are archived before reset."
             ),
             wraplength=610,
@@ -825,6 +837,279 @@ class ArticleRouteDialog(tk.Toplevel):
         if route_type == "generate_article":
             result["article_profile"] = self.profile_var.get()
         self.result = result
+        self.destroy()
+
+
+class IterationHandoffNextActionDialog(tk.Toplevel):
+    """Contextual action choice after step #26 has been confirmed."""
+
+    def __init__(self, parent: tk.Misc, *, followup_available: bool, reason: str = "") -> None:
+        super().__init__(parent)
+        self.title("After Iteration Handoff")
+        self.transient(parent)
+        self.grab_set()
+        self.result: str | None = None
+        self.resizable(False, False)
+
+        frame = ttk.Frame(self, padding=18)
+        frame.pack(fill="both", expand=True)
+        ttk.Label(
+            frame,
+            text="Step #26 is complete.",
+            font=("TkDefaultFont", 10, "bold"),
+        ).pack(anchor="w")
+        ttk.Label(
+            frame,
+            text=(
+                "Choose the next controlled action. A follow-up case is available only when the "
+                "confirmed Iteration Handoff contains approved effective targets."
+            ),
+            wraplength=560,
+            justify="left",
+        ).pack(fill="x", pady=(6, 10))
+
+        if followup_available:
+            ttk.Button(
+                frame,
+                text="Create follow-up case now",
+                command=lambda: self._choose("create_followup"),
+            ).pack(fill="x", pady=3)
+        else:
+            ttk.Label(
+                frame,
+                text=f"Follow-up case creation is not currently available: {reason or 'no approved effective targets.'}",
+                wraplength=560,
+                justify="left",
+            ).pack(fill="x", pady=(0, 8))
+
+        ttk.Button(
+            frame,
+            text="Continue to article decision",
+            command=lambda: self._choose("continue_article"),
+        ).pack(fill="x", pady=3)
+        ttk.Button(
+            frame,
+            text="Finish without article",
+            command=lambda: self._choose("finish_without_article"),
+        ).pack(fill="x", pady=3)
+        ttk.Button(
+            frame,
+            text="Decide later",
+            command=lambda: self._choose("decide_later"),
+        ).pack(fill="x", pady=(10, 0))
+
+        self.protocol("WM_DELETE_WINDOW", lambda: self._choose("decide_later"))
+        self.bind("<Escape>", lambda _event: self._choose("decide_later"))
+        self.after_idle(lambda: finalize_dialog(self, parent))
+
+    def _choose(self, value: str) -> None:
+        self.result = value
+        self.destroy()
+
+
+class IterationHandoffDialog(tk.Toplevel):
+    def __init__(self, parent: tk.Misc, handoff_text: str) -> None:
+        super().__init__(parent)
+        self.title("Iteration Handoff review")
+        self.transient(parent)
+        self.grab_set()
+        self.result_text: str | None = None
+        self.result_data: dict[str, Any] | None = None
+        self.handoff_data = parse_handoff_text(handoff_text)
+        self.root_data = handoff_root(self.handoff_data)
+        self.target_vars: dict[str, dict[str, Any]] = {}
+
+        self.geometry("1080x780")
+        self.minsize(980, 680)
+        self.columnconfigure(0, weight=1)
+        self.rowconfigure(1, weight=1)
+
+        summary = ttk.LabelFrame(self, text="Model preselection and urgency", padding=10)
+        summary.grid(row=0, column=0, sticky="ew", padx=12, pady=(12, 6))
+        summary.columnconfigure(1, weight=1)
+        pre = self.root_data.get("model_preselection") if isinstance(self.root_data.get("model_preselection"), dict) else {}
+        depth = self.root_data.get("current_depth_assessment") if isinstance(self.root_data.get("current_depth_assessment"), dict) else {}
+        urgency = self.root_data.get("iteration_urgency") if isinstance(self.root_data.get("iteration_urgency"), dict) else {}
+        coverage = self.root_data.get("minimum_followup_coverage") if isinstance(self.root_data.get("minimum_followup_coverage"), dict) else {}
+        rows = [
+            ("Current depth", str(depth.get("status") or "unknown")),
+            ("Sufficient for original use", str(depth.get("sufficient_for_original_intended_use") or "unknown")),
+            ("Model recommendation", str(pre.get("recommendation") or "unknown")),
+            ("Urgency", str(urgency.get("level") or "unknown").upper()),
+            ("Minimum coverage", str(coverage.get("requirement_summary") or "not specified")),
+        ]
+        for row_index, (label, value) in enumerate(rows):
+            ttk.Label(summary, text=f"{label}:", font=("TkDefaultFont", 9, "bold")).grid(row=row_index, column=0, sticky="nw", padx=(0, 10), pady=2)
+            ttk.Label(summary, text=value, wraplength=820).grid(row=row_index, column=1, sticky="ew", pady=2)
+        reason_text = self._bullets(urgency.get("reasons"))
+        ttk.Label(summary, text="Urgency reasons:", font=("TkDefaultFont", 9, "bold")).grid(row=len(rows), column=0, sticky="nw", padx=(0, 10), pady=(6, 2))
+        ttk.Label(summary, text=reason_text or "—", wraplength=820).grid(row=len(rows), column=1, sticky="ew", pady=(6, 2))
+
+        outer = ttk.Frame(self)
+        outer.grid(row=1, column=0, sticky="nsew", padx=12, pady=6)
+        outer.rowconfigure(0, weight=1)
+        outer.columnconfigure(0, weight=1)
+        canvas = tk.Canvas(outer, highlightthickness=0)
+        scrollbar = ttk.Scrollbar(outer, orient="vertical", command=canvas.yview)
+        self.scroll_frame = ttk.Frame(canvas)
+        self.scroll_frame.bind("<Configure>", lambda _event: canvas.configure(scrollregion=canvas.bbox("all")))
+        window_id = canvas.create_window((0, 0), window=self.scroll_frame, anchor="nw")
+        canvas.configure(yscrollcommand=scrollbar.set)
+        canvas.grid(row=0, column=0, sticky="nsew")
+        scrollbar.grid(row=0, column=1, sticky="ns")
+        canvas.bind("<Configure>", lambda event: canvas.itemconfigure(window_id, width=event.width))
+
+        decision = ttk.LabelFrame(self.scroll_frame, text="Overall user decision", padding=10)
+        decision.pack(fill="x", pady=(0, 8))
+        default_decision = str(pre.get("proposed_user_action") or "accept_model_preselection")
+        if default_decision not in OVERALL_ACTIONS:
+            default_decision = "accept_model_preselection"
+        self.overall_var = tk.StringVar(value=default_decision)
+        decision_labels = {
+            "accept_model_preselection": "Accept model preselection",
+            "accept_with_notes_or_revisions": "Accept with target notes/revisions below",
+            "prepare_despite_negative_recommendation": "Prepare handoff despite negative/low recommendation",
+            "skip_iteration_handoff": "Skip iteration handoff",
+            "regenerate_after_revised_focus": "Request regeneration after revised focus",
+        }
+        for value in OVERALL_ACTIONS:
+            ttk.Radiobutton(decision, text=decision_labels[value], variable=self.overall_var, value=value).pack(anchor="w", pady=2)
+
+        targets_frame = ttk.LabelFrame(self.scroll_frame, text="Proposed follow-up questions", padding=10)
+        targets_frame.pack(fill="x", pady=(0, 8))
+        for target in proposed_targets(self.root_data):
+            if not isinstance(target, dict):
+                continue
+            self._add_target_editor(targets_frame, target)
+        if not self.target_vars:
+            ttk.Label(targets_frame, text="No model targets were proposed. You may add your own question below.").pack(anchor="w")
+
+        additions = ttk.LabelFrame(self.scroll_frame, text="Additional user notes and trajectory", padding=10)
+        additions.pack(fill="x", pady=(0, 8))
+        additions.columnconfigure(1, weight=1)
+        self.additional_questions = self._text_row(additions, 0, "Additional follow-up questions", height=4)
+        self.general_case_notes = self._text_row(additions, 1, "Additional case notes", height=4)
+        self.chronology_notes = self._text_row(additions, 2, "Chronology / trajectory notes", height=4)
+        self.material_location_notes = self._text_row(additions, 3, "Material-location notes", height=3)
+        self.general_handoff_note = self._text_row(additions, 4, "General handoff note", height=3)
+
+        buttons = ttk.Frame(self)
+        buttons.grid(row=2, column=0, sticky="ew", padx=12, pady=(6, 12))
+        ttk.Button(buttons, text="Cancel", command=self.destroy).pack(side="right", padx=(6, 0))
+        ttk.Button(buttons, text="Save confirmed handoff", command=self._save).pack(side="right")
+        ttk.Label(
+            buttons,
+            text="User notes guide follow-up preparation. They are not verified facts or current-case findings.",
+            wraplength=620,
+        ).pack(side="left")
+
+        self.protocol("WM_DELETE_WINDOW", self.destroy)
+        self.bind("<Escape>", lambda _event: self.destroy())
+        self.after_idle(lambda: finalize_dialog(self, parent))
+
+    def _bullets(self, value: Any) -> str:
+        if isinstance(value, list):
+            return "\n".join(f"- {item}" for item in value if str(item).strip())
+        return str(value or "")
+
+    def _text_row(self, parent: tk.Misc, row: int, label: str, *, height: int) -> tk.Text:
+        ttk.Label(parent, text=label).grid(row=row, column=0, sticky="nw", padx=(0, 10), pady=4)
+        text = tk.Text(parent, height=height, wrap="word")
+        text.grid(row=row, column=1, sticky="ew", pady=4)
+        return text
+
+    def _add_target_editor(self, parent: tk.Misc, target: dict[str, Any]) -> None:
+        summary = target_summary(target)
+        target_id = summary["target_id"] or f"target_{len(self.target_vars) + 1}"
+        frame = ttk.LabelFrame(parent, text=f"{target_id} · {summary['dimension']} · {summary['blocking_status']}", padding=8)
+        frame.pack(fill="x", pady=(0, 8))
+        frame.columnconfigure(1, weight=1)
+        ttk.Label(frame, text="Model question", font=("TkDefaultFont", 9, "bold")).grid(row=0, column=0, sticky="nw", padx=(0, 10), pady=2)
+        ttk.Label(frame, text=summary["question"] or "—", wraplength=780).grid(row=0, column=1, sticky="ew", pady=2)
+        ttk.Label(frame, text="Rationale").grid(row=1, column=0, sticky="nw", padx=(0, 10), pady=2)
+        ttk.Label(frame, text=summary["basis"] or "—", wraplength=780).grid(row=1, column=1, sticky="ew", pady=2)
+        ttk.Label(frame, text="Expected value").grid(row=2, column=0, sticky="nw", padx=(0, 10), pady=2)
+        ttk.Label(frame, text=summary["expected_value"] or "—", wraplength=780).grid(row=2, column=1, sticky="ew", pady=2)
+        ttk.Label(frame, text="Required material").grid(row=3, column=0, sticky="nw", padx=(0, 10), pady=2)
+        ttk.Label(frame, text=summary["required_new_material"] or "—", wraplength=780).grid(row=3, column=1, sticky="ew", pady=2)
+
+        controls = ttk.Frame(frame)
+        controls.grid(row=4, column=0, columnspan=2, sticky="ew", pady=(6, 2))
+        action_var = tk.StringVar(value="accept")
+        ttk.Label(controls, text="Action:").pack(side="left")
+        ttk.Combobox(controls, textvariable=action_var, values=USER_ACTIONS, state="readonly", width=10).pack(side="left", padx=(6, 16))
+        visibility_var = tk.StringVar(value="exclude")
+        ttk.Label(controls, text="Article visibility:").pack(side="left")
+        ttk.Combobox(controls, textvariable=visibility_var, values=ARTICLE_VISIBILITY_VALUES, state="readonly", width=10).pack(side="left", padx=(6, 0))
+
+        note = self._target_text(frame, 5, "User note")
+        revised = self._target_text(frame, 6, "User version / revised question")
+        rationale = self._target_text(frame, 7, "Why this is better or more precise")
+        builds = self._target_text(frame, 8, "Relation to prior checked record")
+        material = self._target_text(frame, 9, "Additional material needed")
+        trajectory = self._target_text(frame, 10, "Trajectory note")
+        split = self._target_text(frame, 11, "Split questions, one per line")
+        merge = self._target_text(frame, 12, "Merge with target IDs")
+        self.target_vars[target_id] = {
+            "action": action_var,
+            "visibility": visibility_var,
+            "note": note,
+            "revised_question": revised,
+            "revision_rationale": rationale,
+            "builds_on_prior_point": builds,
+            "additional_material_needed": material,
+            "trajectory_note": trajectory,
+            "split_questions": split,
+            "merge_with_target_ids": merge,
+        }
+
+    def _target_text(self, parent: tk.Misc, row: int, label: str) -> tk.Text:
+        ttk.Label(parent, text=label).grid(row=row, column=0, sticky="nw", padx=(0, 10), pady=2)
+        text = tk.Text(parent, height=2, wrap="word")
+        text.grid(row=row, column=1, sticky="ew", pady=2)
+        return text
+
+    @staticmethod
+    def _get_text(widget: tk.Text) -> str:
+        return widget.get("1.0", "end-1c").strip()
+
+    def _save(self) -> None:
+        target_responses: list[dict[str, Any]] = []
+        for target_id, fields in self.target_vars.items():
+            item = {
+                "target_id": target_id,
+                "action": fields["action"].get(),
+                "note": self._get_text(fields["note"]),
+                "revised_question": self._get_text(fields["revised_question"]),
+                "revision_rationale": self._get_text(fields["revision_rationale"]),
+                "builds_on_prior_point": self._get_text(fields["builds_on_prior_point"]),
+                "additional_material_needed": self._get_text(fields["additional_material_needed"]),
+                "trajectory_note": self._get_text(fields["trajectory_note"]),
+                "split_questions": self._get_text(fields["split_questions"]),
+                "merge_with_target_ids": self._get_text(fields["merge_with_target_ids"]),
+                "article_visibility": fields["visibility"].get(),
+            }
+            target_responses.append(item)
+        response = {
+            "overall_decision": self.overall_var.get(),
+            "target_responses": target_responses,
+            "additional_questions": self._get_text(self.additional_questions),
+            "general_case_notes": self._get_text(self.general_case_notes),
+            "chronology_or_trajectory_notes": self._get_text(self.chronology_notes),
+            "material_location_notes": self._get_text(self.material_location_notes),
+            "general_handoff_note": self._get_text(self.general_handoff_note),
+        }
+        updated = apply_user_response(self.handoff_data, response)
+        coverage = validate_effective_coverage(updated)
+        if not coverage.ok:
+            messagebox.showwarning(
+                "Iteration coverage incomplete",
+                "The confirmed handoff does not meet its urgency-based minimum coverage:\n\n" + "\n".join(f"- {issue}" for issue in coverage.issues),
+                parent=self,
+            )
+            return
+        self.result_data = updated
+        self.result_text = dump_handoff_yaml(updated)
         self.destroy()
 
 

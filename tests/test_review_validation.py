@@ -24,7 +24,7 @@ class OptionalReviewFlowTests(unittest.TestCase):
     def test_review_registry_covers_all_semantic_check_steps(self) -> None:
         self.assertEqual(
             AI_REVIEW_STEP_IDS,
-            (3, 5, 7, 10, 12, 15, 17, 19, 21, 23, 25, 30),
+            (3, 5, 7, 10, 12, 15, 17, 19, 21, 23, 25, 31),
         )
         self.assertEqual(set(REVIEW_SOURCE_STEP), set(AI_REVIEW_STEP_IDS))
 
@@ -62,19 +62,21 @@ class OptionalReviewFlowTests(unittest.TestCase):
                 self.assertEqual(session.current_step_id(), step_id)
                 session.write_output(step_id, f"output {step_id}", complete=True)
 
+            self.assertEqual(session.current_step_id(), 26)
+            session.write_output(26, "iteration handoff", complete=True)
             self.assertEqual(session.session_data["run_status"], "awaiting_article_route")
-            self.assertEqual(session.required_route_step("article"), 24)
+            self.assertEqual(session.required_route_step("article"), 26)
             session.set_article_route({
                 "route_type": "generate_article",
                 "selection_basis": "user_confirmed",
             })
-            for step_id in (26, 27, 28, 29):
+            for step_id in (27, 28, 29, 30):
                 self.assertEqual(session.current_step_id(), step_id)
                 session.write_output(step_id, f"output {step_id}", complete=True)
 
             self.assertEqual(session.session_data["run_status"], "pipeline_complete_with_article")
             self.assertIsNone(session.current_step_id())
-            self.assertEqual(session.step_state(30)["status"], "skipped")
+            self.assertEqual(session.step_state(31)["status"], "skipped")
 
     def test_disabling_current_unfinished_review_archives_and_advances(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:

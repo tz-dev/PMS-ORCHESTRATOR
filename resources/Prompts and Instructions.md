@@ -2823,7 +2823,137 @@ Do not declare ready while any criterion remains FAIL.
 
 ---
 
-## Prompt #26 — Article Source Setup and Rendering Contract
+## Prompt #26 — Iteration Handoff and Follow-up Preparation
+
+You are continuing a PMS-DISCIPLINE pipeline run.
+
+This step prepares a prospective Iteration Handoff after the completed Case Record Stages 1–3 and before optional Markdown article generation.
+
+This step is not Case Record Stage 4. It does not continue the current case analysis. It assesses whether a separately bounded future case could usefully deepen, test, weaken, differentiate, or redirect specific aspects of the current checked record.
+
+AVAILABLE CONTEXT:
+
+* Checked Stage 1 Artifact Index YAML is present in this conversation/session when semantic review steps are enabled. If semantic review steps are disabled, use the direct Stage 1 output only as unchecked context.
+* Checked Stage 2 Layer Digest Extraction YAML is present in this conversation/session when semantic review steps are enabled. If semantic review steps are disabled, use the direct Stage 2 output only as unchecked context.
+* Checked Stage 3 Full Record Integration YAML is present in this conversation/session when semantic review steps are enabled. If semantic review steps are disabled, use the direct Stage 3 output only as unchecked context.
+* The CASE PACKET remains bounded source material for the current run.
+* The runner-generated manifest below controls exact source paths, review status, and current-step boundaries.
+
+CASE PACKET:
+CASE TITLE:
+{CASE_TITLE}
+
+CASE MATERIAL:
+{CASE_MATERIAL}
+
+SOURCE STATUS:
+{SOURCE_STATUS}
+
+INTENDED USE:
+{INTENDED_USE}
+
+{RUNNER_ITERATION_HANDOFF_MANIFEST}
+
+TASK:
+Apply `pms_discipline_iteration_handoff_template.yaml`.
+
+Produce a lightweight Iteration Handoff YAML that gives a model preselection for the user. The runner will show this preselection to the user in a confirmation window where each proposed target can be accepted, refined, replaced, split, merged, rejected, or annotated. The user-confirmation fields remain pending in this prompt output; the runner fills them after user review.
+
+SOURCE HIERARCHY:
+
+1. Checked Stage 3 controls the current integrated result, claim ceiling, limits, unresolved items, rivals, and final posture.
+2. Checked Stage 2 supplies layer-specific treatment depth, compression, selective shallowness, and unresolved layer-level limits.
+3. Checked Stage 1 supplies provenance, actual artifact availability, branch state, non-use state, and eligible carry-forward references.
+4. Runner metadata controls exact paths and file availability.
+5. Article drafts, final article prose, example outputs, prompt history, validation history, route revision history, and current-step execution metadata are not analytical sources for this step.
+
+ASSESS:
+
+* current analytical depth relative to the original intended use;
+* whether the current case remains sufficient for that original intended use;
+* materially developed areas;
+* selectively shallow, unresolved, or blocked areas;
+* the value of a separately bounded follow-up case;
+* iteration urgency and reasons;
+* factors that raise or lower urgency;
+* minimum follow-up coverage implied by urgency;
+* candidate follow-up targets with stable target IDs;
+* required new material for each target;
+* expected discriminative value for each target;
+* whether an iteration outlook might later be appropriate in an article.
+
+USER-RESPONSE SUPPORT STRUCTURE:
+
+The template contains fields for later user response. Preserve these fields even though they remain pending here. Do not pre-fill user notes, revised questions, target responses, or effective targets as if the user had already confirmed them.
+
+The later runner dialog may record:
+
+* action per proposed target: accept, refine, replace, split, merge, reject;
+* user note per target;
+* a user-revised or replacement question;
+* the user's reason why the revised question is more precise;
+* the prior checked-record point the user thinks it builds on;
+* additional material needed;
+* chronology or trajectory notes;
+* article visibility: exclude, summarize, include;
+* additional user-created follow-up questions.
+
+These later user notes may guide a future case. They are not verified facts, current-case findings, evidence, operator activations, or confirmation of the prior analysis.
+
+ITERATION URGENCY SCALE:
+
+Use exactly one level:
+
+* none — no material follow-up value is visible; further analysis would probably add volume without discrimination.
+* low — one optional refinement could be useful, but the current case is sufficient for its original use and no stronger-use pressure is visible.
+* moderate — follow-up is useful before stronger reuse or broader claims, but the current case may close for its original use.
+* high — stronger use would be risky without a new bounded follow-up case, and multiple material dimensions need coverage.
+* critical — the next intended use or claim should not continue without a new bounded case that addresses all blocking targets.
+
+MINIMUM COVERAGE GUIDANCE:
+
+* none: no minimum material target.
+* low: at least one material target if a handoff is prepared.
+* moderate: at least two material targets, or one central target with two clearly distinct subquestions.
+* high: at least three material targets across at least two distinct dimensions.
+* critical: all blocking targets must be identified; the minimum is determined by the blockers rather than a fixed count.
+
+A material target counts only when it includes a concrete follow-up question, a basis in the checked record, required new material or an explicit unknown-material marker, and an expected discriminative value.
+
+PROSPECTIVE LANGUAGE ONLY:
+
+Use formulations such as:
+
+* test whether
+* examine whether
+* clarify whether
+* compare
+* distinguish
+* may confirm, weaken, differentiate, or redirect
+
+Do not write as if the follow-up case already has findings.
+
+FORBIDDEN:
+
+* Do not create new case findings.
+* Do not assign or preassign PMS operators for the future case.
+* Do not recommend or preselect an add-on route.
+* Do not recommend or preselect MIP or AHP.
+* Do not inherit the current claim ceiling into a future case.
+* Do not treat prior checked analysis as evidence.
+* Do not treat user notes as verified facts.
+* Do not describe the current case as incomplete merely because further iteration is possible.
+* Do not use the final article, article drafts, or examples as sources.
+* Do not produce Markdown article prose.
+
+OUTPUT:
+Return valid YAML only.
+Preserve the template root and field structure as far as possible.
+Set `user_response.status` to `pending`, `user_response.overall_decision` to `pending`, and `effective_followup_preparation.status` to `pending_user_confirmation` unless the model recommendation is `no_material_iteration_value` and no material target is proposed. Leave `user_response.target_responses`, `user_response.additional_questions`, and `effective_followup_preparation.effective_targets` empty until the runner records the user's confirmation or revision.
+
+---
+
+## Prompt #27 — Article Source Setup and Rendering Contract
 
 You are continuing a PMS-DISCIPLINE pipeline run.
 
@@ -2834,6 +2964,7 @@ AVAILABLE CONTEXT:
 * Checked Stage 1 Artifact Index YAML is present in this conversation/session.
 * Checked Stage 2 Layer Digest Extraction YAML is present in this conversation/session.
 * Checked Stage 3 Full Record Integration YAML is present in this conversation/session.
+* The Iteration Handoff YAML from step #26 is present if actually produced. It is prospective planning context only, not a source for current case findings.
 * Checked prior PMS-DISCIPLINE artifacts are present where applicable.
 * The CASE PACKET remains the bounded source material for this run.
 
@@ -2860,8 +2991,10 @@ SOURCE HIERARCHY:
 1. Checked Stage 3 Full Record Integration YAML controls the article's substantive integrated record, title, claim boundary, final posture, unresolved items, and permitted use.
 2. Checked Stage 2 Layer Digest Extraction YAML supplies layer-level analytical depth without overriding Stage 3.
 3. Checked Stage 1 Artifact Index YAML supplies provenance and artifact status. It is not a source of new case findings.
-4. Underlying checked artifacts may be consulted only where Stage 2 or Stage 3 explicitly identifies a gap, contradiction, unresolved item, or need for layer-specific verification.
-5. The CASE PACKET remains bounded source material only where the checked record chain licenses reference to it.
+4. The Iteration Handoff may be considered only as prospective follow-up context. It must not alter the current case result, route, claim ceiling, operator status, source status, or sufficiency assessment.
+   Use the runner-generated `ITERATION OUTLOOK HANDOFF` block to determine whether an Iteration outlook may be rendered later, which effective targets are article-visible, and which user notes must remain excluded.
+5. Underlying checked artifacts may be consulted only where Stage 2 or Stage 3 explicitly identifies a gap, contradiction, unresolved item, or need for layer-specific verification.
+6. The CASE PACKET remains bounded source material only where the checked record chain licenses reference to it.
 
 COMMON RENDERING DISCIPLINE:
 
@@ -2899,7 +3032,7 @@ Article-generation source hierarchy and selected profile contract established.
 
 ---
 
-## Prompt #27 — Base Markdown Case Article Draft
+## Prompt #28 — Base Markdown Case Article Draft
 
 You are continuing a PMS-DISCIPLINE pipeline run.
 
@@ -2910,6 +3043,7 @@ AVAILABLE CONTEXT:
 * Checked Stage 1 Artifact Index YAML is present.
 * Checked Stage 2 Layer Digest Extraction YAML is present.
 * Checked Stage 3 Full Record Integration YAML is present.
+* The Iteration Handoff YAML from step #26 is present if actually produced. It is prospective planning context only, not current-case evidence.
 * Checked prior PMS-DISCIPLINE artifacts are present where applicable.
 * The CASE PACKET remains the bounded source material.
 
@@ -2936,7 +3070,8 @@ SOURCE HIERARCHY:
 1. Checked Stage 3 is the primary article source.
 2. Checked Stage 2 supplies analytical depth.
 3. Checked Stage 1 supplies provenance and branch status only.
-4. Underlying checked artifacts may verify an explicitly marked gap but may not introduce new claims.
+4. The Iteration Handoff may not change the article's current-case result. Do not render an iteration outlook unless the handoff contains a confirmed user decision and article_outlook explicitly permits it.
+5. Underlying checked artifacts may verify an explicitly marked gap but may not introduce new claims.
 
 COMMON TECHNICAL RULES:
 
@@ -2954,6 +3089,17 @@ COMMON TECHNICAL RULES:
 * Keep workflow QA metadata out of case findings.
 * Do not generate examples in this step.
 * Do not repeat the same boundary or non-use statement in multiple sections.
+
+ITERATION OUTLOOK RENDERING:
+
+* Render an `### Iteration outlook` section only when the runner-generated `ITERATION OUTLOOK HANDOFF` says `render_iteration_outlook: yes`.
+* If `render_iteration_outlook: no`, omit the section entirely. Do not mention that an outlook was omitted.
+* The section is prospective only. It must state that any follow-up would be a new, separately bounded case.
+* Do not describe the current case as incomplete when the handoff states that it is sufficient for the original intended use.
+* Do not convert proposed follow-up questions into current-case findings, operator activations, add-on recommendations, MIP/AHP recommendations, evidence, or claim authority.
+* Use only article-visible effective targets and permitted summary points from the runner-generated handoff. Excluded raw user notes must not appear.
+* For `case_article`, keep the outlook brief: current sufficiency, one to three follow-up focuses, and the new-case boundary.
+* For `full_analysis_article`, the outlook may include depth status, urgency, reasons, selected effective questions, required new material, expected discriminative value, and the carry-forward boundary.
 
 PROFILE-SPECIFIC STRUCTURE:
 
@@ -3040,7 +3186,7 @@ No meta-commentary outside the article.
 
 ---
 
-## Prompt #28 — Example Decision and Optional Example Generation
+## Prompt #29 — Example Decision and Optional Example Generation
 
 You are continuing a PMS-DISCIPLINE pipeline run.
 
@@ -3049,6 +3195,7 @@ The base Markdown article draft exists for the selected profile.
 AVAILABLE CONTEXT:
 
 * Checked Stage 1, Stage 2, and Stage 3 outputs are present.
+* The Iteration Handoff YAML from step #26 is present if actually produced. It is prospective planning context only, not current-case evidence.
 * The Base Markdown Case Article Draft is present.
 * The CASE PACKET remains the bounded source material.
 
@@ -3123,7 +3270,7 @@ When an example is generated, provide the complete Markdown example body. Do not
 
 ---
 
-## Prompt #29 — Final Integrated Markdown Case Article
+## Prompt #30 — Final Integrated Markdown Case Article
 
 You are continuing a PMS-DISCIPLINE pipeline run.
 
@@ -3134,6 +3281,7 @@ AVAILABLE CONTEXT:
 * Checked Stage 1, Stage 2, and Stage 3 outputs are present.
 * The Base Markdown Case Article Draft is present.
 * The Example Decision and any generated example are present.
+* The Iteration Handoff YAML from step #26 is present if actually produced. It is prospective planning context only, not current-case evidence.
 * The CASE PACKET remains the bounded source material.
 
 CASE PACKET:
@@ -3159,8 +3307,17 @@ SOURCE HIERARCHY:
 1. Checked Stage 3 controls the integrated record and claim boundary.
 2. Checked Stage 2 supplies analytical depth.
 3. Checked Stage 1 supplies provenance only.
-4. The Base Draft controls the article's profile-specific structure unless it conflicts with the checked record.
-5. Generated examples may be inserted only when the Example Decision permits them.
+4. The Iteration Handoff may not alter current-case findings or claim boundaries. Render iteration outlook content only when user-confirmed and explicitly permitted by the handoff.
+5. The Base Draft controls the article's profile-specific structure unless it conflicts with the checked record.
+6. Generated examples may be inserted only when the Example Decision permits them.
+
+ITERATION OUTLOOK INTEGRATION:
+
+* Preserve a valid Iteration outlook from the Base Draft when it follows the runner-generated handoff.
+* Add an Iteration outlook only when the Base Draft omitted one and the runner-generated `ITERATION OUTLOOK HANDOFF` says `render_iteration_outlook: yes`.
+* Remove or weaken any outlook wording that treats follow-up questions as current findings, evidence, route recommendations, claim-ceiling changes, or proof that the current case is incomplete.
+* Do not include excluded raw user notes. User notes marked `summarize` may be paraphrased; notes marked `include` may be included only when still bounded as planning context.
+* The outlook must make clear that a follow-up case begins again with its own boundary, source status, intended use, and Pre-Analysis.
 
 COMMON INTEGRATION RULES:
 
@@ -3208,7 +3365,7 @@ No meta-commentary outside the article.
 
 ---
 
-## Prompt #30 — Final Article Check and Conservative Patch
+## Prompt #31 — Final Article Check and Conservative Patch
 
 You are continuing a PMS-DISCIPLINE pipeline run.
 
@@ -3217,6 +3374,7 @@ The final Markdown article was generated for the selected profile.
 AVAILABLE CONTEXT:
 
 * Checked Stage 1, Stage 2, and Stage 3 outputs are present.
+* The Iteration Handoff YAML from step #26 is present if actually produced. It is prospective planning context only, not current-case evidence.
 * The Base Markdown Case Article Draft is present.
 * The Example Decision and any generated example are present.
 * The Final Integrated Markdown Case Article is present.
@@ -3267,7 +3425,14 @@ COMMON CHECKS:
    * It remains illustrative only.
    * Drafting labels and insertion metadata are absent from the final article.
 
-5. Conclusion
+5. Iteration outlook
+   * An Iteration outlook appears only when permitted by the runner-generated handoff.
+   * It remains prospective and does not change the current case result, claim ceiling, route, operator status, source status, layer result, sufficiency assessment, or final posture.
+   * It does not treat prior checked analysis as evidence for the future case.
+   * It does not include raw user notes whose article_visibility is `exclude`.
+   * It states or preserves that any follow-up is a new, separately bounded analysis.
+
+6. Conclusion
    * The conclusion stays within the checked record.
    * It preserves the controlling posture and does not create publication or implementation authority.
 

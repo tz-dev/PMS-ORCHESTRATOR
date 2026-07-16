@@ -1,0 +1,134 @@
+pms_discipline_iteration_handoff:
+  schema_version: "1.1"
+
+  source_basis:
+    stage_1_artifact_index: "<path or unknown>"
+    stage_2_layer_digests: "<path or unknown>"
+    stage_3_full_record: "<path or unknown>"
+    runner_manifest_used: "<yes | no>"
+    article_outputs_used_as_sources: "no"
+
+  current_depth_assessment:
+    status: "<sufficient_for_current_use | sufficient_but_selectively_shallow | materially_underdeveloped | blocked_by_input_or_scope>"
+    sufficient_for_original_intended_use: "<yes | no | unclear>"
+    rationale: "<text>"
+    developed_areas: []
+    selectively_shallow_areas: []
+    blocked_areas: []
+
+  model_preselection:
+    recommendation: "<no_material_iteration_value | optional_refinement | recommended_for_deeper_understanding | recommended_before_stronger_use | required_before_stronger_claim | blocked_until_new_material>"
+    confidence: "<low | moderate | high>"
+    rationale: "<text>"
+    proposed_user_action: "<accept_model_preselection | skip_iteration_handoff | prepare_despite_negative_recommendation | revise_focus>"
+
+  iteration_urgency:
+    level: "<none | low | moderate | high | critical>"
+    reasons: []
+    what_raises_urgency: []
+    what_lowers_urgency: []
+    urgency_triggers: []
+    consequence_if_not_addressed: "<text>"
+
+  minimum_followup_coverage:
+    requirement_summary: "<text>"
+    minimum_material_targets: "<0 | 1 | 2 | 3 | all_blocking_targets>"
+    minimum_distinct_dimensions: "<0 | 1 | 2 | unknown>"
+    blocking_targets_must_be_addressed: "<yes | no | not_applicable>"
+
+  proposed_iteration_targets:
+    - target_id: "<stable short id>"
+      model_proposal:
+        focus: "<text>"
+        question: "<text>"
+        basis_in_checked_record: "<text>"
+        required_new_material: []
+        expected_discriminative_value: "<text>"
+        dimension: "<material | chronology | recurrence | rival | claim_strength | boundary | add_on_threshold | mip_ahp_pressure | other>"
+        blocking_status: "<blocking | non_blocking>"
+        priority: "<low | medium | high>"
+
+  article_outlook:
+    recommendation: "<omit | brief_if_article_generated | include_if_article_generated>"
+    rationale: "<text>"
+    permitted_summary_points: []
+
+  user_response:
+    status: "<pending | confirmed | revision_requested>"
+    overall_decision: "<pending | accept_model_preselection | accept_with_notes_or_revisions | prepare_despite_negative_recommendation | skip_iteration_handoff | regenerate_after_revised_focus>"
+    target_responses:
+      - target_id: "<stable short id>"
+        action: "<accept | refine | replace | split | merge | reject>"
+        note: "<text or empty>"
+        revised_question: "<text or empty>"
+        revision_rationale: "<text or empty>"
+        builds_on_prior_point: "<text or empty>"
+        additional_material_needed: []
+        trajectory_note: "<text or empty>"
+        split_questions: []
+        merge_with_target_ids: []
+        article_visibility: "<exclude | summarize | include>"
+    additional_questions:
+      - target_id: "<stable short id>"
+        question: "<text>"
+        basis_in_checked_record: "<text>"
+        required_new_material: []
+        expected_discriminative_value: "<text>"
+        dimension: "<material | chronology | recurrence | rival | claim_strength | boundary | add_on_threshold | mip_ahp_pressure | other>"
+        priority: "<low | medium | high>"
+        note: "<text or empty>"
+        revision_rationale: "<text or empty>"
+        builds_on_prior_point: "<text or empty>"
+        trajectory_note: "<text or empty>"
+        article_visibility: "<exclude | summarize | include>"
+    general_case_notes: "<text or empty>"
+    chronology_or_trajectory_notes: "<text or empty>"
+    material_location_notes: "<text or empty>"
+    general_handoff_note: "<text or empty>"
+
+  effective_followup_preparation:
+    status: "<pending_user_confirmation | approved | declined | requires_regeneration | no_material_iteration_target>"
+    accepted_targets: []
+    refined_targets: []
+    replaced_targets: []
+    split_targets: []
+    merged_targets: []
+    user_added_targets: []
+    rejected_targets: []
+    effective_targets:
+      - target_id: "<stable short id>"
+        source_target_id: "<stable short id | null>"
+        origin: "<model_preselection_accepted | model_proposal_accepted | user_refinement_of_model_proposal | user_replacement_of_model_proposal | user_split_of_model_proposal | user_merge_of_model_proposals | user_added_followup_question>"
+        status: "<approved | declined | requires_regeneration>"
+        question: "<text>"
+        basis_in_checked_record: "<text>"
+        required_new_material: []
+        expected_discriminative_value: "<text>"
+        dimension: "<material | chronology | recurrence | rival | claim_strength | boundary | add_on_threshold | mip_ahp_pressure | other>"
+        blocking_status: "<blocking | non_blocking>"
+        priority: "<low | medium | high>"
+        user_note: "<text or empty>"
+        revision_rationale: "<text or empty>"
+        builds_on_prior_point: "<text or empty>"
+        trajectory_note: "<text or empty>"
+        article_visibility: "<exclude | summarize | include>"
+    required_new_material: []
+    followup_case_seed:
+      working_title: "<optional or pending>"
+      proposed_case_boundary: "<optional or pending>"
+      primary_question: "<optional or pending>"
+      source_status: "requires_human_confirmation"
+      intended_use: "requires_human_confirmation"
+      claim_ceiling: "requires_new_pre_analysis"
+
+  boundaries:
+    no_new_case_finding: true
+    prior_analysis_is_not_evidence: true
+    no_operator_preassignment: true
+    no_addon_preselection: true
+    no_mip_or_ahp_preselection: true
+    no_claim_ceiling_inheritance: true
+    no_automatic_continuation: true
+    user_notes_are_not_verified_facts: true
+
+  handoff_status: "<pending_user_confirmation | ready_for_user_review | user_confirmed | declined_by_user | requires_regeneration | no_material_iteration_target | blocked>"

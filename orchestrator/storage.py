@@ -63,7 +63,7 @@ def _write_json(path: Path, data: dict[str, Any]) -> None:
 def _initial_status(step_id: int) -> str:
     if step_id == 1:
         return "current"
-    if get_step(step_id).branch in {"selected_addon", "mip", "ahp", "ahp_application", "case_record", "article"}:
+    if get_step(step_id).branch in {"selected_addon", "mip", "ahp", "ahp_application", "case_record", "iteration", "article"}:
         return "locked"
     return "open"
 
@@ -148,7 +148,7 @@ class CaseSession:
             "addon": (7, 6, "route"),
             "mip": (12, 11, "mip_route"),
             "ahp": (17, 16, "ahp_route"),
-            "article": (25, 24, "article_route"),
+            "article": (26, 26, "article_route"),
         }
         try:
             checked_step, unchecked_step, route_field = mapping[route_name]
@@ -425,7 +425,7 @@ class CaseSession:
         self.session_data["run_status"] = "pipeline_complete_with_article"
 
     def _example_decision_state(self) -> str | None:
-        text = self.load_output(28)
+        text = self.load_output(29)
         found = {
             value
             for value in ALL_EXAMPLE_DECISION_STATES
@@ -434,22 +434,22 @@ class CaseSession:
         return next(iter(found)) if len(found) == 1 else None
 
     def _complete_final_article_from_base_without_examples(self, decision: str) -> bool:
-        source = self.output_path(27)
-        target = self.output_path(29)
+        source = self.output_path(28)
+        target = self.output_path(30)
         if not source.is_file():
             return False
         target.parent.mkdir(parents=True, exist_ok=True)
         shutil.copy2(source, target)
-        prompt_path = self.prompt_path(29)
+        prompt_path = self.prompt_path(30)
         prompt_path.parent.mkdir(parents=True, exist_ok=True)
         prompt_path.write_text(
             "RUNNER ACTION — NO EXAMPLES\n\n"
-            f"Step #28 returned the unambiguous decision: {decision}.\n"
-            "The runner copied the Base Markdown Case Article from step #27 unchanged to the final article output for step #29.\n"
-            "No AI rewrite was requested. Step #30 may apply a conservative final patch when semantic review steps are enabled.",
+            f"Step #29 returned the unambiguous decision: {decision}.\n"
+            "The runner copied the Base Markdown Case Article from step #28 unchanged to the final article output for step #30.\n"
+            "No AI rewrite was requested. Step #31 may apply a conservative final patch when semantic review steps are enabled.",
             encoding="utf-8",
         )
-        state = self.step_state(29)
+        state = self.step_state(30)
         state.update({
             "status": "completed_by_runner_no_examples",
             "prompt_file": str(prompt_path.relative_to(self.case_dir)),
@@ -522,26 +522,28 @@ class CaseSession:
             if reviews:
                 self._activate_step(25)
             else:
-                self._set_awaiting_route("article")
+                self._activate_step(26)
         elif step_id == 25:
+            self._activate_step(26)
+        elif step_id == 26:
             self._set_awaiting_route("article")
-        elif step_id in {26, 27}:
+        elif step_id in {27, 28}:
             self._activate_step(step_id + 1)
-        elif step_id == 28:
+        elif step_id == 29:
             decision = self._example_decision_state()
             if decision in NO_EXAMPLE_DECISION_STATES and self._complete_final_article_from_base_without_examples(decision):
                 if reviews:
-                    self._activate_step(30)
+                    self._activate_step(31)
                 else:
                     self._finish_article_pipeline()
             else:
-                self._activate_step(29)
-        elif step_id == 29:
-            if reviews:
                 self._activate_step(30)
+        elif step_id == 30:
+            if reviews:
+                self._activate_step(31)
             else:
                 self._finish_article_pipeline()
-        elif step_id == 30:
+        elif step_id == 31:
             self._finish_article_pipeline()
         else:
             raise StorageError(f"Unsupported completion transition for step #{step_id}.")
@@ -676,15 +678,19 @@ class CaseSession:
             route_fields_to_clear = ("article_route",)
             route_filenames_to_clear = ("article_route.json",)
             open_through = 25
+        elif step_id == 26:
+            route_fields_to_clear = ("article_route",)
+            route_filenames_to_clear = ("article_route.json",)
+            open_through = 26
         else:
             route_fields_to_clear = ()
             route_filenames_to_clear = ()
-            open_through = 30
+            open_through = 31
 
         route_files = tuple(self.case_dir / filename for filename in route_filenames_to_clear)
         archive_dir = self._archive_and_clear(
             f"manual-reset-step-{step_id:02d}",
-            range(step_id, 31),
+            range(step_id, 32),
             route_files,
         )
 
@@ -694,7 +700,7 @@ class CaseSession:
             if route_file.exists():
                 route_file.unlink()
 
-        for downstream_step_id in range(step_id, 31):
+        for downstream_step_id in range(step_id, 32):
             self.step_state(downstream_step_id)["status"] = "locked"
         for active_step_id in range(step_id, open_through + 1):
             self.step_state(active_step_id)["status"] = "open"
@@ -716,7 +722,7 @@ class CaseSession:
         if old_route and changed:
             self._archive_and_clear(
                 "addon-route",
-                range(8, 31),
+                range(8, 32),
                 (self.case_dir / "route.json", self.case_dir / "mip_route.json", self.case_dir / "ahp_route.json", self.case_dir / "article_route.json"),
             )
             self.session_data["mip_route"] = None
@@ -741,12 +747,12 @@ class CaseSession:
             if not route.get("selected_addon"):
                 raise StorageError("A selected add-on is required for the selected add-on route.")
             self._set_statuses({8: "current", 9: "open", 10: "open" if self.ai_review_steps_enabled else "skipped", 11: "open", 12: "open" if self.ai_review_steps_enabled else "skipped"})
-            self._set_statuses({step_id: "locked" for step_id in range(13, 31)})
+            self._set_statuses({step_id: "locked" for step_id in range(13, 32)})
             self.session_data["current_step"] = 8
             self.session_data["run_status"] = "active"
         elif route_type == "core_only":
             self._set_statuses({8: "skipped", 9: "skipped", 10: "skipped", 11: "current", 12: "open" if self.ai_review_steps_enabled else "skipped"})
-            self._set_statuses({step_id: "locked" for step_id in range(13, 31)})
+            self._set_statuses({step_id: "locked" for step_id in range(13, 32)})
             self.session_data["current_step"] = 11
             self.session_data["run_status"] = "active"
         else:
@@ -764,7 +770,7 @@ class CaseSession:
         if old_route and changed:
             self._archive_and_clear(
                 "mip-route",
-                range(13, 31),
+                range(13, 32),
                 (self.case_dir / "mip_route.json", self.case_dir / "ahp_route.json", self.case_dir / "article_route.json"),
             )
             self.session_data["ahp_route"] = None
@@ -786,13 +792,13 @@ class CaseSession:
         route_type = route.get("route_type")
         if route_type == "use_mip":
             self._set_statuses({13: "current", 14: "open", 15: "open" if self.ai_review_steps_enabled else "skipped"})
-            self._set_statuses({step_id: "locked" for step_id in range(16, 31)})
+            self._set_statuses({step_id: "locked" for step_id in range(16, 32)})
             self.session_data["current_step"] = 13
             self.session_data["run_status"] = "active"
         elif route_type == "no_mip":
             self._set_statuses({step_id: "skipped" for step_id in range(13, 20)})
             self._set_case_record_statuses(current_step=20)
-            self._set_statuses({step_id: "locked" for step_id in range(26, 31)})
+            self._set_statuses({step_id: "locked" for step_id in range(26, 32)})
             self.session_data["current_step"] = 20
             self.session_data["run_status"] = "active"
         else:
@@ -808,7 +814,7 @@ class CaseSession:
         old_route = self.session_data.get("ahp_route")
         changed = _route_signature(old_route, ("route_type",)) != _route_signature(route, ("route_type",))
         if old_route and changed:
-            self._archive_and_clear("ahp-route", range(18, 31), (self.case_dir / "ahp_route.json", self.case_dir / "article_route.json"))
+            self._archive_and_clear("ahp-route", range(18, 32), (self.case_dir / "ahp_route.json", self.case_dir / "article_route.json"))
             self.session_data["article_route"] = None
             article_path = self.case_dir / "article_route.json"
             if article_path.exists():
@@ -826,13 +832,13 @@ class CaseSession:
         route_type = route.get("route_type")
         if route_type == "use_ahp":
             self._set_statuses({18: "current", 19: "open" if self.ai_review_steps_enabled else "skipped"})
-            self._set_statuses({step_id: "locked" for step_id in range(20, 31)})
+            self._set_statuses({step_id: "locked" for step_id in range(20, 32)})
             self.session_data["current_step"] = 18
             self.session_data["run_status"] = "active"
         elif route_type == "no_ahp":
             self._set_statuses({18: "skipped", 19: "skipped"})
             self._set_case_record_statuses(current_step=20)
-            self._set_statuses({step_id: "locked" for step_id in range(26, 31)})
+            self._set_statuses({step_id: "locked" for step_id in range(26, 32)})
             self.session_data["current_step"] = 20
             self.session_data["run_status"] = "active"
         else:
@@ -862,7 +868,7 @@ class CaseSession:
         if old_route and changed:
             self._archive_and_clear(
                 "article-route",
-                range(26, 31),
+                range(27, 32),
                 (self.case_dir / "article_route.json",),
             )
 
@@ -875,11 +881,11 @@ class CaseSession:
             return False
 
         if route_type == "generate_article":
-            self._set_statuses({26: "current", 27: "open", 28: "open", 29: "open", 30: "open" if self.ai_review_steps_enabled else "skipped"})
-            self.session_data["current_step"] = 26
+            self._set_statuses({27: "current", 28: "open", 29: "open", 30: "open", 31: "open" if self.ai_review_steps_enabled else "skipped"})
+            self.session_data["current_step"] = 27
             self.session_data["run_status"] = "active"
         else:
-            self._set_statuses({step_id: "skipped" for step_id in range(26, 31)})
+            self._set_statuses({step_id: "skipped" for step_id in range(27, 32)})
             self.session_data["current_step"] = None
             self.session_data["run_status"] = "pipeline_complete_without_article"
         self.save()
@@ -919,7 +925,7 @@ class CaseSession:
             "awaiting_addon_route": 7,
             "awaiting_mip_route": 12,
             "awaiting_ahp_route": 17,
-            "awaiting_article_route": 25,
+            "awaiting_article_route": 26,
         }
         run_status = str(self.session_data.get("run_status", "active"))
         if run_status in awaiting_to_step:
@@ -1010,6 +1016,11 @@ class CaseStore:
             "created_at": now,
             "updated_at": now,
         }
+        if values.get("created_from_iteration_handoff"):
+            case_data["created_from_iteration_handoff"] = True
+            case_data["parent_case_id"] = str(values.get("parent_case_id") or "")
+            case_data["parent_case_title"] = str(values.get("parent_case_title") or "")
+            case_data["parent_case_dir"] = str(values.get("parent_case_dir") or "")
         steps = {str(step.step_id): _new_step_state(step.step_id) for step in STEPS}
         if not case_data["ai_review_steps_enabled"]:
             for review_step_id in AI_REVIEW_STEP_IDS:
@@ -1029,6 +1040,9 @@ class CaseStore:
         }
         session = CaseSession(self.project_root, case_dir, case_data, session_data)
         session.save()
+        lineage = values.get("followup_lineage")
+        if isinstance(lineage, dict):
+            _write_json(case_dir / "followup_lineage.json", lineage)
         return session
 
     def _migrate_case(self, case_data: dict[str, Any], session_data: dict[str, Any]) -> bool:
@@ -1105,7 +1119,8 @@ class CaseStore:
         # Extend earlier runs without disturbing an active or awaiting route position.
         added_ahp_steps = bool(new_step_ids.intersection(set(range(16, 20))))
         added_case_record_steps = bool(new_step_ids.intersection(set(range(20, 26))))
-        added_article_steps = bool(new_step_ids.intersection(set(range(26, 31))))
+        added_iteration_step = 26 in new_step_ids
+        added_article_steps = bool(new_step_ids.intersection(set(range(27, 32))))
         mip_type = mip_route.get("route_type")
         ahp_route = session_data.get("ahp_route") or {}
         ahp_type = ahp_route.get("route_type")
@@ -1166,21 +1181,30 @@ class CaseStore:
             changed = True
 
 
-        # v0.5 runs ended after checked Stage 3. They now pause for the optional
-        # article decision rather than silently generating or skipping an article.
+        # Runs that ended after checked Stage 3 now first produce the optional
+        # Iteration Handoff before pausing for the optional article decision.
         article_route = session_data.get("article_route") or {}
         article_type = article_route.get("route_type")
         current = session_data.get("current_step")
         stage_3_checked = steps.get("25", {}).get("status") == "completed"
-        if stage_3_checked and current is None:
+        iteration_done = is_completed_step_status(steps.get("26", {}).get("status"))
+        if stage_3_checked and current is None and not iteration_done:
+            steps["26"]["status"] = "current"
+            for step_id in range(27, 32):
+                if not is_completed_step_status(steps[str(step_id)].get("status")):
+                    steps[str(step_id)]["status"] = "locked"
+            session_data["current_step"] = 26
+            session_data["run_status"] = "active"
+            changed = True
+        elif stage_3_checked and current is None and iteration_done:
             if article_type == "generate_article":
                 incomplete_article_steps = [
-                    step_id for step_id in range(26, 31)
+                    step_id for step_id in range(27, 32)
                     if not is_completed_step_status(steps[str(step_id)].get("status"))
                 ]
                 if incomplete_article_steps:
                     next_article_step = incomplete_article_steps[0]
-                    for step_id in range(26, 31):
+                    for step_id in range(27, 32):
                         if step_id < next_article_step and not is_completed_step_status(steps[str(step_id)].get("status")):
                             steps[str(step_id)]["status"] = "completed"
                         elif step_id == next_article_step:
@@ -1192,17 +1216,22 @@ class CaseStore:
                 else:
                     session_data["run_status"] = "pipeline_complete_with_article"
             elif article_type == "no_article":
-                for step_id in range(26, 31):
+                for step_id in range(27, 32):
                     steps[str(step_id)]["status"] = "skipped"
                 session_data["run_status"] = "pipeline_complete_without_article"
             else:
-                for step_id in range(26, 31):
+                for step_id in range(27, 32):
                     if not is_completed_step_status(steps[str(step_id)].get("status")):
                         steps[str(step_id)]["status"] = "locked"
                 session_data["run_status"] = "awaiting_article_route"
             changed = True
+        elif added_iteration_step and stage_3_checked and current is None:
+            steps["26"]["status"] = "current"
+            session_data["current_step"] = 26
+            session_data["run_status"] = "active"
+            changed = True
         elif added_article_steps:
-            for step_id in range(26, 31):
+            for step_id in range(27, 32):
                 if not is_completed_step_status(steps[str(step_id)].get("status")) and steps[str(step_id)].get("status") not in {"current", "open", "skipped"}:
                     steps[str(step_id)]["status"] = "locked"
             changed = True

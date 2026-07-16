@@ -9,7 +9,7 @@ from typing import Any
 @dataclass(frozen=True)
 class AppMetadata:
     name: str = "PMS-ORCHESTRATOR"
-    version: str = "1.4"
+    version: str = "1.6"
     project_status: str = "Pre-release guided desktop application"
     repository_url: str = ""
     license_file: str = "LICENSE"

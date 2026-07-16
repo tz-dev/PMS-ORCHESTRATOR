@@ -88,7 +88,14 @@ class PromptSource:
                 "No additional case-material files are configured. Read PMS.yaml only.\n"
                 "END CASE MATERIAL PACKAGE"
             )
-        if 26 <= prompt_number <= 30 and "RUNNER_ARTICLE_PROFILE_CONTRACT" not in runtime and "{RUNNER_ARTICLE_PROFILE_CONTRACT}" not in runtime:
+        if prompt_number == 26 and "RUNNER_ITERATION_HANDOFF_MANIFEST" not in runtime and "{RUNNER_ITERATION_HANDOFF_MANIFEST}" not in runtime:
+            runtime["RUNNER_ITERATION_HANDOFF_MANIFEST"] = (
+                "RUNNER-GENERATED ITERATION HANDOFF MANIFEST\n"
+                "No live runner manifest was supplied. Use checked Stage 1, Stage 2, and Stage 3 artifacts only.\n"
+                "Do not use article drafts or future outputs as sources for this step.\n"
+                "END ITERATION HANDOFF MANIFEST"
+            )
+        if 27 <= prompt_number <= 31 and "RUNNER_ARTICLE_PROFILE_CONTRACT" not in runtime and "{RUNNER_ARTICLE_PROFILE_CONTRACT}" not in runtime:
             runtime["RUNNER_ARTICLE_PROFILE_CONTRACT"] = (
                 "ARTICLE PROFILE — RUNNER-GENERATED\n"
                 "selected_profile: full_analysis_article\n"

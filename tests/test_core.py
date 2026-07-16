@@ -33,10 +33,10 @@ CASE_VALUES = {
 
 
 class PromptSourceTests(unittest.TestCase):
-    def test_load_and_render_all_thirty_prompts(self) -> None:
+    def test_load_and_render_all_thirty_one_prompts(self) -> None:
         source_path = Path(__file__).resolve().parents[1] / "resources" / "Prompts and Instructions.md"
         source = PromptSource(source_path)
-        for number in range(1, 31):
+        for number in range(1, 32):
             self.assertIn(number, source.available_prompt_numbers())
             raw = source.get(number)
             self.assertFalse(raw.startswith("\n"))
@@ -74,7 +74,10 @@ class PromptSourceTests(unittest.TestCase):
         ahp_rendered = source.render(18, CASE_VALUES)
         self.assertIn(AHP_SOURCE_FILENAME, ahp_rendered)
 
-        article_rendered = source.render(27, CASE_VALUES)
+        iteration_rendered = source.render(26, CASE_VALUES)
+        self.assertIn("Iteration Handoff", iteration_rendered)
+        self.assertIn("iteration urgency", iteration_rendered)
+        article_rendered = source.render(28, CASE_VALUES)
         self.assertIn("Create the base Markdown article draft for the selected article profile", article_rendered)
         self.assertIn("selected_profile: full_analysis_article", article_rendered)
         self.assertIn("For `case_article`", article_rendered)
@@ -145,7 +148,7 @@ class PromptSourceTests(unittest.TestCase):
         )
         self.assertIn("canonical PMS operator identities, functions, and checked case-specific roles remain unchanged", stage3_check_prompt)
 
-        for number in (26, 27, 28, 29, 30):
+        for number in (27, 28, 29, 30, 31):
             article_prompt = source.render(number, CASE_VALUES)
             self.assertIn("selected_profile: full_analysis_article", article_prompt)
             case_contract = (
@@ -162,7 +165,7 @@ class PromptSourceTests(unittest.TestCase):
             self.assertNotIn("{RUNNER_ARTICLE_PROFILE_CONTRACT}", case_prompt)
 
 
-        default_article_prompt = source.render(27, CASE_VALUES)
+        default_article_prompt = source.render(28, CASE_VALUES)
         self.assertIn("CANONICAL PMS OPERATOR NAMING RULE", default_article_prompt)
         self.assertIn("Δ (Difference)", default_article_prompt)
         self.assertIn("first occurrence of each operator in every paragraph", default_article_prompt)
@@ -181,7 +184,7 @@ class PromptSourceTests(unittest.TestCase):
             default_article_prompt,
         )
 
-        final_article_prompt = source.render(29, CASE_VALUES)
+        final_article_prompt = source.render(30, CASE_VALUES)
         self.assertIn("In every rewritten or newly inserted paragraph", final_article_prompt)
         self.assertIn("Do not replace canonical operator names with case-specific descriptions", final_article_prompt)
 
@@ -194,7 +197,7 @@ class PromptSourceTests(unittest.TestCase):
             final_article_prompt,
         )
 
-        article_check_prompt = source.render(30, CASE_VALUES)
+        article_check_prompt = source.render(31, CASE_VALUES)
         self.assertIn("Every paragraph containing PMS operator prose", article_check_prompt)
         self.assertIn("Canonical operator names are not replaced by case-specific glosses or functions", article_check_prompt)
 
@@ -241,6 +244,60 @@ class ArticleProfileContractTests(unittest.TestCase):
             "concrete proximity to that misuse",
             contract,
         )
+
+
+    def test_iteration_handoff_contract_exposes_only_article_visible_targets(self) -> None:
+        handoff = """pms_discipline_iteration_handoff:
+  schema_version: "1.1"
+  current_depth_assessment:
+    status: sufficient_but_selectively_shallow
+    sufficient_for_original_intended_use: yes
+  model_preselection:
+    recommendation: recommended_before_stronger_use
+  iteration_urgency:
+    level: moderate
+    reasons:
+      - stronger recurrence claims require comparable scenes
+  article_outlook:
+    recommendation: brief_if_article_generated
+  effective_followup_preparation:
+    status: approved
+    effective_targets:
+      - target_id: visible_01
+        question: Does recurrence appear after responsibility shifts?
+        basis_in_checked_record: Stage 3 covered one scene only.
+        required_new_material:
+          - comparable handoff records
+        expected_discriminative_value: May weaken or support recurrence.
+        dimension: recurrence
+        article_visibility: summarize
+      - target_id: hidden_01
+        question: This private note must not appear.
+        basis_in_checked_record: Private basis.
+        required_new_material:
+          - private material
+        expected_discriminative_value: Private value.
+        dimension: material
+        article_visibility: exclude
+  handoff_status: user_confirmed
+"""
+        with tempfile.TemporaryDirectory() as temp_dir:
+            session = CaseStore(Path(temp_dir)).create_case(CASE_VALUES)
+            session.output_path(26).parent.mkdir(parents=True, exist_ok=True)
+            session.output_path(26).write_text(handoff, encoding="utf-8")
+            session.session_data["article_route"] = {
+                "route_type": "generate_article",
+                "article_profile": ARTICLE_PROFILE_CASE,
+            }
+            app = OrchestratorApp.__new__(OrchestratorApp)
+            app.session = session
+
+            contract = app._article_profile_contract(28)
+
+        self.assertIn("ITERATION OUTLOOK HANDOFF", contract)
+        self.assertIn("render_iteration_outlook: yes", contract)
+        self.assertIn("Does recurrence appear after responsibility shifts?", contract)
+        self.assertNotIn("This private note must not appear", contract)
 
 class RunnerManifestTests(unittest.TestCase):
     def _app_for_session(self, session, project_root: Path) -> OrchestratorApp:
@@ -335,7 +392,7 @@ class SourceManifestTests(unittest.TestCase):
             project_root,
         )
 
-        self.assertEqual(len(manifest.entries), 23)
+        self.assertEqual(len(manifest.entries), 24)
 
         destinations = {
             entry.destination
@@ -379,7 +436,7 @@ class SourceManifestTests(unittest.TestCase):
 
             results = manifest.download_all(fetch_bytes=lambda url, timeout: f"downloaded from {url}\n".encode("utf-8"))
 
-            self.assertEqual(len(results), 23)
+            self.assertEqual(len(results), 24)
             self.assertTrue(all(item.present for item in manifest.check()))
             self.assertIn(b"downloaded from", (root / "pms" / "PMS.yaml").read_bytes())
 
@@ -600,8 +657,8 @@ gate_result:
 
 
 class RegistryTests(unittest.TestCase):
-    def test_registry_has_all_thirty_pipeline_steps(self) -> None:
-        self.assertEqual([step.step_id for step in STEPS], list(range(1, 31)))
+    def test_registry_has_all_thirty_one_pipeline_steps(self) -> None:
+        self.assertEqual([step.step_id for step in STEPS], list(range(1, 32)))
 
     def test_upload_files_match_step_contract(self) -> None:
         root = Path("C:/project")
@@ -614,7 +671,8 @@ class RegistryTests(unittest.TestCase):
         self.assertEqual(resolve_upload_files(get_step(20), root, None)[0].name, "pms_case_record_stage_1_artifact_index_template.yaml")
         self.assertEqual(resolve_upload_files(get_step(22), root, None)[0].name, "pms_case_record_stage_2_layer_digest_extraction_template.yaml")
         self.assertEqual(resolve_upload_files(get_step(24), root, None)[0].name, "pms_case_record_stage_3_full_case_record_integration_template.yaml")
-        for step_id in range(26, 31):
+        self.assertEqual(resolve_upload_files(get_step(26), root, None)[0].name, "pms_discipline_iteration_handoff_template.yaml")
+        for step_id in range(27, 32):
             self.assertEqual(resolve_upload_files(get_step(step_id), root, None), [])
 
 
@@ -633,6 +691,29 @@ class CaseStoreTests(unittest.TestCase):
         for step_id in range(20, 26):
             session.write_output(step_id, f"output {step_id}", complete=True)
 
+
+    def test_followup_case_lineage_is_persisted(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            store = CaseStore(Path(temp_dir))
+            session = store.create_case({
+                **CASE_VALUES,
+                "created_from_iteration_handoff": True,
+                "parent_case_id": "parent-001",
+                "parent_case_title": "Parent Case",
+                "parent_case_dir": "/tmp/parent",
+                "followup_lineage": {
+                    "schema_version": "PMS_ORCHESTRATOR_FOLLOWUP_LINEAGE_1.0",
+                    "parent_case_id": "parent-001",
+                    "boundary_rules": {"prior_analysis_is_not_evidence": True},
+                },
+            })
+
+            self.assertTrue(session.case_data["created_from_iteration_handoff"])
+            self.assertEqual(session.case_data["parent_case_id"], "parent-001")
+            lineage = json.loads((session.case_dir / "followup_lineage.json").read_text(encoding="utf-8"))
+            self.assertEqual(lineage["parent_case_id"], "parent-001")
+            self.assertTrue(lineage["boundary_rules"]["prior_analysis_is_not_evidence"])
+
     def test_full_route_reaches_optional_article_decision_and_completion(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             session = CaseStore(Path(temp_dir)).create_case(CASE_VALUES)
@@ -647,12 +728,14 @@ class CaseStoreTests(unittest.TestCase):
             session.write_output(18, "output 18", complete=True)
             session.write_output(19, "output 19", complete=True)
             self._complete_case_record(session)
+            self.assertEqual(session.current_step_id(), 26)
+            session.write_output(26, "iteration handoff", complete=True)
             self.assertEqual(session.session_data["run_status"], "awaiting_article_route")
             self.assertIsNone(session.current_step_id())
 
             session.set_article_route({"route_type": "generate_article", "selection_basis": "user_confirmed"})
-            self.assertEqual(session.current_step_id(), 26)
-            for step_id in range(26, 31):
+            self.assertEqual(session.current_step_id(), 27)
+            for step_id in range(27, 32):
                 session.write_output(step_id, f"output {step_id}", complete=True)
             self.assertEqual(session.session_data["run_status"], "pipeline_complete_with_article")
             self.assertIsNone(session.current_step_id())
@@ -663,10 +746,12 @@ class CaseStoreTests(unittest.TestCase):
             self._complete_through_step_12_core_only(session)
             session.set_mip_route({"route_type": "no_mip", "selection_basis": "manual_user_route"})
             self._complete_case_record(session)
+            session.write_output(26, "iteration handoff", complete=True)
             session.set_article_route({"route_type": "no_article", "selection_basis": "user_confirmed"})
             self.assertEqual(session.session_data["run_status"], "pipeline_complete_without_article")
             self.assertIsNone(session.current_step_id())
-            for step_id in range(26, 31):
+            self.assertEqual(session.step_state(26)["status"], "completed")
+            for step_id in range(27, 32):
                 self.assertEqual(session.step_state(step_id)["status"], "skipped")
 
     def test_article_decision_can_be_changed_later(self) -> None:
@@ -675,11 +760,12 @@ class CaseStoreTests(unittest.TestCase):
             self._complete_through_step_12_core_only(session)
             session.set_mip_route({"route_type": "no_mip", "selection_basis": "manual_user_route"})
             self._complete_case_record(session)
+            session.write_output(26, "iteration handoff", complete=True)
             session.set_article_route({"route_type": "no_article", "selection_basis": "user_confirmed"})
             changed = session.set_article_route({"route_type": "generate_article", "selection_basis": "user_confirmed"})
             self.assertTrue(changed)
-            self.assertEqual(session.current_step_id(), 26)
-            self.assertEqual(session.step_state(26)["status"], "current")
+            self.assertEqual(session.current_step_id(), 27)
+            self.assertEqual(session.step_state(27)["status"], "current")
 
     def test_no_mip_can_be_changed_to_use_mip(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
@@ -755,8 +841,9 @@ class CaseStoreTests(unittest.TestCase):
             self._complete_through_step_12_core_only(session)
             session.set_mip_route({"route_type": "no_mip", "selection_basis": "manual_user_route"})
             self._complete_case_record(session)
+            session.write_output(26, "iteration handoff", complete=True)
             session.set_article_route({"route_type": "generate_article", "selection_basis": "user_confirmed"})
-            session.write_output(26, "article contract", complete=True)
+            session.write_output(27, "article contract", complete=True)
 
             archive = session.reset_from_step(20)
 
@@ -768,7 +855,7 @@ class CaseStoreTests(unittest.TestCase):
             self.assertEqual(session.step_state(20)["status"], "current")
             for step_id in range(21, 26):
                 self.assertEqual(session.step_state(step_id)["status"], "open")
-            for step_id in range(26, 31):
+            for step_id in range(26, 32):
                 self.assertEqual(session.step_state(step_id)["status"], "locked")
             for step_id in range(13, 20):
                 self.assertEqual(session.step_state(step_id)["status"], "skipped")
@@ -780,6 +867,7 @@ class CaseStoreTests(unittest.TestCase):
             self._complete_through_step_12_core_only(session)
             session.set_mip_route({"route_type": "no_mip", "selection_basis": "manual_user_route"})
             self._complete_case_record(session)
+            session.write_output(26, "iteration handoff", complete=True)
 
             session.set_article_route({
                 "route_type": "generate_article",
@@ -787,7 +875,7 @@ class CaseStoreTests(unittest.TestCase):
                 "selection_basis": "user_confirmed",
             })
             self.assertEqual(session.article_profile, ARTICLE_PROFILE_CASE)
-            for step_id in (26, 27, 28):
+            for step_id in (27, 28, 29):
                 session.write_output(step_id, f"article {step_id}", complete=True)
             self.assertTrue(session.output_path(25).is_file())
 
@@ -799,9 +887,10 @@ class CaseStoreTests(unittest.TestCase):
 
             self.assertTrue(changed)
             self.assertEqual(session.article_profile, ARTICLE_PROFILE_FULL)
-            self.assertEqual(session.current_step_id(), 26)
+            self.assertEqual(session.current_step_id(), 27)
             self.assertTrue(session.output_path(25).is_file())
-            for step_id in range(26, 31):
+            self.assertTrue(session.output_path(26).is_file())
+            for step_id in range(27, 32):
                 self.assertFalse(session.output_path(step_id).is_file())
             saved = json.loads((session.case_dir / "article_route.json").read_text(encoding="utf-8"))
             self.assertEqual(saved["article_profile"], ARTICLE_PROFILE_FULL)
@@ -885,7 +974,7 @@ class CaseStoreTests(unittest.TestCase):
             session = store.create_case(CASE_VALUES)
             case_dir = session.case_dir
             data = json.loads((case_dir / "session.json").read_text(encoding="utf-8"))
-            for step_id in range(20, 31):
+            for step_id in range(20, 32):
                 data["steps"].pop(str(step_id), None)
             for step_id in range(1, 20):
                 data["steps"][str(step_id)]["status"] = "completed"
@@ -907,13 +996,13 @@ class CaseStoreTests(unittest.TestCase):
             self.assertEqual(migrated.step_state(25)["status"], "open")
             self.assertEqual(migrated.step_state(26)["status"], "locked")
 
-    def test_v05_stage_3_complete_case_migrates_to_article_question(self) -> None:
+    def test_v05_stage_3_complete_case_migrates_to_iteration_handoff(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             store = CaseStore(Path(temp_dir))
             session = store.create_case(CASE_VALUES)
             case_dir = session.case_dir
             data = json.loads((case_dir / "session.json").read_text(encoding="utf-8"))
-            for step_id in range(26, 31):
+            for step_id in range(26, 32):
                 data["steps"].pop(str(step_id), None)
             for step_id in range(1, 26):
                 data["steps"][str(step_id)]["status"] = "completed"
@@ -927,10 +1016,11 @@ class CaseStoreTests(unittest.TestCase):
             (case_dir / "case.json").write_text(json.dumps(case), encoding="utf-8")
 
             migrated = store.load_case(case_dir)
-            self.assertEqual(migrated.session_data["run_status"], "awaiting_article_route")
-            self.assertIsNone(migrated.current_step_id())
+            self.assertEqual(migrated.session_data["run_status"], "active")
+            self.assertEqual(migrated.current_step_id(), 26)
             self.assertIsNone(migrated.session_data["article_route"])
-            for step_id in range(26, 31):
+            self.assertEqual(migrated.step_state(26)["status"], "current")
+            for step_id in range(27, 32):
                 self.assertEqual(migrated.step_state(step_id)["status"], "locked")
 
     def test_v04_active_ahp_case_keeps_current_step_during_migration(self) -> None:
@@ -939,7 +1029,7 @@ class CaseStoreTests(unittest.TestCase):
             session = store.create_case(CASE_VALUES)
             case_dir = session.case_dir
             data = json.loads((case_dir / "session.json").read_text(encoding="utf-8"))
-            for step_id in range(20, 31):
+            for step_id in range(20, 32):
                 data["steps"].pop(str(step_id), None)
             for step_id in range(1, 18):
                 data["steps"][str(step_id)]["status"] = "completed"
@@ -964,61 +1054,61 @@ class CaseStoreTests(unittest.TestCase):
 
 
 class ArticleNoExamplesRunnerTests(unittest.TestCase):
-    def _article_session_at_step_28(self, root: Path, *, reviews: bool = True):
+    def _article_session_at_step_29(self, root: Path, *, reviews: bool = True):
         session = CaseStore(root).create_case({**CASE_VALUES, "ai_review_steps_enabled": reviews})
         session.session_data["article_route"] = {"route_type": "generate_article"}
-        session.session_data["current_step"] = 28
+        session.session_data["current_step"] = 29
         session.session_data["run_status"] = "active"
-        for step_id in range(1, 31):
+        for step_id in range(1, 32):
             session.step_state(step_id)["status"] = "locked"
-        session.step_state(27)["status"] = "completed"
-        session.step_state(28)["status"] = "current"
-        session.step_state(29)["status"] = "open"
-        session.step_state(30)["status"] = "open" if reviews else "skipped"
-        session.output_path(27).parent.mkdir(parents=True, exist_ok=True)
-        session.output_path(27).write_text("# Base article\n\nBody.", encoding="utf-8")
-        session.step_state(27)["output_file"] = str(session.output_path(27).relative_to(session.case_dir))
+        session.step_state(28)["status"] = "completed"
+        session.step_state(29)["status"] = "current"
+        session.step_state(30)["status"] = "open"
+        session.step_state(31)["status"] = "open" if reviews else "skipped"
+        session.output_path(28).parent.mkdir(parents=True, exist_ok=True)
+        session.output_path(28).write_text("# Base article\n\nBody.", encoding="utf-8")
+        session.step_state(28)["output_file"] = str(session.output_path(28).relative_to(session.case_dir))
         session.save()
         return session
 
     def test_no_examples_copies_base_article_and_skips_ai_rewrite(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
-            session = self._article_session_at_step_28(Path(temp_dir), reviews=True)
-            session.write_output(28, "### Example decision\n\n**examples_not_needed**\n", complete=True)
+            session = self._article_session_at_step_29(Path(temp_dir), reviews=True)
+            session.write_output(29, "### Example decision\n\n**examples_not_needed**\n", complete=True)
 
-            self.assertEqual(session.step_state(29)["status"], "completed_by_runner_no_examples")
-            self.assertEqual(session.step_state(29)["runner_completion_mode"], "completed_by_runner_no_examples")
-            self.assertEqual(session.output_path(29).read_text(encoding="utf-8"), "# Base article\n\nBody.")
-            self.assertEqual(session.current_step_id(), 30)
-            self.assertIn("No AI rewrite", session.load_prompt(29))
+            self.assertEqual(session.step_state(30)["status"], "completed_by_runner_no_examples")
+            self.assertEqual(session.step_state(30)["runner_completion_mode"], "completed_by_runner_no_examples")
+            self.assertEqual(session.output_path(30).read_text(encoding="utf-8"), "# Base article\n\nBody.")
+            self.assertEqual(session.current_step_id(), 31)
+            self.assertIn("No AI rewrite", session.load_prompt(30))
 
     def test_runner_completed_step_29_can_be_reset(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
-            session = self._article_session_at_step_28(Path(temp_dir), reviews=True)
-            session.write_output(28, "examples_not_applicable", complete=True)
-            archive = session.reset_from_step(29)
+            session = self._article_session_at_step_29(Path(temp_dir), reviews=True)
+            session.write_output(29, "examples_not_applicable", complete=True)
+            archive = session.reset_from_step(30)
 
             self.assertIsNotNone(archive)
-            self.assertEqual(session.current_step_id(), 29)
-            self.assertEqual(session.step_state(29)["status"], "current")
-            self.assertFalse(session.output_path(29).exists())
-            self.assertIsNone(session.step_state(29)["runner_completion_mode"])
+            self.assertEqual(session.current_step_id(), 30)
+            self.assertEqual(session.step_state(30)["status"], "current")
+            self.assertFalse(session.output_path(30).exists())
+            self.assertIsNone(session.step_state(30)["runner_completion_mode"])
 
     def test_examples_optional_keeps_step_29_as_ai_step(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
-            session = self._article_session_at_step_28(Path(temp_dir), reviews=True)
-            session.write_output(28, "### Example decision\n\n**examples_optional**\n", complete=True)
+            session = self._article_session_at_step_29(Path(temp_dir), reviews=True)
+            session.write_output(29, "### Example decision\n\n**examples_optional**\n", complete=True)
 
-            self.assertEqual(session.current_step_id(), 29)
-            self.assertEqual(session.step_state(29)["status"], "current")
-            self.assertFalse(session.output_path(29).exists())
+            self.assertEqual(session.current_step_id(), 30)
+            self.assertEqual(session.step_state(30)["status"], "current")
+            self.assertFalse(session.output_path(30).exists())
 
     def test_no_examples_finishes_fast_mode_after_runner_copy(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
-            session = self._article_session_at_step_28(Path(temp_dir), reviews=False)
-            session.write_output(28, "no_examples", complete=True)
+            session = self._article_session_at_step_29(Path(temp_dir), reviews=False)
+            session.write_output(29, "no_examples", complete=True)
 
-            self.assertEqual(session.step_state(29)["status"], "completed_by_runner_no_examples")
+            self.assertEqual(session.step_state(30)["status"], "completed_by_runner_no_examples")
             self.assertEqual(session.session_data["run_status"], "pipeline_complete_with_article")
             self.assertIsNone(session.current_step_id())
 
@@ -1026,3 +1116,92 @@ class ArticleNoExamplesRunnerTests(unittest.TestCase):
 
 if __name__ == "__main__":
     unittest.main()
+
+
+class IterationHandoffUserResponseTests(unittest.TestCase):
+    def _handoff(self) -> dict:
+        return {
+            "pms_discipline_iteration_handoff": {
+                "schema_version": "1.1",
+                "iteration_urgency": {"level": "moderate"},
+                "minimum_followup_coverage": {
+                    "requirement_summary": "two targets",
+                    "minimum_material_targets": "2",
+                    "minimum_distinct_dimensions": "0",
+                    "blocking_targets_must_be_addressed": "no",
+                },
+                "model_preselection": {"recommendation": "recommended_before_stronger_use"},
+                "proposed_iteration_targets": [
+                    {
+                        "target_id": "recurrence_01",
+                        "model_proposal": {
+                            "focus": "recurrence",
+                            "question": "Does the pattern recur across comparable scenes?",
+                            "basis_in_checked_record": "The checked record has one bounded scene.",
+                            "required_new_material": ["additional comparable scenes"],
+                            "expected_discriminative_value": "May distinguish a local issue from persistence.",
+                            "dimension": "recurrence",
+                            "blocking_status": "non_blocking",
+                            "priority": "medium",
+                        },
+                    },
+                    {
+                        "target_id": "chronology_01",
+                        "model_proposal": {
+                            "focus": "chronology",
+                            "question": "Did clarification attempts alter later outcomes?",
+                            "basis_in_checked_record": "Stage 3 preserved unresolved sequence limits.",
+                            "required_new_material": ["dated clarification records"],
+                            "expected_discriminative_value": "May distinguish sequence effects from isolated wording.",
+                            "dimension": "chronology",
+                            "blocking_status": "non_blocking",
+                            "priority": "medium",
+                        },
+                    },
+                ],
+                "effective_followup_preparation": {"status": "pending_user_confirmation"},
+                "user_response": {"status": "pending"},
+            }
+        }
+
+    def test_user_refinement_preserves_model_proposal_and_creates_effective_targets(self) -> None:
+        from orchestrator.iteration_handoff import apply_user_response, validate_effective_coverage
+
+        updated = apply_user_response(self._handoff(), {
+            "overall_decision": "accept_with_notes_or_revisions",
+            "target_responses": [
+                {
+                    "target_id": "recurrence_01",
+                    "action": "refine",
+                    "revised_question": "Does recurrence appear specifically after responsibility shifts channels?",
+                    "revision_rationale": "This is more precise than recurrence in general.",
+                    "builds_on_prior_point": "The prior record preserved handoff-channel ambiguity.",
+                    "additional_material_needed": "three comparable handoffs",
+                    "article_visibility": "summarize",
+                },
+                {"target_id": "chronology_01", "action": "accept"},
+            ],
+        })
+        root = updated["pms_discipline_iteration_handoff"]
+        self.assertEqual(root["handoff_status"], "user_confirmed")
+        self.assertEqual(root["proposed_iteration_targets"][0]["target_id"], "recurrence_01")
+        targets = root["effective_followup_preparation"]["effective_targets"]
+        self.assertEqual(len(targets), 2)
+        self.assertEqual(targets[0]["origin"], "user_refinement_of_model_proposal")
+        self.assertIn("responsibility shifts", targets[0]["question"])
+        self.assertEqual(targets[0]["article_visibility"], "summarize")
+        self.assertTrue(validate_effective_coverage(updated).ok)
+
+    def test_urgency_coverage_blocks_too_few_material_targets(self) -> None:
+        from orchestrator.iteration_handoff import apply_user_response, validate_effective_coverage
+
+        updated = apply_user_response(self._handoff(), {
+            "overall_decision": "accept_with_notes_or_revisions",
+            "target_responses": [
+                {"target_id": "recurrence_01", "action": "accept"},
+                {"target_id": "chronology_01", "action": "reject"},
+            ],
+        })
+        result = validate_effective_coverage(updated)
+        self.assertFalse(result.ok)
+        self.assertTrue(any("at least 2" in issue for issue in result.issues))

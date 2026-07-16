@@ -139,6 +139,12 @@
       "label": "PMS-DISCIPLINE Case Record Stage 3 Full Case Record Integration Template",
       "destination": "templates/pms_case_record_stage_3_full_case_record_integration_template.yaml",
       "url": "https://raw.githubusercontent.com/tz-dev/PMS-DISCIPLINE/refs/heads/main/templates/pms_case_record_stage_3_full_case_record_integration_template.yaml"
+    },
+    {
+      "id": "template_iteration_handoff",
+      "label": "PMS-DISCIPLINE Iteration Handoff Template",
+      "destination": "templates/pms_discipline_iteration_handoff_template.yaml",
+      "url": "https://raw.githubusercontent.com/tz-dev/PMS-DISCIPLINE/refs/heads/main/templates/pms_discipline_iteration_handoff_template.yaml"
     }
   ]
 }

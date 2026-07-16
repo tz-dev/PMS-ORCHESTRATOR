@@ -87,6 +87,35 @@
       "compare_keys": true,
       "allow_extra_keys": false,
       "extract_placeholder_enums": true
+    },
+    "26": {
+      "reference": "templates/pms_discipline_iteration_handoff_template.yaml",
+      "compare_keys": true,
+      "allow_extra_keys": false,
+      "extract_placeholder_enums": true,
+      "rules": [
+        {
+          "path": "pms_discipline_iteration_handoff.iteration_urgency.level",
+          "allowed_values": [
+            "none",
+            "low",
+            "moderate",
+            "high",
+            "critical"
+          ]
+        },
+        {
+          "path": "pms_discipline_iteration_handoff.model_preselection.recommendation",
+          "allowed_values": [
+            "no_material_iteration_value",
+            "optional_refinement",
+            "recommended_for_deeper_understanding",
+            "recommended_before_stronger_use",
+            "required_before_stronger_claim",
+            "blocked_until_new_material"
+          ]
+        }
+      ]
     }
   }
 }
