@@ -2,7 +2,7 @@
 
 ## A Human-Guided Runner for PMS-DISCIPLINE Case Work
 
-**PMS-ORCHESTRATOR** is a service-independent desktop runner for structured PMS-DISCIPLINE case generation. It prepares the next prompt, shows the required files, stores the raw response, applies configured local YAML checks, and keeps consequential route decisions human-confirmed.
+**PMS-ORCHESTRATOR** is a service-independent desktop runner for structured PMS-DISCIPLINE case generation. It prepares the next prompt, shows the required files, stores the raw response, applies configured local YAML checks, keeps optional route decisions human-confirmed, and enforces an explicit PMS-DISCIPLINE Pre-Analysis pipeline stop.
 
 The application does not connect to an AI service and does not treat attached files, YAML completion, or model output as evidence by presence alone.
 
@@ -19,7 +19,7 @@ The application does not connect to an AI service and does not treat attached fi
 ```text
 PMS Base and optional case materials
 → Pre-Analysis
-→ PMS Core
+→ binding stop or PMS Core
 → optional PMS add-on
 → optional MIP
 → optional AHP
@@ -64,9 +64,28 @@ Full Review keeps the semantic AI check steps active:
 
 Fast Mode skips unfinished semantic review steps, forwards the direct output, and marks it as unchecked by user choice. It reduces calls and time while accepting higher semantic-drift risk.
 
+### Discipline stop
+
+The primary stop key is:
+
+```yaml
+scope_and_pipeline_disposition:
+  pipeline_case_disposition: stop
+```
+
+The runner also recognizes the corresponding final-status stop fields and the configured mandatory person-near hard-stop combination.
+
+In **Full Review**, a stop signal in step #2 opens a prominent warning but does not yet terminate the run. Step #3 remains mandatory and must confirm or correct the Pre-Analysis. A complete corrected Pre-Analysis YAML returned by step #3 takes precedence; when step #3 contains no corrected YAML, the saved step #2 YAML remains effective. If the effective checked result still contains a stop, the runner terminates before Core.
+
+In **Fast Mode**, step #3 is skipped, so step #2 is evaluated immediately and a detected stop terminates the run at once.
+
+A binding detected stop sets the run to `pipeline_stopped_by_pre_analysis`, locks Core and every later analysis step, and opens a modal status dialog. There is no continue-anyway action. The user may inspect the source output or reset the Pre-Analysis revision step; only a revised Pre-Analysis can reopen the pipeline.
+
+This is a PMS-DISCIPLINE scope-control enforcement, not an autonomous optional route choice, person verdict, or truth validation.
+
 ### Local YAML validation
 
-Local YAML validation is structural, not semantic. It can warn or block on malformed YAML, duplicate keys, missing keys, unexpected keys, shape mismatches, type mismatches, or invalid configured values. It does not decide whether a claim, route, interpretation, or conclusion is correct. In semantic review steps, ordinary ready/check reports are not treated as corrected YAML unless the whole output is a corrected YAML document with the expected source-step root key.
+Local YAML validation is structural, not semantic. It can warn or block on malformed YAML, duplicate keys, missing keys, unexpected keys, shape mismatches, type mismatches, or invalid configured values. It does not decide whether a claim, route, interpretation, or conclusion is correct. Semantic review prompts receive the local result as authoritative for deterministic structure and should not repeat a full key-tree audit. A review response is treated as corrected YAML only when it is either a complete YAML document with the expected source-step root or contains exactly one fenced `yaml`/`yml` block with that root.
 
 ### Add-on route
 
@@ -87,7 +106,9 @@ Add-on selection follows structural burden, not surface vocabulary. A user overr
 
 ### MIP and AHP routes
 
-MIP is downstream and non-add-on. AHP is available only after an actual checked MIP branch and remains a second-order analysis-quality overlay. AHP does not rescore MIP, activate D, upgrade evidence, or authorize stronger claims.
+MIP is downstream and non-add-on. Its runner route remains binary: `no_mip` skips steps #13–#19, while `use_mip` performs step #13 source reading and then the bounded case application in steps #14–#15. The nested source-reading and application fields in the MIP Gate refine the semantic recommendation; they do not create a source-reading-only runner route. AHP is available only after an actual checked MIP branch and remains a second-order analysis-quality overlay. AHP does not rescore MIP, activate D, upgrade evidence, or authorize stronger claims.
+
+The MIP route dialog displays the overall MIP recommendation, the source-reading recommendation, and the case-application recommendation separately. Only the overall recommendation preselects the binary route. The nested decisions remain visible and are preserved in route provenance so reading guidance and application limits are not collapsed into one status.
 
 ### Case Record Stages 1–3
 
@@ -103,6 +124,12 @@ The Case Record stages preserve the run:
 ```
 
 Stage 1 indexes actual selected or produced artifacts and route states. Stage 2 compresses layer-specific digests without changing the checked analysis. Stage 3 integrates the checked record without creating new substantive findings.
+
+Stage #24 records the Stage 3 artifact's generation-time state, normally `ready_for_stage_3_output_check`. Stage #25 stores the separate semantic check result. Completing #25 does not retroactively make the original #24 lifecycle fields incorrect; only a concrete content defect warrants a corrected Stage 3 artifact.
+
+MIP is not triggered merely because a constructed or hypothetical case could involve real persons if instantiated. Routine role/process coordination, deadline pressure, delay, or option-space reduction remains no-MIP when the case avoids person assessment, blame, dignity judgment, role-capacity evaluation, or stronger real-person use.
+
+MIP may be recommended with limits when the checked case structure itself centers face/status loss, revision-capacity pressure, responsibility attribution, role-capacity pressure, dignity-in-practice pressure, reputational exposure, or consequential person-near transfer.
 
 ---
 
@@ -210,11 +237,12 @@ Both profiles preserve canonical PMS operator names and must not change the curr
 5. Choose Full Review or Fast Mode.
 6. Choose YAML validation behavior.
 7. Complete the active steps by copying prompts to the AI service and pasting/importing outputs.
-8. Confirm Add-on, MIP, AHP, and article routes when prompted.
+8. If Pre-Analysis records a pipeline stop, inspect or revise it; Core cannot be opened until the stop is removed. Otherwise confirm Add-on, MIP, AHP, and article routes when prompted.
 9. Complete Case Record Stages 1–3.
 10. Complete and review the Iteration Handoff.
 11. Choose whether to create a follow-up case, continue to article generation, finish without article, or decide later.
 12. When generating an article, choose `Case article` or `Full analysis article`.
+13. When step #31 proposes exact minor patches, review the unified diff and choose whether to apply them; accepted patches are applied atomically after the original article is archived, and every completed decision is retained in the internal patch log.
 
 Changing material or earlier analysis resets dependent work. Changing only the article profile resets article steps #27–#31. An approved Iteration Handoff remains independent of the article profile.
 

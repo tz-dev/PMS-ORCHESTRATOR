@@ -251,21 +251,48 @@ class LocalYamlValidator:
         value = self._load_yaml_document_or_none(text)
         return isinstance(value, (dict, list))
 
-    def output_matches_profile_root(self, text: str, profile_step_id: int, selected_addon: str | None) -> bool:
-        """Return True when text is a complete YAML document with the expected profile root.
+    def extract_profile_yaml(
+        self,
+        text: str,
+        profile_step_id: int,
+        selected_addon: str | None,
+    ) -> str | None:
+        """Extract one unambiguous corrected YAML document for a review step.
 
-        Review steps may return prose reports. Some reports can be parsed by YAML
-        because they contain colon-heavy headings. Those must not be treated as
-        corrected YAML unless their top-level root key matches the source step's
-        configured output structure.
+        A review response may be either the complete corrected YAML document or a
+        semantic review report containing exactly one fenced ``yaml``/``yml``
+        block whose top-level root matches the reviewed source profile. Arbitrary
+        prose that merely resembles YAML is never accepted. Multiple matching
+        blocks are rejected as ambiguous.
         """
-        output_data = self._load_yaml_document_or_none(text)
-        if not isinstance(output_data, dict):
-            return False
         expected = self.expected_root_keys(profile_step_id, selected_addon)
         if not expected:
-            return False
-        return tuple(output_data.keys()) == expected
+            return None
+
+        normalized = self._unwrap_single_code_fence(text)
+        output_data = self._load_yaml_document_or_none(normalized)
+        if isinstance(output_data, dict) and tuple(output_data.keys()) == expected:
+            return normalized.strip()
+
+        fenced_blocks = [
+            match.group(1).strip()
+            for match in re.finditer(
+                r"```(?:yaml|yml)\s*\n(.*?)\n```",
+                text,
+                flags=re.IGNORECASE | re.DOTALL,
+            )
+        ]
+        if len(fenced_blocks) != 1:
+            return None
+        candidate = fenced_blocks[0]
+        candidate_data = self._load_yaml_document_or_none(candidate)
+        if isinstance(candidate_data, dict) and tuple(candidate_data.keys()) == expected:
+            return candidate
+        return None
+
+    def output_matches_profile_root(self, text: str, profile_step_id: int, selected_addon: str | None) -> bool:
+        """Return True when one unambiguous corrected YAML document is present."""
+        return self.extract_profile_yaml(text, profile_step_id, selected_addon) is not None
 
     def expected_root_keys(self, profile_step_id: int, selected_addon: str | None) -> tuple[str, ...]:
         if self._manifest is None:

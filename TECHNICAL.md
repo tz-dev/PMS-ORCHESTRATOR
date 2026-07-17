@@ -10,7 +10,7 @@ This document contains the detailed implementation, storage, validation, interfa
 
 **PMS-ORCHESTRATOR** is a service-independent desktop application for running structured PMS-DISCIPLINE case sessions step by step.
 
-The application does not connect to an AI service, does not make autonomous route decisions, and does not treat generated output or supplied files as evidence merely because they are present. It prepares the current prompt, shows the files required for that step, stores the raw response, applies deterministic local YAML checks where configured, and keeps the human user in control of every consequential branch.
+The application does not connect to an AI service, does not autonomously choose optional analytical routes, and does not treat generated output or supplied files as evidence merely because they are present. It prepares the current prompt, shows the files required for that step, stores the raw response, applies deterministic local YAML checks where configured, keeps optional branches human-confirmed, and enforces an explicit PMS-DISCIPLINE Pre-Analysis pipeline stop.
 
 Its operating principle is:
 
@@ -29,7 +29,7 @@ PMS-ORCHESTRATOR guides a case through a bounded analytical and article-generati
 ```text
 PMS Base and optional case materials
 → Pre-Analysis
-→ PMS Core
+→ binding stop or PMS Core
 → optional PMS add-on
 → optional MIP
 → optional AHP
@@ -51,6 +51,7 @@ The runner supports:
 - raw output preservation;
 - resumable cases;
 - human-confirmed Add-on, MIP, AHP, and article routes;
+- separate display and provenance retention for the overall MIP recommendation, MIP source-reading recommendation, and MIP case-application recommendation while retaining the binary runner route;
 - user-reviewed Iteration Handoff with urgency, notes, and follow-up targets;
 - optional semantic AI review steps;
 - deterministic local YAML validation;
@@ -58,6 +59,8 @@ The runner supports:
 - reset and route-revision archives;
 - material-revision archives;
 - Markdown preview;
+- unified-diff preview before optional final-article patch application;
+- persistent article-patch decision logging with article hashes and patch descriptors;
 - a maximized output reader;
 - source and template availability checks;
 - source and template downloads from one editable manifest;
@@ -69,7 +72,7 @@ The runner supports:
 
 ### Human control
 
-The application never selects a consequential route by itself.
+The application never selects an optional consequential route by itself.
 
 Gate outputs may preselect a route, but the user confirms or overrides:
 
@@ -79,6 +82,8 @@ Gate outputs may preselect a route, but the user confirms or overrides:
 - optional article generation.
 
 The runner also does not infer that a supplied material is true, relevant, complete, or evidentiary merely because it was attached to a case.
+
+The exception is a checked PMS-DISCIPLINE scope-control stop. When the effective Pre-Analysis contains `scope_and_pipeline_disposition.pipeline_case_disposition: stop`, the runner must block Core and every later analysis step. This stop is not a user-selectable route and has no override button. It can be removed only by resetting and revising the Pre-Analysis.
 
 ### Service independence
 
@@ -208,9 +213,15 @@ Exactly zero or one add-on is applied in a run.
 #19 Check AHP Module Output YAML
 ```
 
-MIP is a downstream non-add-on layer.
+MIP is a downstream non-add-on layer. Runner routing remains binary: `no_mip` skips #13–#19; `use_mip` opens #13 and then proceeds to #14–#15. The gate's nested source-reading and application fields remain semantically distinct but do not create a second route decision.
 
 AHP is available only after an actual checked MIP branch. It is a second-order analysis-quality overlay and does not rescore MIP, activate D, upgrade evidence, or authorize stronger claims.
+
+The MIP gate distinguishes role/process pressure from conditional person-near transfer pressure.
+
+Role/process pressure alone does not trigger MIP. Deadline pressure, delayed response, routine handoff, or option-space reduction remain no-MIP unless the checked case state becomes person-evaluative, responsibility-attributive, role-capacity-relevant, dignity-in-practice-relevant, reputationally exposed, or consequentially person-near.
+
+This preserves the existing high MIP threshold while preventing constructed person-near theories from being dismissed merely because they do not name real persons.
 
 ### Case Record
 
@@ -247,6 +258,8 @@ The same current-step boundary applies to Stages 2 and 3. A step must not conver
 Stage 2 extracts compact layer digests without changing the checked analysis. PMS operator identity, canonical name, definition-level function, dependency status, analytic weight, and checked case-specific role must remain stable during compression.
 
 Stage 3 integrates the checked Stage 1 and Stage 2 records without creating new substantive analysis or repurposing PMS operators.
+
+Stage #24 and its semantic check at #25 are separate immutable workflow artifacts. The Stage 3 YAML records its generation-time lifecycle state, normally readiness for #25. The #25 check file records acceptance, correction, or blocking status. A normal `ready_for_stage_3_output_check` state must not be patched merely because #25 is currently running or has completed.
 
 ### Iteration Handoff and optional Markdown article
 
@@ -459,6 +472,37 @@ The runner then:
 
 Fast Mode reduces model calls and time, but accepts a higher risk of semantic drift.
 
+### Pre-Analysis discipline-stop resolution
+
+The primary stop path is:
+
+```yaml
+scope_and_pipeline_disposition:
+  pipeline_case_disposition: stop
+```
+
+The reader also treats these final-status fields as stop signals:
+
+```yaml
+final_pre_analysis_status:
+  pipeline_case_disposition: stop
+  status: stop_before_core
+  next_allowed_step: stop
+```
+
+Any one of those explicit signals is sufficient. The reader additionally enforces the configured mandatory person-near hard-stop cross-field rule.
+
+Resolution depends on review mode:
+
+- **Full Review:** completing step #2 never binds the stop yet. When step #2 contains any recognized stop signal, `CaseSession.pending_discipline_stop_warning` exposes a non-persistent warning record and the UI opens a modal warning. The run remains `active`, step #3 becomes current, and Core remains unavailable because the semantic review is still pending. After step #3 completes, one unambiguous complete corrected Pre-Analysis YAML in #3 takes precedence. If #3 contains no complete corrected YAML, the saved step #2 YAML remains effective. A stop in that effective checked result then becomes binding.
+- **Fast Mode:** step #3 is skipped, so step #2 is evaluated immediately and any recognized stop becomes binding at once.
+
+The Full Review warning records the source step, detected key path/value, declared pipeline disposition, requested-output disposition, hard-gate status/effect, and required review step. It is computed from the saved step #2 output rather than stored as a second decision state. Reopening a Full Review case while step #3 is pending shows the warning again.
+
+When the checked effective result is a stop, `CaseSession` persists a `discipline_stop` record, sets `run_status` to `pipeline_stopped_by_pre_analysis`, clears `current_step`, and locks steps #4–#31. The record includes source step, source output and SHA-256, key path, detected value, requested-output disposition, hard-gate status/effect, revision step, and detection time.
+
+The binding-stop dialog offers only: inspect the source output, revise the Pre-Analysis, or close. While stopped, saved outputs are read-only. Resetting step #2 or #3 archives dependent work, clears `discipline_stop`, and reopens the controlled revision path. Reopening a case does not clear or bypass an active binding stop.
+
 ---
 
 ## Local YAML Validation
@@ -480,9 +524,14 @@ Structural findings must be corrected before the step can be completed.
 
 ### Corrected YAML in review steps
 
-A semantic review step may return a complete corrected YAML document.
+A semantic review step may return a corrected YAML document.
 
-When the entire review output is one parseable YAML mapping or sequence and its top-level root key exactly matches the reviewed source step's configured output root, the runner can validate it against the reviewed source step's profile.
+The runner accepts either:
+
+- an entire review output that is one parseable YAML mapping or sequence with the reviewed source step's exact root; or
+- a semantic review report containing exactly one fenced `yaml` or `yml` block with that exact root.
+
+Only the extracted corrected YAML document is validated against the reviewed source step's profile.
 
 Examples:
 
@@ -495,7 +544,7 @@ Examples:
 
 The same inheritance applies through MIP, AHP, and the Case Record stages.
 
-Mixed prose plus YAML is not treated as corrected YAML. Colon-heavy semantic review reports are also ignored by local YAML validation unless they carry the expected corrected-YAML root key.
+Arbitrary mixed prose plus YAML is not treated as corrected YAML. Mixed review prose is supported only through one unambiguous fenced `yaml`/`yml` block with the expected corrected-YAML root. Multiple matching blocks are rejected as ambiguous. Colon-heavy semantic review reports without such a block remain outside local YAML validation.
 
 ### Persisted findings and handoff
 
@@ -556,6 +605,20 @@ Changing the checked analysis before step #26 resets the Iteration Handoff and a
 ```text
 #26–#31
 ```
+
+When step #31 returns `article_ready_after_minor_patch`, the runner parses only exact `Find`/`Replace with` and `Insert after`/`Insert` patches. Accepted patches must each match exactly once, are applied atomically to the step #30 article, and archive the original plus the step #31 review under:
+
+```text
+cases/<case-id>/history/article_patches/
+```
+
+The user sees a unified diff before choosing Yes, No, or Cancel. Applied patches archive the original article and review before an atomic replacement. Declined patches leave the article unchanged. Every completed step-#31 decision is appended to:
+
+```text
+cases/<case-id>/history/article_patches/patch_log.json
+```
+
+The log records status, review status, patch count, patch titles and operations, hashes of patch anchors and replacements, the article path, optional archive path, and before/after article SHA-256 values. Ambiguous or non-executable patches block completion rather than partially modifying the article.
 
 Archived revisions are stored under:
 
@@ -694,7 +757,7 @@ The current manifest covers:
 - PMS-DISCIPLINE gate templates;
 - PMS-DISCIPLINE Case Record templates.
 
-This is a combined manifest containing 9 source files and 14 templates.
+This is a combined manifest containing 9 source files and 15 templates.
 
 `Check sources` reports each configured resource as:
 
@@ -732,6 +795,7 @@ It is not identical to the manual PMS-DISCIPLINE prompt document. The app-specif
 - current-step self-reference exclusions;
 - case-material reading instructions;
 - Fast Mode overrides;
+- Pre-Analysis discipline-stop semantics;
 - local validation handoffs;
 - structural and semantic responsibility separation;
 - source-authority ordering;
@@ -812,7 +876,7 @@ The application can start without PyYAML, but local YAML validation remains unav
 11. Paste or import the AI response.
 12. Review validation findings.
 13. Save or complete the step.
-14. Confirm Add-on, MIP, and AHP routes when prompted.
+14. If Pre-Analysis records a pipeline stop, inspect or revise it; Core and later steps remain locked. Otherwise confirm Add-on, MIP, and AHP routes when prompted.
 15. Complete the three Case Record stages.
 16. Complete the Iteration Handoff preselection and confirm, revise, or skip it in the user-review window.
 17. In the contextual post-handoff action dialog, create a follow-up case from an approved Iteration Handoff, continue to article generation, finish without article, or decide later. Reopen that dialog later with **Review Hand-off** from the toolbar or Routes menu when needed.
@@ -821,7 +885,7 @@ The application can start without PyYAML, but local YAML validation remains unav
     - `Case article` for a focused case-specific rendering;
     - `Full analysis article` for a detailed, audit-rich rendering.
 20. Complete or skip the optional example branch.
-21. Review and complete the final article check.
+21. Review the unified diff when the final article check proposes exact minor patches, then apply, decline, or cancel.
 22. Resume later by reopening the case folder.
 
 Changing only the article profile resets steps #27–#31. Earlier checked analysis, Case Record artifacts, and the approved Iteration Handoff remain preserved.
@@ -870,6 +934,7 @@ The case record preserves:
 - user-entered case metadata;
 - step state;
 - route state;
+- active Pre-Analysis discipline-stop state and provenance, when present;
 - case-material metadata;
 - rendered prompts;
 - raw outputs;

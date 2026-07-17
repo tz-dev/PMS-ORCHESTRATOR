@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 import json
+import hashlib
 import re
 import shutil
 from dataclasses import dataclass
@@ -8,6 +9,8 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any, Iterable
 
+from .article_patch import ArticlePatchError, apply_article_patches, parse_article_patch_review
+from .gate_reader import PreAnalysisDisposition, read_pre_analysis_disposition
 from .registry import (
     AI_REVIEW_STEP_IDS,
     ALL_EXAMPLE_DECISION_STATES,
@@ -19,6 +22,7 @@ from .registry import (
     is_ai_review_step,
     is_completed_step_status,
 )
+from .yaml_validator import LocalYamlValidator
 
 
 class StorageError(RuntimeError):
@@ -84,6 +88,10 @@ def _new_step_state(step_id: int, status: str | None = None) -> dict[str, Any]:
         "yaml_validation_resolved_by_step": None,
         "runner_completion_mode": None,
         "example_decision_state": None,
+        "article_patch_status": None,
+        "article_patch_count": 0,
+        "article_patch_archive": None,
+        "article_patch_log": None,
     }
 
 
@@ -218,6 +226,44 @@ class CaseSession:
     def current_step_id(self) -> int | None:
         current = self.session_data.get("current_step")
         return int(current) if current is not None else None
+
+    @property
+    def discipline_stop(self) -> dict[str, Any] | None:
+        value = self.session_data.get("discipline_stop")
+        return value if isinstance(value, dict) else None
+
+    @property
+    def pending_discipline_stop_warning(self) -> dict[str, Any] | None:
+        """Return a non-binding step-2 stop warning while Full Review awaits step #3."""
+        if not self.ai_review_steps_enabled:
+            return None
+        if self.session_data.get("run_status") != "active" or self.current_step_id() != 3:
+            return None
+        if not is_completed_step_status(self.step_state(2).get("status")):
+            return None
+        source_text = self.load_output(2)
+        if not source_text.strip():
+            return None
+        disposition = read_pre_analysis_disposition(source_text, source_step=2)
+        if not disposition.is_pipeline_stop:
+            return None
+        explicit_signal = disposition.explicit_stop_signal
+        return {
+            "status": "pending_semantic_review",
+            "reason": disposition.stop_reason or "pre_analysis_stop_signal",
+            "source_step": 2,
+            "key_path": (
+                explicit_signal.key_path
+                if explicit_signal is not None
+                else "cross_field_policy.mandatory_person_near_stop"
+            ),
+            "detected_value": explicit_signal.value if explicit_signal is not None else "triggered",
+            "declared_pipeline_case_disposition": disposition.pipeline_case_disposition.value,
+            "requested_output_disposition": disposition.requested_output_disposition.value,
+            "hard_gate_status": disposition.hard_gate_status.value,
+            "hard_gate_effect": disposition.hard_gate_effect.value,
+            "review_step": 3,
+        }
 
     def prompt_path(self, step_id: int) -> Path:
         return self.prompts_dir / f"step_{step_id:02d}_prompt.txt"
@@ -411,6 +457,75 @@ class CaseSession:
         if changed:
             self.save()
 
+    def _effective_pre_analysis_disposition(self, completed_step_id: int) -> PreAnalysisDisposition | None:
+        if completed_step_id == 2:
+            if self.ai_review_steps_enabled:
+                return None
+            text = self.load_output(2)
+            return read_pre_analysis_disposition(text, source_step=2) if text.strip() else None
+
+        if completed_step_id != 3:
+            return None
+
+        review_text = self.load_output(3)
+        if review_text.strip():
+            validator = LocalYamlValidator(
+                self.project_root,
+                self.project_root / "yaml_validation_manifest.json",
+            )
+            corrected = validator.extract_profile_yaml(review_text, 2, self.selected_addon)
+            if corrected is not None:
+                corrected_disposition = read_pre_analysis_disposition(corrected, source_step=3)
+                if (
+                    corrected_disposition.is_pipeline_stop
+                    or corrected_disposition.pipeline_case_disposition.status == "found"
+                ):
+                    return corrected_disposition
+            review_disposition = read_pre_analysis_disposition(review_text, source_step=3)
+            if review_disposition.is_pipeline_stop:
+                return review_disposition
+
+        source_text = self.load_output(2)
+        return read_pre_analysis_disposition(source_text, source_step=2) if source_text.strip() else None
+
+    def _stop_for_pre_analysis(self, disposition: PreAnalysisDisposition) -> None:
+        pipeline_value = disposition.pipeline_case_disposition
+        explicit_signal = disposition.explicit_stop_signal
+        source_step = int(
+            (explicit_signal.source_step if explicit_signal is not None else pipeline_value.source_step)
+            or 2
+        )
+        revision_step = 3 if self.ai_review_steps_enabled else 2
+        explicit_stop = explicit_signal is not None
+        stop_reason = disposition.stop_reason or "pre_analysis_stop"
+        stop_key_path = (
+            explicit_signal.key_path
+            if explicit_signal is not None
+            else "cross_field_policy.mandatory_person_near_stop"
+        )
+        detected_value = explicit_signal.value if explicit_signal is not None else "triggered"
+        for step_id in range(4, len(STEPS) + 1):
+            if not is_completed_step_status(self.step_state(step_id).get("status")):
+                self.step_state(step_id)["status"] = "locked"
+        self.session_data["current_step"] = None
+        self.session_data["run_status"] = "pipeline_stopped_by_pre_analysis"
+        source_text = self.load_output(source_step)
+        self.session_data["discipline_stop"] = {
+            "status": "active",
+            "reason": stop_reason,
+            "source_step": source_step,
+            "source_output": str(self.output_path(source_step).relative_to(self.case_dir)),
+            "source_output_sha256": hashlib.sha256(source_text.encode("utf-8")).hexdigest(),
+            "key_path": stop_key_path,
+            "detected_value": detected_value,
+            "declared_pipeline_case_disposition": pipeline_value.value,
+            "requested_output_disposition": disposition.requested_output_disposition.value,
+            "hard_gate_status": disposition.hard_gate_status.value,
+            "hard_gate_effect": disposition.hard_gate_effect.value,
+            "revision_step": revision_step,
+            "detected_at": utc_now(),
+        }
+
     def _activate_step(self, step_id: int) -> None:
         self.session_data["current_step"] = step_id
         self.step_state(step_id)["status"] = "current"
@@ -423,6 +538,127 @@ class CaseSession:
     def _finish_article_pipeline(self) -> None:
         self.session_data["current_step"] = None
         self.session_data["run_status"] = "pipeline_complete_with_article"
+
+    def _article_patch_log_path(self) -> Path:
+        return self.case_dir / "history" / "article_patches" / "patch_log.json"
+
+    def _append_article_patch_log(self, entry: dict[str, Any]) -> Path:
+        path = self._article_patch_log_path()
+        if path.is_file():
+            try:
+                data = _read_json(path)
+            except StorageError as exc:
+                raise StorageError(f"Could not update article patch log: {exc}") from exc
+        else:
+            data = {
+                "schema_version": "PMS_ORCHESTRATOR_ARTICLE_PATCH_LOG_1.0",
+                "case_id": self.case_id,
+                "entries": [],
+            }
+        entries = data.get("entries")
+        if not isinstance(entries, list):
+            raise StorageError("Article patch log has no valid entries list.")
+        entries.append(entry)
+        _write_json(path, data)
+        return path
+
+    @staticmethod
+    def _article_patch_descriptors(review) -> list[dict[str, Any]]:
+        return [
+            {
+                "title": patch.title,
+                "operation": patch.operation,
+                "anchor_sha256": hashlib.sha256(patch.anchor.encode("utf-8")).hexdigest(),
+                "replacement_sha256": hashlib.sha256(patch.replacement.encode("utf-8")).hexdigest(),
+            }
+            for patch in review.patches
+        ]
+
+    def apply_final_article_patches(self, review_text: str) -> Path:
+        review = parse_article_patch_review(review_text)
+        if not review.patches:
+            raise StorageError("The final article check contains no executable patches.")
+        article_path = self.output_path(30)
+        if not article_path.is_file():
+            raise StorageError("The final Markdown article from step #30 is missing.")
+        original = article_path.read_text(encoding="utf-8")
+        try:
+            patched = apply_article_patches(original, review.patches)
+        except ArticlePatchError as exc:
+            raise StorageError(str(exc)) from exc
+
+        stamp = datetime.now(timezone.utc).strftime("%Y%m%dT%H%M%SZ")
+        archive_dir = self.case_dir / "history" / "article_patches" / stamp
+        suffix = 1
+        while archive_dir.exists():
+            archive_dir = self.case_dir / "history" / "article_patches" / f"{stamp}-{suffix}"
+            suffix += 1
+        archive_dir.mkdir(parents=True, exist_ok=False)
+        shutil.copy2(article_path, archive_dir / article_path.name)
+        (archive_dir / "step_31_patch_review.md").write_text(review_text, encoding="utf-8")
+
+        temp = article_path.with_suffix(article_path.suffix + ".patch.tmp")
+        temp.write_text(patched, encoding="utf-8")
+        temp.replace(article_path)
+        try:
+            log_path = self._append_article_patch_log({
+                "recorded_at": utc_now(),
+                "status": "patches_applied",
+                "review_status": review.status,
+                "patch_count": len(review.patches),
+                "patches": self._article_patch_descriptors(review),
+                "article_path": str(article_path.relative_to(self.case_dir)),
+                "archive": str(archive_dir.relative_to(self.case_dir)),
+                "before_sha256": hashlib.sha256(original.encode("utf-8")).hexdigest(),
+                "after_sha256": hashlib.sha256(patched.encode("utf-8")).hexdigest(),
+            })
+        except Exception:
+            rollback = article_path.with_suffix(article_path.suffix + ".rollback.tmp")
+            rollback.write_text(original, encoding="utf-8")
+            rollback.replace(article_path)
+            raise
+
+        state = self.step_state(30)
+        state["article_patch_status"] = "patches_applied"
+        state["article_patch_count"] = len(review.patches)
+        state["article_patch_archive"] = str(archive_dir.relative_to(self.case_dir))
+        state["article_patch_log"] = str(log_path.relative_to(self.case_dir))
+        state["last_saved_at"] = utc_now()
+        self.save()
+        return archive_dir
+
+    def record_final_article_patch_decision(
+        self,
+        status: str,
+        patch_count: int = 0,
+        *,
+        review_text: str | None = None,
+    ) -> None:
+        review = None
+        if review_text:
+            try:
+                review = parse_article_patch_review(review_text)
+            except ArticlePatchError as exc:
+                raise StorageError(str(exc)) from exc
+        article_path = self.output_path(30)
+        article = article_path.read_text(encoding="utf-8") if article_path.is_file() else ""
+        log_path = self._append_article_patch_log({
+            "recorded_at": utc_now(),
+            "status": status,
+            "review_status": review.status if review is not None else None,
+            "patch_count": patch_count,
+            "patches": self._article_patch_descriptors(review) if review is not None else [],
+            "article_path": str(article_path.relative_to(self.case_dir)),
+            "archive": None,
+            "before_sha256": hashlib.sha256(article.encode("utf-8")).hexdigest() if article else None,
+            "after_sha256": hashlib.sha256(article.encode("utf-8")).hexdigest() if article else None,
+        })
+        state = self.step_state(30)
+        state["article_patch_status"] = status
+        state["article_patch_count"] = patch_count
+        state["article_patch_log"] = str(log_path.relative_to(self.case_dir))
+        state["last_saved_at"] = utc_now()
+        self.save()
 
     def _example_decision_state(self) -> str | None:
         text = self.load_output(29)
@@ -466,9 +702,17 @@ class CaseSession:
         if step_id == 1:
             self._activate_step(2)
         elif step_id == 2:
-            self._activate_step(3 if reviews else 4)
+            disposition = self._effective_pre_analysis_disposition(step_id)
+            if disposition is not None and disposition.is_pipeline_stop:
+                self._stop_for_pre_analysis(disposition)
+            else:
+                self._activate_step(3 if reviews else 4)
         elif step_id == 3:
-            self._activate_step(4)
+            disposition = self._effective_pre_analysis_disposition(step_id)
+            if disposition is not None and disposition.is_pipeline_stop:
+                self._stop_for_pre_analysis(disposition)
+            else:
+                self._activate_step(4)
         elif step_id == 4:
             self._activate_step(5 if reviews else 6)
         elif step_id == 5:
@@ -624,6 +868,10 @@ class CaseSession:
                 "yaml_validation_resolved_by_step": None,
                 "runner_completion_mode": None,
                 "example_decision_state": None,
+                "article_patch_status": None,
+                "article_patch_count": 0,
+                "article_patch_archive": None,
+                "article_patch_log": None,
             })
         return archive_dir
 
@@ -696,6 +944,8 @@ class CaseSession:
 
         for field in route_fields_to_clear:
             self.session_data[field] = None
+        if step_id <= 3:
+            self.session_data["discipline_stop"] = None
         for route_file in route_files:
             if route_file.exists():
                 route_file.unlink()
@@ -1035,6 +1285,7 @@ class CaseStore:
             "mip_route": None,
             "ahp_route": None,
             "article_route": None,
+            "discipline_stop": None,
             "created_at": now,
             "updated_at": now,
         }
@@ -1067,6 +1318,10 @@ class CaseStore:
                     "yaml_validation_resolved_by_step": None,
                     "runner_completion_mode": None,
                     "example_decision_state": None,
+                    "article_patch_status": None,
+                    "article_patch_count": 0,
+                    "article_patch_archive": None,
+                    "article_patch_log": None,
                 }
                 for field, default in defaults.items():
                     if field not in steps[key]:
@@ -1106,6 +1361,9 @@ class CaseStore:
         session_data.setdefault("mip_route", None)
         session_data.setdefault("ahp_route", None)
         session_data.setdefault("article_route", None)
+        if "discipline_stop" not in session_data:
+            session_data["discipline_stop"] = None
+            changed = True
         existing_article_route = session_data.get("article_route")
         if (
             isinstance(existing_article_route, dict)

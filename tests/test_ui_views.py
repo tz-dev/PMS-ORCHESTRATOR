@@ -16,7 +16,7 @@ class AppMetadataTests(unittest.TestCase):
     def test_packaged_metadata_contains_repository_and_version(self) -> None:
         metadata = AppMetadata.load(PROJECT_ROOT / "app_metadata.json")
         self.assertEqual(metadata.name, "PMS-ORCHESTRATOR")
-        self.assertEqual(metadata.version, "1.8.4")
+        self.assertEqual(metadata.version, "1.9.0")
         self.assertEqual(metadata.repository_url, "https://github.com/tz-dev/PMS-ORCHESTRATOR")
         self.assertEqual(metadata.license_file, "LICENSE")
 

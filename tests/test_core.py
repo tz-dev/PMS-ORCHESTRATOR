@@ -214,6 +214,69 @@ class PromptSourceTests(unittest.TestCase):
             article_check_prompt,
         )
 
+    def test_case_record_review_prompts_delegate_structure_and_preserve_stage3_lifecycle(self) -> None:
+        source_path = Path(__file__).resolve().parents[1] / "resources" / "Prompts and Instructions.md"
+        source = PromptSource(source_path)
+        for prompt_number in (21, 23, 25):
+            rendered = source.render(prompt_number, CASE_VALUES)
+            self.assertIn("Runner-generated local YAML validation is respected", rendered)
+            self.assertIn("exactly one fenced `yaml` code block", rendered)
+            self.assertNotIn("YAML parses and preserves the Stage", rendered)
+
+        stage3 = source.render(25, CASE_VALUES)
+        self.assertIn("generation-time lifecycle status", stage3)
+        self.assertIn("is not back-propagated", stage3)
+        self.assertNotIn("does not claim that a completed check is still merely awaiting that same check", stage3)
+
+    def test_prompt_sequence_matrix_includes_iteration_handoff_and_step_31(self) -> None:
+        text = (
+            Path(__file__).resolve().parents[1]
+            / "resources"
+            / "Prompts and Instructions.md"
+        ).read_text(encoding="utf-8")
+        self.assertIn("#26 Iteration Handoff and Follow-up Preparation", text)
+        self.assertIn("#31 Final Article Check and Conservative Patch", text)
+
+    def test_stage3_template_uses_current_version_and_generation_time_status_contract(self) -> None:
+        text = (
+            Path(__file__).resolve().parents[1]
+            / "templates"
+            / "pms_case_record_stage_3_full_case_record_integration_template.yaml"
+        ).read_text(encoding="utf-8")
+        self.assertIn('record_version: "stage_3_full_record_v0_3"', text)
+        self.assertIn('template: "pms_case_record_stage_3_full_case_record_integration_template.yaml"', text)
+        self.assertIn("Generation-time Stage 3 artifact state", text)
+        self.assertNotIn("stage_3_full_record_v0_2", text)
+
+    def test_mip_gate_prompt_contains_conditional_transfer_calibration(self) -> None:
+        text = (
+            Path(__file__).resolve().parents[1]
+            / "resources"
+            / "Prompts and Instructions.md"
+        ).read_text(encoding="utf-8")
+
+        self.assertIn("MIP TRIGGER CALIBRATION", text)
+        self.assertIn("routine role or process coordination", text)
+        self.assertIn("deadline pressure", text)
+        self.assertIn("face, status, humiliation, or revision-capacity pressure", text)
+        self.assertIn("This is not a lower MIP threshold", text)
+        self.assertIn("role/process-only cases", text)
+        self.assertIn("conditional person-near transfer", text)
+
+    def test_mip_gate_template_contains_conditional_transfer_fields(self) -> None:
+        text = (
+            Path(__file__).resolve().parents[1]
+            / "templates"
+            / "pms_discipline_mip_gate_template.yaml"
+        ).read_text(encoding="utf-8")
+
+        self.assertIn("face_status_or_revision_capacity_pressure", text)
+        self.assertIn("person_evaluative_center", text)
+        self.assertIn("role_process_only_pressure", text)
+        self.assertIn("conditional_person_near_transfer_pressure", text)
+        self.assertIn("hypothetical_real_person_transfer_only", text)
+        self.assertIn("routine_role_or_process_timing_only", text)
+        self.assertIn("deadline_or_option_loss_without_person_evaluation", text)
 
 class ArticleProfileContractTests(unittest.TestCase):
     def test_runtime_contract_contains_canonical_operator_naming_rule(self) -> None:
@@ -645,6 +708,13 @@ gate_result:
         not_recommended = read_mip_recommendation("mip_recommendation_output:\n  recommendation_status: not_recommended\n")
         self.assertIsNone(not_recommended.value)
         self.assertEqual(not_recommended.status, "not_recommended")
+        conditional = read_mip_recommendation(
+            "mip_recommendation_output:\n"
+            "  recommendation_status: recommended_with_limits\n"
+            "  reason_for_recommendation: conditional person-near transfer pressure\n"
+        )
+        self.assertEqual(conditional.value, "MIP")
+        self.assertEqual(conditional.status, "recommended")
 
     def test_reads_ahp_recommendation(self) -> None:
         recommended = read_ahp_recommendation("gate_result:\n  gate_status: ahp_source_reading_recommended\n")

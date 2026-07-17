@@ -263,6 +263,51 @@ class LocalYamlValidatorTests(unittest.TestCase):
                 )
             )
 
+    def test_fenced_corrected_yaml_is_extracted_from_semantic_report(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            _, validator = self._fixture(temp_dir)
+            report = """1. PASS — semantic boundary preserved.
+
+CHECK STATUS: corrected
+
+```yaml
+root:
+  flag: true
+  status: active
+  child:
+    required: value
+  mode: safe
+```
+"""
+            extracted = validator.extract_profile_yaml(report, 2, None)
+            self.assertIsNotNone(extracted)
+            assert extracted is not None
+            self.assertTrue(validator.output_matches_profile_root(report, 2, None))
+            result = validator.validate(
+                step_id=3,
+                profile_step_id=2,
+                text=extracted,
+                expects_yaml=True,
+                enabled=True,
+                selected_addon=None,
+            )
+            self.assertTrue(result.clean)
+
+    def test_multiple_matching_fenced_yaml_blocks_are_rejected_as_ambiguous(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            _, validator = self._fixture(temp_dir)
+            block = """```yaml
+root:
+  flag: true
+  status: active
+  child:
+    required: value
+  mode: safe
+```"""
+            report = f"CHECK STATUS: corrected\n\n{block}\n\n{block}\n"
+            self.assertIsNone(validator.extract_profile_yaml(report, 2, None))
+            self.assertFalse(validator.output_matches_profile_root(report, 2, None))
+
     def test_invalid_yaml_reports_line_and_column(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:
             _, validator = self._fixture(temp_dir)
@@ -514,6 +559,51 @@ class YamlValidationHandoffTests(unittest.TestCase):
             self.assertTrue((archive / "validation" / "step_02_yaml_validation.json").is_file())
             self.assertFalse(session.validation_report_path(2).exists())
             self.assertFalse(session.step_has_unresolved_yaml_findings(2))
+
+    def test_fenced_corrected_yaml_report_can_resolve_source_handoff(self) -> None:
+        with tempfile.TemporaryDirectory() as temp_dir:
+            root, validator = LocalYamlValidatorTests()._fixture(temp_dir)
+            session = CaseStore(root).create_case(BASE_VALUES)
+            session.write_output(1, "read", complete=True)
+            session.write_output(2, "root:\n  status: maybe\n", complete=True)
+            source_report = self._findings_report(2)
+            session.save_yaml_validation_report(2, source_report, completion_state="completed")
+            session.claim_yaml_validation_handoffs(3)
+
+            review_text = """1. PASS — semantic boundary preserved.
+
+CHECK STATUS: corrected
+
+```yaml
+root:
+  flag: true
+  status: active
+  child:
+    required: value
+  mode: safe
+```
+"""
+            extracted = validator.extract_profile_yaml(review_text, 2, None)
+            self.assertIsNotNone(extracted)
+            assert extracted is not None
+            result = validator.validate(
+                step_id=3,
+                profile_step_id=2,
+                text=extracted,
+                expects_yaml=True,
+                enabled=True,
+                selected_addon=None,
+            )
+            self.assertTrue(result.clean)
+            session.write_output(3, review_text, complete=True)
+            session.save_yaml_validation_report(3, result.to_report_dict(), completion_state="completed")
+
+            self.assertEqual(session.yaml_findings_resolution(2), 3)
+            stored = session.load_yaml_validation_report(2)
+            self.assertIsNotNone(stored)
+            assert stored is not None
+            self.assertEqual(stored["status"], "findings")
+            self.assertEqual(stored["resolved_by_step"], 3)
 
     def test_clean_corrected_yaml_resolves_source_handoff_but_keeps_source_findings(self) -> None:
         with tempfile.TemporaryDirectory() as temp_dir:

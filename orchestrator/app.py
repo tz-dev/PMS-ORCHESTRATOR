@@ -8,6 +8,12 @@ from tkinter import filedialog, messagebox, ttk
 from tkinter.scrolledtext import ScrolledText
 
 from .app_metadata import AppMetadata
+from .article_patch import (
+    ARTICLE_READY_AFTER_MINOR_PATCH,
+    ArticlePatchError,
+    parse_article_patch_review,
+    render_article_patch_diff,
+)
 from .case_materials import (
     CaseMaterialError,
     CaseMaterialStore,
@@ -16,8 +22,10 @@ from .case_materials import (
 )
 from .dialogs import (
     AhpRouteDialog,
+    ArticlePatchPreviewDialog,
     ArticleRouteDialog,
     CaseDialog,
+    DisciplineStopDialog,
     MaterialManagerDialog,
     IterationHandoffDialog,
     IterationHandoffNextActionDialog,
@@ -27,7 +35,13 @@ from .dialogs import (
     YamlValidationDialog,
     ask_centered_yes_no,
 )
-from .gate_reader import GateValue, read_addon_gate_status, read_addon_recommendation, read_ahp_recommendation, read_mip_recommendation
+from .gate_reader import (
+    GateValue,
+    read_addon_gate_status,
+    read_addon_recommendation,
+    read_ahp_recommendation,
+    read_first_mip_gate_details,
+)
 from .platform_utils import OpenPathError, open_parent, open_path, open_url
 from .prompt_source import PromptSource, PromptSourceError, normalize_prompt_text
 from .registry import (
@@ -630,7 +644,11 @@ The runner presents exactly one valid pipeline step at a time. Copy the rendered
 ## Full Review and Fast Mode
 
 - **Full Review:** semantic AI review steps such as #3, #5, and #7 remain active.
-- **Fast Mode:** unfinished semantic AI review steps are skipped. Route decisions remain human-confirmed, and local YAML validation can remain active.
+- **Fast Mode:** unfinished semantic AI review steps are skipped. Optional route decisions remain human-confirmed, and local YAML validation can remain active.
+
+## PMS-DISCIPLINE stop
+
+In Full Review, a stop signal in step #2 opens a warning and step #3 must confirm or correct it. If the effective checked Pre-Analysis still contains a stop, the runner locks Core and every later analysis step. In Fast Mode, step #2 is evaluated immediately. A binding stop cannot be overridden; use the stop dialog to inspect the source output or reset and revise the Pre-Analysis.
 
 ## Local YAML validation
 
@@ -670,7 +688,7 @@ Article generation is optional after the Iteration Handoff. Choose **Case articl
 
 ## Non-authority
 
-The runner does not validate truth, authorize claims, make route decisions automatically, or connect to an AI service. Human judgment remains controlling."""
+The runner does not validate truth, authorize claims, automatically choose optional routes, or connect to an AI service. It does enforce an explicit checked PMS-DISCIPLINE pipeline stop; only revision of the Pre-Analysis can remove that stop."""
 
     @staticmethod
     def _controls_markdown() -> str:
@@ -861,20 +879,25 @@ The runner does not validate truth, authorize claims, make route decisions autom
         selected_addon = self.session.selected_addon if self.session else None
         text = self.output_text.get("1.0", "end-1c") if hasattr(self, "output_text") else ""
         applicable, profile_step_id, is_review_yaml = self._yaml_validation_context(text=text)
+        validation_text = text
+        if is_review_yaml and applicable and profile_step_id is not None:
+            extracted = self.yaml_validator.extract_profile_yaml(text, profile_step_id, selected_addon)
+            if extracted is not None:
+                validation_text = extracted
         result = self.yaml_validator.validate(
             step_id=self.selected_step_id,
-            text=text,
+            text=validation_text,
             expects_yaml=applicable,
             enabled=enabled,
             selected_addon=selected_addon,
             profile_step_id=profile_step_id,
         )
         if self._review_yaml_profile_step() is not None and not applicable:
-            result.note = "Semantic review report or no complete corrected YAML with the expected root key detected."
+            result.note = "Semantic review report or no unambiguous corrected YAML with the expected root key detected."
         self.last_yaml_validation = result
         if hasattr(self, "yaml_validation_var"):
             if self._review_yaml_profile_step() is not None and not applicable:
-                self.yaml_validation_var.set("YAML validation: Not applicable — no corrected YAML detected.")
+                self.yaml_validation_var.set("YAML validation: Not applicable — no unambiguous corrected YAML detected.")
             else:
                 self.yaml_validation_var.set(result.short_summary())
             details_available = result.applicable and result.enabled
@@ -885,7 +908,7 @@ The runner does not validate truth, authorize claims, make route decisions autom
     def validate_corrected_yaml(self) -> None:
         result = self._validate_output()
         if not result.applicable:
-            self._set_status("Corrected YAML validation is available only when the complete check output is one YAML mapping or sequence.")
+            self._set_status("Corrected YAML validation requires either a complete YAML document or exactly one fenced YAML block with the expected root.")
             return
         self._apply_yaml_highlighting()
         dialog = YamlValidationDialog(self, result.detailed_text())
@@ -1582,6 +1605,67 @@ The runner does not validate truth, authorize claims, make route decisions autom
                 f"Case created: {self.session.case_id}"
             )
 
+    def _handle_pre_analysis_stop_warning(self) -> bool:
+        if self.session is None:
+            return False
+        warning = self.session.pending_discipline_stop_warning
+        if warning is None:
+            return False
+
+        key_path = str(warning.get("key_path") or "pre_analysis_stop_signal")
+        detected_value = str(warning.get("detected_value") or "triggered")
+        messagebox.showwarning(
+            "Pre-Analysis stop signal — review required",
+            (
+                "Step #2 contains a PMS-DISCIPLINE stop signal.\n\n"
+                "Full Review is active, so this signal is preliminary until step #3 "
+                "checks the Pre-Analysis YAML. Core remains unavailable while step #3 "
+                "is pending.\n\n"
+                "If step #3 confirms the signal, the pipeline will stop before Core. "
+                "If step #3 returns a complete corrected Pre-Analysis YAML that removes "
+                "the stop, the pipeline may continue.\n\n"
+                f"Detected signal: {key_path} = {detected_value}"
+            ),
+            parent=self,
+        )
+        self._set_status(
+            "Step #2 completed with a preliminary PMS-DISCIPLINE stop signal. "
+            "Step #3 must confirm or correct it before Core."
+        )
+        return True
+
+    def _handle_discipline_stop(self) -> bool:
+        if self.session is None:
+            return False
+        if self.session.session_data.get("run_status") != "pipeline_stopped_by_pre_analysis":
+            return False
+        stop_record = self.session.discipline_stop
+        if stop_record is None:
+            return False
+
+        dialog = DisciplineStopDialog(self, stop_record)
+        self.wait_window(dialog)
+        if dialog.result == "review":
+            source_step = int(stop_record.get("source_step") or 2)
+            self.selected_step_id = source_step
+            self._refresh_all()
+            self._set_status(
+                f"Pipeline stopped by Pre-Analysis. Showing the source output from step #{source_step}."
+            )
+        elif dialog.result == "revise":
+            if self.session.ai_review_steps_enabled:
+                revision_step = int(stop_record.get("revision_step") or 3)
+            else:
+                revision_step = 2
+            self.selected_step_id = revision_step
+            self._refresh_all()
+            self.reset_selected_step()
+        else:
+            self._set_status(
+                "Pipeline stopped by PMS-DISCIPLINE. Revise the Pre-Analysis to continue."
+            )
+        return True
+
     def open_case(self) -> None:
         path = filedialog.askdirectory(title="Select case folder", initialdir=self.store.cases_dir)
         if not path:
@@ -1599,7 +1683,18 @@ The runner does not validate truth, authorize claims, make route decisions autom
                 ]
                 self.selected_step_id = max(completed, default=1)
             self._refresh_all()
-            self._set_status(f"Case loaded: {self.session.case_id}")
+            if self.session.session_data.get("run_status") == "pipeline_stopped_by_pre_analysis":
+                self._set_status(
+                    f"Case loaded: {self.session.case_id} · stopped by PMS-DISCIPLINE Pre-Analysis."
+                )
+                self._handle_discipline_stop()
+            elif self.session.pending_discipline_stop_warning is not None:
+                self._set_status(
+                    f"Case loaded: {self.session.case_id} · preliminary Pre-Analysis stop signal awaiting step #3 review."
+                )
+                self._handle_pre_analysis_stop_warning()
+            else:
+                self._set_status(f"Case loaded: {self.session.case_id}")
         except StorageError as exc:
             messagebox.showerror("Could not load case", str(exc), parent=self)
 
@@ -2240,7 +2335,7 @@ The runner does not validate truth, authorize claims, make route decisions autom
                 "YAML VALIDATION / SEMANTIC REVIEW SEPARATION — RUNNER-GENERATED\n"
                 "The runner-generated local validation result and any LOCAL YAML VALIDATION HANDOFF are authoritative for YAML syntax, duplicate keys, missing keys, unexpected keys, type mismatches, and explicitly allowed values.\n"
                 "Do not independently re-audit the complete YAML key tree. This instruction overrides generic full-structure or full-key-audit wording elsewhere in this prompt.\n"
-                "Do not return corrected YAML merely to restate a structurally clean source artifact. Return a complete corrected YAML artifact only when a concrete semantic or boundary correction is actually necessary.\n"
+                "Do not return corrected YAML merely to restate a structurally clean source artifact. Return a complete corrected YAML artifact only when a concrete semantic or boundary correction is actually necessary. When the review contract also requires a ledger, place the corrected artifact in exactly one fenced yaml block with the expected source root; the runner validates that block only.\n"
                 "When the local validation handoff is clean or absent, perform semantic review only: check field use, claim boundaries, source and route consistency, contradictions, over-triggering, and misuse of local validation status.\n"
                 "A locally clean YAML structure is not evidence and does not establish semantic adequacy.\n"
                 "END YAML VALIDATION / SEMANTIC REVIEW SEPARATION\n\n"
@@ -2407,7 +2502,8 @@ The runner does not validate truth, authorize claims, make route decisions autom
         self._apply_yaml_highlighting()
         self._validate_output()
         status = state.get("status")
-        editable = status not in {"locked", "skipped"}
+        discipline_stopped = self.session.session_data.get("run_status") == "pipeline_stopped_by_pre_analysis"
+        editable = status not in {"locked", "skipped"} and not discipline_stopped
         resettable = is_completed_step_status(status) or status in {"current", "draft"}
         self.reset_steps_button.configure(state="normal" if resettable else "disabled")
         self.copy_prompt_button.configure(text="Copy prompt")
@@ -2521,7 +2617,14 @@ The runner does not validate truth, authorize claims, make route decisions autom
             return
         current = self.session.current_step_id()
         if current is None:
-            messagebox.showinfo("No open step", "This run is waiting for a route or is complete through the implemented steps.", parent=self)
+            if self.session.session_data.get("run_status") == "pipeline_stopped_by_pre_analysis":
+                self._handle_discipline_stop()
+            else:
+                messagebox.showinfo(
+                    "No open step",
+                    "This run is waiting for a route or is complete through the implemented steps.",
+                    parent=self,
+                )
             return
         self.selected_step_id = current
         self._refresh_step_list()
@@ -2641,6 +2744,44 @@ The runner does not validate truth, authorize claims, make route decisions autom
         self._set_status("Step #26 completed; follow-up and article decisions can be made later from the current case state.")
         return True
 
+    def _prepare_final_article_patch_decision(self, review_text: str) -> tuple[str, int] | None:
+        try:
+            review = parse_article_patch_review(review_text)
+        except ArticlePatchError as exc:
+            messagebox.showerror("Invalid article patch response", str(exc), parent=self)
+            self._set_status("Step #31 completion cancelled: article patch response is not executable.")
+            return None
+        if review.status != ARTICLE_READY_AFTER_MINOR_PATCH:
+            return (review.status, 0)
+        assert self.session is not None
+        article = self.session.load_output(30)
+        if not article.strip():
+            messagebox.showerror(
+                "Final article missing",
+                "The step #30 final Markdown article is missing or empty.",
+                parent=self,
+            )
+            self._set_status("Step #31 completion cancelled: the final article is unavailable for patch preview.")
+            return None
+        try:
+            _patched, diff_text = render_article_patch_diff(article, review.patches)
+        except ArticlePatchError as exc:
+            messagebox.showerror("Invalid article patch response", str(exc), parent=self)
+            self._set_status("Step #31 completion cancelled: article patches do not match the final article exactly once.")
+            return None
+
+        dialog = ArticlePatchPreviewDialog(
+            self,
+            patch_titles=tuple(patch.title for patch in review.patches),
+            diff_text=diff_text,
+        )
+        self.wait_window(dialog)
+        decision = dialog.result
+        if decision is None:
+            self._set_status("Step #31 completion cancelled before the article-patch decision.")
+            return None
+        return ("apply" if decision else "decline", len(review.patches))
+
     def complete_step(self) -> None:
         if self.session is None:
             return
@@ -2673,6 +2814,12 @@ The runner does not validate truth, authorize claims, make route decisions autom
                     parent=self,
                 )
                 return
+        article_patch_decision: tuple[str, int] = ("not_applicable", 0)
+        if current == 31:
+            prepared = self._prepare_final_article_patch_decision(text)
+            if prepared is None:
+                return
+            article_patch_decision = prepared
         if not ask_centered_yes_no(self, "Complete step", "Save the current output and complete this step?"):
             self._set_status(f"Step #{current} completion cancelled.")
             return
@@ -2681,10 +2828,27 @@ The runner does not validate truth, authorize claims, make route decisions autom
             validation = self._validate_output()
             self.session.write_output(current, text, complete=False)
             self._persist_yaml_validation(validation, completion_state="draft")
+            if current == 31:
+                patch_action, patch_count = article_patch_decision
+                if patch_action == "apply":
+                    self.session.apply_final_article_patches(text)
+                elif patch_action == "decline":
+                    self.session.record_final_article_patch_decision(
+                        "patches_proposed_not_applied",
+                        patch_count,
+                        review_text=text,
+                    )
+                else:
+                    self.session.record_final_article_patch_decision(patch_action, 0, review_text=text)
             self.session.complete_step(current)
             self._persist_yaml_validation(validation, completion_state="completed")
             run_status = str(self.session.session_data.get("run_status"))
-            if run_status == "awaiting_addon_route":
+            if run_status == "pipeline_stopped_by_pre_analysis":
+                stop_record = self.session.discipline_stop or {}
+                self.selected_step_id = int(stop_record.get("source_step") or current)
+                self._refresh_all()
+                post_completion_action_handled = self._handle_discipline_stop()
+            elif run_status == "awaiting_addon_route":
                 self.selected_step_id = self.session.required_route_step("addon")
                 self._refresh_all()
                 self.set_addon_route()
@@ -2709,7 +2873,10 @@ The runner does not validate truth, authorize claims, make route decisions autom
                 self._refresh_all()
                 messagebox.showinfo(
                     "Pipeline complete",
-                    "The guided run and optional Markdown article workflow are complete.",
+                    (
+                        "The guided run and optional Markdown article workflow are complete."
+                        + (" Proposed article patches were applied to the final article." if current == 31 and article_patch_decision[0] == "apply" else "")
+                    ),
                     parent=self,
                 )
             else:
@@ -2717,6 +2884,8 @@ The runner does not validate truth, authorize claims, make route decisions autom
                 if next_step is not None:
                     self.selected_step_id = next_step
                 self._refresh_all()
+                if current == 2 and self.session.ai_review_steps_enabled:
+                    post_completion_action_handled = self._handle_pre_analysis_stop_warning()
             if not post_completion_action_handled:
                 if validation.issues:
                     self._set_status(
@@ -2823,9 +2992,12 @@ The runner does not validate truth, authorize claims, make route decisions autom
             required = self.session.required_route_step("mip")
             messagebox.showinfo("Route not available", f"Complete step #{required} first.", parent=self)
             return
-        recommendation = self._first_gate_value((12, 11), read_mip_recommendation)
+        details = read_first_mip_gate_details(
+            (step_id, self.session.load_output(step_id))
+            for step_id in (12, 11)
+        )
         existing = self.session.session_data.get("mip_route")
-        dialog = MipRouteDialog(self, recommendation, existing=existing)
+        dialog = MipRouteDialog(self, details, existing=existing)
         self.wait_window(dialog)
         if dialog.result is None:
             return

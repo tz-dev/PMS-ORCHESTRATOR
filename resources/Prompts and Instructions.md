@@ -26,12 +26,15 @@ Prompt sequence:
 #24 Apply Case Record Stage 3
 #25 Check Case Record Stage 3
 
+Prospective follow-up preparation:
+#26 Iteration Handoff and Follow-up Preparation
+
 Optional Markdown article generation:
-#26 Article Source Setup and Rendering Contract
-#27 Base Markdown Case Article Draft
-#28 Example Decision and Optional Example Generation
-#29 Final Integrated Markdown Case Article
-#30 Final Article Check and Conservative Patch
+#27 Article Source Setup and Rendering Contract
+#28 Base Markdown Case Article Draft
+#29 Example Decision and Optional Example Generation
+#30 Final Integrated Markdown Case Article
+#31 Final Article Check and Conservative Patch
 ```
 
 Skip:
@@ -67,12 +70,15 @@ Prompt sequence:
 #24 Apply Case Record Stage 3
 #25 Check Case Record Stage 3
 
+Prospective follow-up preparation:
+#26 Iteration Handoff and Follow-up Preparation
+
 Optional Markdown article generation:
-#26 Article Source Setup and Rendering Contract
-#27 Base Markdown Case Article Draft
-#28 Example Decision and Optional Example Generation
-#29 Final Integrated Markdown Case Article
-#30 Final Article Check and Conservative Patch
+#27 Article Source Setup and Rendering Contract
+#28 Base Markdown Case Article Draft
+#29 Example Decision and Optional Example Generation
+#30 Final Integrated Markdown Case Article
+#31 Final Article Check and Conservative Patch
 ```
 
 Skip:
@@ -115,12 +121,15 @@ Prompt sequence:
 #24 Apply Case Record Stage 3
 #25 Check Case Record Stage 3
 
+Prospective follow-up preparation:
+#26 Iteration Handoff and Follow-up Preparation
+
 Optional Markdown article generation:
-#26 Article Source Setup and Rendering Contract
-#27 Base Markdown Case Article Draft
-#28 Example Decision and Optional Example Generation
-#29 Final Integrated Markdown Case Article
-#30 Final Article Check and Conservative Patch
+#27 Article Source Setup and Rendering Contract
+#28 Base Markdown Case Article Draft
+#29 Example Decision and Optional Example Generation
+#30 Final Integrated Markdown Case Article
+#31 Final Article Check and Conservative Patch
 ```
 
 Skip:
@@ -165,12 +174,15 @@ Prompt sequence:
 #24 Apply Case Record Stage 3
 #25 Check Case Record Stage 3
 
+Prospective follow-up preparation:
+#26 Iteration Handoff and Follow-up Preparation
+
 Optional Markdown article generation:
-#26 Article Source Setup and Rendering Contract
-#27 Base Markdown Case Article Draft
-#28 Example Decision and Optional Example Generation
-#29 Final Integrated Markdown Case Article
-#30 Final Article Check and Conservative Patch
+#27 Article Source Setup and Rendering Contract
+#28 Base Markdown Case Article Draft
+#29 Example Decision and Optional Example Generation
+#30 Final Integrated Markdown Case Article
+#31 Final Article Check and Conservative Patch
 ```
 
 Skip:
@@ -276,7 +288,7 @@ TASK:
 Apply pms_discipline_pre_analysis_template.yaml to the CASE PACKET.
 
 PURPOSE:
-Produce a PMS-DISCIPLINE Pre-Analysis YAML that prepares the case for later PMS Core application.
+Produce a PMS-DISCIPLINE Pre-Analysis YAML that either prepares a permitted analysis target for later PMS Core application or records a binding pipeline stop where PMS-DISCIPLINE requires it.
 
 TECHNICAL INSTRUCTIONS:
 - Use only the provided template, the CASE PACKET, the available PMS.yaml context, and any bounded case materials already read in step #1.
@@ -286,7 +298,11 @@ TECHNICAL INSTRUCTIONS:
 - Use unknown, unclear, not_applicable, missing, unresolved, or insufficient where the input does not license a stronger value.
 - Template sections may change only where valid YAML repair requires it.
 - PMS.yaml supplies background reference only; the Pre-Analysis step is not Core application.
-- Preliminary pressure, scan pressure, and risk markers remain pressure markers, not recommendation, authorization, application, routing, verdict, full Case Record generation, Markdown article generation, or final decision state.
+- Distinguish the requested output from the pipeline case. A prohibited requested output may proceed through a separately named reframed target only where no mandatory hard-stop rule is triggered.
+- MANDATORY PERSON-NEAR STOP RULE: when the requested output is a prohibited whole-person, character, motive, status, diagnostic, forensic, or person-ranking conclusion; the input is minimal, low, insufficient, fragmentary, hypothetical, or unverified; person-nearness is high or severe; irreversibility is high or severe; and the requested-output entry condition is not satisfied, set `pipeline_case_disposition: stop`. Do not use `proceed_reframed` in the current run. Set `permitted_analysis_target: not_applicable`, `reframing_required_before_core: false`, `reframing_status: not_needed`, and `hard_gate_effect: stop_pipeline`. Any redirect is only a possible new case or run.
+- Apply the template hierarchy strictly: explicit scope prohibitions, failed entry/protection conditions, and triggered hard gates override aggregate or `mixed` pressure markers.
+- `scope_and_pipeline_disposition.pipeline_case_disposition: stop` is a binding PMS-DISCIPLINE pipeline stop. It is a scope-control result, not a person verdict or prohibited final case decision.
+- Preliminary operator pressure, add-on scan pressure, and risk markers remain pressure markers. They must not be converted into recommendation, authorization, application, verdict, full Case Record generation, Markdown article generation, or final decision state.
 
 PRE-ANALYSIS SCOPE:
 This step may mark:
@@ -294,6 +310,9 @@ This step may mark:
 - input/source status
 - intended use
 - claim ceiling
+- requested-output disposition and pipeline-case disposition
+- original and permitted analysis targets
+- hard-gate status, basis, and effect
 - person-nearness
 - publicness
 - irreversibility
@@ -313,10 +332,22 @@ CLAIM DISCIPLINE:
 - Lower or limit claims where input, publicness, person-nearness, irreversibility, or rival pressure require it.
 - Mark unlicensed claims and uncertainty explicitly.
 - Preserve correction and reopening conditions.
+- Do not use `mixed` preliminary pressure to weaken a hard prohibition, failed entry condition, triggered hard gate, refusal, suspension, or stop.
+- Do not construct a same-run permitted analysis target to bypass the mandatory person-near stop rule.
+- Where `pipeline_case_disposition` is `stop`, set all dependent handoff and final-status fields consistently: `core_handoff.export_status: refused`, `final_pre_analysis_status.status: stop_before_core`, and `final_pre_analysis_status.next_allowed_step: stop`.
 
 OUTPUT:
 Return only the completed Pre-Analysis YAML.
-Wrap the YAML in a fenced yaml code block if the chat interface requires separation.
+FIELD-SPECIFIC VALUE RULE:
+- Explicit allowed values declared by the template field override generic uncertainty or bounded markers.
+- Never place `none`, `not_applicable`, `unknown`, `unclear`, or another generic marker into a field whose explicit enum does not allow it.
+- Use the closest semantically correct permitted value and preserve remaining uncertainty in an adjacent explanatory field.
+- For `falsifier_and_weakening_conditions.reopening_conditions[*].condition`, use exactly one literal allowed value per list item: `new evidence`, `scope change`, `demonstrated error`, `stronger rival`, or `other`.
+- Never combine, qualify, concatenate, or paraphrase these enum values. Values such as `new evidence plus scope change`, `new evidence or stronger rival`, or `material scope change` are invalid.
+- Where multiple reopening conditions apply, create one `reopening_conditions` list item per condition with a distinct `condition_id` such as `RO1`, `RO2`, and `RO3`. Preserve the case-specific explanation in each item’s `reopening_effect`.
+- Use `condition: other` only when no listed enum accurately represents the trigger; describe the exact trigger in `reopening_effect`.
+
+Return exactly one plain fenced `yaml` code block. The block must contain only the completed YAML. Do not include prose before or after it, and do not add an ID, title, attributes, or metadata to the opening fence.
 
 ---
 
@@ -348,24 +379,30 @@ TASK:
 Check the Pre-Analysis YAML from the previous step for structural and substantive conformity with the previously applied Pre-Analysis template and the PMS-DISCIPLINE use constraints of this step.
 
 PURPOSE:
-Determine whether the Pre-Analysis YAML is usable as checked input for PMS Core case application. Where necessary, conservatively correct it so that it sufficiently conforms to the template and bounded task.
+Determine whether the Pre-Analysis YAML permits a checked handoff to PMS Core, permits Core only on a completed reframed target, or requires revision, suspension, or a binding pipeline stop. Where necessary, conservatively correct it so that it sufficiently conforms to the template and bounded task.
 
 TECHNICAL INSTRUCTIONS:
 - Use only the Pre-Analysis YAML from the previous step, the CASE PACKET, available PMS.yaml context, and the previously applied Pre-Analysis template structure.
 - Re-run the Pre-Analysis from scratch only if the existing output is structurally unusable.
 - Check structural conformity: root structure, required sections, required fields, allowed placeholders, valid YAML, and required handoff sections.
-- Check substantive conformity: boundedness to the CASE PACKET, source-status discipline, intended-use discipline, claim ceiling, person-nearness, publicness, irreversibility, non-capture, rival pressure, falsifier conditions, correctability, and reopening conditions.
+- Check substantive conformity: boundedness to the CASE PACKET, source-status discipline, intended-use discipline, claim ceiling, requested-output and pipeline-case disposition, original and permitted targets, hard-gate hierarchy, person-nearness, publicness, irreversibility, non-capture, rival pressure, falsifier conditions, correctability, and reopening conditions.
 - Correct only where necessary to restore PMS-/YAML-conformity or to prevent overclaim, source-status laundering, premature recommendation, premature authorization, premature Core application, or premature finalization.
 - Prefer the smallest sufficient correction.
 - Preserve the original output wherever it already sufficiently conforms.
 - Corrections remain conservative, bounded, and claim-weakening where needed.
 - Use explicit uncertainty markers rather than inferential gap-filling.
+- Validate `falsifier_and_weakening_conditions.reopening_conditions[*].condition` as a single exact enum token per list item: `new evidence`, `scope change`, `demonstrated error`, `stronger rival`, or `other`.
+- A combined, qualified, or paraphrased value is a concrete correctable defect. Split multiple triggers into separate `reopening_conditions` records with distinct condition IDs, preserving their specific effects in `reopening_effect`.
+- Treat `scope_and_pipeline_disposition` as binding scope control, not as a preliminary pressure marker.
+- Apply the mandatory person-near stop rule from Prompt #2. If the prior YAML uses `proceed_reframed` despite that rule, this is a concrete semantic defect and must be corrected to `pipeline_case_disposition: stop` with all dependent fields made consistent.
+- Verify that hard prohibitions, failed entry/protection conditions, and triggered hard gates cannot be overridden by `pressure_status: mixed`, a constructed same-run reframed target, or a generic `ready_with_limits` handoff.
+- Verify that `pipeline_case_disposition: stop` blocks Core and all later analysis steps. A stop may be removed only by a corrected Pre-Analysis artifact, not by commentary or reassurance.
 
 STEP BOUNDARIES:
 This check excludes:
 - PMS Core application or PMS Core Case Application YAML generation
 - invented source material, files, case facts, source status, or unavailable context
-- conversion of preliminary pressure, scan pressure, or risk markers into recommendation, authorization, application, routing, verdict, full Case Record generation, Markdown article generation, or final decision state
+- conversion of preliminary operator pressure, add-on scan pressure, or risk markers into recommendation, authorization, application, verdict, full Case Record generation, Markdown article generation, or final decision state; this does not prohibit the template's binding scope and pipeline disposition
 - stylistic polish, extra reassurance, fuller commentary, or speculative completeness
 
 CHECK SCOPE:
@@ -375,6 +412,12 @@ The check may identify and, where safely possible, correct:
 - unresolved required placeholders
 - source-status laundering
 - claim ceiling overreach
+- requested-output and pipeline-case disposition conflation
+- mandatory person-near stop incorrectly represented as `proceed_reframed`
+- hard prohibition or hard gate overridden by aggregate pressure
+- Core handoff targeting a refused output, a mandatory-stop case, or an unreframed target
+- inconsistent stop status, handoff, or next-step fields
+- combined, qualified, or paraphrased reopening-condition enum values
 - premature Core analysis
 - premature operator assignment
 - preliminary pressure treated as final assignment
@@ -400,9 +443,14 @@ If the Pre-Analysis YAML is usable for Core without correction, respond only:
 
 Pre-Analysis YAML checked. Ready for PMS Core case application.
 
+If the Pre-Analysis YAML correctly and consistently sets `scope_and_pipeline_disposition.pipeline_case_disposition: stop` without requiring correction, respond only:
+
+Pre-Analysis YAML checked. PMS-DISCIPLINE pipeline stop confirmed.
+
 If the Pre-Analysis YAML contains concrete defects that can be conservatively corrected inside this step, return:
 - CHECK STATUS: corrected
 - CORRECTIONS MADE: concise bullet list
+- Put the complete corrected artifact in exactly one fenced `yaml` code block. The block must contain only the corrected YAML and must use the reviewed source artifact's exact root key. Do not include any second YAML block.
 - COMPLETE CORRECTED PRE-ANALYSIS YAML
 
 If the Pre-Analysis YAML is not safely correctable inside this step, return:
@@ -490,11 +538,17 @@ CLAIM DISCIPLINE:
 - Lower or limit claims where input status, publicness, person-nearness, irreversibility, rival pressure, or non-capture require it.
 - Mark operator activation only where structurally warranted.
 - Mark weak, inactive, under-specified, or non-applicable operators explicitly.
+- In `ai_interface_pms_alignment.modes`, `axiomatic.case_status` and `derived_axes_inspection.case_status` accept only `active` or `inactive`; use `inactive` when unused. Only `ai_architecture.case_status` may use `not_applicable`.
 - Preserve rival readings, falsifier conditions, reopening conditions, and correction conditions.
 
 OUTPUT:
 Return only the completed PMS Core Case Application YAML.
-Wrap the YAML in a fenced yaml code block if the chat interface requires separation.
+FIELD-SPECIFIC VALUE RULE:
+- Explicit allowed values declared by the template field override generic uncertainty or bounded markers.
+- Never place `none`, `not_applicable`, `unknown`, `unclear`, or another generic marker into a field whose explicit enum does not allow it.
+- Use the closest semantically correct permitted value and preserve remaining uncertainty in an adjacent explanatory field.
+
+Return exactly one plain fenced `yaml` code block. The block must contain only the completed YAML. Do not include prose before or after it, and do not add an ID, title, attributes, or metadata to the opening fence.
 
 ---
 
@@ -583,6 +637,7 @@ PMS Core Case Application YAML checked. Ready for next PMS-DISCIPLINE pipeline s
 If the PMS Core Case Application YAML contains concrete defects that can be conservatively corrected inside this step, return:
 - CHECK STATUS: corrected
 - CORRECTIONS MADE: concise bullet list
+- Put the complete corrected artifact in exactly one fenced `yaml` code block. The block must contain only the corrected YAML and must use the reviewed source artifact's exact root key. Do not include any second YAML block.
 - COMPLETE CORRECTED PMS CORE CASE APPLICATION YAML
 
 If the PMS Core Case Application YAML is not safely correctable inside this step, return:
@@ -677,7 +732,12 @@ CLAIM DISCIPLINE:
 
 OUTPUT:
 Return only the completed PMS-DISCIPLINE Add-on Recommendation Gate YAML.
-Wrap the YAML in a fenced yaml code block if the chat interface requires separation.
+FIELD-SPECIFIC VALUE RULE:
+- Explicit allowed values declared by the template field override generic uncertainty or bounded markers.
+- Never place `none`, `not_applicable`, `unknown`, `unclear`, or another generic marker into a field whose explicit enum does not allow it.
+- Use the closest semantically correct permitted value and preserve remaining uncertainty in an adjacent explanatory field.
+
+Return exactly one plain fenced `yaml` code block. The block must contain only the completed YAML. Do not include prose before or after it, and do not add an ID, title, attributes, or metadata to the opening fence.
 
 ---
 
@@ -777,6 +837,7 @@ Add-on Recommendation Gate YAML checked. Ready for the next allowed PMS-DISCIPLI
 If the Add-on Recommendation Gate YAML contains concrete defects that can be conservatively corrected inside this step, return:
 - CHECK STATUS: corrected
 - CORRECTIONS MADE: concise bullet list
+- Put the complete corrected artifact in exactly one fenced `yaml` code block. The block must contain only the corrected YAML and must use the reviewed source artifact's exact root key. Do not include any second YAML block.
 - COMPLETE CORRECTED ADD-ON RECOMMENDATION GATE YAML
 
 If the Add-on Recommendation Gate YAML is not safely correctable inside this step, return:
@@ -906,6 +967,7 @@ TECHNICAL INSTRUCTIONS:
 * Keep the selected add-on subordinate to PMS Base, checked Core, source status, intended use, claim ceiling, non-capture, rival pressure, correctability, and reopening conditions.
 * Treat the checked Add-on Recommendation Gate as selection context, not as authorization or claim strengthening.
 * Apply only the selected add-on family named above.
+* For EDEN, `source_and_claim_burden_discipline.source_status_preserved.counter_scene_material` must use exactly one of `present`, `partial`, `absent`, or `needs_review`; use `absent`, not `none`, when no counter-scene material is supplied.
 
 STEP BOUNDARIES:
 This step excludes:
@@ -942,7 +1004,12 @@ CLAIM DISCIPLINE:
 
 OUTPUT:
 Return only the completed PMS-{SELECTED_ADDON} Add-on Case Application YAML.
-Wrap the YAML in a fenced yaml code block if the chat interface requires separation.
+FIELD-SPECIFIC VALUE RULE:
+- Explicit allowed values declared by the template field override generic uncertainty or bounded markers.
+- Never place `none`, `not_applicable`, `unknown`, `unclear`, or another generic marker into a field whose explicit enum does not allow it.
+- Use the closest semantically correct permitted value and preserve remaining uncertainty in an adjacent explanatory field.
+
+Return exactly one plain fenced `yaml` code block. The block must contain only the completed YAML. Do not include prose before or after it, and do not add an ID, title, attributes, or metadata to the opening fence.
 
 ---
 
@@ -997,9 +1064,9 @@ TECHNICAL INSTRUCTIONS:
 CHECK SCOPE:
 The check may identify and, where safely possible, correct:
 
-* invalid YAML
-* missing required sections or fields
-* unresolved required placeholders
+* runner-reported invalid YAML or deterministic structural findings
+* runner-reported missing or unexpected fields, type mismatches, or invalid configured values
+* unresolved required placeholders only where they create a concrete semantic or boundary defect
 * selected add-on mismatch
 * unsupported source or file assumption
 * selected source missing, mismatched, or treated as PMS Base
@@ -1035,6 +1102,7 @@ If concrete defects can be conservatively corrected inside this step, return:
 
 * CHECK STATUS: corrected
 * CORRECTIONS MADE: concise bullet list
+* Put the complete corrected artifact in exactly one fenced `yaml` code block. The block must contain only the corrected YAML and must use the reviewed source artifact's exact root key. Do not include any second YAML block.
 * COMPLETE CORRECTED PMS-{SELECTED_ADDON} ADD-ON CASE APPLICATION YAML
 
 If the output is not safely correctable inside this step, return:
@@ -1093,7 +1161,39 @@ TECHNICAL INSTRUCTIONS:
 * Use unknown, unclear, not_applicable, missing, unresolved, under_specified, insufficient, none, or another field-allowed bounded marker where the input does not license a stronger value.
 * Treat the MIP Gate as a bounded recommendation/checkpoint for whether MIP source reading is warranted.
 * Keep MIP recommendation separate from MIP application, MIP scoring, person assessment, implementation authority, or finality.
+* Runner routing remains binary: `not_recommended`, `scan_only`, or unsafe overall outcomes preselect `no_mip`; `recommended` or `recommended_with_limits` preselect `use_mip`, which includes step #13 source reading followed by step #14 bounded case application. No source-reading-only route is created.
 * Preserve source status, intended use, claim ceiling, non-capture, rival pressure, correctability, reopening conditions, and stop-capability from checked prior artifacts.
+
+MIP TRIGGER CALIBRATION:
+
+MIP must not be triggered merely because a constructed, illustrative, hypothetical, workplace, organizational, or conflict case could involve real persons if instantiated.
+
+Do not treat the following as sufficient MIP triggers by themselves:
+
+* routine handoff of responsibility;
+* routine role or process coordination;
+* deadline pressure;
+* delayed response;
+* reduced practical options;
+* future-risk language;
+* hypothetical real-person transfer;
+* general organizational friction;
+* user curiosity about maturity or dignity language.
+
+MIP becomes structurally relevant only when the checked case state itself centers, or would directly carry into, one or more of the following:
+
+* person-near practice;
+* person-evaluative judgment;
+* responsibility attribution under asymmetry;
+* role-capacity assessment;
+* dignity-in-practice pressure;
+* face, status, humiliation, or revision-capacity pressure;
+* public reputational exposure;
+* irreversible or consequential action toward real persons, groups, offices, or institutions.
+
+A constructed case may therefore remain no-MIP when it is role/process-oriented and explicitly avoids personal blame. A constructed case may trigger MIP when its own theory or intended use is built around face/status loss, revision incapacity, dignity-in-practice pressure, responsibility attribution, role-capacity evaluation, reputational exposure, or person-near judgment if transferred to real parties.
+
+This is not a lower MIP threshold. It is a distinction between generic hypothetical person involvement and structurally person-near transfer pressure.
 
 STEP BOUNDARIES:
 This step excludes:
@@ -1131,7 +1231,12 @@ CLAIM DISCIPLINE:
 
 OUTPUT:
 Return only the completed PMS-DISCIPLINE MIP Gate YAML.
-Wrap the YAML in a fenced yaml code block if the chat interface requires separation.
+FIELD-SPECIFIC VALUE RULE:
+- Explicit allowed values declared by the template field override generic uncertainty or bounded markers.
+- Never place `none`, `not_applicable`, `unknown`, `unclear`, or another generic marker into a field whose explicit enum does not allow it.
+- Use the closest semantically correct permitted value and preserve remaining uncertainty in an adjacent explanatory field.
+
+Return exactly one plain fenced `yaml` code block. The block must contain only the completed YAML. Do not include prose before or after it, and do not add an ID, title, attributes, or metadata to the opening fence.
 
 ---
 
@@ -1206,6 +1311,9 @@ The check may identify and, where safely possible, correct:
 * source-status laundering
 * claim ceiling overreach
 * person-nearness, publicness, irreversibility, or action-power pressure inflated into automatic MIP use
+* hypothetical real-person transfer treated as sufficient MIP trigger without person-evaluative, responsibility-attributive, role-capacity, dignity-in-practice, face/status, reputational, or consequential action pressure
+* routine role/process coordination, deadline pressure, delay, or option-space reduction over-escalated into MIP where the case explicitly avoids personal blame or person assessment
+* face/status/revision-capacity pressure wrongly dismissed as no-MIP merely because the case is constructed or not currently about real named persons
 * loss of rival readings, non-capture, correctability, or reopening conditions
 * unsupported strengthening of claims
 * generated later pipeline artifacts
@@ -1217,6 +1325,11 @@ If correction is needed:
 * HIGH-PRIORITY YAML PATCH RULE: preserve every existing template field, preserve field order as far as possible, add no new fields or sections, rename no fields, and leave no required field omitted.
 * Keep PMS operators, dependencies, derived structures, and MIP-specific categories unchanged.
 * Keep claims at or below the level licensed by the CASE PACKET and checked prior artifacts.
+* Preserve the calibrated distinction between role/process-only cases and structurally person-near transfer cases.
+* When the overall gate recommendation was wrongly set to no-MIP, correct `mip_recommendation_output.recommendation_status` to `recommended_with_limits` only when the checked gate wrongly ignores person-evaluative, responsibility-attributive, role-capacity, dignity-in-practice, face/status, reputational, or consequential action pressure.
+* When MIP source reading is recommended, set `mip_recommendation_output.MIP_source_read_recommendation.status` to `recommended`, never to `recommended_with_limits`.
+* Evaluate `mip_recommendation_output.MIP_case_application_recommendation.status` separately as a semantic gate field. This distinction does not create a separate runner route: `mip_recommendation_output.recommendation_status` controls the existing binary `no_mip` versus `use_mip` route, and `use_mip` proceeds through source reading before bounded case application.
+* Correct over-triggered MIP to not_recommended when the case contains only routine role/process pressure, deadline pressure, delay, option loss, or hypothetical real-person transfer without person-evaluative center.
 * Exclude invented files, new source claims, MIP application output, and later pipeline artifacts from the corrected YAML.
 * Patch only the smallest structurally necessary part; use bounded markers where a field cannot be supported.
 * The corrected output remains a PMS-DISCIPLINE MIP Gate YAML only.
@@ -1230,6 +1343,7 @@ If concrete defects can be conservatively corrected inside this step, return:
 
 * CHECK STATUS: corrected
 * CORRECTIONS MADE: concise bullet list
+* Put the complete corrected artifact in exactly one fenced `yaml` code block. The block must contain only the corrected YAML and must use the reviewed source artifact's exact root key. Do not include any second YAML block.
 * COMPLETE CORRECTED PMS-DISCIPLINE MIP GATE YAML
 
 If the output is not safely correctable inside this step, return:
@@ -1349,6 +1463,21 @@ TECHNICAL INSTRUCTIONS:
 * Treat the checked MIP Gate as MIP-selection context, not as MIP result, score, band, module assignment, person assessment, implementation authority, or finality.
 * Apply only MIP.
 
+CONDITIONAL TRANSFER / BOUNDARY USE:
+
+If the checked MIP Gate recommended MIP only because of conditional person-near transfer pressure, apply MIP as a bounded transfer-risk, burden, red-zone, role-capacity, responsibility, dignity-in-practice, and claim-boundary review.
+
+In that mode:
+
+* do not treat the constructed case as a real-person assessment;
+* do not assign hard A/M scores;
+* do not activate D;
+* do not create a D-profile;
+* do not treat IA-box handling as a verdict;
+* do not rank, diagnose, blame, or evaluate persons;
+* mark unsupported MIP fields as not_applicable, insufficient, unknown, or scan_only where the MIP source permits;
+* preserve the result as boundary-focused and conditional.
+
 STEP BOUNDARIES:
 This step excludes:
 
@@ -1385,7 +1514,12 @@ CLAIM DISCIPLINE:
 
 OUTPUT:
 Return only the completed MIP Case Application YAML.
-Wrap the YAML in a fenced yaml code block if the chat interface requires separation.
+FIELD-SPECIFIC VALUE RULE:
+- Explicit allowed values declared by the template field override generic uncertainty or bounded markers.
+- Never place `none`, `not_applicable`, `unknown`, `unclear`, or another generic marker into a field whose explicit enum does not allow it.
+- Use the closest semantically correct permitted value and preserve remaining uncertainty in an adjacent explanatory field.
+
+Return exactly one plain fenced `yaml` code block. The block must contain only the completed YAML. Do not include prose before or after it, and do not add an ID, title, attributes, or metadata to the opening fence.
 
 ---
 
@@ -1451,9 +1585,9 @@ This check excludes:
 CHECK SCOPE:
 The check may identify and, where safely possible, correct:
 
-* invalid YAML
-* missing required sections or fields
-* unresolved required placeholders
+* runner-reported invalid YAML or deterministic structural findings
+* runner-reported missing or unexpected fields, type mismatches, or invalid configured values
+* unresolved required placeholders only where they create a concrete semantic or boundary defect
 * unsupported source or file assumptions
 * MIP.yaml structure ignored, overwritten, or replaced
 * checked prior outputs ignored, overwritten, or strengthened
@@ -1465,6 +1599,10 @@ The check may identify and, where safely possible, correct:
 * D-module activated without warrant
 * Dignity-in-Practice treated as ontological dignity, person ranking, or dignity score
 * Red Zone review omitted or softened where required
+* conditional person-near transfer pressure converted into real-person assessment
+* constructed-case MIP use converted into hard A/M scoring, D activation, D-profile, IA-box verdict, maturity verdict, person ranking, or blame assignment
+* boundary-focused MIP application over-expanded beyond the checked MIP Gate
+* MIP application wrongly treating role/process-only material as person-capacity or dignity-in-practice evidence
 * non-use or refusal conditions ignored
 * source-status laundering
 * evidence-burden overreach
@@ -1481,6 +1619,7 @@ If correction is needed:
 * HIGH-PRIORITY YAML PATCH RULE: preserve every existing template/source-derived field, preserve field order as far as possible, add no new fields or sections, rename no fields, and leave no required field omitted.
 * Keep PMS operators, MIP structures, A–C–R–P–D categories, A-score/M-score handling, IA-box handling, D-module handling, and Red Zone categories unchanged.
 * Keep claims at or below the level licensed by the CASE PACKET, checked prior artifacts, checked MIP Gate, and MIP.yaml.
+* If the MIP branch was entered only for conditional person-near transfer or boundary review, patch over-strong scoring, D activation, IA verdicts, person assessment, or maturity language back to bounded scan, boundary, burden, red-zone, or not_applicable language.
 * Exclude invented files, new source claims, AHP output, Case Record output, Markdown output, MIP authority drift, and later pipeline artifacts from the corrected YAML.
 * Patch only the smallest structurally necessary part; use bounded markers where a field cannot be supported.
 * The corrected output remains a MIP Case Application YAML only.
@@ -1494,6 +1633,7 @@ If concrete defects can be conservatively corrected inside this step, return:
 
 * CHECK STATUS: corrected
 * CORRECTIONS MADE: concise bullet list
+* Put the complete corrected artifact in exactly one fenced `yaml` code block. The block must contain only the corrected YAML and must use the reviewed source artifact's exact root key. Do not include any second YAML block.
 * COMPLETE CORRECTED MIP CASE APPLICATION YAML
 
 If the output is not safely correctable inside this step, return:
@@ -1599,7 +1739,12 @@ CLAIM DISCIPLINE:
 
 OUTPUT:
 Return only the completed PMS-DISCIPLINE AHP Gate YAML.
-Wrap the YAML in a fenced yaml code block if the chat interface requires separation.
+FIELD-SPECIFIC VALUE RULE:
+- Explicit allowed values declared by the template field override generic uncertainty or bounded markers.
+- Never place `none`, `not_applicable`, `unknown`, `unclear`, or another generic marker into a field whose explicit enum does not allow it.
+- Use the closest semantically correct permitted value and preserve remaining uncertainty in an adjacent explanatory field.
+
+Return exactly one plain fenced `yaml` code block. The block must contain only the completed YAML. Do not include prose before or after it, and do not add an ID, title, attributes, or metadata to the opening fence.
 
 ---
 
@@ -1702,6 +1847,7 @@ If concrete defects can be conservatively corrected inside this step, return:
 
 * CHECK STATUS: corrected
 * CORRECTIONS MADE: concise bullet list
+* Put the complete corrected artifact in exactly one fenced `yaml` code block. The block must contain only the corrected YAML and must use the reviewed source artifact's exact root key. Do not include any second YAML block.
 * COMPLETE CORRECTED PMS-DISCIPLINE AHP GATE YAML
 
 If the output is not safely correctable inside this step, return:
@@ -1804,7 +1950,12 @@ CLAIM DISCIPLINE:
 
 OUTPUT:
 Return only the completed AHP Module Output YAML.
-Wrap the YAML in a fenced yaml code block if the chat interface requires separation.
+FIELD-SPECIFIC VALUE RULE:
+- Explicit allowed values declared by the template field override generic uncertainty or bounded markers.
+- Never place `none`, `not_applicable`, `unknown`, `unclear`, or another generic marker into a field whose explicit enum does not allow it.
+- Use the closest semantically correct permitted value and preserve remaining uncertainty in an adjacent explanatory field.
+
+Return exactly one plain fenced `yaml` code block. The block must contain only the completed YAML. Do not include prose before or after it, and do not add an ID, title, attributes, or metadata to the opening fence.
 
 ---
 
@@ -1872,9 +2023,9 @@ This check excludes:
 CHECK SCOPE:
 The check may identify and, where safely possible, correct:
 
-* invalid YAML
-* missing required sections or fields
-* unresolved required placeholders
+* runner-reported invalid YAML or deterministic structural findings
+* runner-reported missing or unexpected fields, type mismatches, or invalid configured values
+* unresolved required placeholders only where they create a concrete semantic or boundary defect
 * unsupported source or file assumptions
 * checked prior outputs ignored, overwritten, or strengthened
 * AHP output treated as case judgment, score, ranking, maturity verdict, or finality
@@ -1909,6 +2060,7 @@ If concrete defects can be conservatively corrected inside this step, return:
 
 * CHECK STATUS: corrected
 * CORRECTIONS MADE: concise bullet list
+* Put the complete corrected artifact in exactly one fenced `yaml` code block. The block must contain only the corrected YAML and must use the reviewed source artifact's exact root key. Do not include any second YAML block.
 * COMPLETE CORRECTED AHP MODULE OUTPUT YAML
 
 If the output is not safely correctable inside this step, return:
@@ -2049,7 +2201,12 @@ CLAIM DISCIPLINE:
 
 OUTPUT:
 Return only the completed PMS-DISCIPLINE Stage 1 Artifact Index YAML.
-Wrap the YAML in a fenced yaml code block if the chat interface requires separation.
+FIELD-SPECIFIC VALUE RULE:
+- Explicit allowed values declared by the template field override generic uncertainty or bounded markers.
+- Never place `none`, `not_applicable`, `unknown`, `unclear`, or another generic marker into a field whose explicit enum does not allow it.
+- Use the closest semantically correct permitted value and preserve remaining uncertainty in an adjacent explanatory field.
+
+Return exactly one plain fenced `yaml` code block. The block must contain only the completed YAML. Do not include prose before or after it, and do not add an ID, title, attributes, or metadata to the opening fence.
 
 ---
 
@@ -2108,7 +2265,7 @@ For run metadata, file existence, exact paths, route state, branch state, and st
 A higher source overrides a lower source. Copy runner-manifest values exactly. Never substitute session.json for a produced output path unless the runner manifest itself names session.json for that field.
 
 TASK:
-Check the Stage 1 Artifact Index YAML from the previous step for structural and substantive conformity with the Stage 1 template, checked prior artifacts, source/read-status information, and the bounded task.
+Check the Stage 1 Artifact Index YAML from the previous step for semantic, provenance, route, and boundary conformity with the Stage 1 template, checked prior artifacts, source/read-status information, and the bounded task. Use runner-generated local validation as authoritative for deterministic YAML structure when available.
 
 PURPOSE:
 Determine whether the Stage 1 Artifact Index YAML is usable as checked Stage 1 output for Stage 2. Where necessary, conservatively correct it so that it accurately records the artifact state of this pipeline run.
@@ -2116,8 +2273,8 @@ Determine whether the Stage 1 Artifact Index YAML is usable as checked Stage 1 o
 TECHNICAL INSTRUCTIONS:
 
 * Use only the Stage 1 Artifact Index YAML from the previous step, CASE PACKET, PMS.yaml context, checked prior YAML artifacts, and the previously applied Stage 1 template structure.
-* Re-run Stage 1 from scratch only if the existing output is structurally unusable.
-* Check structural conformity: root structure, required sections, required fields, valid YAML, artifact inventories, branch inventories, dependency map, status fields, and readiness fields.
+* Re-run Stage 1 from scratch only if the runner-generated local validation handoff reports a blocking structural defect that cannot be patched conservatively.
+* Do not independently re-audit YAML syntax, duplicate keys, the complete key tree, types, or configured enum values when local validation is authoritative. Address only the exact structural findings supplied by the runner; otherwise perform semantic review only.
 * Check substantive conformity: artifact existence, case-material inventory fidelity, checked-output status, source/read-status distinction, optional branch status, skipped branch status, missing artifact status, source status, intended use, and dependency ordering.
 * Correct only the smallest necessary part.
 * Preserve conforming content.
@@ -2146,9 +2303,9 @@ This check excludes:
 CHECK SCOPE:
 The check may identify and, where safely possible, correct:
 
-* invalid YAML
-* missing required sections or fields
-* unresolved required placeholders
+* runner-reported invalid YAML or deterministic structural findings
+* runner-reported missing or unexpected fields, type mismatches, or invalid configured values
+* unresolved required placeholders only where they create a concrete semantic or boundary defect
 * unsupported source or file assumptions
 * checked outputs mislabeled as unchecked or absent
 * unchecked outputs mislabeled as checked
@@ -2166,7 +2323,7 @@ The check may identify and, where safely possible, correct:
 MANDATORY CRITERIA LEDGER:
 Evaluate every criterion separately and mark it PASS or FAIL. A general statement such as “coherent,” “complete,” or “ready” is not sufficient.
 
-1. YAML parses and preserves the Stage 1 root, required sections, required fields, and field order as far as possible.
+1. Runner-generated local YAML validation is respected: exact reported structural findings are handled, and when the runner reports clean structure or no handoff, no independent full-key-tree audit is performed.
 2. Every completed upstream step output from steps #1–#19 that is relevant to the selected route appears with the exact case-relative output path from the runner manifest; the Stage 1 output under review is not required to index itself.
 3. No completed upstream output is represented only by session.json unless the runner manifest explicitly assigns session.json to that artifact field.
 4. Route, selected add-on, MIP, AHP, skipped-branch, and produced-output states match the runner manifest exactly.
@@ -2206,6 +2363,7 @@ If concrete defects can be conservatively corrected inside this step, then retur
 * CHECK STATUS: corrected
 * CORRECTIONS MADE: concise bullet list
 * CRITERIA AFTER CORRECTION: repeat all 13 criteria as PASS or FAIL
+* Put the complete corrected artifact in exactly one fenced `yaml` code block. The block must contain only the corrected YAML and must use the reviewed source artifact's exact root key. Do not include any second YAML block.
 * COMPLETE CORRECTED PMS-DISCIPLINE STAGE 1 ARTIFACT INDEX YAML
 
 If the output is not safely correctable inside this step, then return:
@@ -2354,7 +2512,12 @@ CLAIM DISCIPLINE:
 
 OUTPUT:
 Return only the completed PMS-DISCIPLINE Stage 2 Layer Digest Extraction YAML.
-Wrap the YAML in a fenced yaml code block if the chat interface requires separation.
+FIELD-SPECIFIC VALUE RULE:
+- Explicit allowed values declared by the template field override generic uncertainty or bounded markers.
+- Never place `none`, `not_applicable`, `unknown`, `unclear`, or another generic marker into a field whose explicit enum does not allow it.
+- Use the closest semantically correct permitted value and preserve remaining uncertainty in an adjacent explanatory field.
+
+Return exactly one plain fenced `yaml` code block. The block must contain only the completed YAML. Do not include prose before or after it, and do not add an ID, title, attributes, or metadata to the opening fence.
 
 ---
 
@@ -2413,7 +2576,7 @@ For exact metadata and provenance:
 For substantive digest content, the corresponding checked layer artifact controls. Checked Stage 1 controls selection and provenance. Template defaults and model inference cannot override either.
 
 TASK:
-Check the Stage 2 Layer Digest Extraction YAML from the previous step for structural and substantive conformity with the Stage 2 template, checked prior artifacts, checked Stage 1 output, and the bounded task.
+Check the Stage 2 Layer Digest Extraction YAML from the previous step for semantic, digest, route, and boundary conformity with the Stage 2 template, checked prior artifacts, checked Stage 1 output, and the bounded task. Use runner-generated local validation as authoritative for deterministic YAML structure when available.
 
 PURPOSE:
 Determine whether the Stage 2 Layer Digest Extraction YAML is usable as checked Stage 2 output for Stage 3. Where necessary, conservatively correct it so that it accurately extracts and preserves digest-level content without reanalysis or claim strengthening.
@@ -2421,8 +2584,8 @@ Determine whether the Stage 2 Layer Digest Extraction YAML is usable as checked 
 TECHNICAL INSTRUCTIONS:
 
 * Use only the Stage 2 Layer Digest Extraction YAML from the previous step, CASE PACKET, PMS.yaml context, checked prior YAML artifacts, checked Stage 1 output, and the previously applied Stage 2 template structure.
-* Re-run Stage 2 from scratch only if the existing output is structurally unusable.
-* Check structural conformity: root structure, required sections, required fields, valid YAML, layer digests, skipped branch digest, non-use digest, claim ceiling digest, correctability digest, and Stage 3 export.
+* Re-run Stage 2 from scratch only if the runner-generated local validation handoff reports a blocking structural defect that cannot be patched conservatively.
+* Do not independently re-audit YAML syntax, duplicate keys, the complete key tree, types, or configured enum values when local validation is authoritative. Address only the exact structural findings supplied by the runner; otherwise perform semantic review only.
 * Check substantive conformity: digest fidelity, checked-artifact grounding, branch separation, source-status discipline, claim-ceiling preservation, uncertainty preservation, non-use preservation, MIP/AHP separation, AHP non-interference, rival pressure, correctability, and reopening conditions.
 * Correct only the smallest necessary part.
 * Preserve conforming content.
@@ -2445,9 +2608,9 @@ This check excludes:
 CHECK SCOPE:
 The check may identify and, where safely possible, correct:
 
-* invalid YAML
-* missing required sections or fields
-* unresolved required placeholders
+* runner-reported invalid YAML or deterministic structural findings
+* runner-reported missing or unexpected fields, type mismatches, or invalid configured values
+* unresolved required placeholders only where they create a concrete semantic or boundary defect
 * unsupported source or file assumptions
 * digest content not grounded in checked artifacts
 * PMS operator identity or function changed during digest compression
@@ -2468,7 +2631,7 @@ The check may identify and, where safely possible, correct:
 MANDATORY CRITERIA LEDGER:
 Evaluate every criterion separately and mark it PASS or FAIL. A general statement such as “coherent,” “faithful,” or “ready” is not sufficient.
 
-1. YAML parses and preserves the Stage 2 root, required sections, required fields, and field order as far as possible.
+1. Runner-generated local YAML validation is respected: exact reported structural findings are handled, and when the runner reports clean structure or no handoff, no independent full-key-tree audit is performed.
 2. The imported Stage 1 reference and every upstream case-record output path match the runner manifest exactly; current-step execution metadata is not imported into Stage 2.
 3. selected_artifacts_to_read matches checked Stage 1 exactly; no unselected, skipped, absent, or unavailable artifact is silently read.
 4. Every digest identifies the exact selected source artifact path; session.json is not used as a substitute unless explicitly assigned by the runner manifest or checked Stage 1.
@@ -2507,6 +2670,7 @@ If concrete defects can be conservatively corrected inside this step, then retur
 * CHECK STATUS: corrected
 * CORRECTIONS MADE: concise bullet list
 * CRITERIA AFTER CORRECTION: repeat all 12 criteria as PASS or FAIL
+* Put the complete corrected artifact in exactly one fenced `yaml` code block. The block must contain only the corrected YAML and must use the reviewed source artifact's exact root key. Do not include any second YAML block.
 * COMPLETE CORRECTED PMS-DISCIPLINE STAGE 2 LAYER DIGEST EXTRACTION YAML
 
 If the output is not safely correctable inside this step, then return:
@@ -2653,7 +2817,12 @@ CLAIM DISCIPLINE:
 
 OUTPUT:
 Return only the completed PMS-DISCIPLINE Stage 3 Full Record Integration YAML.
-Wrap the YAML in a fenced yaml code block if the chat interface requires separation.
+FIELD-SPECIFIC VALUE RULE:
+- Explicit allowed values declared by the template field override generic uncertainty or bounded markers.
+- Never place `none`, `not_applicable`, `unknown`, `unclear`, or another generic marker into a field whose explicit enum does not allow it.
+- Use the closest semantically correct permitted value and preserve remaining uncertainty in an adjacent explanatory field.
+
+Return exactly one plain fenced `yaml` code block. The block must contain only the completed YAML. Do not include prose before or after it, and do not add an ID, title, attributes, or metadata to the opening fence.
 
 ---
 
@@ -2714,7 +2883,7 @@ For exact metadata and provenance:
 For substantive content, checked Stage 2 controls the integrated layer substance. Checked Stage 1 controls provenance, route, branch, and artifact status. Template defaults and model inference cannot override either.
 
 TASK:
-Check the Stage 3 Full Record Integration YAML from the previous step for structural and substantive conformity with the Stage 3 template, checked Stage 1, checked Stage 2, checked prior artifacts, and the bounded task.
+Check the Stage 3 Full Record Integration YAML from the previous step for semantic, integrated-record, route, and boundary conformity with the Stage 3 template, checked Stage 1, checked Stage 2, checked prior artifacts, and the bounded task. Use runner-generated local validation as authoritative for deterministic YAML structure when available.
 
 PURPOSE:
 Determine whether the Stage 3 Full Record Integration YAML is usable as checked integrated record output for the next PMS-DISCIPLINE pipeline step. Where necessary, conservatively correct it so that it remains structurally valid, bounded, non-authoritative, and faithful to checked Stage 1 and checked Stage 2.
@@ -2722,13 +2891,14 @@ Determine whether the Stage 3 Full Record Integration YAML is usable as checked 
 TECHNICAL INSTRUCTIONS:
 
 * Use only the Stage 3 Full Record Integration YAML from the previous step, CASE PACKET, PMS.yaml context, checked Stage 1, checked Stage 2, checked prior artifacts, and the previously applied Stage 3 template structure.
-* Re-run Stage 3 from scratch only if the existing output is structurally unusable.
-* Check structural conformity: root structure, required sections, required fields, valid YAML, integrated artifact record, integrated layer record, branch-status summary, skipped-branch summary, claim-ceiling summary, uncertainty summary, rival/correctability/reopening summary, human-confirmation summary, and next-step boundary.
+* Re-run Stage 3 from scratch only if the runner-generated local validation handoff reports a blocking structural defect that cannot be patched conservatively.
+* Do not independently re-audit YAML syntax, duplicate keys, the complete key tree, types, or configured enum values when local validation is authoritative. Address only the exact structural findings supplied by the runner; otherwise perform semantic review only.
 * Check substantive conformity: fidelity to checked Stage 1 and checked Stage 2, source-status discipline, claim ceiling, non-use preservation, branch separation, MIP output preservation, AHP non-interference, rival pressure, non-capture, correctability, reopening conditions, stop-capability, and non-authority boundaries.
 * Correct only the smallest necessary part.
 * Preserve conforming content.
 * Keep corrections conservative, bounded, and claim-weakening where needed.
 * Use explicit uncertainty markers instead of inferential gap-filling.
+* Treat Stage 3 lifecycle fields as generation-time artifact state. A conforming step #24 record may remain `stage_3_full_record_ready_for_output_check`, `ready`, and `stage_3_output_check` while step #25 records the separate check result. Do not patch those fields solely because the check is now being performed or completed.
 
 STEP BOUNDARIES:
 This check excludes:
@@ -2749,9 +2919,9 @@ This check excludes:
 CHECK SCOPE:
 The check may identify and, where safely possible, correct:
 
-* invalid YAML
-* missing required sections or fields
-* unresolved required placeholders
+* runner-reported invalid YAML or deterministic structural findings
+* runner-reported missing or unexpected fields, type mismatches, or invalid configured values
+* unresolved required placeholders only where they create a concrete semantic or boundary defect
 * unsupported source or file assumptions
 * integrated content not grounded in checked Stage 1 or checked Stage 2
 * integration that strengthens claims
@@ -2771,7 +2941,7 @@ The check may identify and, where safely possible, correct:
 MANDATORY CRITERIA LEDGER:
 Evaluate every criterion separately and mark it PASS or FAIL. A general statement such as “coherent,” “bounded,” or “ready” is not sufficient.
 
-1. YAML parses and preserves the Stage 3 root, required sections, required fields, and field order as far as possible.
+1. Runner-generated local YAML validation is respected: exact reported structural findings are handled, and when the runner reports clean structure or no handoff, no independent full-key-tree audit is performed.
 2. generated_from and all case-record provenance paths match the runner manifest exactly, including the exact Step #20 and Step #22 output paths.
 3. Stage 1 controls artifact, route, branch, skipped, and non-use metadata; Stage 2 controls substantive digest content.
 4. Integrated content is grounded in checked Stage 1 and checked Stage 2 and introduces no new analysis; canonical PMS operator identities, functions, and checked case-specific roles remain unchanged.
@@ -2781,7 +2951,7 @@ Evaluate every criterion separately and mark it PASS or FAIL. A general statemen
 8. Genuine substantive contradictions, uncertainty, rival pressure, non-capture, correctability, reopening conditions, and stop-capability remain visible.
 9. Internal path discrepancies, template-status drift, and workflow QA notes are not converted into substantive case findings.
 10. Attack Points are not proven defects, Hardening Backlog is not a mandate, and Precision Heuristic is not authority.
-11. The record status reflects its actual pipeline position after integration and does not claim that a completed check is still merely awaiting that same check.
+11. The Stage 3 record preserves its generation-time lifecycle status, normally ready for the separate Stage 3 output check. Completion of this current review is recorded in the step #25 check artifact and is not back-propagated into the Stage 3 record merely because the review has now occurred.
 12. Stage 3 contains no article prose, new source material, later-pipeline artifact, truth certificate, release authorization, or implementation permission.
 
 READINESS RULE:
@@ -2810,6 +2980,7 @@ If concrete defects can be conservatively corrected inside this step, then retur
 * CHECK STATUS: corrected
 * CORRECTIONS MADE: concise bullet list
 * CRITERIA AFTER CORRECTION: repeat all 12 criteria as PASS or FAIL
+* Put the complete corrected artifact in exactly one fenced `yaml` code block. The block must contain only the corrected YAML and must use the reviewed source artifact's exact root key. Do not include any second YAML block.
 * COMPLETE CORRECTED PMS-DISCIPLINE STAGE 3 FULL RECORD INTEGRATION YAML
 
 If the output is not safely correctable inside this step, then return:
@@ -2963,9 +3134,14 @@ FORBIDDEN:
 * Do not produce Markdown article prose.
 
 OUTPUT:
-Return valid YAML only.
+FIELD-SPECIFIC VALUE RULE:
+- Explicit allowed values declared by the template field override generic uncertainty or bounded markers.
+- Never place `none`, `not_applicable`, `unknown`, `unclear`, or another generic marker into a field whose explicit enum does not allow it.
+- Use the closest semantically correct permitted value and preserve remaining uncertainty in an adjacent explanatory field.
+
 Preserve the template root and field structure as far as possible.
 Set `user_response.status` to `pending`, `user_response.overall_decision` to `pending`, and `effective_followup_preparation.status` to `pending_user_confirmation` unless the model recommendation is `no_material_iteration_value` and no material target is proposed. Leave `user_response.target_responses`, `user_response.additional_questions`, and `effective_followup_preparation.effective_targets` empty until the runner records the user's confirmation or revision.
+Return exactly one plain fenced `yaml` code block. The block must contain only the completed YAML. Do not include prose before or after it, and do not add an ID, title, attributes, or metadata to the opening fence.
 
 ---
 

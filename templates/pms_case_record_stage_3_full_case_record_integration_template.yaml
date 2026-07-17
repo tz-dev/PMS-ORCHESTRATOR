@@ -372,16 +372,16 @@ pms_discipline_case_record_stage_3_full_case_record_integration:
     record_identity:
       case_title: "<case title from case packet or checked Stage 1>"
       record_id: "<optional run id or missing>"
-      record_version: "stage_3_full_record_v0_2"
+      record_version: "stage_3_full_record_v0_3"
       generated_from:
         stage_1_output: "<checked Stage 1 artifact index reference>"
         stage_2_output: "<checked Stage 2 digest extraction reference>"
-        template: "pms_case_record_stage_3_full_case_record_integration_template_CLEAN_v0_2"
+        template: "pms_case_record_stage_3_full_case_record_integration_template.yaml"
       source_status: "<source status preserved from case packet and checked prior outputs>"
       intended_use: "<intended use preserved from case packet and checked prior outputs>"
       material_boundary: "<bounded case material description, not re-summarized beyond checked prior outputs>"
       integration_timestamp_or_run_marker: "<if provided, otherwise missing>"
-      record_status: "<draft | checked_ready_for_stage_3_output_check | not_ready | unclear>"
+      record_status: "<draft | ready_for_stage_3_output_check | checked_ready_for_stage_3_output_check | not_ready | unclear>"
 
     artifact_stack_summary:
       PMS_base:
@@ -783,8 +783,9 @@ pms_discipline_case_record_stage_3_full_case_record_integration:
       correction_needed_after_check:
         status: "stage_3_corrected_by_output_check"
         required_content:
-          - "concise correction list"
-          - "complete corrected Stage 3 YAML"
+          - "concise correction list in the separate step #25 check artifact"
+          - "complete corrected Stage 3 YAML in exactly one fenced yaml block when a concrete correction is necessary"
+          - "generation-time lifecycle fields remain Stage 3 artifact fields and are not changed merely because step #25 has completed"
     prohibited_output_modes:
       - "freeform essay"
       - "public-facing prose artifact"
@@ -801,6 +802,9 @@ pms_discipline_case_record_stage_3_full_case_record_integration:
     output as Stage 3 integration only.
 
   final_stage_3_status:
+    # Generation-time Stage 3 artifact state. The separate step #25 check records
+    # whether this artifact was accepted or corrected; completing that check does
+    # not by itself rewrite these lifecycle fields.
     completion_state: "<stage_3_full_record_ready_for_output_check | stage_3_not_ready | unclear>"
     readiness_for_stage_3_output_check: "<ready | not_ready | unclear>"
     blocking_issues:

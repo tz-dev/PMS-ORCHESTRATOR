@@ -263,6 +263,10 @@ pms_discipline_mip_gate:
       power_to_act_or_role_capacity_pressure: "<none | weak | moderate | strong | unclear>"
       dignity_in_practice_pressure: "<none | weak | moderate | strong | unclear>"
       public_or_irreversible_use_pressure: "<none | weak | moderate | strong | unclear>"
+      face_status_or_revision_capacity_pressure: "<none | weak | moderate | strong | unclear>"
+      person_evaluative_center: "<none | weak | moderate | strong | unclear>"
+      role_process_only_pressure: "<yes | no | partial | unclear>"
+      conditional_person_near_transfer_pressure: "<none | weak | moderate | strong | unclear>"
       structural_trigger_met: "<yes | no | partial | unclear>"
       trigger_summary: "<State why MIP is or is not structurally relevant.>"
     non_trigger_conditions:
@@ -274,6 +278,9 @@ pms_discipline_mip_gate:
       moral_discomfort_only: "<yes | no | unclear>"
       generic_dignity_language_only: "<yes | no | unclear>"
       future_or_risk_language_only: "<yes | no | unclear>"
+      hypothetical_real_person_transfer_only: "<yes | no | unclear>"
+      routine_role_or_process_timing_only: "<yes | no | unclear>"
+      deadline_or_option_loss_without_person_evaluation: "<yes | no | unclear>"
       non_trigger_result: "<clear | caution | blocks_MIP | unclear>"
     burden_review:
       source_status: "<strong | partial | weak | missing | contested | unclear>"
@@ -343,7 +350,7 @@ pms_discipline_mip_gate:
   mip_recommendation_output:
     recommendation_status: "<not_recommended | scan_only | recommended | recommended_with_limits | unsafe | revise_before_MIP | downgrade_before_MIP | suspend_before_MIP | refuse_MIP_use | redirect_before_MIP | human_review_required | unclear>"
     recommendation_summary: "<One-paragraph summary of whether MIP should be read next and under what limits.>"
-    reason_for_recommendation: "<State the structural basis: person-near practice, trajectory, responsibility under asymmetry, power-to-act, dignity-in-practice dynamics, or none.>"
+    reason_for_recommendation: "<State the structural basis: person-near practice, trajectory, responsibility under asymmetry, power-to-act, dignity-in-practice dynamics, face/status/revision-capacity pressure, conditional person-near transfer pressure, or none.>"
     doubts:
       - "<doubt or none>"
     required_conditions_before_MIP_use:
@@ -362,10 +369,10 @@ pms_discipline_mip_gate:
     recommended_next_step: "<read_MIP_source_yaml | do_not_use_MIP | scan_only_note | revise_stack_before_MIP | downgrade_claim_before_MIP | suspend_before_MIP | refuse_requested_MIP_use | redirect_to_rival_or_domain_review | human_review_before_MIP | unclear>"
     MIP_source_read_recommendation:
       status: "<recommended | not_recommended | scan_only | unsafe | human_review_required | unclear>"
-      note: "<If recommended, state that reading MIP source YAML is only the next reference step, not application or authorization.>"
+      note: "<If recommended, use status recommended and state that reading MIP source YAML is only the next reference step, not application or authorization. recommended_with_limits belongs only to the overall recommendation_status field.>"
     MIP_case_application_recommendation:
       status: "<not_yet | possible_after_reading_MIP_source_yaml | not_recommended | unsafe | unclear>"
-      note: "<State whether MIP case application may be prepared after reading MIP source YAML and preserving all gate limits.>"
+      note: "<Evaluate application separately from source reading. State whether MIP case application may be prepared after reading MIP source YAML and preserving all gate limits.>"
 
   mip_gate_handoff:
     handoff_status: "<ready_for_mip_gate_output_check | ready_with_limits | incomplete | not_applicable | unclear>"

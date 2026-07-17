@@ -1,34 +1,77 @@
 # =============================================================================
+
 #  PMS-DISCIPLINE — CASE PRE-ANALYSIS TEMPLATE
+
 #
+
 #  Template version:
-#    PMS-DISCIPLINE_PRE_ANALYSIS_0.3_CLEAN
+
+#    PMS-DISCIPLINE_PRE_ANALYSIS_0.4_CLEAN
+
 #
+
 #  Role:
+
 #    Pre-Core PMS-DISCIPLINE template for declaring case boundary, input status,
+
 #    intended use, claim ceiling, risk conditions, preliminary operator pressure,
+
 #    add-on scan pressure, rival pressure, falsifier conditions, correctability,
+
 #    and handoff keys for later PMS-DISCIPLINE pipeline layers.
+
 #
+
 #  Available before this step:
+
 #    - PMS.yaml has been read as PMS Base reference.
+
 #    - CASE PACKET has been supplied.
+
 #    - This template is being applied.
+
 #
+
 #  Not available inside this step:
+
 #    - No add-on source YAML.
+
 #    - No add-on case-application template.
+
 #    - No Core case output.
+
 #    - No later layer output.
+
 #    - No article output.
+
 #
+
 #  Boundary:
-#    This template prepares disciplined Core application. It does not perform
-#    Core analysis, apply add-ons, authorize later layers, validate truth,
-#    create evidence, produce verdicts, or execute final decision states.
+
+#    This template prepares disciplined Core application. It may refuse an
+
+#    out-of-scope requested output and define a permitted reframed analysis
+
+#    target only where no mandatory hard-stop rule is triggered. A prohibited
+
+#    person-level output combined with weak input, high or severe person-nearness,
+
+#    high or severe irreversibility, and a failed requested-output entry condition
+
+#    stops the current pipeline. Any redirect then belongs to a new case or run.
+
+#    Such scope disposition is not a case verdict or final decision. It does not
+
+#    perform Core analysis, apply add-ons, authorize later layers,
+
+#    validate truth, create evidence, produce verdicts, or execute final
+
+#    decision states.
+
 # =============================================================================
 
-schema_version: "PMS-DISCIPLINE_PRE_ANALYSIS_0.3_CLEAN"
+
+schema_version: "PMS-DISCIPLINE_PRE_ANALYSIS_0.4_CLEAN"
 schema_role: "pms_discipline_case_pre_analysis_template"
 analysis_mode: "pre_core_application_discipline"
 template_status: "clean_pipeline_ready_draft"
@@ -36,8 +79,9 @@ template_status: "clean_pipeline_ready_draft"
 template_purpose: >
   Produce a PMS-DISCIPLINE pre-analysis record before a PMS Core case template
   is filled. The record declares the case boundary, input status, intended use,
-  claim ceiling, person-nearness, publicness, irreversibility, preliminary
-  operator pressure, derived-structure pressure, non-capture zones, rival
+  claim ceiling, scope and pipeline disposition, person-nearness, publicness,
+  irreversibility, preliminary operator pressure, derived-structure pressure,
+  non-capture zones, rival
   readings, falsifier conditions, operationalization risk, add-on scan pressure,
   correctability, preliminary closure status, preliminary decision pressure,
   and neutral handoff keys for later pipeline layers. This template does not
@@ -105,6 +149,7 @@ source_priority:
       - "input_status"
       - "intended_use_status"
       - "claim_ceiling"
+      - "scope_and_pipeline_disposition"
       - "person_nearness_publicness_irreversibility"
       - "preliminary_operator_pressure"
       - "derived_structure_pressure"
@@ -123,12 +168,18 @@ workflow_position:
   step_role: >
     This step occurs after PMS.yaml has been read and before the PMS Core case
     template is filled. It prepares Core application by declaring burden,
-    scope, input status, use status, risk boundaries, and preliminary scan
-    pressure.
+    scope, requested-output and pipeline disposition, input status, use status,
+    risk boundaries, and preliminary scan pressure.
   preceded_by_required_steps:
     - "read_pms_yaml"
     - "collect_case_packet"
-  next_required_step: "core_case_application"
+  next_required_step: "<core_case_application | core_case_application_on_permitted_target | revise_pre_analysis | suspend | stop | unclear>"
+  next_step_condition: >
+    The next required step is disposition-dependent. Core case application is
+    permitted only when pipeline_case_disposition is proceed, or when it is
+    proceed_reframed with reframing_status completed and no mandatory hard-stop
+    rule is triggered. Otherwise the next required step is revision, suspension,
+    or stop as recorded below.
   later_layers_that_may_use_this_record:
     - "core_output_check"
     - "addon_recommendation_gate"
@@ -166,6 +217,7 @@ pre_analysis_io_contract:
     - "desired_output_context"
   produced_outputs:
     - "discipline_pre_analysis_record"
+    - "scope_and_pipeline_disposition_record"
     - "core_handoff"
     - "addon_gate_handoff"
     - "case_record_seed"
@@ -181,6 +233,7 @@ non_authority_boundary:
   this_template_is:
     - "pre_core_application_discipline_record"
     - "case_boundary_and_claim_ceiling_aid"
+    - "requested_output_scope_disposition_record"
     - "input_status_and_risk_marker"
     - "preliminary_scan_pressure_record"
     - "handoff_support_for_later_pipeline_layers"
@@ -196,6 +249,10 @@ non_authority_boundary:
     - "final_decision_state"
     - "decision_or_execution_layer"
   applies_globally: true
+  scope_disposition_boundary: >
+    Refusing an out-of-scope requested output and defining a permitted reframed
+    analysis target are allowed scope-control acts in Pre-Analysis. They are not
+    case verdicts, later-layer authorization, or final decision execution.
 
 case_identification:
   case_title: "<from CASE PACKET>"
@@ -296,6 +353,8 @@ intended_use_discipline:
     - "prepare_core_application"
     - "mark_input_status"
     - "mark_claim_ceiling"
+    - "set_requested_output_scope_disposition"
+    - "define_permitted_analysis_target"
     - "mark_risk_conditions"
     - "seed_addon_gate_without_authorization"
   not_permitted_use_at_pre_analysis_stage:
@@ -334,11 +393,56 @@ scope_boundary_matrix:
   final_decision_claim: "not_allowed_inside_pre_analysis"
   scope_boundary_note: "<short note>"
 
+scope_and_pipeline_disposition:
+  disposition_status: "<declared | underdescribed | unresolved | unclear>"
+  original_analysis_target: "<the target requested by the user>"
+  requested_output_disposition: "<allow | allow_with_limits | refuse | unclear>"
+  permitted_analysis_target: "<the target permitted for later Core use or not_applicable>"
+  pipeline_case_disposition: "<proceed | proceed_reframed | suspend | stop | unclear>"
+  reframing_required_before_core: "<true | false | unclear>"
+  reframing_status: "<not_needed | required | completed | unavailable | unclear>"
+  hard_gate_status: "<not_triggered | triggered | unclear>"
+  hard_gate_basis:
+    - "<scope_prohibition | failed_entry_condition | source_and_burden_threshold | claim_ceiling_conflict | other | none>"
+  hard_gate_effect: "<no_change | limit_requested_output | refuse_requested_output | suspend_pipeline | stop_pipeline | unclear>"
+  priority_order:
+    - "explicit_scope_prohibitions"
+    - "entry_and_protection_conditions"
+    - "source_and_burden_status"
+    - "claim_ceiling"
+    - "aggregate_pressure_markers"
+  cross_field_rules:
+    - "whole_person_or_motive_prohibition_overrides_mixed_pressure"
+    - "severe_person_nearness_and_high_irreversibility_with_minimal_or_low_or_insufficient_input_triggers_hard_gate"
+    - "prohibited_person_level_output_with_weak_input_high_or_severe_person_nearness_high_or_severe_irreversibility_and_failed_requested_output_entry_condition_requires_stop_not_proceed_reframed"
+    - "mandatory_person_near_stop_requires_permitted_analysis_target_not_applicable"
+    - "mandatory_person_near_stop_requires_reframing_not_needed"
+    - "mandatory_person_near_stop_requires_hard_gate_effect_stop_pipeline"
+    - "mandatory_person_near_stop_requires_core_handoff_refused"
+    - "triggered_hard_gate_requires_non_no_change_effect"
+    - "hard_gate_overrides_aggregate_pressure"
+    - "refusal_precedes_redirect"
+    - "core_handoff_requires_completed_reframing_or_no_reframing"
+  hierarchy_note: >
+    Hard scope prohibitions and failed entry or protection conditions override
+    source summaries, claim-pressure aggregation, and mixed pressure markers. A
+    redirect does not replace refusal of the prohibited requested output. Where
+    the mandatory person-near stop rule is triggered, the current pipeline must
+    stop and must not continue through proceed_reframed; any redirect is only a
+    possible new case or run. Otherwise Core may proceed only on an explicitly
+    permitted target after any required reframing is completed.
+
 pms_entry_condition_precheck:
   distance_status: "<preserved | weak | missing | unclear>"
   reversibility_status: "<preserved | weak | missing | unclear>"
   dignity_in_practice_status: "<preserved | weak | missing | unclear>"
-  entry_condition_status: "<satisfied_for_pre_analysis | satisfied_with_limits | not_satisfied | unclear>"
+  requested_output_entry_condition_status: "<satisfied_for_pre_analysis | satisfied_with_limits | not_satisfied | unclear>"
+  permitted_analysis_target_entry_condition_status: "<satisfied_for_pre_analysis | satisfied_with_limits | not_satisfied | unclear>"
+  entry_condition_status: "<satisfied_for_pre_analysis | satisfied_with_limits | satisfied_for_permitted_target_only | not_satisfied | unclear>"
+  entry_condition_aggregation_rule: >
+    A permitted reframed target may satisfy PMS entry conditions even where the
+    originally requested output does not. The aggregate status must not erase
+    that distinction.
   entry_condition_risks:
     - "<risk or none_marked>"
 
@@ -354,7 +458,13 @@ person_nearness_publicness_irreversibility:
     - "<marker or none>"
   affected_persons_or_groups_status: "<none | indirect | direct | unclear>"
   contestation_access: "<available | limited | unavailable | not_applicable | unclear>"
-  burden_effect: "<no_change | weaken_claim | require_revision | require_downgrade | require_suspension | require_refusal | require_redirect | unclear>"
+  modeled_affected_persons_or_groups_status: "<none | indirect | direct | unclear>"
+  modeled_contestation_access: "<available | limited | unavailable | not_applicable | unclear>"
+  affected_status_scope_note: >
+    The first two fields describe actual affected persons and contestation
+    access in the supplied material. The modeled fields describe the structural
+    person-near situation represented by synthetic or illustrative material.
+  burden_effect: "<no_change | weaken_claim | require_revision | require_downgrade | require_suspension | require_refusal | require_redirect | require_refusal_then_redirect | unclear>"
   caution_note: "<how these factors constrain later Core use>"
 
 preliminary_operator_pressure:
@@ -558,9 +668,14 @@ preliminary_decision_pressure:
   suspend_pressure_reason: "<reason or none>"
   refuse_pressure_reason: "<reason or none>"
   redirect_pressure_reason: "<reason or none>"
+  pressure_hierarchy_note: >
+    Pressure markers are descriptive and subordinate to the binding scope and
+    pipeline disposition. A mixed pressure value cannot override a triggered
+    hard gate or authorize a prohibited requested output.
   final_decision_warning: >
     This is only preliminary pressure. The final decision state is not executed
-    inside Pre-Analysis.
+    inside Pre-Analysis. Binding refusal of an out-of-scope requested output is
+    a scope disposition, not final case-decision execution.
 
 core_handoff_guidance:
   instruction_status: "handoff_guidance_only"
@@ -574,6 +689,7 @@ core_handoff_guidance:
     - "input_status"
     - "intended_use"
     - "claim_ceiling"
+    - "scope_and_pipeline_disposition"
     - "person_nearness_publicness_irreversibility"
     - "non_capture_zones"
     - "rival_pressure"
@@ -589,11 +705,18 @@ core_handoff_guidance:
     - "treat_template_completion_as_validation"
   core_handoff_note: >
     Pre-analysis prepares Core application. The Core template must perform its
-    own PMS Core case analysis later.
+    own PMS Core case analysis later and may use only the permitted analysis
+    target recorded after any required reframing.
 
 handoff_exports:
   core_handoff:
-    export_status: "<ready | ready_with_limits | incomplete | suspended | refused | redirected | unclear>"
+    export_status: "<ready | ready_with_limits | ready_on_permitted_target | incomplete | suspended | refused | redirected | unclear>"
+    requested_output_disposition: "<allow | allow_with_limits | refuse | unclear>"
+    pipeline_case_disposition: "<proceed | proceed_reframed | suspend | stop | unclear>"
+    original_analysis_target: "<the target requested by the user>"
+    permitted_analysis_target: "<the target permitted for Core or not_applicable>"
+    reframing_status: "<not_needed | required | completed | unavailable | unclear>"
+    hard_gate_status: "<not_triggered | triggered | unclear>"
     case_boundary_status: "<declared | underdescribed | missing | contested | mixed>"
     input_status: "<marked | mixed_but_marked | underdescribed | insufficient | unclear>"
     intended_use_status: "<explicit | inferred | unclear | missing>"
@@ -632,6 +755,7 @@ handoff_exports:
       - "input_status"
       - "intended_use"
       - "claim_ceiling"
+      - "scope_and_pipeline_disposition"
       - "person_nearness_publicness_irreversibility"
       - "non_capture_status"
       - "rival_pressure_status"
@@ -655,6 +779,15 @@ quality_checks:
   input_status_marked: "<true | false>"
   intended_use_marked: "<true | false>"
   claim_ceiling_marked: "<true | false>"
+  scope_and_pipeline_disposition_marked: "<true | false>"
+  hard_prohibition_not_overridden_by_pressure: "<true | false>"
+  source_and_burden_hard_gate_not_overridden_by_pressure: "<true | false>"
+  original_and_permitted_targets_distinguished: "<true | false>"
+  reframing_completed_before_core_handoff_or_not_required: "<true | false>"
+  refusal_precedes_redirect_where_applicable: "<true | false>"
+  core_handoff_limited_to_permitted_target: "<true | false>"
+  requested_and_permitted_entry_conditions_distinguished: "<true | false>"
+  actual_and_modeled_affected_status_distinguished: "<true | false>"
   person_nearness_publicness_irreversibility_marked: "<true | false>"
   non_capture_preserved_or_gap_marked: "<true | false>"
   rival_readings_preserved_or_absence_marked: "<true | false>"
@@ -675,6 +808,11 @@ conservative_patch_policy_for_pre_analysis:
     - "placeholder_left_where_case_specific_value_required"
     - "claim_type_too_strong"
     - "input_status_laundering"
+    - "requested_output_and_pipeline_disposition_conflated"
+    - "hard_prohibition_overridden_by_pressure"
+    - "source_and_burden_hard_gate_overridden_by_pressure"
+    - "reframing_missing_before_core_handoff"
+    - "core_handoff_targets_refused_output"
     - "operator_assignment_treated_as_final"
     - "add_on_candidate_treated_as_authorized"
     - "non_capture_or_rival_pressure_missing"
@@ -700,10 +838,16 @@ conservative_patch_policy_for_pre_analysis:
     - "no_new_layer_creation"
 
 final_pre_analysis_status:
-  status: "<usable_for_core | usable_for_core_with_limits | requires_revision_before_core | suspend_before_core | refuse_before_core | redirect_before_core | unclear>"
+  requested_output_disposition: "<allow | allow_with_limits | refuse | unclear>"
+  pipeline_case_disposition: "<proceed | proceed_reframed | suspend | stop | unclear>"
+  status: "<usable_for_core | usable_for_core_with_limits | usable_for_core_on_permitted_target | requires_revision_before_core | suspend_before_core | refuse_before_core | redirect_before_core | stop_before_core | unclear>"
   reason: "<short reason>"
-  next_allowed_step: "<core_case_application | revise_pre_analysis | suspend | refuse | redirect | unclear>"
+  next_allowed_step: "<core_case_application | core_case_application_on_permitted_target | revise_pre_analysis | suspend | refuse | redirect | stop | unclear>"
+  status_aggregation_rule: >
+    The aggregate status describes pipeline readiness only. It must not weaken
+    or reverse the requested-output disposition recorded above.
   final_note: >
     This status governs whether the material is ready to move into PMS Core
-    application. It is not a final case decision, not a verdict, and not a
-    claim that later layers are authorized.
+    application and, where applicable, only on the permitted analysis target.
+    It is not a final case decision, not a verdict, and not a claim that later
+    layers are authorized.

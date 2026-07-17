@@ -5,7 +5,7 @@ from pathlib import Path
 from tkinter import filedialog, messagebox, ttk
 from typing import Any, Callable
 
-from .gate_reader import GateValue
+from .gate_reader import GateValue, MipGateDetails
 from .registry import SUPPORTED_ADDONS
 from .iteration_handoff import (
     ARTICLE_VISIBILITY_VALUES,
@@ -71,10 +71,217 @@ class ConfirmationDialog(tk.Toplevel):
         self.destroy()
 
 
+class DisciplineStopDialog(tk.Toplevel):
+    """Show a non-overridable PMS-DISCIPLINE pipeline stop."""
+
+    def __init__(self, parent: tk.Misc, stop_record: dict[str, Any]) -> None:
+        super().__init__(parent)
+        self.title("PMS-DISCIPLINE stop")
+        self.transient(parent)
+        self.grab_set()
+        self.result = "close"
+
+        source_step = stop_record.get("source_step", "unknown")
+        requested = stop_record.get("requested_output_disposition") or "not recorded"
+        hard_gate = stop_record.get("hard_gate_status") or "not recorded"
+        hard_effect = stop_record.get("hard_gate_effect") or "not recorded"
+        stop_reason = stop_record.get("reason") or "pipeline_case_disposition_stop"
+        declared_pipeline = stop_record.get("declared_pipeline_case_disposition") or "stop"
+        if stop_reason == "mandatory_person_near_hard_stop":
+            stop_explanation = (
+                "The checked Pre-Analysis contains the mandatory person-near hard-stop "
+                "configuration. A declared proceed_reframed value cannot override that "
+                "cross-field rule. Core and all later analysis steps are locked. The "
+                "Pre-Analysis must be revised before the pipeline can continue."
+            )
+        else:
+            stop_explanation = (
+                "The checked Pre-Analysis sets "
+                "scope_and_pipeline_disposition.pipeline_case_disposition to stop. "
+                "Core and all later analysis steps are locked. This stop cannot be overridden; "
+                "the Pre-Analysis must be revised before the pipeline can continue."
+            )
+
+        ttk.Label(
+            self,
+            text="Analysis stopped by PMS-DISCIPLINE",
+            font=("TkDefaultFont", 13, "bold"),
+        ).pack(fill="x", padx=20, pady=(18, 8))
+        ttk.Label(
+            self,
+            text=stop_explanation,
+            wraplength=620,
+            justify="left",
+        ).pack(fill="x", padx=20, pady=(0, 12))
+
+        details = ttk.LabelFrame(self, text="Recorded status")
+        details.pack(fill="x", padx=20, pady=(0, 14))
+        ttk.Label(details, text=f"Source step: #{source_step}").pack(anchor="w", padx=10, pady=(8, 2))
+        ttk.Label(details, text=f"Declared pipeline disposition: {declared_pipeline}").pack(anchor="w", padx=10, pady=2)
+        ttk.Label(details, text="Enforced pipeline outcome: stop").pack(anchor="w", padx=10, pady=2)
+        ttk.Label(details, text=f"Requested output disposition: {requested}").pack(anchor="w", padx=10, pady=2)
+        ttk.Label(details, text=f"Hard gate: {hard_gate} · effect: {hard_effect}").pack(
+            anchor="w", padx=10, pady=(2, 8)
+        )
+
+        ttk.Label(
+            self,
+            text=(
+                "You may inspect the source output or reopen the Pre-Analysis for revision. "
+                "There is intentionally no continue-anyway action."
+            ),
+            wraplength=620,
+            justify="left",
+        ).pack(fill="x", padx=20, pady=(0, 12))
+
+        buttons = ttk.Frame(self)
+        buttons.pack(fill="x", padx=20, pady=(0, 18))
+        ttk.Button(buttons, text="Close", command=self.destroy).pack(side="right", padx=(6, 0))
+        ttk.Button(buttons, text="Open source output", command=lambda: self._choose("review")).pack(
+            side="right", padx=(6, 0)
+        )
+        ttk.Button(buttons, text="Revise Pre-Analysis", command=lambda: self._choose("revise")).pack(
+            side="right"
+        )
+
+        self.protocol("WM_DELETE_WINDOW", self.destroy)
+        self.resizable(False, False)
+        self.after_idle(lambda: finalize_dialog(self, parent))
+
+    def _choose(self, value: str) -> None:
+        self.result = value
+        self.destroy()
+
+
+class ArticlePatchPreviewDialog(tk.Toplevel):
+    """Review an exact article patch diff before applying, declining, or cancelling."""
+
+    def __init__(
+        self,
+        parent: tk.Misc,
+        *,
+        patch_titles: tuple[str, ...],
+        diff_text: str,
+    ) -> None:
+        super().__init__(parent)
+        self.title("Apply proposed patch(es)?")
+        self.transient(parent)
+        self.grab_set()
+        self.result: bool | None = None
+
+        ttk.Label(
+            self,
+            text=(
+                f"The final article check proposes {len(patch_titles)} exact patch"
+                f"{'es' if len(patch_titles) != 1 else ''}. Review the unified diff before deciding."
+            ),
+            wraplength=860,
+            justify="left",
+        ).pack(fill="x", padx=14, pady=(14, 8))
+
+        if patch_titles:
+            ttk.Label(
+                self,
+                text=" · ".join(patch_titles),
+                wraplength=860,
+                justify="left",
+            ).pack(fill="x", padx=14, pady=(0, 8))
+
+        frame = ttk.Frame(self)
+        frame.pack(fill="both", expand=True, padx=14, pady=(0, 10))
+        frame.rowconfigure(0, weight=1)
+        frame.columnconfigure(0, weight=1)
+        preview = tk.Text(frame, wrap="none", width=112, height=32)
+        y_scroll = ttk.Scrollbar(frame, orient="vertical", command=preview.yview)
+        x_scroll = ttk.Scrollbar(frame, orient="horizontal", command=preview.xview)
+        preview.configure(yscrollcommand=y_scroll.set, xscrollcommand=x_scroll.set)
+        preview.grid(row=0, column=0, sticky="nsew")
+        y_scroll.grid(row=0, column=1, sticky="ns")
+        x_scroll.grid(row=1, column=0, sticky="ew")
+        preview.insert("1.0", diff_text or "No textual difference could be rendered.")
+        preview.configure(state="disabled")
+
+        ttk.Label(
+            self,
+            text=(
+                "Yes archives the current article and applies every patch atomically. "
+                "No keeps the article unchanged and records the declined proposal. "
+                "Cancel returns to step #31 without completing it."
+            ),
+            wraplength=860,
+            justify="left",
+        ).pack(fill="x", padx=14, pady=(0, 8))
+
+        buttons = ttk.Frame(self)
+        buttons.pack(fill="x", padx=14, pady=(0, 14))
+        ttk.Button(buttons, text="Cancel", command=self.destroy).pack(side="right", padx=(6, 0))
+        ttk.Button(buttons, text="No", command=lambda: self._choose(False)).pack(side="right", padx=(6, 0))
+        ttk.Button(buttons, text="Yes", command=lambda: self._choose(True)).pack(side="right")
+
+        self.protocol("WM_DELETE_WINDOW", self.destroy)
+        self.minsize(900, 650)
+        self.after_idle(lambda: finalize_dialog(self, parent))
+
+    def _choose(self, value: bool) -> None:
+        self.result = value
+        self.destroy()
+
+
 def ask_centered_yes_no(parent: tk.Misc, title: str, message: str) -> bool:
     dialog = ConfirmationDialog(parent, title, message)
     parent.wait_window(dialog)
     return dialog.result
+
+
+def _gate_value_payload(value: GateValue) -> dict[str, Any]:
+    return {
+        "value": value.value,
+        "read_status": value.status,
+        "key_path": value.key_path,
+        "raw_value": value.raw_value,
+        "source_step": value.source_step,
+    }
+
+
+def build_binary_layer_route_result(
+    *,
+    layer_name: str,
+    recommendation: GateValue,
+    route_type: str,
+    use_route: str,
+    no_route: str,
+    extra_recommendations: dict[str, GateValue] | None = None,
+) -> dict[str, Any]:
+    """Build route provenance independently of the Tk dialog."""
+    recommended_use = recommendation.value == layer_name
+    if route_type == use_route and recommended_use:
+        basis = "gate_recommended"
+    elif route_type == no_route and not recommended_use and recommendation.status in {
+        "not_recommended",
+        "ahp_not_recommended",
+        "scan_only",
+    }:
+        basis = f"gate_recommended_no_{layer_name.lower()}"
+    elif route_type == use_route:
+        basis = "user_requested"
+    else:
+        basis = "manual_user_route"
+
+    gate_recommendation: dict[str, Any] = {
+        f"recommended_{layer_name.lower()}": recommended_use,
+        "read_status": recommendation.status,
+        "key_path": recommendation.key_path,
+        "raw_value": recommendation.raw_value,
+        "source_step": recommendation.source_step,
+    }
+    for key, value in (extra_recommendations or {}).items():
+        gate_recommendation[key] = _gate_value_payload(value)
+
+    return {
+        "route_type": route_type,
+        "selection_basis": basis,
+        "gate_recommendation": gate_recommendation,
+    }
 
 
 class CaseDialog(tk.Toplevel):
@@ -614,6 +821,7 @@ class BinaryLayerRouteDialog(tk.Toplevel):
         use_label: str,
         no_label: str,
         existing: dict[str, Any] | None = None,
+        extra_recommendations: dict[str, GateValue] | None = None,
     ) -> None:
         super().__init__(parent)
         self.title(title)
@@ -624,6 +832,7 @@ class BinaryLayerRouteDialog(tk.Toplevel):
         self.recommendation = recommendation
         self.use_route = use_route
         self.no_route = no_route
+        self.extra_recommendations = extra_recommendations or {}
         existing = existing or {}
 
         recommended_use = recommendation.value == layer_name
@@ -636,6 +845,18 @@ class BinaryLayerRouteDialog(tk.Toplevel):
         ttk.Label(details, text=f"Read status: {recommendation.status} · key: {recommendation.key_path}").pack(anchor="w", pady=(3, 0))
         if recommendation.source_step is not None:
             ttk.Label(details, text=f"Source: saved output from step #{recommendation.source_step}").pack(anchor="w", pady=(3, 0))
+        for label, value in self.extra_recommendations.items():
+            readable_label = label.replace("_", " ").capitalize()
+            ttk.Label(
+                details,
+                text=f"{readable_label}: {value.display_value}",
+                font=("TkDefaultFont", 9, "bold"),
+            ).pack(anchor="w", pady=(6, 0))
+            ttk.Label(
+                details,
+                text=f"Read status: {value.status} · key: {value.key_path}",
+                wraplength=540,
+            ).pack(anchor="w", pady=(2, 0))
         if existing:
             ttk.Label(details, text=f"Current saved route: {existing.get('route_type')}").pack(anchor="w", pady=(6, 0))
 
@@ -654,41 +875,33 @@ class BinaryLayerRouteDialog(tk.Toplevel):
 
     def _save(self) -> None:
         route_type = self.route_var.get()
-        recommended_use = self.recommendation.value == self.layer_name
-        if route_type == self.use_route and recommended_use:
-            basis = "gate_recommended"
-        elif route_type == self.no_route and not recommended_use and self.recommendation.status in {"not_recommended", "ahp_not_recommended", "scan_only"}:
-            basis = f"gate_recommended_no_{self.layer_name.lower()}"
-        elif route_type == self.use_route:
-            basis = "user_requested"
-        else:
-            basis = "manual_user_route"
-        self.result = {
-            "route_type": route_type,
-            "selection_basis": basis,
-            "gate_recommendation": {
-                f"recommended_{self.layer_name.lower()}": recommended_use,
-                "read_status": self.recommendation.status,
-                "key_path": self.recommendation.key_path,
-                "raw_value": self.recommendation.raw_value,
-                "source_step": self.recommendation.source_step,
-            },
-        }
+        self.result = build_binary_layer_route_result(
+            layer_name=self.layer_name,
+            recommendation=self.recommendation,
+            route_type=route_type,
+            use_route=self.use_route,
+            no_route=self.no_route,
+            extra_recommendations=self.extra_recommendations,
+        )
         self.destroy()
 
 
 class MipRouteDialog(BinaryLayerRouteDialog):
-    def __init__(self, parent: tk.Misc, recommendation: GateValue, existing: dict[str, Any] | None = None) -> None:
+    def __init__(self, parent: tk.Misc, details: MipGateDetails, existing: dict[str, Any] | None = None) -> None:
         super().__init__(
             parent,
             title="Route after MIP Gate",
             layer_name="MIP",
-            recommendation=recommendation,
+            recommendation=details.overall,
             use_route="use_mip",
             no_route="no_mip",
             use_label="Read and apply MIP",
             no_label="Continue without MIP",
             existing=existing,
+            extra_recommendations={
+                "source_read_recommendation": details.source_read,
+                "case_application_recommendation": details.case_application,
+            },
         )
 
 
